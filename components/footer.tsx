@@ -64,7 +64,7 @@ const Footer = () => {
             </ul>
           </nav>
         </div>
-        <span className="text-sm block sm:inline text-center">&copy; Skeefe.net 2023</span>
+        <span className="text-sm block md:inline text-center">&copy; Skeefe.net 2023</span>
       </Container>
     </footer>
   );
