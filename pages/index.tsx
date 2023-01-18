@@ -38,7 +38,7 @@ const Index = ({ allProjects }: Props) => {
                 <div className="content">
                   <div className="md:flex justify-between mb-5">
                     <div className="md:text-left overflow-auto">
-                      <h1 className="text-2xl md:text-5xl font-bold md:pr-8 float-left md:float-none leading-normal">
+                      <h1 className="text-2xl md:text-5xl font-bold md:pr-8 sm:float-left md:float-none leading-normal text-center sm:text-left">
                         Simon Keefe
                         <span className="block text-xl md:text-2xl font-bold md:pr-8">
                           Digital Product Management
@@ -49,7 +49,7 @@ const Index = ({ allProjects }: Props) => {
                         target="_blank"
                         className="float-right md:float-none no-underline"
                       >
-                        <div className="flex items-center">
+                        <div className="flex items-center hidden sm:flex">
                           <Image
                             src="/assets/home/capm.png"
                             layout="intrinsic"
@@ -180,8 +180,8 @@ const Index = ({ allProjects }: Props) => {
                       Recent Experience
                     </h2>
                     <div className="sub-item">
-                      <div className="flex items-start">
-                        <div className="w-20 flex-none">
+                      <div className="sm:flex items-start">
+                        <div className="w-20 flex-none float-right ml-2 sm:float-none sm:ml-0">
                           <Image
                             src="/assets/home/rugby-xplorer-2.png"
                             layout="intrinsic"
@@ -218,8 +218,8 @@ const Index = ({ allProjects }: Props) => {
                       </div>
                     </div>
                     <div className="sub-item">
-                      <div className="flex items-start">
-                        <div className="w-20 flex-none">
+                      <div className="sm:flex items-start">
+                        <div className="w-20 flex-none float-right ml-2 sm:float-none sm:ml-0">
                           <Image
                             src="/assets/home/rugby-au.png"
                             layout="intrinsic"
@@ -273,8 +273,8 @@ const Index = ({ allProjects }: Props) => {
                       </div>
                     </div>
                     <div className="sub-item">
-                      <div className="flex items-start">
-                        <div className="w-20 flex-none">
+                      <div className="sm:flex items-start">
+                        <div className="w-20 flex-none float-right ml-2 sm:float-none sm:ml-0">
                           <Image
                             src="/assets/home/rugby-au.png"
                             layout="intrinsic"
@@ -333,8 +333,8 @@ const Index = ({ allProjects }: Props) => {
                       </div>
                     </div>
                     <div className="sub-item">
-                      <div className="flex items-start">
-                        <div className="w-20 flex-none">
+                      <div className="sm:flex items-start">
+                        <div className="w-20 flex-none float-right ml-2 sm:float-none sm:ml-0">
                           <Image
                             src="/assets/home/cornerstone-digital.png"
                             layout="intrinsic"
@@ -374,7 +374,7 @@ const Index = ({ allProjects }: Props) => {
                       </div>
                     </div>
                     <div className="sub-item">
-                      <div className="flex items-start">
+                      <div className="sm:flex items-start">
                         <div className="pl-4">
                           <h2 className="text-lg md:text-xl font-bold md:pr-8">
                             Early Experience
@@ -406,8 +406,8 @@ const Index = ({ allProjects }: Props) => {
                       Education
                     </h2>
                     <div className="sub-item">
-                      <div className="flex items-start">
-                        <div className="w-20 flex-none">
+                      <div className="sm:flex items-start">
+                        <div className="w-20 flex-none float-right ml-2 sm:float-none sm:ml-0">
                           <Image
                             src="/assets/home/capm.png"
                             layout="intrinsic"
@@ -447,8 +447,8 @@ const Index = ({ allProjects }: Props) => {
                     </div>
 
                     <div className="sub-item">
-                      <div className="flex items-start">
-                        <div className="w-20 flex-none">
+                      <div className="sm:flex items-start">
+                        <div className="w-20 flex-none float-right ml-2 sm:float-none sm:ml-0">
                           <Image
                             src="/assets/home/tafe.png"
                             layout="intrinsic"
@@ -482,7 +482,7 @@ const Index = ({ allProjects }: Props) => {
                     Recent Projects
                   </h2>
 
-                  <ul className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 gap-8 gap-y-12 text-center">
+                  <ul className="grid grid-cols-3 md:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 gap-8 gap-y-12 text-center">
                     {projects.map((project) => (
                       <ProjectPreview
                         key={project.title}
