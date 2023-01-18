@@ -16,7 +16,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'UA-101599729-1');
-              });
             `,
             }}
         />
