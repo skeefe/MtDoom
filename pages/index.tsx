@@ -40,7 +40,6 @@ const Index = ({ allProjects }: Props) => {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-
                 gtag('config', 'UA-101599729-1');
                 });
               `,
