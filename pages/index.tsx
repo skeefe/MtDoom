@@ -28,10 +28,8 @@ const Index = ({ allProjects }: Props) => {
   //console.log("projects", projects);
   return (
     <>
-      <Layout>
-        <Head>
-          {/* Google tag (gtag.js) */}
-          <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=UA-101599729-1"/>
+      {/* Google tag (gtag.js) */}
+      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=UA-101599729-1"/>
           <Script
             id='google-analytics'
             strategy="afterInteractive"
@@ -45,6 +43,8 @@ const Index = ({ allProjects }: Props) => {
               `,
               }}
           />
+      <Layout>
+        <Head>
           <title>Simon Keefe - Digital Product Management</title>
         </Head>
         <Container>
