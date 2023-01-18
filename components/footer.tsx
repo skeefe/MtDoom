@@ -12,7 +12,7 @@ const Footer = () => {
             </h3>
           </a>
           <nav>
-            <ul className="text-center sm:text-left mb-2">
+            <ul className="text-center sm:text-left mb-4">
               <li className="inline-block">
                 <a
                   href="#home"
@@ -64,7 +64,7 @@ const Footer = () => {
             </ul>
           </nav>
         </div>
-        <span className="text-sm">&copy; Skeefe.net 2023</span>
+        <span className="text-sm block sm:inline">&copy; Skeefe.net 2023</span>
       </Container>
     </footer>
   );
