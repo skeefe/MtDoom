@@ -6,6 +6,7 @@ import Project from "../types/project";
 import ProjectPreview from "../components/project-preview";
 import Image from "next/image";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Script from 'next/script';
 
 import React, { useState } from "react";
 
@@ -30,14 +31,21 @@ const Index = ({ allProjects }: Props) => {
       <Layout>
         <Head>
           {/* Google tag (gtag.js) */}
-          <script async src="https://www.googletagmanager.com/gtag/js?id=UA-101599729-1"></script>
-          <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+          <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=UA-101599729-1"/>
+          <Script
+            id='google-analytics'
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
 
-            gtag('config', 'UA-101599729-1');
-          </script>
+                gtag('config', 'UA-101599729-1');
+                });
+              `,
+              }}
+          />
           <title>Simon Keefe - Digital Project Management</title>
         </Head>
         <Container>
