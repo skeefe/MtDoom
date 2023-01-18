@@ -1,0 +1,92 @@
+@import "@fontsource/aleo"; 
+@tailwind base;
+
+/* Write your own custom base styles here */
+@layer base {
+  html {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  h1,
+  h2,
+  h3,
+  main ul,
+  main form,
+  p {
+    margin-bottom: 1rem;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: Aleo, sans-serif;
+  }
+  a {
+    @apply underline;
+    transition: background-color 0.5s ease;
+  }
+  a:hover {
+    color: #4b3290;
+  }
+  section {
+    padding-top: 6rem;
+  }
+  .content {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 0.5rem 1.5rem;
+    padding: 2rem 2rem 1rem;
+    margin-top: -2rem;
+  }
+  section:not(#home) .content {
+    margin-top: -3rem;
+  }
+
+  @media screen and (min-width: 1024px) {
+    section:not(#projects) .content {
+      margin-top: -3rem;
+    }
+  }
+
+  ul.list-disc {
+    padding-left: 1rem;
+  }
+  @responsive {
+    .cols-1 {
+      column-count: 1;
+    }
+  }
+  @responsive {
+    .cols-2 {
+      column-count: 2;
+    }
+  }
+  .react-tabs__tab {
+    text-transform: uppercase;
+    font-size: 0.875rem;
+  }
+  .sub-item:not(:first-child) {
+    margin-top: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid #aaa;
+  }
+
+  .thumbnail {
+    box-shadow: rgba(149, 157, 165, 0.2) 0 0.5rem 1.5rem;
+  }
+
+  #menu-toggle:checked + #menu {
+    display: block;
+  }
+}
+
+/* Start purging... */
+@tailwind components;
+/* Stop purging. */
+
+/* Write you own custom component styles here */
+
+/* Start purging... */
+@tailwind utilities;
+/* Stop purging. */
+
+/* Your own custom utilities */
