@@ -12,7 +12,7 @@ const Footer = () => {
             </h3>
           </a>
           <nav>
-            <ul className="text-center sm:text-left">
+            <ul className="text-center sm:text-left mb-2">
               <li className="inline-block">
                 <a
                   href="#home"
