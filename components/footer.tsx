@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="justify-between flex flex-col lg:flex-row items-center">
           <a href="#home" className="no-underline">
             <h3 className="text-lg font-bold text-center lg:text-left mb-2 sm:mb-0">
-              Simon Keefe - Digital Project Management
+              Simon Keefe - Digital Product Management
             </h3>
           </a>
           <nav>
