@@ -45,7 +45,7 @@ const Index = ({ allProjects }: Props) => {
               `,
               }}
           />
-          <title>Simon Keefe - Digital Project Management</title>
+          <title>Simon Keefe - Digital Product Management</title>
         </Head>
         <Container>
           <div className="grid lg:grid-cols-2 gap-x-12">
