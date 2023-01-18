@@ -7,7 +7,7 @@ const Footer = () => {
       <Container>
         <div className="justify-between flex flex-col lg:flex-row items-center">
           <a href="#home" className="no-underline">
-            <h3 className="text-lg font-bold text-center lg:text-left mb-0">
+            <h3 className="text-lg font-bold text-center lg:text-left mb-2 sm:mb-0">
               Simon Keefe - Digital Project Management
             </h3>
           </a>
@@ -64,7 +64,7 @@ const Footer = () => {
             </ul>
           </nav>
         </div>
-        <span className="text-sm">&copy; Skeefe.net 2021</span>
+        <span className="text-sm">&copy; Skeefe.net 2023</span>
       </Container>
     </footer>
   );
