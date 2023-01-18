@@ -13,7 +13,7 @@ const Footer = () => {
           </a>
           <nav>
             <ul>
-              <li className="inline-block">
+              <li className="inline-block text-center sm:text-left">
                 <a
                   href="#home"
                   className="py-2 px-3 text-sm uppercase no-underline"
