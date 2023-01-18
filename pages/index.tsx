@@ -29,6 +29,15 @@ const Index = ({ allProjects }: Props) => {
     <>
       <Layout>
         <Head>
+          {/* Google tag (gtag.js) */}
+          <script async src="https://www.googletagmanager.com/gtag/js?id=UA-101599729-1"></script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-101599729-1');
+          </script>
           <title>Simon Keefe - Digital Project Management</title>
         </Head>
         <Container>
@@ -80,14 +89,14 @@ const Index = ({ allProjects }: Props) => {
                     <a href="https://xplorer.rugby" target="_blank">
                       Rugby Xplorer
                     </a>, Rugby Australia. I lead a great team to create a wide range of digital
-                    products used in all facets of Rugby - from local club rugby
+                    products used in all facets of Rugby - from local community rugby
                     to our national teams. It is awesome being able to use my
                     skillset in an industry I am passionate about.
                   </p>
                   <p>
                     My primary role is to work with key stakeholders and the Technology team to 
                     define and prioritise requirements, setting the direction for the Rugby Xplorer platform. I
-                    am involved with projects from their conception to launch,
+                    am closely involved with all parts of our Digital Products, 
                     including ascertaining stakeholder goals, resource requirements, associated costs
                     and timelines.
                   </p>
