@@ -76,19 +76,20 @@ const Index = ({ allProjects }: Props) => {
                     </div>
                   </div>
                   <p>
-                    My name is Simon Keefe and I am the Product Manager at{" "}
-                    <a href="https://xplorer.rugby" target="_blank">
-                      Rugby Xplorer
-                    </a>, Rugby Australia. I lead a great team to create a wide range of digital
-                    products used in all facets of Rugby - from local community rugby
-                    to our national teams. It is awesome being able to use my
+                    My name is Simon Keefe and I am the Product Manager at Rugby Australia. 
+                    I am responsible for a wide range of digital products used in all facets of Rugby - from local community rugby
+                    to our national teams. I work closely with stakeholders across the organisation
+                    &amp; Rugby Community, managing products from conception to launch and then throughout
+                    their lifecycle. It is awesome being able to use my
                     skillset in an industry I am passionate about.
                   </p>
                   <p>
-                    My primary role is to work with key stakeholders and the Technology team to 
-                    define and prioritise requirements, setting the direction for the Rugby Xplorer platform. I
+                    My role involves assisting the various departments define their goals and requirements, 
+                    plan the approach to the project, brief the team &amp; monitor the project as it moves
+                    towards completion. Once live I continue to work closely with the Product Owner, stakeholders 
+                    and users to continually optimise &amp; evolve the product to better suit their needs. I
                     am closely involved with all parts of our Digital Products, 
-                    including ascertaining stakeholder goals, resource requirements, associated costs
+                    including resource requirements, associated costs
                     and timelines.
                   </p>
                   <p>
@@ -200,7 +201,7 @@ const Index = ({ allProjects }: Props) => {
                           </span>
                           <p>
                             In 2022 I received the opportunity to make a change from Development to Product Management, 
-                            leading the team on our flagship digital platform, Rugby Xplorer.
+                            taking the lead on our digitial products, including our flagship digital platform, Rugby Xplorer.
                             This has been a significant career change however I have the support of an experienced
                             team behind me and have found my experience working as a Developer has proven valuable.
                           </p>
@@ -238,7 +239,7 @@ const Index = ({ allProjects }: Props) => {
                           </span>
                           <p>
                             My primary role involved working closely with both
-                            internal and external Business Owners and Developers
+                            internal and external stakeholders &amp; Developers
                             to continually enhance the 36 sites in the Rugby
                             Network. I have the chance to work with a great team
                             who are passionate for the game and the positive
