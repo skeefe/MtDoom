@@ -5,11 +5,11 @@ const Header = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
-    <header className="bg-gray-300 py-1 fixed w-full z-10 top-0">
+    <header className="bg-gray-800 py-1 fixed w-full z-10 top-0">
       <Container>
         <a href="#home" className="no-underline">
-          <h2 className="text-xl m-0 float-left font-bold font-logo">
-            Skeefe.net
+          <h2 className="text-xl m-0 float-left font-bold font-logo text-gray-500">
+            Mt. Doom  &#x1F30B;
           </h2>
         </a>
 
