@@ -21,8 +21,8 @@ const BattleItemList = ({
   return (
     <table>
 
-      {trimmedBattlItemList.map((battleItem) => (
-        <BattleItem label={battleItem} value={battleItemList[battleItem]} />
+      {trimmedBattlItemList.map((battleItem, index) => (
+        <BattleItem label={battleItem} value={battleItemList[battleItem]} key={index} />
       ))}
 
     </table>
