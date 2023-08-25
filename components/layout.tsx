@@ -1,4 +1,3 @@
-import Alert from "./alert";
 import Header from "./header";
 import Footer from "./footer";
 import Meta from "./meta";
