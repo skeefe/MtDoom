@@ -2,12 +2,6 @@ import React, { useState, useEffect } from "react";
 import Container from "./container"
 import BattleItemList from "../components/battle-item-list";
 
-/*
-//To Do:
-- Update the primary score id/name for Turn 1
-- Update all ids/names for turns 2-5
-*/
-
 
 const FormBattleReport = () => {
 
@@ -76,7 +70,8 @@ const FormBattleReport = () => {
     AttackerMVP: "",
     DefenderMVP: "",
     BattleNotes: "",
-    TotalPoints: 0,
+    TotalAttacker: 0,
+    TotalDefender: 0,
   });
 
   useEffect(() => {
@@ -134,41 +129,44 @@ const FormBattleReport = () => {
 
   function calculateTotal() {
     //Add all of the relevant fields.
-    const total: number = (
+    const TotalAttacker: number = (
       report.T1AttackerPrimary +
       report.T1AttackerSecondary1 +
       report.T1AttackerSecondary2 +
-      report.T1DefenderPrimary +
-      report.T1DefenderSecondary1 +
-      report.T1DefenderSecondary2 +
       report.T2AttackerPrimary +
       report.T2AttackerSecondary1 +
       report.T2AttackerSecondary2 +
-      report.T2DefenderPrimary +
-      report.T2DefenderSecondary1 +
-      report.T2DefenderSecondary2 +
       report.T3AttackerPrimary +
       report.T3AttackerSecondary1 +
       report.T3AttackerSecondary2 +
-      report.T3DefenderPrimary +
-      report.T3DefenderSecondary1 +
-      report.T3DefenderSecondary2 +
       report.T4AttackerPrimary +
       report.T4AttackerSecondary1 +
       report.T4AttackerSecondary2 +
+      report.T5AttackerPrimary +
+      report.T5AttackerSecondary1 +
+      report.T5AttackerSecondary2
+    );
+
+    const TotalDefender: number = (
+      report.T1DefenderPrimary +
+      report.T1DefenderSecondary1 +
+      report.T1DefenderSecondary2 +
+      report.T2DefenderPrimary +
+      report.T2DefenderSecondary1 +
+      report.T2DefenderSecondary2 +
+      report.T3DefenderPrimary +
+      report.T3DefenderSecondary1 +
+      report.T3DefenderSecondary2 +
       report.T4DefenderPrimary +
       report.T4DefenderSecondary1 +
       report.T4DefenderSecondary2 +
-      report.T5AttackerPrimary +
-      report.T5AttackerSecondary1 +
-      report.T5AttackerSecondary2 +
       report.T5DefenderPrimary +
       report.T5DefenderSecondary1 +
       report.T5DefenderSecondary2
     );
 
     setReport((prev) => {
-      return { ...prev, ['TotalPoints']: total }
+      return { ...prev, ['TotalAttacker']: TotalAttacker, ['TotalDefender']: TotalDefender }
     },)
   }
 
@@ -396,7 +394,7 @@ const FormBattleReport = () => {
                     Attacker Primary Points:
                   </label>
                   <input
-                    id="primary"
+                    id="t1AttackerPrimary"
                     name="T1AttackerPrimary"
                     placeholder="Attacker Primary Points"
                     type="number"
@@ -496,7 +494,7 @@ const FormBattleReport = () => {
                     Defender Primary Points:
                   </label>
                   <input
-                    id="primary"
+                    id="t1DefenderPrimary"
                     name="T1DefenderPrimary"
                     placeholder="Defender Primary Points"
                     type="number"
@@ -601,8 +599,8 @@ const FormBattleReport = () => {
                     Attacker Primary Points:
                   </label>
                   <input
-                    id="primary"
-                    name="T1AttackerPrimary"
+                    id="t2AttackerPrimary"
+                    name="T2AttackerPrimary"
                     placeholder="Attacker Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -617,13 +615,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1Title"
+                        htmlFor="T2AttackerSecondary1Title"
                       >
                         Attacker Secondary 1 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary1Title"
-                        name="T1AttackerSecondary1Title"
+                        id="t2AttackerSecondary1Title"
+                        name="T2AttackerSecondary1Title"
                         placeholder="Attacker Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -636,13 +634,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1"
+                        htmlFor="T2AttackerSecondary1"
                       >
                         Attacker Secondary 1 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary1"
-                        name="T1AttackerSecondary1"
+                        id="t2AttackerSecondary1"
+                        name="T2AttackerSecondary1"
                         placeholder="Attacker Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -655,13 +653,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2Title"
+                        htmlFor="T2AttackerSecondary2Title"
                       >
                         Attacker Secondary 2 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary2Title"
-                        name="T1AttackerSecondary2Title"
+                        id="t2AttackerSecondary2Title"
+                        name="T2AttackerSecondary2Title"
                         placeholder="Attacker Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -674,13 +672,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2"
+                        htmlFor="T2AttackerSecondary2"
                       >
                         Attacker Secondary 2 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary2"
-                        name="T1AttackerSecondary2"
+                        id="t2AttackerSecondary2"
+                        name="T2AttackerSecondary2"
                         placeholder="Attacker Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -696,13 +694,13 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T1DefenderPrimary"
+                    htmlFor="T2DefenderPrimary"
                   >
                     Defender Primary Points:
                   </label>
                   <input
-                    id="primary"
-                    name="T1DefenderPrimary"
+                    id="t2DefenderPrimary"
+                    name="T2DefenderPrimary"
                     placeholder="Defender Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -717,13 +715,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1Title"
+                        htmlFor="T2DefenderSecondary1Title"
                       >
                         Defender Secondary 1 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary1Title"
-                        name="T1DefenderSecondary1Title"
+                        id="t2DefenderSecondary1Title"
+                        name="T2DefenderSecondary1Title"
                         placeholder="Defender Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -736,13 +734,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1"
+                        htmlFor="T2DefenderSecondary1"
                       >
                         Defender Secondary 1 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary1"
-                        name="T1DefenderSecondary1"
+                        id="t2DefenderSecondary1"
+                        name="T2DefenderSecondary1"
                         placeholder="Defender Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -755,13 +753,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2Title"
+                        htmlFor="T2DefenderSecondary2Title"
                       >
                         Defender Secondary 2 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary2Title"
-                        name="T1DefenderSecondary2Title"
+                        id="t2DefenderSecondary2Title"
+                        name="T2DefenderSecondary2Title"
                         placeholder="Defender Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -774,13 +772,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2"
+                        htmlFor="T2DefenderSecondary2"
                       >
                         Defender Secondary 2 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary2"
-                        name="T1DefenderSecondary2"
+                        id="t2DefenderSecondary2"
+                        name="T2DefenderSecondary2"
                         placeholder="Defender Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -797,17 +795,17 @@ const FormBattleReport = () => {
 
             {/* TURN 3 */}
             <fieldset>
-              <legend>Turn 1</legend>
+              <legend>Turn 3</legend>
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T1AttackerPrimary"
+                    htmlFor="T3AttackerPrimary"
                   >
                     Attacker Primary Points:
                   </label>
                   <input
-                    id="primary"
-                    name="T1AttackerPrimary"
+                    id="t3AttackerPrimary"
+                    name="T3AttackerPrimary"
                     placeholder="Attacker Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -822,13 +820,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1Title"
+                        htmlFor="T3AttackerSecondary1Title"
                       >
                         Attacker Secondary 1 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary1Title"
-                        name="T1AttackerSecondary1Title"
+                        id="t3AttackerSecondary1Title"
+                        name="T3AttackerSecondary1Title"
                         placeholder="Attacker Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -841,13 +839,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1"
+                        htmlFor="T3AttackerSecondary1"
                       >
                         Attacker Secondary 1 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary1"
-                        name="T1AttackerSecondary1"
+                        id="t3AttackerSecondary1"
+                        name="T3AttackerSecondary1"
                         placeholder="Attacker Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -860,13 +858,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2Title"
+                        htmlFor="T3AttackerSecondary2Title"
                       >
                         Attacker Secondary 2 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary2Title"
-                        name="T1AttackerSecondary2Title"
+                        id="t3AttackerSecondary2Title"
+                        name="T3AttackerSecondary2Title"
                         placeholder="Attacker Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -879,13 +877,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2"
+                        htmlFor="T3AttackerSecondary2"
                       >
                         Attacker Secondary 2 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary2"
-                        name="T1AttackerSecondary2"
+                        id="t3AttackerSecondary2"
+                        name="T3AttackerSecondary2"
                         placeholder="Attacker Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -901,13 +899,13 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T1DefenderPrimary"
+                    htmlFor="T3DefenderPrimary"
                   >
                     Defender Primary Points:
                   </label>
                   <input
                     id="primary"
-                    name="T1DefenderPrimary"
+                    name="T3DefenderPrimary"
                     placeholder="Defender Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -922,13 +920,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1Title"
+                        htmlFor="T3DefenderSecondary1Title"
                       >
                         Defender Secondary 1 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary1Title"
-                        name="T1DefenderSecondary1Title"
+                        id="t3DefenderSecondary1Title"
+                        name="T3DefenderSecondary1Title"
                         placeholder="Defender Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -941,13 +939,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1"
+                        htmlFor="T3DefenderSecondary1"
                       >
                         Defender Secondary 1 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary1"
-                        name="T1DefenderSecondary1"
+                        id="t3DefenderSecondary1"
+                        name="T3DefenderSecondary1"
                         placeholder="Defender Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -960,13 +958,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2Title"
+                        htmlFor="T3DefenderSecondary2Title"
                       >
                         Defender Secondary 2 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary2Title"
-                        name="T1DefenderSecondary2Title"
+                        id="t3DefenderSecondary2Title"
+                        name="T3DefenderSecondary2Title"
                         placeholder="Defender Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -979,13 +977,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2"
+                        htmlFor="T3DefenderSecondary2"
                       >
                         Defender Secondary 2 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary2"
-                        name="T1DefenderSecondary2"
+                        id="t3DefenderSecondary2"
+                        name="T3DefenderSecondary2"
                         placeholder="Defender Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1002,17 +1000,17 @@ const FormBattleReport = () => {
             
             {/* TURN 4 */}
             <fieldset>
-              <legend>Turn 1</legend>
+              <legend>Turn 4</legend>
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T1AttackerPrimary"
+                    htmlFor="T4AttackerPrimary"
                   >
                     Attacker Primary Points:
                   </label>
                   <input
                     id="primary"
-                    name="T1AttackerPrimary"
+                    name="T4AttackerPrimary"
                     placeholder="Attacker Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -1027,13 +1025,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1Title"
+                        htmlFor="T4AttackerSecondary1Title"
                       >
                         Attacker Secondary 1 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary1Title"
-                        name="T1AttackerSecondary1Title"
+                        id="t4AttackerSecondary1Title"
+                        name="T4AttackerSecondary1Title"
                         placeholder="Attacker Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1046,13 +1044,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1"
+                        htmlFor="T4AttackerSecondary1"
                       >
                         Attacker Secondary 1 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary1"
-                        name="T1AttackerSecondary1"
+                        id="t4AttackerSecondary1"
+                        name="T4AttackerSecondary1"
                         placeholder="Attacker Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1065,13 +1063,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2Title"
+                        htmlFor="T4AttackerSecondary2Title"
                       >
                         Attacker Secondary 2 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary2Title"
-                        name="T1AttackerSecondary2Title"
+                        id="t4AttackerSecondary2Title"
+                        name="T4AttackerSecondary2Title"
                         placeholder="Attacker Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1084,13 +1082,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2"
+                        htmlFor="T4AttackerSecondary2"
                       >
                         Attacker Secondary 2 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary2"
-                        name="T1AttackerSecondary2"
+                        id="t4AttackerSecondary2"
+                        name="T4AttackerSecondary2"
                         placeholder="Attacker Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1106,13 +1104,13 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T1DefenderPrimary"
+                    htmlFor="T4DefenderPrimary"
                   >
                     Defender Primary Points:
                   </label>
                   <input
                     id="primary"
-                    name="T1DefenderPrimary"
+                    name="T4DefenderPrimary"
                     placeholder="Defender Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -1127,13 +1125,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1Title"
+                        htmlFor="T4DefenderSecondary1Title"
                       >
                         Defender Secondary 1 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary1Title"
-                        name="T1DefenderSecondary1Title"
+                        id="t4DefenderSecondary1Title"
+                        name="T4DefenderSecondary1Title"
                         placeholder="Defender Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1146,13 +1144,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1"
+                        htmlFor="T4DefenderSecondary1"
                       >
                         Defender Secondary 1 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary1"
-                        name="T1DefenderSecondary1"
+                        id="t4DefenderSecondary1"
+                        name="T4DefenderSecondary1"
                         placeholder="Defender Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1165,13 +1163,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2Title"
+                        htmlFor="T4DefenderSecondary2Title"
                       >
                         Defender Secondary 2 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary2Title"
-                        name="T1DefenderSecondary2Title"
+                        id="t4DefenderSecondary2Title"
+                        name="T4DefenderSecondary2Title"
                         placeholder="Defender Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1184,13 +1182,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2"
+                        htmlFor="T4DefenderSecondary2"
                       >
                         Defender Secondary 2 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary2"
-                        name="T1DefenderSecondary2"
+                        id="t4DefenderSecondary2"
+                        name="T4DefenderSecondary2"
                         placeholder="Defender Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1207,17 +1205,17 @@ const FormBattleReport = () => {
 
             {/* TURN 5 */}
             <fieldset>
-              <legend>Turn 1</legend>
+              <legend>Turn 5</legend>
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T1AttackerPrimary"
+                    htmlFor="T5AttackerPrimary"
                   >
                     Attacker Primary Points:
                   </label>
                   <input
-                    id="primary"
-                    name="T1AttackerPrimary"
+                    id="t5AttackerPrimary"
+                    name="T5AttackerPrimary"
                     placeholder="Attacker Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -1232,13 +1230,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1Title"
+                        htmlFor="T5AttackerSecondary1Title"
                       >
                         Attacker Secondary 1 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary1Title"
-                        name="T1AttackerSecondary1Title"
+                        id="t5AttackerSecondary1Title"
+                        name="T5AttackerSecondary1Title"
                         placeholder="Attacker Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1251,13 +1249,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1"
+                        htmlFor="T5AttackerSecondary1"
                       >
                         Attacker Secondary 1 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary1"
-                        name="T1AttackerSecondary1"
+                        id="t5AttackerSecondary1"
+                        name="T5AttackerSecondary1"
                         placeholder="Attacker Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1270,13 +1268,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2Title"
+                        htmlFor="T5AttackerSecondary2Title"
                       >
                         Attacker Secondary 2 Title:
                       </label>
                       <input
-                        id="t1AttackerSecondary2Title"
-                        name="T1AttackerSecondary2Title"
+                        id="t5AttackerSecondary2Title"
+                        name="T5AttackerSecondary2Title"
                         placeholder="Attacker Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1289,13 +1287,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2"
+                        htmlFor="T5AttackerSecondary2"
                       >
                         Attacker Secondary 2 Score:
                       </label>
                       <input
-                        id="t1AttackerSecondary2"
-                        name="T1AttackerSecondary2"
+                        id="t5AttackerSecondary2"
+                        name="T5AttackerSecondary2"
                         placeholder="Attacker Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1311,13 +1309,13 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T1DefenderPrimary"
+                    htmlFor="T5DefenderPrimary"
                   >
                     Defender Primary Points:
                   </label>
                   <input
                     id="primary"
-                    name="T1DefenderPrimary"
+                    name="T5DefenderPrimary"
                     placeholder="Defender Primary Points"
                     type="number"
                     className="border p-2 w-full"
@@ -1332,13 +1330,13 @@ const FormBattleReport = () => {
                   <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1Title"
+                        htmlFor="T5DefenderSecondary1Title"
                       >
                         Defender Secondary 1 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary1Title"
-                        name="T1DefenderSecondary1Title"
+                        id="t5DefenderSecondary1Title"
+                        name="T5DefenderSecondary1Title"
                         placeholder="Defender Secondary 1 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1351,13 +1349,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1"
+                        htmlFor="T5DefenderSecondary1"
                       >
                         Defender Secondary 1 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary1"
-                        name="T1DefenderSecondary1"
+                        id="t5DefenderSecondary1"
+                        name="T5DefenderSecondary1"
                         placeholder="Defender Secondary 1 Score"
                         type="number"
                         className="border p-2 w-full"
@@ -1370,13 +1368,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2Title"
+                        htmlFor="T5DefenderSecondary2Title"
                       >
                         Defender Secondary 2 Title:
                       </label>
                       <input
-                        id="t1DefenderSecondary2Title"
-                        name="T1DefenderSecondary2Title"
+                        id="t5DefenderSecondary2Title"
+                        name="T5DefenderSecondary2Title"
                         placeholder="Defender Secondary 2 Title"
                         type="text"
                         className="border p-2 w-full"
@@ -1389,13 +1387,13 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2"
+                        htmlFor="T5DefenderSecondary2"
                       >
                         Defender Secondary 2 Score:
                       </label>
                       <input
-                        id="t1DefenderSecondary2"
-                        name="T1DefenderSecondary2"
+                        id="t5DefenderSecondary2"
+                        name="T5DefenderSecondary2"
                         placeholder="Defender Secondary 2 Score"
                         type="number"
                         className="border p-2 w-full"
