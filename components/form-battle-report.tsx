@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import Container from "./container"
 import BattleItemList from "../components/battle-item-list";
 
+/* 
+//To Do
+- Send data to Firebase on save (potentially on change.)
+*/
+
 
 const FormBattleReport = () => {
 
@@ -176,7 +181,8 @@ const FormBattleReport = () => {
   }
 
   function handleSubmit(e) {
-    console.log('here');
+    console.log(report);
+    console.log(JSON.stringify(report));
     setReport((prev) => {
       return { ...prev, FormSubmit: true }
     })
@@ -1414,7 +1420,14 @@ const FormBattleReport = () => {
             {/* POST GAME */}
             <fieldset>
               <legend>Post Game</legend>
-              <div className="mb-3">
+
+              <div className="mb-20">
+                <h2 className="text-center uppercase">Total Scores</h2>
+                <div className="player text-8xl font-bold">{report.TotalAttacker}</div>
+                <div className="player text-8xl font-bold text-right">{report.TotalDefender}</div>
+              </div>
+
+              <div className="mb-3 pt-6">
                 <label
                   htmlFor="Victor"
                 >
