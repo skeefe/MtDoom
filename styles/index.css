@@ -78,7 +78,7 @@
   legend{
     font-family:Aleo, sans-serif;
     text-transform: uppercase;
-    font-size:.875rem;
+    font-size:1.25rem;
     color:#c2410c;
     text-align:center;
   }
@@ -137,6 +137,52 @@
   }
   button:hover{
     background:#f97316;
+  }
+
+
+  /* Custom Layout */
+  .player{
+    width:50%;
+    float:left;
+    padding:0 0 0 1rem;
+  }
+  .player:nth-child(2){
+    padding:0 1rem 0 0;
+    border-right:1px solid #64748b;
+  }
+  .player:before{
+    content:"Defender";
+    font-family:Aleo, sans-serif;
+    text-transform: uppercase;
+    font-size:.875rem;
+    color:#c2410c;
+    display: block;
+    margin:0 0 .5rem;
+  }
+  .player:nth-child(2):before{
+    content:"Attacker";
+  }
+  .secondaries:before{
+    content:"Secondaries";
+    font-family:Aleo, sans-serif;
+    text-transform: uppercase;
+    font-size:.75rem;
+    color:#c2410c;
+    display: block;
+    margin:2rem 0 0;
+  }
+  .secondary{
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .secondary > div:nth-child(odd){
+    flex-grow: 1;
+  }  
+  .secondary > div:nth-child(even){
+    margin:0 0 0 .5rem;
+    width:100px;
   }
 }
 
