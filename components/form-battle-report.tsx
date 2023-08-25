@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Container from "./container"
 import BattleItemList from "../components/battle-item-list";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import app from "../firebase/config";
+import addData from "../firebase/addData";
+
 
 /* 
 //To Do
@@ -180,13 +183,25 @@ const FormBattleReport = () => {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
 
-  function handleSubmit(e) {
+
+
+
+
+  const firestore = getFirestore(app);
+
+
+  async function handleSubmit(e, res) {
+    e.preventDefault();
+
     console.log(report);
     console.log(JSON.stringify(report));
-    setReport((prev) => {
-      return { ...prev, FormSubmit: true }
-    })
-    e.preventDefault();
+
+    const dataString = JSON.stringify(report);
+
+    const { result, error } = await addData('Battles', '1', report)
+
+    console.log('result', result);
+    console.log('error', error);
   }
 
   return (
@@ -593,7 +608,7 @@ const FormBattleReport = () => {
                 </div>
               </div>
             </fieldset>
-            
+
             {/* TURN 2 */}
             <fieldset>
               <legend>Turn 2</legend>
@@ -1003,7 +1018,7 @@ const FormBattleReport = () => {
                 </div>
               </div>
             </fieldset>
-            
+
             {/* TURN 4 */}
             <fieldset>
               <legend>Turn 4</legend>
@@ -1415,7 +1430,7 @@ const FormBattleReport = () => {
             </fieldset>
 
 
-            
+
 
             {/* POST GAME */}
             <fieldset>
