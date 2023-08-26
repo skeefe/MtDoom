@@ -92,17 +92,14 @@
     border-color:transparent;
     border-width: 1px;
     border-style: solid;
-    transition: border-color .25s linear;    
+    transition: border-color .125s linear;    
     outline:none;
   }
   select:focus,
   textarea:focus,
-  input:focus,
-  select:required,
-  textarea:required,
-  input:required{    
+  input:focus{    
     outline:none;
-    border-color:#64748b;
+    border-color:#0284c7;
   }
   /*
   select:invalid,
@@ -191,6 +188,30 @@
     padding:0 1rem 0 0;
     border-right:1px solid #64748b;
   }
+  .score-bar{
+    background:#7c2d12;
+    text-align:center;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    color:#cbd5e1;
+    padding:.5rem 0;
+  }
+  .score-bar .player{
+    margin:0;
+  }
+  .score-bar .player:before{
+    display:inline-block;
+    padding:0 .5rem;
+    position:relative;
+    top:-.125rem;
+    margin:0;
+  }
+  .score-bar .player:nth-child(3){
+    direction: rtl;
+  }
+  
 
   @media only screen and (min-width: 600px) {
     .player {
@@ -202,7 +223,12 @@
       padding:0 1rem 0 0;
       border-right:1px solid #64748b;
     }
+    .score-bar{
+      /*display:none;*/
+    }
   }
+
+  
 }
 
 /* Start purging... */

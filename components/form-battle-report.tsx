@@ -152,7 +152,7 @@ const FormBattleReport = () => {
       report.T4AttackerSecondary2 +
       report.T5AttackerPrimary +
       report.T5AttackerSecondary1 +
-      report.T5AttackerSecondary2+
+      report.T5AttackerSecondary2 +
       report.AttackerMissionBonus
     );
 
@@ -199,234 +199,235 @@ const FormBattleReport = () => {
   }
 
   return (
-    <div className="lg:flex gap-x-12">
-      <section id="calculator" className="lg:flex-1">
-        <div className="content">
-          <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
-            Battle Report
-          </h1>
-          <form>
+    <>
+      <div className="lg:flex gap-x-12">
+        <section id="calculator" className="lg:flex-1">
+          <div className="content">
+            <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
+              Battle Report
+            </h1>
+            <form>
 
-            {/* SETUP */}
-            <fieldset>
-              <legend>Setup</legend>
+              {/* SETUP */}
+              <fieldset>
+                <legend>Setup</legend>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="date"
-                >
-                  Date:
-                </label>
-                <input
-                  id="date"
-                  name="Date"
-                  placeholder="Enter the date."
-                  type="text"
-                  value={report.Date}
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="date"
+                  >
+                    Date:
+                  </label>
+                  <input
+                    id="date"
+                    name="Date"
+                    placeholder="Enter the date."
+                    type="text"
+                    value={report.Date}
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="size"
-                >
-                  Battle Size:
-                </label>
-                <select id="size"
-                  name="Size"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  required
-                  defaultValue="3000pts"
-                >
-                  <option>1000pts</option>
-                  <option>1500pts</option>
-                  <option>2000pts</option>
-                  <option>3000pts</option>
-                </select>
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="size"
+                  >
+                    Battle Size:
+                  </label>
+                  <select id="size"
+                    name="Size"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    required
+                    defaultValue="3000pts"
+                  >
+                    <option>1000pts</option>
+                    <option>1500pts</option>
+                    <option>2000pts</option>
+                    <option>3000pts</option>
+                  </select>
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="primaryMission"
-                >
-                  Primary Mission:
-                </label>
-                <input
-                  id="primaryMission"
-                  name="PrimaryMission"
-                  placeholder="Enter the mission."
-                  type="text"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="primaryMission"
+                  >
+                    Primary Mission:
+                  </label>
+                  <input
+                    id="primaryMission"
+                    name="PrimaryMission"
+                    placeholder="Enter the mission."
+                    type="text"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="missionRule"
-                >
-                  Mission Rule:
-                </label>
-                <input
-                  id="missionRule"
-                  name="MissionRule"
-                  placeholder="Enter the mission rule."
-                  type="text"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="missionRule"
+                  >
+                    Mission Rule:
+                  </label>
+                  <input
+                    id="missionRule"
+                    name="MissionRule"
+                    placeholder="Enter the mission rule."
+                    type="text"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="attacker"
-                >
-                  Attacker:
-                </label>
-                <select id="attacker"
-                  name="Attacker"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Attacker"
-                  required
-                >
-                  <option value="">-- Select the Attacker --</option>
-                  <option>JSmooth</option>
-                  <option>Spoonz</option>
-                  <option>Sir Sibot</option>
-                  <option>Joshita</option>
-                  <option>Bug-a-Lugs</option>
-                  <option>Sir Sibot</option>
-                </select>
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="attacker"
+                  >
+                    Attacker:
+                  </label>
+                  <select id="attacker"
+                    name="Attacker"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Attacker"
+                    required
+                  >
+                    <option value="">-- Select the Attacker --</option>
+                    <option>JSmooth</option>
+                    <option>Spoonz</option>
+                    <option>Sir Sibot</option>
+                    <option>Joshita</option>
+                    <option>Bug-a-Lugs</option>
+                    <option>Sir Sibot</option>
+                  </select>
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="attackerArmy"
-                >
-                  Attacker Army:
-                </label>
-                <select id="attackerArmy"
-                  name="AttackerArmy"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Attacker Army"
-                  required
-                >
-                  <option value="">-- Select the Attacker Army --</option>
-                  <option>Astra Militarum</option>
-                  <option>Space Wolves</option>
-                  <option>Ultramarines</option>
-                  <option>Craftworld</option>
-                  <option>Filthy Blood Angels</option>
-                  <option>Cold Blooded</option>
-                  <option>Tau</option>
-                  <option>Bastiladons</option>
-                  <option>Rusty Jeckyls</option>
-                  <option>Orks</option>
-                  <option>Necrons</option>
-                  <option>Imperial Knights</option>
-                  <option>Deathwatch</option>
-                  <option>Dark Angels</option>
-                  <option>Custodes</option>
-                  <option>Ad Mech</option>
-                  <option>Bridgeburners</option>
-                </select>
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="attackerArmy"
+                  >
+                    Attacker Army:
+                  </label>
+                  <select id="attackerArmy"
+                    name="AttackerArmy"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Attacker Army"
+                    required
+                  >
+                    <option value="">-- Select the Attacker Army --</option>
+                    <option>Astra Militarum</option>
+                    <option>Space Wolves</option>
+                    <option>Ultramarines</option>
+                    <option>Craftworld</option>
+                    <option>Filthy Blood Angels</option>
+                    <option>Cold Blooded</option>
+                    <option>Tau</option>
+                    <option>Bastiladons</option>
+                    <option>Rusty Jeckyls</option>
+                    <option>Orks</option>
+                    <option>Necrons</option>
+                    <option>Imperial Knights</option>
+                    <option>Deathwatch</option>
+                    <option>Dark Angels</option>
+                    <option>Custodes</option>
+                    <option>Ad Mech</option>
+                    <option>Bridgeburners</option>
+                  </select>
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="defender"
-                >
-                  Defender:
-                </label>
-                <select id="defender"
-                  name="Defender"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Defender"
-                  required
-                >
-                  <option value="">-- Select the Defender --</option>
-                  <option>JSmooth</option>
-                  <option>Spoonz</option>
-                  <option>Sir Sibot</option>
-                  <option>Joshita</option>
-                  <option>Bug-a-Lugs</option>
-                  <option>Sir Sibot</option>
-                </select>
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="defender"
+                  >
+                    Defender:
+                  </label>
+                  <select id="defender"
+                    name="Defender"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Defender"
+                    required
+                  >
+                    <option value="">-- Select the Defender --</option>
+                    <option>JSmooth</option>
+                    <option>Spoonz</option>
+                    <option>Sir Sibot</option>
+                    <option>Joshita</option>
+                    <option>Bug-a-Lugs</option>
+                    <option>Sir Sibot</option>
+                  </select>
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="defenderArmy"
-                >
-                  Defender Army:
-                </label>
-                <select id="defenderArmy"
-                  name="DefenderArmy"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Defender"
-                  required
-                >
-                  <option value="">-- Select the Defender Army --</option>
-                  <option>Astra Militarum</option>
-                  <option>Space Wolves</option>
-                  <option>Ultramarines</option>
-                  <option>Craftworld</option>
-                  <option>Filthy Blood Angels</option>
-                  <option>Cold Blooded</option>
-                  <option>Tau</option>
-                  <option>Bastiladons</option>
-                  <option>Rusty Jeckyls</option>
-                  <option>Orks</option>
-                  <option>Necrons</option>
-                  <option>Imperial Knights</option>
-                  <option>Deathwatch</option>
-                  <option>Dark Angels</option>
-                  <option>Custodes</option>
-                  <option>Ad Mech</option>
-                  <option>Bridgeburners</option>
-                </select>
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="defenderArmy"
+                  >
+                    Defender Army:
+                  </label>
+                  <select id="defenderArmy"
+                    name="DefenderArmy"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Defender"
+                    required
+                  >
+                    <option value="">-- Select the Defender Army --</option>
+                    <option>Astra Militarum</option>
+                    <option>Space Wolves</option>
+                    <option>Ultramarines</option>
+                    <option>Craftworld</option>
+                    <option>Filthy Blood Angels</option>
+                    <option>Cold Blooded</option>
+                    <option>Tau</option>
+                    <option>Bastiladons</option>
+                    <option>Rusty Jeckyls</option>
+                    <option>Orks</option>
+                    <option>Necrons</option>
+                    <option>Imperial Knights</option>
+                    <option>Deathwatch</option>
+                    <option>Dark Angels</option>
+                    <option>Custodes</option>
+                    <option>Ad Mech</option>
+                    <option>Bridgeburners</option>
+                  </select>
+                </div>
 
-              <div className="mb-3">
-                <label
-                  htmlFor="firstTurn"
-                >
-                  First Turn:
-                </label>
-                <select id="firstTurn"
-                  name="FirstTurn"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Player"
-                  required
-                >
-                  <option value="">-- Select the Player --</option>
-                  <option>JSmooth</option>
-                  <option>Spoonz</option>
-                  <option>Sir Sibot</option>
-                  <option>Joshita</option>
-                  <option>Bug-a-Lugs</option>
-                  <option>Sir Sibot</option>
-                </select>
-              </div>
-            </fieldset>
+                <div className="mb-3">
+                  <label
+                    htmlFor="firstTurn"
+                  >
+                    First Turn:
+                  </label>
+                  <select id="firstTurn"
+                    name="FirstTurn"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Player"
+                    required
+                  >
+                    <option value="">-- Select the Player --</option>
+                    <option>JSmooth</option>
+                    <option>Spoonz</option>
+                    <option>Sir Sibot</option>
+                    <option>Joshita</option>
+                    <option>Bug-a-Lugs</option>
+                    <option>Sir Sibot</option>
+                  </select>
+                </div>
+              </fieldset>
 
-            {/* TURN 1 */}
-            <fieldset>
-              <legend>Turn 1</legend>
-              <div className="player">
-                
-                <div className="secondaries">
+              {/* TURN 1 */}
+              <fieldset>
+                <legend>Turn 1</legend>
+                <div className="player">
+
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t1AttackerSecondary1Title"
@@ -504,9 +505,9 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              <div className="player">
-                
-                <div className="secondaries">
+                <div className="player">
+
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t1DefenderSecondary1Title"
@@ -584,32 +585,32 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-            </fieldset>
+              </fieldset>
 
-            {/* TURN 2 */}
-            <fieldset>
-              <legend>Turn 2</legend>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t2AttackerPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="t2AttackerPrimary"
-                    name="T2AttackerPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
+              {/* TURN 2 */}
+              <fieldset>
+                <legend>Turn 2</legend>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t2AttackerPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="t2AttackerPrimary"
+                      name="T2AttackerPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t2AttackerSecondary1Title"
@@ -687,27 +688,27 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t2DefenderPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="t2DefenderPrimary"
-                    name="T2DefenderPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t2DefenderPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="t2DefenderPrimary"
+                      name="T2DefenderPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t2DefenderSecondary1Title"
@@ -785,32 +786,32 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-            </fieldset>
+              </fieldset>
 
-            {/* TURN 3 */}
-            <fieldset>
-              <legend>Turn 3</legend>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t3AttackerPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="t3AttackerPrimary"
-                    name="T3AttackerPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
+              {/* TURN 3 */}
+              <fieldset>
+                <legend>Turn 3</legend>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t3AttackerPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="t3AttackerPrimary"
+                      name="T3AttackerPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t3AttackerSecondary1Title"
@@ -888,27 +889,27 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t3DefenderPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="primary"
-                    name="T3DefenderPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t3DefenderPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="primary"
+                      name="T3DefenderPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t3DefenderSecondary1Title"
@@ -986,32 +987,32 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-            </fieldset>
+              </fieldset>
 
-            {/* TURN 4 */}
-            <fieldset>
-              <legend>Turn 4</legend>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t4AttackerPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="primary"
-                    name="T4AttackerPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
+              {/* TURN 4 */}
+              <fieldset>
+                <legend>Turn 4</legend>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t4AttackerPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="primary"
+                      name="T4AttackerPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t4AttackerSecondary1Title"
@@ -1088,28 +1089,28 @@ const FormBattleReport = () => {
                       />
                     </div>
                   </div>
-              </div>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t4DefenderPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="primary"
-                    name="T4DefenderPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
                 </div>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t4DefenderPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="primary"
+                      name="T4DefenderPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t4DefenderSecondary1Title"
@@ -1187,32 +1188,32 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-            </fieldset>
+              </fieldset>
 
-            {/* TURN 5 */}
-            <fieldset>
-              <legend>Turn 5</legend>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t5AttackerPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="t5AttackerPrimary"
-                    name="T5AttackerPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
+              {/* TURN 5 */}
+              <fieldset>
+                <legend>Turn 5</legend>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t5AttackerPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="t5AttackerPrimary"
+                      name="T5AttackerPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t5AttackerSecondary1Title"
@@ -1288,29 +1289,29 @@ const FormBattleReport = () => {
                         required
                       />
                     </div>
+                  </div>
                 </div>
-              </div>
-              <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="t5DefenderPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="primary"
-                    name="T5DefenderPrimary"
-                    placeholder="--"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="t5DefenderPrimary"
+                    >
+                      Primary Points:
+                    </label>
+                    <input
+                      id="primary"
+                      name="T5DefenderPrimary"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
 
-                <div className="secondaries">
+                  <div className="secondaries">
                     <div className="mb-3">
                       <label
                         htmlFor="t5DefenderSecondary1Title"
@@ -1388,197 +1389,204 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-            </fieldset>
-            
-            {/* END OF GAME */}
-            <fieldset>
-              <legend>End of Game</legend>
-              <div className="player">
+              </fieldset>
+
+              {/* END OF GAME */}
+              <fieldset>
+                <legend>End of Game</legend>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="attackerMissionBonus"
+                    >
+                      Mission Bonus:
+                    </label>
+                    <input
+                      id="attackerMissionBonus"
+                      name="AttackerMissionBonus"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="player">
+                  <div className="mb-3">
+                    <label
+                      htmlFor="defenderMissionBonus"
+                    >
+                      Mission Bonus:
+                    </label>
+                    <input
+                      id="defenderMissionBonus"
+                      name="DefenderMissionBonus"
+                      placeholder="--"
+                      type="number"
+                      className="border p-2 w-full"
+                      onChange={event => handleChange(event, true)}
+                      min="0"
+                      max="15"
+                      required
+                    />
+                  </div>
+                </div>
+              </fieldset>
+
+              {/* POST GAME */}
+              <fieldset>
+                <legend>Post Game</legend>
+
+                <div className="mb-20">
+                  <h2 className="text-center uppercase">Total Scores</h2>
+                  <div className="player score text-8xl font-bold">{report.TotalAttacker}</div>
+                  <div className="player score text-8xl font-bold text-right">{report.TotalDefender}</div>
+                </div>
+
+                <div className="mb-3 pt-6">
+                  <label
+                    htmlFor="victor"
+                  >
+                    Victor:
+                  </label>
+                  <select id="victor"
+                    name="Victor"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Victor"
+                    required
+                  >
+                    <option value="">-- Select the Victor --</option>
+                    <option>JSmooth</option>
+                    <option>Spoonz</option>
+                    <option>Sir Sibot</option>
+                    <option>Joshita</option>
+                    <option>Bug-a-Lugs</option>
+                    <option>DRAW</option>
+                  </select>
+                </div>
+
                 <div className="mb-3">
                   <label
-                    htmlFor="attackerMissionBonus"
+                    htmlFor="victoryType"
                   >
-                    Mission Bonus:
+                    Victory Type:
+                  </label>
+                  <select id="victoryType"
+                    name="VictoryType"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Victory Type"
+                    required
+                  >
+                    <option value="">-- Select the Victory Type --</option>
+                    <option>Points Victory</option>
+                    <option>Points Draw</option>
+                    <option>Tabling</option>
+                    <option>Crushing Victory</option>
+                  </select>
+                </div>
+
+                <div className="mb-3">
+                  <label
+                    htmlFor="turnEnded"
+                  >
+                    Turn Ended:
+                  </label>
+                  <select id="turnEnded"
+                    name="TurnEnded"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    placeholder="Select the Turn"
+                    required
+                  >
+                    <option value="">-- Select the Turn --</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+
+                <div className="mb-3">
+                  <label
+                    htmlFor="attackerMVP"
+                  >
+                    Attacker MVP:
                   </label>
                   <input
-                    id="attackerMissionBonus"
-                    name="AttackerMissionBonus"
-                    placeholder="--"
-                    type="number"
+                    id="attackerMVP"
+                    name="AttackerMVP"
+                    placeholder="Attacker MVP"
+                    type="text"
                     className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
+                    onChange={event => handleChange(event)}
                     required
                   />
                 </div>
-              </div>
-              <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="defenderMissionBonus"
+                    htmlFor="defenderMVP"
                   >
-                    Mission Bonus:
+                    Defender MVP:
                   </label>
                   <input
-                    id="defenderMissionBonus"
-                    name="DefenderMissionBonus"
-                    placeholder="--"
-                    type="number"
+                    id="defenderMVP"
+                    name="DefenderMVP"
+                    placeholder="Attacker MVP"
+                    type="text"
                     className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
+                    onChange={event => handleChange(event)}
                     required
                   />
                 </div>
-              </div>
-            </fieldset>
-            
-            {/* POST GAME */}
-            <fieldset>
-              <legend>Post Game</legend>
-
-              <div className="mb-20">
-                <h2 className="text-center uppercase">Total Scores</h2>
-                <div className="player score text-8xl font-bold">{report.TotalAttacker}</div>
-                <div className="player score text-8xl font-bold text-right">{report.TotalDefender}</div>
-              </div>
-
-              <div className="mb-3 pt-6">
-                <label
-                  htmlFor="victor"
-                >
-                  Victor:
-                </label>
-                <select id="victor"
-                  name="Victor"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Victor"
-                  required
-                >
-                  <option value="">-- Select the Victor --</option>
-                  <option>JSmooth</option>
-                  <option>Spoonz</option>
-                  <option>Sir Sibot</option>
-                  <option>Joshita</option>
-                  <option>Bug-a-Lugs</option>                  
-                  <option>DRAW</option>
-                </select>
-              </div>
-
-              <div className="mb-3">
-                <label
-                  htmlFor="victoryType"
-                >
-                  Victory Type:
-                </label>
-                <select id="victoryType"
-                  name="VictoryType"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Victory Type"
-                  required
-                >
-                  <option value="">-- Select the Victory Type --</option>
-                  <option>Points Victory</option>
-                  <option>Points Draw</option>
-                  <option>Tabling</option>
-                  <option>Crushing Victory</option>
-                </select>
-              </div>
-
-              <div className="mb-3">
-                <label
-                  htmlFor="turnEnded"
-                >
-                  Turn Ended:
-                </label>
-                <select id="turnEnded"
-                  name="TurnEnded"
-                  className="border p-2 w-full"
-                  onChange={handleChange}
-                  placeholder="Select the Turn"
-                  required
-                >
-                  <option value="">-- Select the Turn --</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-
-              <div className="mb-3">
-                <label
-                  htmlFor="attackerMVP"
-                >
-                  Attacker MVP:
-                </label>
-                <input
-                  id="attackerMVP"
-                  name="AttackerMVP"
-                  placeholder="Attacker MVP"
-                  type="text"
-                  className="border p-2 w-full"
-                  onChange={event => handleChange(event)}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label
-                  htmlFor="defenderMVP"
-                >
-                  Defender MVP:
-                </label>
-                <input
-                  id="defenderMVP"
-                  name="DefenderMVP"
-                  placeholder="Attacker MVP"
-                  type="text"
-                  className="border p-2 w-full"
-                  onChange={event => handleChange(event)}
-                  required
-                />
-              </div>
 
 
-              <div className="mb-3">
-                <label
-                  htmlFor="notes"
-                >
-                  Battle Notes:
-                </label>
-                <textarea
-                  id="notes"
-                  name="Notes"
-                  placeholder="Notes"
-                  className="border p-2  w-full"
-                  onChange={event => handleChange(event)}
-                  required
-                ></textarea>
-              </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="notes"
+                  >
+                    Battle Notes:
+                  </label>
+                  <textarea
+                    id="notes"
+                    name="Notes"
+                    placeholder="Notes"
+                    className="border p-2  w-full"
+                    onChange={event => handleChange(event)}
+                    required
+                  ></textarea>
+                </div>
 
-            </fieldset>
+              </fieldset>
 
-            <button
-              className="mx-auto text-2xl"
-              type="submit"
-              onClick={event => handleSubmit(event)}
-            >
-              Save Report
-            </button>
-          </form>
-        </div>
-      </section>
+              <button
+                className="mx-auto text-2xl"
+                type="submit"
+                onClick={event => handleSubmit(event)}
+              >
+                Save Report
+              </button>
+            </form>
+          </div>
+        </section>
 
-      <section id="results" className="lg:w-96 lg:flex-none">
-        <h2>Results</h2>
-        <BattleItemList battleItemList={report} />
-      </section>
-    </div>
+        <section id="results" className="lg:w-96 lg:flex-none">
+          <h2>Results</h2>
+          <BattleItemList battleItemList={report} />
+        </section>
+      </div>
+
+      <div className="score-bar text-center">
+        <span></span>
+        <div className="player score text-2xl font-bold">{report.TotalAttacker}</div>
+        <div className="player score text-2xl font-bold">{report.TotalDefender}</div>
+      </div>
+    </>
 
   );
 };
