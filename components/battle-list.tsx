@@ -1,33 +1,34 @@
-import React, { useState, useEffect } from "react";
-//import { getFirestore, collection, addDoc, Firestore } from "firebase/firestore";
-//import {QueryDocumentSnapshot,DocumentData,query,where,limit,getDocs} from "@firebase/firestore";
-import app from "../firebase/config";
-import getCollection from "../firebase/getCollection";
-import BattleItem from "./battle-item";
+import React from "react";
+import getSnapshot from "../firebase/getSnapshot";
 
 const BattleList = () => {
 
-  /*
-  const [battleList, setBattleList] = useState([{
-    Date: "",
-    PrimaryMission: "",
-    MissionRule: "",
-    Attacker: "",
-    AttackerArmy: "",
-    Defender: "",
-    DefenderArmy: "",    
-    Victor: "",
-    VictoryType: "",
-    TurnEnded: 0,
-    AttackerMVP: "",
-    DefenderMVP: "",
-    BattleNotes: "",
-    TotalAttacker: 0,
-    TotalDefender: 0,
-  }]);
-  */
+  const battleCollection = getSnapshot('Battles')
 
-  const battleCollection = getCollection('Battles')
+  /*
+
+  ## TO DO
+  - Setup buttons to go to the Battle details page.
+  - Populate details page with FB data.
+  - Style the "Details" button.
+  - Sort how to have a hardcoded store of values to use in Selects.
+  - Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
+  - Sort out the Doc ID.
+  - 
+
+  ## Future
+  - Look at https://firefoo.app/
+    - Sort how to deal with changed field names.
+      - https://stackoverflow.com/questions/57003980/is-it-possible-to-rename-fields-in-firestore-collection ?
+  - Sort out the col on the right for desktop.
+  - Remove the Submit button - push on change.
+  - Add a "Create Battle" button on home page. Needs to auto start a Doc on click.
+  - Favicon
+  - Auth?
+  - Style based on Victory.
+  - Game dashboard stuff! :D 
+
+  */
 
   return (
     <>
@@ -53,7 +54,7 @@ const BattleList = () => {
               {battleCollection.map((battleItem, index) => (
                 <tr key={index}>
                   <td>{battleItem.Date}</td>
-                  <td>{battleItem.Mission}</td>
+                  <td>{battleItem.Mission}{battleItem.PrimaryMission}</td>
                   <td>
                     <strong>{battleItem.Attacker}</strong>
                     <span>Army: {battleItem.AttackerArmy}</span>
@@ -68,7 +69,6 @@ const BattleList = () => {
                 </tr>
               ))}
             </tbody>
-
           </table>
 
         </section>
