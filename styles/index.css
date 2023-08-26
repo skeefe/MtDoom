@@ -104,11 +104,13 @@
     outline:none;
     border-color:#64748b;
   }
+  /*
   select:invalid,
-  textarea:invalid,
-  input:invalid{
-    /* border-color:#dc2626; */
+    textarea:invalid,
+    input:invalid{
+    border-color:#dc2626;
   }
+  */
 
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
@@ -142,13 +144,7 @@
 
   /* Custom Layout */
   .player{
-    width:50%;
-    float:left;
-    padding:0 0 0 1rem;
-  }
-  .player:nth-child(2){
-    padding:0 1rem 0 0;
-    border-right:1px solid #64748b;
+    margin-bottom:3.5rem;
   }
   .player:before{
     content:"Defender";
@@ -183,6 +179,29 @@
   .secondary > div:nth-child(even){
     margin:0 0 0 .5rem;
     width:100px;
+  }
+
+  /* Hack 😬 */
+  .player.score {
+    width:50%;
+    float:left;
+    padding:0 0 0 1rem;
+  }
+  .player.score:nth-child(2){
+    padding:0 1rem 0 0;
+    border-right:1px solid #64748b;
+  }
+
+  @media only screen and (min-width: 600px) {
+    .player {
+      width:50%;
+      float:left;
+      padding:0 0 0 1rem;
+    }
+    .player:nth-child(2){
+      padding:0 1rem 0 0;
+      border-right:1px solid #64748b;
+    }
   }
 }
 

@@ -15,19 +15,18 @@ const FormBattleReport = () => {
 
   const [report, setReport] = useState({
     Date: getDate(),
-    Mission: "",
+    PrimaryMission: "",
+    MissionRule: "",
     Attacker: "",
     AttackerArmy: "",
     Defender: "",
     DefenderArmy: "",
     FirstTurn: "",
     Size: "3000pt",
-    T1AttackerPrimary: 0,
     T1AttackerSecondary1Title: "",
     T1AttackerSecondary1: 0,
     T1AttackerSecondary2Title: "",
     T1AttackerSecondary2: 0,
-    T1DefenderPrimary: 0,
     T1DefenderSecondary1Title: "",
     T1DefenderSecondary1: 0,
     T1DefenderSecondary2Title: "",
@@ -72,6 +71,8 @@ const FormBattleReport = () => {
     T5DefenderSecondary1: 0,
     T5DefenderSecondary2Title: "",
     T5DefenderSecondary2: 0,
+    AttackerMissionBonus: 0,
+    DefenderMissionBonus: 0,
     Victor: "",
     VictoryType: "",
     TurnEnded: 0,
@@ -85,10 +86,8 @@ const FormBattleReport = () => {
   useEffect(() => {
     calculateTotal();
   }, [
-    report.T1AttackerPrimary,
     report.T1AttackerSecondary1,
     report.T1AttackerSecondary2,
-    report.T1DefenderPrimary,
     report.T1DefenderSecondary1,
     report.T1DefenderSecondary2,
     report.T2AttackerPrimary,
@@ -114,7 +113,9 @@ const FormBattleReport = () => {
     report.T5AttackerSecondary2,
     report.T5DefenderPrimary,
     report.T5DefenderSecondary1,
-    report.T5DefenderSecondary2
+    report.T5DefenderSecondary2,
+    report.AttackerMissionBonus,
+    report.DefenderMissionBonus,
   ]);
 
 
@@ -138,7 +139,6 @@ const FormBattleReport = () => {
   function calculateTotal() {
     //Add all of the relevant fields.
     const TotalAttacker: number = (
-      report.T1AttackerPrimary +
       report.T1AttackerSecondary1 +
       report.T1AttackerSecondary2 +
       report.T2AttackerPrimary +
@@ -152,11 +152,11 @@ const FormBattleReport = () => {
       report.T4AttackerSecondary2 +
       report.T5AttackerPrimary +
       report.T5AttackerSecondary1 +
-      report.T5AttackerSecondary2
+      report.T5AttackerSecondary2+
+      report.AttackerMissionBonus
     );
 
     const TotalDefender: number = (
-      report.T1DefenderPrimary +
       report.T1DefenderSecondary1 +
       report.T1DefenderSecondary2 +
       report.T2DefenderPrimary +
@@ -170,7 +170,8 @@ const FormBattleReport = () => {
       report.T4DefenderSecondary2 +
       report.T5DefenderPrimary +
       report.T5DefenderSecondary1 +
-      report.T5DefenderSecondary2
+      report.T5DefenderSecondary2 +
+      report.DefenderMissionBonus
     );
 
     setReport((prev) => {
@@ -185,20 +186,13 @@ const FormBattleReport = () => {
 
 
 
-
-
-  const firestore = getFirestore(app);
-
-
-  async function handleSubmit(e, res) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     console.log(report);
     console.log(JSON.stringify(report));
 
-    const dataString = JSON.stringify(report);
-
-    const { result, error } = await addData('Battles', '1', report)
+    const { result, error } = await addData('Battles', '2', report)
 
     console.log('result', result);
     console.log('error', error);
@@ -211,10 +205,7 @@ const FormBattleReport = () => {
           <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
             Battle Report
           </h1>
-          <form
-          //action=""
-          //method="POST"
-          >
+          <form>
 
             {/* SETUP */}
             <fieldset>
@@ -240,7 +231,7 @@ const FormBattleReport = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="Size"
+                  htmlFor="size"
                 >
                   Battle Size:
                 </label>
@@ -260,13 +251,13 @@ const FormBattleReport = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="mission"
+                  htmlFor="primaryMission"
                 >
-                  Mission:
+                  Primary Mission:
                 </label>
                 <input
-                  id="mission"
-                  name="Mission"
+                  id="primaryMission"
+                  name="PrimaryMission"
                   placeholder="Enter the mission."
                   type="text"
                   className="border p-2 w-full"
@@ -277,7 +268,24 @@ const FormBattleReport = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="Attacker"
+                  htmlFor="missionRule"
+                >
+                  Mission Rule:
+                </label>
+                <input
+                  id="missionRule"
+                  name="MissionRule"
+                  placeholder="Enter the mission rule."
+                  type="text"
+                  className="border p-2 w-full"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-3">
+                <label
+                  htmlFor="attacker"
                 >
                   Attacker:
                 </label>
@@ -292,12 +300,15 @@ const FormBattleReport = () => {
                   <option>JSmooth</option>
                   <option>Spoonz</option>
                   <option>Sir Sibot</option>
+                  <option>Joshita</option>
+                  <option>Bug-a-Lugs</option>
+                  <option>Sir Sibot</option>
                 </select>
               </div>
 
               <div className="mb-3">
                 <label
-                  htmlFor="AttackerArmy"
+                  htmlFor="attackerArmy"
                 >
                   Attacker Army:
                 </label>
@@ -331,7 +342,7 @@ const FormBattleReport = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="Defender"
+                  htmlFor="defender"
                 >
                   Defender:
                 </label>
@@ -346,12 +357,15 @@ const FormBattleReport = () => {
                   <option>JSmooth</option>
                   <option>Spoonz</option>
                   <option>Sir Sibot</option>
+                  <option>Joshita</option>
+                  <option>Bug-a-Lugs</option>
+                  <option>Sir Sibot</option>
                 </select>
               </div>
 
               <div className="mb-3">
                 <label
-                  htmlFor="DefenderArmy"
+                  htmlFor="defenderArmy"
                 >
                   Defender Army:
                 </label>
@@ -400,6 +414,9 @@ const FormBattleReport = () => {
                   <option>JSmooth</option>
                   <option>Spoonz</option>
                   <option>Sir Sibot</option>
+                  <option>Joshita</option>
+                  <option>Bug-a-Lugs</option>
+                  <option>Sir Sibot</option>
                 </select>
               </div>
             </fieldset>
@@ -408,37 +425,18 @@ const FormBattleReport = () => {
             <fieldset>
               <legend>Turn 1</legend>
               <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="T1AttackerPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="t1AttackerPrimary"
-                    name="T1AttackerPrimary"
-                    placeholder="Primary Points"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
-
+                
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1Title"
+                        htmlFor="t1AttackerSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t1AttackerSecondary1Title"
                         name="T1AttackerSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -450,14 +448,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary1"
+                        htmlFor="t1AttackerSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t1AttackerSecondary1"
                         name="T1AttackerSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -469,14 +467,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2Title"
+                        htmlFor="t1AttackerSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t1AttackerSecondary2Title"
                         name="T1AttackerSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -488,14 +486,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1AttackerSecondary2"
+                        htmlFor="t1AttackerSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t1AttackerSecondary2"
                         name="T1AttackerSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -506,39 +504,19 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              </div>
               <div className="player">
-                <div className="mb-3">
-                  <label
-                    htmlFor="T1DefenderPrimary"
-                  >
-                    Primary Points:
-                  </label>
-                  <input
-                    id="t1DefenderPrimary"
-                    name="T1DefenderPrimary"
-                    placeholder="Primary Points"
-                    type="number"
-                    className="border p-2 w-full"
-                    onChange={event => handleChange(event, true)}
-                    min="0"
-                    max="15"
-                    required
-                  />
-                </div>
-
+                
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1Title"
+                        htmlFor="t1DefenderSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t1DefenderSecondary1Title"
                         name="T1DefenderSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -550,14 +528,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary1"
+                        htmlFor="t1DefenderSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t1DefenderSecondary1"
                         name="T1DefenderSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -569,14 +547,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2Title"
+                        htmlFor="t1DefenderSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t1DefenderSecondary2Title"
                         name="T1DefenderSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -588,14 +566,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T1DefenderSecondary2"
+                        htmlFor="t1DefenderSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t1DefenderSecondary2"
                         name="T1DefenderSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -606,7 +584,6 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              </div>
             </fieldset>
 
             {/* TURN 2 */}
@@ -615,14 +592,14 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T2AttackerPrimary"
+                    htmlFor="t2AttackerPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="t2AttackerPrimary"
                     name="T2AttackerPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -633,17 +610,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T2AttackerSecondary1Title"
+                        htmlFor="t2AttackerSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t2AttackerSecondary1Title"
                         name="T2AttackerSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -655,14 +631,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T2AttackerSecondary1"
+                        htmlFor="t2AttackerSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t2AttackerSecondary1"
                         name="T2AttackerSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -674,14 +650,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T2AttackerSecondary2Title"
+                        htmlFor="t2AttackerSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t2AttackerSecondary2Title"
                         name="T2AttackerSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -693,14 +669,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T2AttackerSecondary2"
+                        htmlFor="t2AttackerSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t2AttackerSecondary2"
                         name="T2AttackerSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -711,18 +687,17 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              </div>
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T2DefenderPrimary"
+                    htmlFor="t2DefenderPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="t2DefenderPrimary"
                     name="T2DefenderPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -733,17 +708,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T2DefenderSecondary1Title"
+                        htmlFor="t2DefenderSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t2DefenderSecondary1Title"
                         name="T2DefenderSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -755,14 +729,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T2DefenderSecondary1"
+                        htmlFor="t2DefenderSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t2DefenderSecondary1"
                         name="T2DefenderSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -774,14 +748,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T2DefenderSecondary2Title"
+                        htmlFor="t2DefenderSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t2DefenderSecondary2Title"
                         name="T2DefenderSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -793,14 +767,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T2DefenderSecondary2"
+                        htmlFor="t2DefenderSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t2DefenderSecondary2"
                         name="T2DefenderSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -811,7 +785,6 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              </div>
             </fieldset>
 
             {/* TURN 3 */}
@@ -820,14 +793,14 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T3AttackerPrimary"
+                    htmlFor="t3AttackerPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="t3AttackerPrimary"
                     name="T3AttackerPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -838,17 +811,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T3AttackerSecondary1Title"
+                        htmlFor="t3AttackerSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t3AttackerSecondary1Title"
                         name="T3AttackerSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -860,14 +832,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T3AttackerSecondary1"
+                        htmlFor="t3AttackerSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t3AttackerSecondary1"
                         name="T3AttackerSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -879,14 +851,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T3AttackerSecondary2Title"
+                        htmlFor="t3AttackerSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t3AttackerSecondary2Title"
                         name="T3AttackerSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -898,14 +870,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T3AttackerSecondary2"
+                        htmlFor="t3AttackerSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t3AttackerSecondary2"
                         name="T3AttackerSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -916,18 +888,17 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              </div>
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T3DefenderPrimary"
+                    htmlFor="t3DefenderPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="primary"
                     name="T3DefenderPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -938,17 +909,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T3DefenderSecondary1Title"
+                        htmlFor="t3DefenderSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t3DefenderSecondary1Title"
                         name="T3DefenderSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -960,14 +930,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T3DefenderSecondary1"
+                        htmlFor="t3DefenderSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t3DefenderSecondary1"
                         name="T3DefenderSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -979,14 +949,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T3DefenderSecondary2Title"
+                        htmlFor="t3DefenderSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t3DefenderSecondary2Title"
                         name="T3DefenderSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -998,14 +968,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T3DefenderSecondary2"
+                        htmlFor="t3DefenderSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t3DefenderSecondary2"
                         name="T3DefenderSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1016,7 +986,6 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              </div>
             </fieldset>
 
             {/* TURN 4 */}
@@ -1025,14 +994,14 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T4AttackerPrimary"
+                    htmlFor="t4AttackerPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="primary"
                     name="T4AttackerPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -1043,17 +1012,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T4AttackerSecondary1Title"
+                        htmlFor="t4AttackerSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t4AttackerSecondary1Title"
                         name="T4AttackerSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1065,14 +1033,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T4AttackerSecondary1"
+                        htmlFor="t4AttackerSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t4AttackerSecondary1"
                         name="T4AttackerSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1084,14 +1052,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T4AttackerSecondary2Title"
+                        htmlFor="t4AttackerSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t4AttackerSecondary2Title"
                         name="T4AttackerSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1103,14 +1071,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T4AttackerSecondary2"
+                        htmlFor="t4AttackerSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t4AttackerSecondary2"
                         name="T4AttackerSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1120,19 +1088,18 @@ const FormBattleReport = () => {
                       />
                     </div>
                   </div>
-                </div>
               </div>
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T4DefenderPrimary"
+                    htmlFor="t4DefenderPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="primary"
                     name="T4DefenderPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -1143,17 +1110,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T4DefenderSecondary1Title"
+                        htmlFor="t4DefenderSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t4DefenderSecondary1Title"
                         name="T4DefenderSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1165,14 +1131,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T4DefenderSecondary1"
+                        htmlFor="t4DefenderSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t4DefenderSecondary1"
                         name="T4DefenderSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1184,14 +1150,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T4DefenderSecondary2Title"
+                        htmlFor="t4DefenderSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t4DefenderSecondary2Title"
                         name="T4DefenderSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1203,14 +1169,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T4DefenderSecondary2"
+                        htmlFor="t4DefenderSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t4DefenderSecondary2"
                         name="T4DefenderSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1221,7 +1187,6 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
-              </div>
             </fieldset>
 
             {/* TURN 5 */}
@@ -1230,14 +1195,14 @@ const FormBattleReport = () => {
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T5AttackerPrimary"
+                    htmlFor="t5AttackerPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="t5AttackerPrimary"
                     name="T5AttackerPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -1248,17 +1213,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T5AttackerSecondary1Title"
+                        htmlFor="t5AttackerSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t5AttackerSecondary1Title"
                         name="T5AttackerSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1270,14 +1234,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T5AttackerSecondary1"
+                        htmlFor="t5AttackerSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t5AttackerSecondary1"
                         name="T5AttackerSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1289,14 +1253,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T5AttackerSecondary2Title"
+                        htmlFor="t5AttackerSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t5AttackerSecondary2Title"
                         name="T5AttackerSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1308,14 +1272,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T5AttackerSecondary2"
+                        htmlFor="t5AttackerSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t5AttackerSecondary2"
                         name="T5AttackerSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1324,20 +1288,19 @@ const FormBattleReport = () => {
                         required
                       />
                     </div>
-                  </div>
                 </div>
               </div>
               <div className="player">
                 <div className="mb-3">
                   <label
-                    htmlFor="T5DefenderPrimary"
+                    htmlFor="t5DefenderPrimary"
                   >
                     Primary Points:
                   </label>
                   <input
                     id="primary"
                     name="T5DefenderPrimary"
-                    placeholder="Primary Points"
+                    placeholder="--"
                     type="number"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event, true)}
@@ -1348,17 +1311,16 @@ const FormBattleReport = () => {
                 </div>
 
                 <div className="secondaries">
-                  <div className="secondary">
                     <div className="mb-3">
                       <label
-                        htmlFor="T5DefenderSecondary1Title"
+                        htmlFor="t5DefenderSecondary1Title"
                       >
                         1 Title:
                       </label>
                       <input
                         id="t5DefenderSecondary1Title"
                         name="T5DefenderSecondary1Title"
-                        placeholder="1 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1370,14 +1332,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T5DefenderSecondary1"
+                        htmlFor="t5DefenderSecondary1"
                       >
                         1 Points:
                       </label>
                       <input
                         id="t5DefenderSecondary1"
                         name="T5DefenderSecondary1"
-                        placeholder="1 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1389,14 +1351,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T5DefenderSecondary2Title"
+                        htmlFor="t5DefenderSecondary2Title"
                       >
                         2 Title:
                       </label>
                       <input
                         id="t5DefenderSecondary2Title"
                         name="T5DefenderSecondary2Title"
-                        placeholder="2 Title"
+                        placeholder="Enter Title"
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
@@ -1408,14 +1370,14 @@ const FormBattleReport = () => {
 
                     <div className="mb-3">
                       <label
-                        htmlFor="T5DefenderSecondary2"
+                        htmlFor="t5DefenderSecondary2"
                       >
                         2 Points:
                       </label>
                       <input
                         id="t5DefenderSecondary2"
                         name="T5DefenderSecondary2"
-                        placeholder="2 Points"
+                        placeholder="--"
                         type="number"
                         className="border p-2 w-full"
                         onChange={event => handleChange(event, true)}
@@ -1426,25 +1388,66 @@ const FormBattleReport = () => {
                     </div>
                   </div>
                 </div>
+            </fieldset>
+            
+            {/* END OF GAME */}
+            <fieldset>
+              <legend>End of Game</legend>
+              <div className="player">
+                <div className="mb-3">
+                  <label
+                    htmlFor="attackerMissionBonus"
+                  >
+                    Mission Bonus:
+                  </label>
+                  <input
+                    id="attackerMissionBonus"
+                    name="AttackerMissionBonus"
+                    placeholder="--"
+                    type="number"
+                    className="border p-2 w-full"
+                    onChange={event => handleChange(event, true)}
+                    min="0"
+                    max="15"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="player">
+                <div className="mb-3">
+                  <label
+                    htmlFor="defenderMissionBonus"
+                  >
+                    Mission Bonus:
+                  </label>
+                  <input
+                    id="defenderMissionBonus"
+                    name="DefenderMissionBonus"
+                    placeholder="--"
+                    type="number"
+                    className="border p-2 w-full"
+                    onChange={event => handleChange(event, true)}
+                    min="0"
+                    max="15"
+                    required
+                  />
+                </div>
               </div>
             </fieldset>
-
-
-
-
+            
             {/* POST GAME */}
             <fieldset>
               <legend>Post Game</legend>
 
               <div className="mb-20">
                 <h2 className="text-center uppercase">Total Scores</h2>
-                <div className="player text-8xl font-bold">{report.TotalAttacker}</div>
-                <div className="player text-8xl font-bold text-right">{report.TotalDefender}</div>
+                <div className="player score text-8xl font-bold">{report.TotalAttacker}</div>
+                <div className="player score text-8xl font-bold text-right">{report.TotalDefender}</div>
               </div>
 
               <div className="mb-3 pt-6">
                 <label
-                  htmlFor="Victor"
+                  htmlFor="victor"
                 >
                   Victor:
                 </label>
@@ -1459,12 +1462,15 @@ const FormBattleReport = () => {
                   <option>JSmooth</option>
                   <option>Spoonz</option>
                   <option>Sir Sibot</option>
+                  <option>Joshita</option>
+                  <option>Bug-a-Lugs</option>                  
+                  <option>DRAW</option>
                 </select>
               </div>
 
               <div className="mb-3">
                 <label
-                  htmlFor="VictoryType"
+                  htmlFor="victoryType"
                 >
                   Victory Type:
                 </label>
@@ -1485,7 +1491,7 @@ const FormBattleReport = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="TurnEnded"
+                  htmlFor="turnEnded"
                 >
                   Turn Ended:
                 </label>
@@ -1507,7 +1513,7 @@ const FormBattleReport = () => {
 
               <div className="mb-3">
                 <label
-                  htmlFor="AttackerMVP"
+                  htmlFor="attackerMVP"
                 >
                   Attacker MVP:
                 </label>
@@ -1523,7 +1529,7 @@ const FormBattleReport = () => {
               </div>
               <div className="mb-3">
                 <label
-                  htmlFor="DefenderMVP"
+                  htmlFor="defenderMVP"
                 >
                   Defender MVP:
                 </label>
@@ -1547,8 +1553,8 @@ const FormBattleReport = () => {
                 </label>
                 <textarea
                   id="notes"
-                  name="BatteNotes"
-                  placeholder="Battle Notes"
+                  name="Notes"
+                  placeholder="Notes"
                   className="border p-2  w-full"
                   onChange={event => handleChange(event)}
                   required
