@@ -1,28 +1,28 @@
 import Container from "../components/container";
 import Layout from "../components/layout";
 import Head from "next/head";
-import BattleList from "../components/battle-list";
+import FormBattleReport from "../components/form-battle-report";
 
 import React from "react";
 
 type Props = {
 };
 
-const Index = ({ }: Props) => {
+const Battle = ({ }: Props) => {
 
   return (
     <>
       <Layout>
         <Head>
-          <title>Mt. Doom</title>
+          <title>Mt. Doom: Battle</title>
         </Head>
         <Container>
-          <BattleList />
+          <FormBattleReport />
         </Container>
       </Layout>
     </>
   );
 };
 
-export default Index;
+export default Battle;
 

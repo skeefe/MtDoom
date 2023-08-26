@@ -65,7 +65,19 @@
   /* Tables */
   th{
     text-align: left;
-    padding:.25rem;
+    padding:1rem .5rem;
+  }
+  thead th{
+    background:#1e293b;
+    color:#e2e8f0;
+  }
+  td{
+    border-bottom:1px solid #1e293b;
+    padding:.5rem;
+    vertical-align: top;
+  }
+  tr:nth-child(odd) td{
+    background:#64748b
   }
 
 
@@ -224,8 +236,20 @@
       border-right:1px solid #64748b;
     }
     .score-bar{
-      /*display:none;*/
+      display:none;
     }
+  }
+
+  .battles-list{
+    width:100%;
+    border-radius:.5rem;
+  }
+  .battles-list th{
+    font-weight: bold;
+  }
+  .battles-list span{
+    display:block;
+    font-size:.75rem;
   }
 
   
