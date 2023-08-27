@@ -1,9 +1,9 @@
 import React from "react";
-import getSnapshot from "../firebase/getSnapshot";
+import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 
 const BattleList = () => {
 
-  const battleCollection = getSnapshot('Battles')
+  const battleCollection = getCollectionSnapshot('Battles')
 
   /*
 
@@ -29,6 +29,11 @@ const BattleList = () => {
   - Game dashboard stuff! :D 
 
   */
+
+  function getDetailsLink(id) {
+    const link:string = `/battle/${id}`;
+    return link;
+  }
 
   return (
     <>
@@ -65,7 +70,7 @@ const BattleList = () => {
                     <span>Army: {battleItem.DefenderArmy}</span>
                     <span>Total: {battleItem.TotalDefender}</span>
                   </td>
-                  <td><a href="#">Details</a></td>
+                  <td><a href={getDetailsLink(battleItem.id)}>Details</a></td>
                 </tr>
               ))}
             </tbody>

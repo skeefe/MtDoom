@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import BattleItemList from "../components/battle-item-list";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import app from "../firebase/config";
 import addData from "../firebase/addData";
-import getDocSnapshot from "../firebase/getDocSnapshot";
+
 
 /* 
 //To Do
@@ -9,10 +11,7 @@ import getDocSnapshot from "../firebase/getDocSnapshot";
 */
 
 
-const FormBattleReport = (battleID) => {
-
-  console.log('here2',battleID.battleID);
-  getDocSnapshot('Battles', battleID.battleID);
+const FormBattleReport = () => {
 
   const [report, setReport] = useState({
     Date: getDate(),

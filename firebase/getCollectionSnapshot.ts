@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import firebase_app from "./config";
 import { getFirestore, collection, onSnapshot, query } from "firebase/firestore";
 
-export default function getShapshot(colllection){
+export default function getCollectionShapshot(colllection){
     const db = getFirestore(firebase_app)
 
     const [fbData, setFBData] = useState([]);
