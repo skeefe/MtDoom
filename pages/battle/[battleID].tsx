@@ -6,12 +6,17 @@ import FormBattleReport from "../../components/form-battle-report";
 
 import React from "react";
 
+//Resolves a known Next.js bug.
+export async function getServerSideProps(context) {
+  return {
+      props: {},
+  };
+}
 
 const BattleID = () => {
   const router = useRouter()
-  const battleID = router.query.id;
-
-  console.log('BattleID: ', battleID);
+  const battleID = router.query.battleID;
+  //console.log('BattleID: ', battleID); //Working
 
   return (
     <>

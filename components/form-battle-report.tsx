@@ -11,9 +11,6 @@ import getDocSnapshot from "../firebase/getDocSnapshot";
 
 const FormBattleReport = (battleID) => {
 
-  console.log('here2',battleID.battleID);
-  getDocSnapshot('Battles', battleID.battleID);
-
   const [report, setReport] = useState({
     Date: getDate(),
     PrimaryMission: "",
@@ -83,6 +80,25 @@ const FormBattleReport = (battleID) => {
     TotalAttacker: 0,
     TotalDefender: 0,
   });
+
+
+  //Update state with promise data.
+  const battleDataPromise = getDocSnapshot('Battles', battleID.battleID);//To Fix
+  battleDataPromise
+  .then((battleData) => {
+      const battleKeys = Object.keys(battleData);
+      battleKeys.forEach((key, index) => {
+          //console.log(`${key}: ${battleData[key]}`);
+
+          setReport((prev) => {
+            return { ...prev, [key]: battleData[key] }
+          })
+      });
+
+  })
+  .catch((err) => console.log(err));
+
+
 
   useEffect(() => {
     calculateTotal();
@@ -190,11 +206,9 @@ const FormBattleReport = (battleID) => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(report);
-    console.log(JSON.stringify(report));
+    console.log(JSON.stringify(report)); //Keeping this to take a copy.
 
-    const { result, error } = await addData('Battles', '2', report)
-
+    const { result, error } = await addData('Battles', '2', report)//Fix the id
     console.log('result', result);
     console.log('error', error);
   }
@@ -242,12 +256,12 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     required
-                    defaultValue="3000pts"
+                    value={report.Size}
                   >
-                    <option>1000pts</option>
-                    <option>1500pts</option>
-                    <option>2000pts</option>
-                    <option>3000pts</option>
+                    <option value="1000pts">1000pts</option>
+                    <option value="1500pts">1500pts</option>
+                    <option value="2000pts">2000pts</option>
+                    <option value="3000pts">3000pts</option>
                   </select>
                 </div>
 
@@ -264,6 +278,7 @@ const FormBattleReport = (battleID) => {
                     type="text"
                     className="border p-2 w-full"
                     onChange={handleChange}
+                    value={report.PrimaryMission}
                     required
                   />
                 </div>
@@ -281,6 +296,7 @@ const FormBattleReport = (battleID) => {
                     type="text"
                     className="border p-2 w-full"
                     onChange={handleChange}
+                    value={report.MissionRule}
                     required
                   />
                 </div>
@@ -296,15 +312,15 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Attacker"
+                    value={report.Attacker}
                     required
                   >
                     <option value="">-- Select the Attacker --</option>
-                    <option>JSmooth</option>
-                    <option>Spoonz</option>
-                    <option>Sir Sibot</option>
-                    <option>Joshita</option>
-                    <option>Bug-a-Lugs</option>
-                    <option>Sir Sibot</option>
+                    <option value="James">JSmooth</option>
+                    <option value="Andy">Spoonz</option>
+                    <option value="Simon">Sir Sibot</option>
+                    <option value="Josh">Joshita</option>
+                    <option value="Luce">Bug-a-Lugs</option>
                   </select>
                 </div>
 
@@ -319,26 +335,27 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Attacker Army"
+                    value={report.AttackerArmy}
                     required
                   >
                     <option value="">-- Select the Attacker Army --</option>
-                    <option>Astra Militarum</option>
-                    <option>Space Wolves</option>
-                    <option>Ultramarines</option>
-                    <option>Craftworld</option>
-                    <option>Filthy Blood Angels</option>
-                    <option>Cold Blooded</option>
-                    <option>Tau</option>
-                    <option>Bastiladons</option>
-                    <option>Rusty Jeckyls</option>
-                    <option>Orks</option>
-                    <option>Necrons</option>
-                    <option>Imperial Knights</option>
-                    <option>Deathwatch</option>
-                    <option>Dark Angels</option>
-                    <option>Custodes</option>
-                    <option>Ad Mech</option>
-                    <option>Bridgeburners</option>
+                    <option value="Astra Militarum">Astra Militarum</option>
+                    <option value="Space Wolves">Space Wolves</option>
+                    <option value="Ultramarines">Ultramarines</option>
+                    <option value="Craftworld">Craftworld</option>
+                    <option value="Blood Angels">Filthy Blood Angels</option>
+                    <option value="Cold Blooded">Coldies</option>
+                    <option value="Tau">Tau</option>
+                    <option value="Bastiladons">Bastiladons</option>
+                    <option value="Rusty Jeckyls">Rusty Jeckyls</option>
+                    <option value="Orks">Orks</option>
+                    <option value="Necrons">Necrons</option>
+                    <option value="Imperial Knights">Imperial Knights</option>
+                    <option value="Deathwatch">Deathwatch</option>
+                    <option value="Dark Angels">Dark Angels</option>
+                    <option value="Custodes">Custodes</option>
+                    <option value="Ad Mech">Ad Mech</option>
+                    <option value="Bridgeburners">Bridgeburners</option>
                   </select>
                 </div>
 
@@ -353,15 +370,15 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Defender"
+                    value={report.Defender}
                     required
                   >
                     <option value="">-- Select the Defender --</option>
-                    <option>JSmooth</option>
-                    <option>Spoonz</option>
-                    <option>Sir Sibot</option>
-                    <option>Joshita</option>
-                    <option>Bug-a-Lugs</option>
-                    <option>Sir Sibot</option>
+                    <option value="James">JSmooth</option>
+                    <option value="Andy">Spoonz</option>
+                    <option value="Simon">Sir Sibot</option>
+                    <option value="Josh">Joshita</option>
+                    <option value="Luce">Bug-a-Lugs</option>
                   </select>
                 </div>
 
@@ -376,26 +393,27 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Defender"
+                    value={report.DefenderArmy}
                     required
                   >
                     <option value="">-- Select the Defender Army --</option>
-                    <option>Astra Militarum</option>
-                    <option>Space Wolves</option>
-                    <option>Ultramarines</option>
-                    <option>Craftworld</option>
-                    <option>Filthy Blood Angels</option>
-                    <option>Cold Blooded</option>
-                    <option>Tau</option>
-                    <option>Bastiladons</option>
-                    <option>Rusty Jeckyls</option>
-                    <option>Orks</option>
-                    <option>Necrons</option>
-                    <option>Imperial Knights</option>
-                    <option>Deathwatch</option>
-                    <option>Dark Angels</option>
-                    <option>Custodes</option>
-                    <option>Ad Mech</option>
-                    <option>Bridgeburners</option>
+                    <option value="Astra Militarum">Astra Militarum</option>
+                    <option value="Space Wolves">Space Wolves</option>
+                    <option value="Ultramarines">Ultramarines</option>
+                    <option value="Craftworld">Craftworld</option>
+                    <option value="Blood Angels">Filthy Blood Angels</option>
+                    <option value="Cold Blooded">Coldies</option>
+                    <option value="Tau">Tau</option>
+                    <option value="Bastiladons">Bastiladons</option>
+                    <option value="Rusty Jeckyls">Rusty Jeckyls</option>
+                    <option value="Orks">Orks</option>
+                    <option value="Necrons">Necrons</option>
+                    <option value="Imperial Knights">Imperial Knights</option>
+                    <option value="Deathwatch">Deathwatch</option>
+                    <option value="Dark Angels">Dark Angels</option>
+                    <option value="Custodes">Custodes</option>
+                    <option value="Ad Mech">Ad Mech</option>
+                    <option value="Bridgeburners">Bridgeburners</option>
                   </select>
                 </div>
 
@@ -410,15 +428,15 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Player"
+                    value={report.FirstTurn}
                     required
                   >
                     <option value="">-- Select the Player --</option>
-                    <option>JSmooth</option>
-                    <option>Spoonz</option>
-                    <option>Sir Sibot</option>
-                    <option>Joshita</option>
-                    <option>Bug-a-Lugs</option>
-                    <option>Sir Sibot</option>
+                    <option value="James">JSmooth</option>
+                    <option value="Andy">Spoonz</option>
+                    <option value="Simon">Sir Sibot</option>
+                    <option value="Josh">Joshita</option>
+                    <option value="Luce">Bug-a-Lugs</option>
                   </select>
                 </div>
               </fieldset>
