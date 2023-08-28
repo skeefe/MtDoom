@@ -76,7 +76,7 @@ const FormBattleReport = (battleID) => {
     TurnEnded: 0,
     AttackerMVP: "",
     DefenderMVP: "",
-    BattleNotes: "",
+    Notes: "",
     TotalAttacker: 0,
     TotalDefender: 0,
   });
@@ -445,7 +445,6 @@ const FormBattleReport = (battleID) => {
               <fieldset>
                 <legend>Turn 1</legend>
                 <div className="player">
-
                   <div className="secondaries">
                     <div className="mb-3">
                       <label
@@ -460,8 +459,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T1AttackerSecondary1Title}
                         required
                       />
                     </div>
@@ -481,6 +479,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T1AttackerSecondary1}
                         required
                       />
                     </div>
@@ -498,8 +497,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T1AttackerSecondary2Title}
                         required
                       />
                     </div>
@@ -519,13 +517,13 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T1AttackerSecondary2}
                         required
                       />
                     </div>
                   </div>
                 </div>
                 <div className="player">
-
                   <div className="secondaries">
                     <div className="mb-3">
                       <label
@@ -540,8 +538,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T1DefenderSecondary1Title}
                         required
                       />
                     </div>
@@ -561,6 +558,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T1DefenderSecondary1}
                         required
                       />
                     </div>
@@ -578,8 +576,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T1DefenderSecondary2Title}
                         required
                       />
                     </div>
@@ -599,6 +596,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T1DefenderSecondary2}
                         required
                       />
                     </div>
@@ -625,6 +623,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T2AttackerPrimary}
                       required
                     />
                   </div>
@@ -643,8 +642,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T2AttackerSecondary1Title}
                         required
                       />
                     </div>
@@ -664,6 +662,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T2AttackerSecondary1}
                         required
                       />
                     </div>
@@ -681,8 +680,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T2AttackerSecondary2Title}
                         required
                       />
                     </div>
@@ -702,6 +700,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T2AttackerSecondary2}
                         required
                       />
                     </div>
@@ -723,6 +722,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T2DefenderPrimary}
                       required
                     />
                   </div>
@@ -741,8 +741,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T2DefenderSecondary1Title}
                         required
                       />
                     </div>
@@ -762,6 +761,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T2DefenderSecondary1}
                         required
                       />
                     </div>
@@ -779,8 +779,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T2DefenderSecondary2Title}
                         required
                       />
                     </div>
@@ -800,6 +799,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T2DefenderSecondary2}
                         required
                       />
                     </div>
@@ -826,6 +826,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T3AttackerPrimary}
                       required
                     />
                   </div>
@@ -844,8 +845,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T3AttackerSecondary1Title}
                         required
                       />
                     </div>
@@ -865,6 +865,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T3AttackerSecondary1}
                         required
                       />
                     </div>
@@ -882,8 +883,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T3AttackerSecondary2Title}
                         required
                       />
                     </div>
@@ -903,6 +903,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T3AttackerSecondary2}
                         required
                       />
                     </div>
@@ -924,6 +925,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T3DefenderPrimary}
                       required
                     />
                   </div>
@@ -942,8 +944,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T3DefenderSecondary1Title}
                         required
                       />
                     </div>
@@ -963,6 +964,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T3DefenderSecondary1}
                         required
                       />
                     </div>
@@ -982,6 +984,7 @@ const FormBattleReport = (battleID) => {
                         onChange={handleChange}
                         min="0"
                         max="15"
+                        value={report.T3DefenderSecondary2Title}
                         required
                       />
                     </div>
@@ -1001,6 +1004,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T3DefenderSecondary2}
                         required
                       />
                     </div>
@@ -1027,6 +1031,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T4AttackerPrimary}
                       required
                     />
                   </div>
@@ -1045,8 +1050,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T4AttackerSecondary1Title}
                         required
                       />
                     </div>
@@ -1066,6 +1070,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T4AttackerSecondary1}
                         required
                       />
                     </div>
@@ -1083,8 +1088,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T4AttackerSecondary2Title}
                         required
                       />
                     </div>
@@ -1104,6 +1108,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T4AttackerSecondary2}
                         required
                       />
                     </div>
@@ -1125,6 +1130,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T4DefenderPrimary}
                       required
                     />
                   </div>
@@ -1143,8 +1149,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T4DefenderSecondary1Title}
                         required
                       />
                     </div>
@@ -1164,6 +1169,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T4DefenderSecondary1}
                         required
                       />
                     </div>
@@ -1181,8 +1187,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T4DefenderSecondary2Title}
                         required
                       />
                     </div>
@@ -1202,6 +1207,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T4DefenderSecondary2}
                         required
                       />
                     </div>
@@ -1228,6 +1234,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T5AttackerPrimary}
                       required
                     />
                   </div>
@@ -1246,8 +1253,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T5AttackerSecondary1Title}
                         required
                       />
                     </div>
@@ -1267,6 +1273,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T5AttackerSecondary1}
                         required
                       />
                     </div>
@@ -1284,8 +1291,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T5AttackerSecondary2Title}
                         required
                       />
                     </div>
@@ -1305,6 +1311,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T5AttackerSecondary2}
                         required
                       />
                     </div>
@@ -1326,6 +1333,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.T5DefenderPrimary}
                       required
                     />
                   </div>
@@ -1344,8 +1352,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T5DefenderSecondary1Title}
                         required
                       />
                     </div>
@@ -1365,6 +1372,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T5DefenderSecondary1}
                         required
                       />
                     </div>
@@ -1382,8 +1390,7 @@ const FormBattleReport = (battleID) => {
                         type="text"
                         className="border p-2 w-full"
                         onChange={handleChange}
-                        min="0"
-                        max="15"
+                        value={report.T5DefenderSecondary2Title}
                         required
                       />
                     </div>
@@ -1403,6 +1410,7 @@ const FormBattleReport = (battleID) => {
                         onChange={event => handleChange(event, true)}
                         min="0"
                         max="15"
+                        value={report.T5DefenderSecondary2}
                         required
                       />
                     </div>
@@ -1429,6 +1437,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.AttackerMissionBonus}
                       required
                     />
                   </div>
@@ -1449,6 +1458,7 @@ const FormBattleReport = (battleID) => {
                       onChange={event => handleChange(event, true)}
                       min="0"
                       max="15"
+                      value={report.DefenderMissionBonus}
                       required
                     />
                   </div>
@@ -1476,15 +1486,15 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Victor"
+                    value={report.Victor}
                     required
                   >
                     <option value="">-- Select the Victor --</option>
-                    <option>JSmooth</option>
-                    <option>Spoonz</option>
-                    <option>Sir Sibot</option>
-                    <option>Joshita</option>
-                    <option>Bug-a-Lugs</option>
-                    <option>DRAW</option>
+                    <option value="James">JSmooth</option>
+                    <option value="Andy">Spoonz</option>
+                    <option value="Simon">Sir Sibot</option>
+                    <option value="Josh">Joshita</option>
+                    <option value="Luce">Bug-a-Lugs</option>
                   </select>
                 </div>
 
@@ -1499,13 +1509,14 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Victory Type"
+                    value={report.VictoryType}
                     required
                   >
                     <option value="">-- Select the Victory Type --</option>
-                    <option>Points Victory</option>
-                    <option>Points Draw</option>
-                    <option>Tabling</option>
-                    <option>Crushing Victory</option>
+                    <option value="Points Victory">Points Victory</option>
+                    <option value="Points Draw">Points Draw</option>
+                    <option value="Tabling">Tabling</option>
+                    <option value="Crushing Victory">Crushing Victory</option>
                   </select>
                 </div>
 
@@ -1520,14 +1531,15 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     placeholder="Select the Turn"
+                    value={report.TurnEnded}
                     required
                   >
                     <option value="">-- Select the Turn --</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                   </select>
                 </div>
 
@@ -1544,6 +1556,7 @@ const FormBattleReport = (battleID) => {
                     type="text"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event)}
+                    value={report.AttackerMVP}
                     required
                   />
                 </div>
@@ -1560,11 +1573,10 @@ const FormBattleReport = (battleID) => {
                     type="text"
                     className="border p-2 w-full"
                     onChange={event => handleChange(event)}
+                    value={report.DefenderMVP}
                     required
                   />
                 </div>
-
-
                 <div className="mb-3">
                   <label
                     htmlFor="notes"
@@ -1577,6 +1589,7 @@ const FormBattleReport = (battleID) => {
                     placeholder="Notes"
                     className="border p-2  w-full"
                     onChange={event => handleChange(event)}
+                    value={report.Notes}
                     required
                   ></textarea>
                 </div>
@@ -1595,8 +1608,10 @@ const FormBattleReport = (battleID) => {
         </section>
 
         <section id="results" className="lg:w-96 lg:flex-none">
+          {/*
           <h2>Results</h2>
           <BattleItemList battleItemList={report} />
+          */}
         </section>
       </div>
 

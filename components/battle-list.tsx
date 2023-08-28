@@ -7,14 +7,13 @@ const BattleList = () => {
 
   /*
 
-  ## TO DO
-  - Setup buttons to go to the Battle details page.
-  - Populate details page with FB data.
+  ## TO DO  
   - Style the "Details" button.
   - Sort how to have a hardcoded store of values to use in Selects.
   - Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
   - Sort out the Doc ID.
-  - 
+  - Loop the turns in a sub component.
+  
 
   ## Future
   - Look at https://firefoo.app/

@@ -73,7 +73,7 @@ export default async function getDocShapshot(collection, docId){
         TurnEnded: 0,
         AttackerMVP: "",
         DefenderMVP: "",
-        BattleNotes: "",
+        Notes: "",
         TotalAttacker: 0,
         TotalDefender: 0,
       });
