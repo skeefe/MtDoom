@@ -8,6 +8,8 @@ import React from "react";
 type Props = {
 };
 
+
+//TO FIX FOR NEW BATTLES
 const Battle = ({ }: Props) => {
 
   return (
@@ -17,7 +19,7 @@ const Battle = ({ }: Props) => {
           <title>Mt. Doom: Battle</title>
         </Head>
         <Container>
-          <FormBattleReport />
+          {/* <FormBattleReport /> */}
         </Container>
       </Layout>
     </>

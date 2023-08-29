@@ -87,7 +87,6 @@ const FormBattleReport = (battleID) => {
   useEffect(() => {        
       const unsubscribe = onSnapshot(doc(db, 'Battles', battleID.battleID), (doc) => { //Fix: battleID.battleID, also maybe use docRef
           setReport((prev) => {
-              //console.log('doc.data(): ', doc.data()); //Working
               return { ...prev, ...doc.data() }
           })
       });
@@ -147,14 +146,14 @@ const FormBattleReport = (battleID) => {
     })
 
     //Update FB
+    //TO DO: Catch total changes!!!
     updateDoc(docRef, {[name]: value})
     .then(docRef => {
-        console.log("A New Document Field has been added to an existing document");
+        console.log("Updated");
     })
     .catch(error => {
         console.log(error);
     })
-    docRef
   }
 
 
