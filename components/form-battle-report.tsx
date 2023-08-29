@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import BattleItemList from "../components/battle-item-list";
 import addData from "../firebase/addData";
 import getDocSnapshot from "../firebase/getDocSnapshot";
+import firebase_app from "./../firebase/config";
+import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
 
 /* 
 //To Do
 - Send data to Firebase on save (potentially on change.)
 */
-
-
 const FormBattleReport = (battleID) => {
 
   const [report, setReport] = useState({
@@ -81,24 +81,19 @@ const FormBattleReport = (battleID) => {
     TotalDefender: 0,
   });
 
+ const db = getFirestore(firebase_app)
+ const docRef = doc(db, "Battles", battleID.battleID);
 
-  //Update state with promise data.
-  const battleDataPromise = getDocSnapshot('Battles', battleID.battleID);//To Fix
-  battleDataPromise
-  .then((battleData) => {
-      const battleKeys = Object.keys(battleData);
-      battleKeys.forEach((key, index) => {
-          //console.log(`${key}: ${battleData[key]}`);
-
+  useEffect(() => {        
+      const unsubscribe = onSnapshot(doc(db, 'Battles', battleID.battleID), (doc) => { //Fix: battleID.battleID, also maybe use docRef
           setReport((prev) => {
-            return { ...prev, [key]: battleData[key] }
+              //console.log('doc.data(): ', doc.data()); //Working
+              return { ...prev, ...doc.data() }
           })
       });
-
-  })
-  .catch((err) => console.log(err));
-
-
+      
+      return () => unsubscribe()
+  },[]);
 
   useEffect(() => {
     calculateTotal();
@@ -135,7 +130,7 @@ const FormBattleReport = (battleID) => {
     report.DefenderMissionBonus,
   ]);
 
-
+  
   function handleChange(e, calculate: boolean = false) {
     const name = e.target.name;
     let value = e.target.value;
@@ -150,6 +145,16 @@ const FormBattleReport = (battleID) => {
     setReport((prev) => {
       return { ...prev, [name]: value }
     })
+
+    //Update FB
+    updateDoc(docRef, {[name]: value})
+    .then(docRef => {
+        console.log("A New Document Field has been added to an existing document");
+    })
+    .catch(error => {
+        console.log(error);
+    })
+    docRef
   }
 
 
@@ -195,6 +200,7 @@ const FormBattleReport = (battleID) => {
       return { ...prev, ['TotalAttacker']: TotalAttacker, ['TotalDefender']: TotalDefender }
     },)
   }
+
 
   function getDate() {
     const date = new Date();
