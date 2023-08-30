@@ -11,6 +11,8 @@ import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
 */
 const FormBattleReport = (battleID) => {
 
+  const docId:string = battleID.battleID;
+
   const [report, setReport] = useState({
     Date: getDate(),
     PrimaryMission: "",
@@ -82,10 +84,10 @@ const FormBattleReport = (battleID) => {
   });
 
  const db = getFirestore(firebase_app)
- const docRef = doc(db, "Battles", battleID.battleID);
+ const docRef = doc(db, "Battles", docId);
 
   useEffect(() => {        
-      const unsubscribe = onSnapshot(doc(db, 'Battles', battleID.battleID), (doc) => { //Fix: battleID.battleID, also maybe use docRef
+      const unsubscribe = onSnapshot(doc(db, 'Battles', docId), (doc) => {
           setReport((prev) => {
               return { ...prev, ...doc.data() }
           })
@@ -207,7 +209,7 @@ const FormBattleReport = (battleID) => {
   }
 
 
-
+  /*
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -217,6 +219,7 @@ const FormBattleReport = (battleID) => {
     console.log('result', result);
     console.log('error', error);
   }
+  */
 
   return (
     <>
@@ -1601,6 +1604,7 @@ const FormBattleReport = (battleID) => {
 
               </fieldset>
 
+              {/*
               <button
                 className="mx-auto text-2xl"
                 type="submit"
@@ -1608,6 +1612,7 @@ const FormBattleReport = (battleID) => {
               >
                 Save Report
               </button>
+            */}
             </form>
           </div>
         </section>
