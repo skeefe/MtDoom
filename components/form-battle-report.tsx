@@ -208,19 +208,6 @@ const FormBattleReport = (battleID) => {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
 
-
-  /*
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    console.log(JSON.stringify(report)); //Keeping this to take a copy.
-
-    const { result, error } = await addData('Battles', '2', report)//Fix the id
-    console.log('result', result);
-    console.log('error', error);
-  }
-  */
-
   return (
     <>
       <div className="lg:flex gap-x-12">
@@ -1604,15 +1591,6 @@ const FormBattleReport = (battleID) => {
 
               </fieldset>
 
-              {/*
-              <button
-                className="mx-auto text-2xl"
-                type="submit"
-                onClick={event => handleSubmit(event)}
-              >
-                Save Report
-              </button>
-            */}
             </form>
           </div>
         </section>
