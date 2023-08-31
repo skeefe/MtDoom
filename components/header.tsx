@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import Container from "./container";
 
 const Header = () => {
-  const [isChecked, setIsChecked] = useState(false);
-
   return (
     <header className="bg-slate-800 py-1 fixed w-full z-10 top-0">
       <Container>

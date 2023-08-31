@@ -15,10 +15,6 @@ const Index = ({ }: Props) => {
   const router = useRouter();
 
   async function handleAddBattle() {
-    //Generate a random Battle ID.
-    //Create the FB doc.
-    //Navigate the user to: battle/battleID with the correct ID.
-    
     const db = getFirestore(firebase_app)
     const docRef = await addDoc(collection(db, "Battles"), {});
     router.push(`/battle/${docRef.id}`)
@@ -37,7 +33,7 @@ const Index = ({ }: Props) => {
             type="submit"
             onClick={event => handleAddBattle()}
           >
-            Start Battle
+            Create Battle
           </button>
         </Container>
       </Layout>

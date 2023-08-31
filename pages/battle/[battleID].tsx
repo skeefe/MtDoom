@@ -16,7 +16,6 @@ export async function getServerSideProps(context) {
 const BattleID = () => {
   const router = useRouter()
   const battleID = router.query.battleID;
-  //console.log('BattleID: ', battleID); //Working
 
   return (
     <>

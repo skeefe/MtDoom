@@ -6,19 +6,19 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       {/* Google tag (gtag.js) */}
-      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=UA-101599729-1"/>
+      <Script strategy="afterInteractive" async src="https://www.googletagmanager.com/gtag/js?id=G-T6MY0YKMNK"/>
       <Script
-          id='google-analytics'
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'UA-101599729-1');
-            `,
-            }}
-        />
+        id='google-analytics'
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-T6MY0YKMNK');
+          `,
+          }}
+      />
       <Component {...pageProps} />
     </>)
 }
