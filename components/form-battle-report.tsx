@@ -5,10 +5,6 @@ import getDocSnapshot from "../firebase/getDocSnapshot";
 import firebase_app from "./../firebase/config";
 import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
 
-/* 
-//To Do
-- Send data to Firebase on save (potentially on change.)
-*/
 const FormBattleReport = (battleID) => {
 
   const docId:string = battleID.battleID;
@@ -24,55 +20,55 @@ const FormBattleReport = (battleID) => {
     FirstTurn: "",
     Size: "3000pt",
     T1AttackerSecondary1Title: "",
-    T1AttackerSecondary1: 0,
+    T1AttackerSecondary1: "",
     T1AttackerSecondary2Title: "",
-    T1AttackerSecondary2: 0,
+    T1AttackerSecondary2: "",
     T1DefenderSecondary1Title: "",
-    T1DefenderSecondary1: 0,
+    T1DefenderSecondary1: "",
     T1DefenderSecondary2Title: "",
-    T1DefenderSecondary2: 0,
-    T2AttackerPrimary: 0,
+    T1DefenderSecondary2: "",
+    T2AttackerPrimary: "",
     T2AttackerSecondary1Title: "",
-    T2AttackerSecondary1: 0,
+    T2AttackerSecondary1: "",
     T2AttackerSecondary2Title: "",
-    T2AttackerSecondary2: 0,
-    T2DefenderPrimary: 0,
+    T2AttackerSecondary2: "",
+    T2DefenderPrimary: "",
     T2DefenderSecondary1Title: "",
-    T2DefenderSecondary1: 0,
+    T2DefenderSecondary1: "",
     T2DefenderSecondary2Title: "",
-    T2DefenderSecondary2: 0,
-    T3AttackerPrimary: 0,
+    T2DefenderSecondary2: "",
+    T3AttackerPrimary: "",
     T3AttackerSecondary1Title: "",
-    T3AttackerSecondary1: 0,
+    T3AttackerSecondary1: "",
     T3AttackerSecondary2Title: "",
-    T3AttackerSecondary2: 0,
-    T3DefenderPrimary: 0,
+    T3AttackerSecondary2: "",
+    T3DefenderPrimary: "",
     T3DefenderSecondary1Title: "",
-    T3DefenderSecondary1: 0,
+    T3DefenderSecondary1: "",
     T3DefenderSecondary2Title: "",
-    T3DefenderSecondary2: 0,
-    T4AttackerPrimary: 0,
+    T3DefenderSecondary2: "",
+    T4AttackerPrimary: "",
     T4AttackerSecondary1Title: "",
-    T4AttackerSecondary1: 0,
+    T4AttackerSecondary1: "",
     T4AttackerSecondary2Title: "",
-    T4AttackerSecondary2: 0,
-    T4DefenderPrimary: 0,
+    T4AttackerSecondary2: "",
+    T4DefenderPrimary: "",
     T4DefenderSecondary1Title: "",
-    T4DefenderSecondary1: 0,
+    T4DefenderSecondary1: "",
     T4DefenderSecondary2Title: "",
-    T4DefenderSecondary2: 0,
-    T5AttackerPrimary: 0,
+    T4DefenderSecondary2: "",
+    T5AttackerPrimary: "",
     T5AttackerSecondary1Title: "",
-    T5AttackerSecondary1: 0,
+    T5AttackerSecondary1: "",
     T5AttackerSecondary2Title: "",
-    T5AttackerSecondary2: 0,
-    T5DefenderPrimary: 0,
+    T5AttackerSecondary2: "",
+    T5DefenderPrimary: "",
     T5DefenderSecondary1Title: "",
-    T5DefenderSecondary1: 0,
+    T5DefenderSecondary1: "",
     T5DefenderSecondary2Title: "",
-    T5DefenderSecondary2: 0,
-    AttackerMissionBonus: 0,
-    DefenderMissionBonus: 0,
+    T5DefenderSecondary2: "",
+    AttackerMissionBonus: "",
+    DefenderMissionBonus: "",
     Victor: "",
     VictoryType: "",
     TurnEnded: 0,
@@ -134,21 +130,9 @@ const FormBattleReport = (battleID) => {
   
   function handleChange(e, calculate: boolean = false) {
     const name = e.target.name;
-    let value = e.target.value;
-
-    if (calculate) {
-      value = parseFloat(e.target.value);
-      if (isNaN(value)) {
-        value = 0;
-      }
-    }
-
-    setReport((prev) => {
-      return { ...prev, [name]: value }
-    })
+    let value: number = e.target.value;
 
     //Update FB
-    //TO DO: Catch total changes!!!
     updateDoc(docRef, {[name]: value})
     .then(docRef => {
         console.log("Updated");
@@ -156,50 +140,72 @@ const FormBattleReport = (battleID) => {
     .catch(error => {
         console.log(error);
     })
+
+    if (calculate) {
+      value = parseFloat(e.target.value);
+
+      if (isNaN(value)) {
+        value = 0;
+      }      
+    }
+    setReport((prev) => {
+      return { ...prev, [name]: value }
+    })
   }
 
-
   function calculateTotal() {
-    //Add all of the relevant fields.
     const TotalAttacker: number = (
-      report.T1AttackerSecondary1 +
-      report.T1AttackerSecondary2 +
-      report.T2AttackerPrimary +
-      report.T2AttackerSecondary1 +
-      report.T2AttackerSecondary2 +
-      report.T3AttackerPrimary +
-      report.T3AttackerSecondary1 +
-      report.T3AttackerSecondary2 +
-      report.T4AttackerPrimary +
-      report.T4AttackerSecondary1 +
-      report.T4AttackerSecondary2 +
-      report.T5AttackerPrimary +
-      report.T5AttackerSecondary1 +
-      report.T5AttackerSecondary2 +
-      report.AttackerMissionBonus
+      getNumber(report.T1AttackerSecondary1)+
+      getNumber(report.T1AttackerSecondary2) +
+      getNumber(report.T2AttackerPrimary) +
+      getNumber(report.T2AttackerSecondary1) +
+      getNumber(report.T2AttackerSecondary2) +
+      getNumber(report.T3AttackerPrimary) +
+      getNumber(report.T3AttackerSecondary1) +
+      getNumber(report.T3AttackerSecondary2) +
+      getNumber(report.T4AttackerPrimary) +
+      getNumber(report.T4AttackerSecondary1) +
+      getNumber(report.T4AttackerSecondary2) +
+      getNumber(report.T5AttackerPrimary) +
+      getNumber(report.T5AttackerSecondary1) +
+      getNumber(report.T5AttackerSecondary2) +
+      getNumber(report.AttackerMissionBonus)
     );
 
     const TotalDefender: number = (
-      report.T1DefenderSecondary1 +
-      report.T1DefenderSecondary2 +
-      report.T2DefenderPrimary +
-      report.T2DefenderSecondary1 +
-      report.T2DefenderSecondary2 +
-      report.T3DefenderPrimary +
-      report.T3DefenderSecondary1 +
-      report.T3DefenderSecondary2 +
-      report.T4DefenderPrimary +
-      report.T4DefenderSecondary1 +
-      report.T4DefenderSecondary2 +
-      report.T5DefenderPrimary +
-      report.T5DefenderSecondary1 +
-      report.T5DefenderSecondary2 +
-      report.DefenderMissionBonus
+      getNumber(report.T1DefenderSecondary1) +
+      getNumber(report.T1DefenderSecondary2) +
+      getNumber(report.T2DefenderPrimary) +
+      getNumber(report.T2DefenderSecondary1) +
+      getNumber(report.T2DefenderSecondary2) +
+      getNumber(report.T3DefenderPrimary) +
+      getNumber(report.T3DefenderSecondary1) +
+      getNumber(report.T3DefenderSecondary2) +
+      getNumber(report.T4DefenderPrimary) +
+      getNumber(report.T4DefenderSecondary1) +
+      getNumber(report.T4DefenderSecondary2) +
+      getNumber(report.T5DefenderPrimary) +
+      getNumber(report.T5DefenderSecondary1) +
+      getNumber(report.T5DefenderSecondary2) +
+      getNumber(report.DefenderMissionBonus)
     );
 
     setReport((prev) => {
+      updateDoc(docRef, {TotalAttacker: TotalAttacker, TotalDefender: TotalDefender})
+      .catch(error => {
+          console.log(error);
+      })
+
       return { ...prev, ['TotalAttacker']: TotalAttacker, ['TotalDefender']: TotalDefender }
     },)
+  }
+
+  function getNumber(value){
+    let val = parseFloat(value);
+    if(isNaN(val)){
+      val = 0;
+    }
+    return val;
   }
 
 
