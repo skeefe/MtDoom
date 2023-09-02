@@ -1419,8 +1419,17 @@ const FormBattleReport = (battleID) => {
         </section>
 
         <section id="results" className="lg:w-96 lg:flex-none">
-          Section on the right. 👍
+            <div className="score-panel text-center fixed lg:w-96">
+              <span></span>
+              <div className="player score text-2xl font-bold">
+                {report.TotalAttacker}
+              </div>
+              <div className="player score text-2xl font-bold">
+                {report.TotalDefender}
+              </div>
+            </div>
         </section>
+
       </div>
 
       <div className="score-bar text-center">
