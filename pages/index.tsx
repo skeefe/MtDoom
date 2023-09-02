@@ -4,20 +4,19 @@ import Head from "next/head";
 import BattleList from "../components/battle-list";
 import firebase_app from "./../firebase/config";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 import React from "react";
 
-type Props = {
-};
+type Props = {};
 
-const Index = ({ }: Props) => {
+const Index = ({}: Props) => {
   const router = useRouter();
 
   async function handleAddBattle() {
-    const db = getFirestore(firebase_app)
+    const db = getFirestore(firebase_app);
     const docRef = await addDoc(collection(db, "Battles"), {});
-    router.push(`/battle/${docRef.id}`)
+    router.push(`/battle/${docRef.id}`);
   }
 
   return (
@@ -31,7 +30,7 @@ const Index = ({ }: Props) => {
           <button
             className="mx-auto mt-8 text-2xl"
             type="submit"
-            onClick={event => handleAddBattle()}
+            onClick={(event) => handleAddBattle()}
           >
             Create Battle
           </button>
@@ -42,4 +41,3 @@ const Index = ({ }: Props) => {
 };
 
 export default Index;
-

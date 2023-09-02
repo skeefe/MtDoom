@@ -7,7 +7,7 @@ const firebaseConfig = {
   storageBucket: "mt-doom-40k.appspot.com",
   messagingSenderId: "685003268245",
   appId: "1:685003268245:web:ea58fce7f6bb5b8b5abb9c",
-  measurementId: "G-DJ2JKM3WR6"
+  measurementId: "G-DJ2JKM3WR6",
 };
 
 const firebase_app = initializeApp(firebaseConfig);

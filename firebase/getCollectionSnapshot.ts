@@ -1,29 +1,34 @@
 import { useState, useEffect } from "react";
 import firebase_app from "./config";
-import { getFirestore, collection, onSnapshot, query } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
 
-export default function getCollectionShapshot(fbCollection){
-    const db = getFirestore(firebase_app)
+export default function getCollectionShapshot(fbCollection) {
+  const db = getFirestore(firebase_app);
 
-    const [fbData, setFBData] = useState([]);
+  const [fbData, setFBData] = useState([]);
 
-    useEffect(() => {
-        const collectionRef = collection(db, fbCollection);
-        const q = query(collectionRef);//, orderBy('createdAt','desc'));
+  useEffect(() => {
+    const collectionRef = collection(db, fbCollection);
+    const q = query(collectionRef); //, orderBy('createdAt','desc'));
 
-        const unsubscribe = onSnapshot(q, querySnapshot =>{
-            setFBData(
-                querySnapshot.docs.map((doc) => {
-                    return {
-                        ...doc.data(),
-                        id: doc.id
-                    }
-                })
-            );
-        });
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setFBData(
+        querySnapshot.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            id: doc.id,
+          };
+        })
+      );
+    });
 
-        return unsubscribe;
-    },[])
+    return unsubscribe;
+  }, []);
 
-    return(fbData);   
+  return fbData;
 }

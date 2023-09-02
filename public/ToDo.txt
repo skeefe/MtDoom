@@ -1,14 +1,13 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
-
-## LATER
+## Next
 - General tidy up.
-    - Install prettier
     - Break out to smaller components.
+- Loader
 - Improve/Simplify CSS. SASS?
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Sort out the col on the right for desktop.
-    Scores, name, army name
+    - Scores, name, army name
 - Add limits to primary and secondary totals.
 - Sort how to have a hardcoded store of values to use in Selects.
     - Names with Nicknames.
@@ -28,4 +27,5 @@
 - Add/invite friends.
 - Style based on Victory.
 - Game dashboard stuff! :D 
+- User dashboard stuff.
 - Battle Setup modal

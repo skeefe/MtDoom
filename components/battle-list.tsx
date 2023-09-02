@@ -1,12 +1,12 @@
 import React from "react";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 const BattleList = () => {
   const router = useRouter();
-  const battleCollection = getCollectionSnapshot('Battles')
+  const battleCollection = getCollectionSnapshot("Battles");
 
-  function handleRowClick(id){
+  function handleRowClick(id) {
     router.push(`/battle/${id}`);
   }
 
@@ -14,7 +14,6 @@ const BattleList = () => {
     <>
       <div className="lg:flex gap-x-12">
         <section id="battleList" className="lg:flex-1">
-
           <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
             Battle List
           </h1>
@@ -31,9 +30,16 @@ const BattleList = () => {
 
             <tbody>
               {battleCollection.map((battleItem, index) => (
-                <tr key={index} onClick={()=> handleRowClick(battleItem.id)} className="cursor-pointer">
+                <tr
+                  key={index}
+                  onClick={() => handleRowClick(battleItem.id)}
+                  className="cursor-pointer"
+                >
                   <td>{battleItem.Date}</td>
-                  <td>{battleItem.Mission}{battleItem.PrimaryMission}</td>
+                  <td>
+                    {battleItem.Mission}
+                    {battleItem.PrimaryMission}
+                  </td>
                   <td>
                     <strong>{battleItem.Attacker}</strong>
                     <span>Army: {battleItem.AttackerArmy}</span>
@@ -48,12 +54,9 @@ const BattleList = () => {
               ))}
             </tbody>
           </table>
-
         </section>
-
       </div>
     </>
-
   );
 };
 

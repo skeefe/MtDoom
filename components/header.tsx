@@ -7,7 +7,7 @@ const Header = () => {
       <Container>
         <a href="/" className="no-underline">
           <h2 className="text-xl m-0 float-left font-bold font-logo text-slate-500">
-            Mt. Doom  &#x1F30B;
+            Mt. Doom &#x1F30B;
           </h2>
         </a>
       </Container>
