@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import BattleItemList from "../components/battle-item-list";
+//import BattleItemList from "../components/battle-item-list";
 import addData from "../firebase/addData";
 import getDocSnapshot from "../firebase/getDocSnapshot";
 
@@ -12,7 +12,7 @@ import getDocSnapshot from "../firebase/getDocSnapshot";
 const FormBattleReport = (battleID) => {
 
   const [report, setReport] = useState({
-    Date: getDate(),
+    Date: Date.now(),//getDate(),
     PrimaryMission: "",
     MissionRule: "",
     Attacker: "",
@@ -1596,13 +1596,6 @@ const FormBattleReport = (battleID) => {
 
               </fieldset>
 
-              <button
-                className="mx-auto text-2xl"
-                type="submit"
-                onClick={event => handleSubmit(event)}
-              >
-                Save Report
-              </button>
             </form>
           </div>
         </section>

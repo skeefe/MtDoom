@@ -1563,14 +1563,6 @@ const FormBattleReport = () => {
                 </div>
 
               </fieldset>
-
-              <button
-                className="mx-auto text-2xl"
-                type="submit"
-                onClick={event => handleSubmit(event)}
-              >
-                Save Report
-              </button>
             </form>
           </div>
         </section>

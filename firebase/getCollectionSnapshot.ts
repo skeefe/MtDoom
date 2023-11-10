@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import firebase_app from "./config";
-import { getFirestore, collection, onSnapshot, query } from "firebase/firestore";
+import { getFirestore, collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 export default function getCollectionShapshot(colllection){
     const db = getFirestore(firebase_app)
@@ -9,7 +9,7 @@ export default function getCollectionShapshot(colllection){
 
     useEffect(() => {
         const collectionRef = collection(db, colllection);
-        const q = query(collectionRef);//, orderBy('createdAt','desc'));
+        const q = query(collectionRef, orderBy("Date", "desc"));
 
     const unsubscribe = onSnapshot(q, querySnapshot =>{
         console.log('querySnapshot unsubscribe');

@@ -2,7 +2,8 @@ import BattleItem from "./battle-item";
 
 type Props = {
   battleItemList: {
-    Date: string,
+    //Date: string,
+    Date: Date,
     PrimaryMission: string,
     MissionRule: string,
     Attacker: string,

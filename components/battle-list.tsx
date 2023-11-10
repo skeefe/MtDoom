@@ -11,20 +11,13 @@ const BattleList = () => {
   - Style the "Details" button.
   - Sort how to have a hardcoded store of values to use in Selects.
   - Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
-  - Sort out the Doc ID.
   - Loop the turns in a sub component.
   
 
   ## Future
-  - Look at https://firefoo.app/
-    - Sort how to deal with changed field names.
-      - https://stackoverflow.com/questions/57003980/is-it-possible-to-rename-fields-in-firestore-collection ?
   - Sort out the col on the right for desktop.
-  - Remove the Submit button - push on change.
   - Add a "Create Battle" button on home page. Needs to auto start a Doc on click.
   - Favicon
-  - Auth?
-  - Style based on Victory.
   - Game dashboard stuff! :D 
 
   */
@@ -32,6 +25,12 @@ const BattleList = () => {
   function getDetailsLink(id) {
     const link:string = `/battle/${id}`;
     return link;
+  }
+
+  function formatDate(timeStamp) {
+    const date:Date = new Date(timeStamp*1000);
+    const formattedDate:string = `${date.toLocaleDateString()}`;
+    return formattedDate;
   }
 
   return (
@@ -56,17 +55,18 @@ const BattleList = () => {
 
             <tbody>
               {battleCollection.map((battleItem, index) => (
+                
                 <tr key={index}>
-                  <td>{battleItem.Date}</td>
+                  <td>{formatDate(battleItem.Date.seconds)}</td>
                   <td>{battleItem.Mission}{battleItem.PrimaryMission}</td>
                   <td>
-                    <strong>{battleItem.Attacker}</strong>
-                    <span>Army: {battleItem.AttackerArmy}</span>
+                    <strong>{battleItem.AttackerArmy}{battleItem.Victor === battleItem.Attacker ? " 🎖" : null}</strong>
+                    <span>General: {battleItem.Attacker}</span>
                     <span>Total: {battleItem.TotalAttacker}</span>
                   </td>
                   <td>
-                    <strong>{battleItem.Defender}</strong>
-                    <span>Army: {battleItem.DefenderArmy}</span>
+                    <strong>{battleItem.DefenderArmy}{battleItem.Victor === battleItem.Defender ? " 🎖" : null}</strong>
+                    <span>General: {battleItem.Defender}</span>
                     <span>Total: {battleItem.TotalDefender}</span>
                   </td>
                   <td><a href={getDetailsLink(battleItem.id)}>Details</a></td>
