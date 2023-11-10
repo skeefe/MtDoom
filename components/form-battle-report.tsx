@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
+import { getFirestore, updateDoc, onSnapshot, doc, getDoc } from "firebase/firestore";
 import firebase_app from "./../firebase/config";
+import { formatDate } from "../utils/date-format";
 
 const FormBattleReport = (battleID) => {
+  const db = getFirestore(firebase_app);  
   const docId: string = battleID.battleID;
+  const docRef = doc(db, "Battles", docId);
+  
+  const data = docRef.firestore.toJSON();
 
   const [report, setReport] = useState({
-    Date: Date.now(),
+    Date: {seconds:null},//Populated on doc creation.
     PrimaryMission: "",
     MissionRule: "",
     Attacker: "",
@@ -75,16 +80,12 @@ const FormBattleReport = (battleID) => {
     TotalDefender: 0,
   });
 
-  const db = getFirestore(firebase_app);
-  const docRef = doc(db, "Battles", docId);
-
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "Battles", docId), (doc) => {
       setReport((prev) => {
         return { ...prev, ...doc.data() };
       });
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -207,12 +208,6 @@ const FormBattleReport = (battleID) => {
     return val;
   }
 
-  function getDate() {
-    const date = new Date();
-    return (
-      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
-    );
-  }
 
   /*
   //On Change highlight.
@@ -239,12 +234,12 @@ const FormBattleReport = (battleID) => {
     }, 1000);
   }
   */
-
   return (
     <>
       <div className="lg:flex gap-x-12">
         <section id="calculator" className="lg:flex-1">
-          <div className="content">
+          <div className="content relative">
+            <time className="hidden sm:inline sm:absolute sm:right-0 sm:pr-8">{formatDate(report.Date.seconds)}</time>
             <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
               Battle Report
             </h1>
@@ -252,20 +247,6 @@ const FormBattleReport = (battleID) => {
               {/* SETUP */}
               <fieldset>
                 <legend>Setup</legend>
-
-                <div className="mb-3">
-                  <label htmlFor="date">Date:</label>
-                  <input
-                    id="date"
-                    name="Date"
-                    placeholder="Enter the date."
-                    type="text"
-                    value={report.Date}
-                    className="border p-2 w-full"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
 
                 <div className="mb-3">
                   <label htmlFor="size">Battle Size:</label>
