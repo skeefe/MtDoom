@@ -14,6 +14,7 @@ const FormBattleReport = (battleID) => {
     Date: {seconds:null},//Populated on doc creation.
     PrimaryMission: "",
     MissionRule: "",
+    Deployment: "",
     Attacker: "",
     AttackerArmy: "",
     Defender: "",
@@ -290,6 +291,20 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     value={report.MissionRule}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="missionRule">Deployment:</label>
+                  <input
+                    id="deployment"
+                    name="Deployment"
+                    placeholder="Enter the deployment type."
+                    type="text"
+                    className="border p-2 w-full"
+                    onChange={handleChange}
+                    value={report.Deployment}
                     required
                   />
                 </div>

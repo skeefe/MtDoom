@@ -38,8 +38,9 @@ const BattleList = () => {
                 >
                   <td>{formatDate(battleItem.Date.seconds)}</td>
                   <td>
-                    {battleItem.Mission}
-                    {battleItem.PrimaryMission}
+                    <strong>{battleItem.PrimaryMission}</strong>
+                    <span>Mission Rule: {battleItem.MissionRule}</span>
+                    <span>Deployment: {battleItem.Deployment}</span>
                   </td>
                   <td>
                     <strong>{battleItem.AttackerArmy}{battleItem.Victor === battleItem.Attacker ? " 🎖" : null}</strong>
