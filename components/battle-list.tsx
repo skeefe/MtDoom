@@ -41,7 +41,7 @@ const BattleList = () => {
                   onClick={() => handleRowClick(battleItem.id)}
                   className="cursor-pointer"
                 >
-                  <td>{battleItem.Date}</td>
+                  <td>{formatDate(battleItem.Date.seconds)}</td>
                   <td>
                     {battleItem.Mission}
                     {battleItem.PrimaryMission}
