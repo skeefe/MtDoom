@@ -1,0 +1,31 @@
+######### START USING IT AND GET FEEDBACK! #########
+
+## Next
+- General tidy up.
+    - Break out to smaller components.
+- Loader
+- Improve/Simplify CSS. SASS?
+- Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
+- Sort out the col on the right for desktop.
+    - Scores, name, army name
+- Add limits to primary and secondary totals.
+- Sort how to have a hardcoded store of values to use in Selects.
+    - Names with Nicknames.
+- Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
+- Loop the turns in a sub component.
+- Add Delete button to the Battles table.
+    - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
+    - Delete button needs to be clickable in a row with onClick
+- Handle Fixed Secondaries...
+- Handle Gambits
+
+
+## Horizon?
+- Auth
+    - Avatars
+- Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
+- Add/invite friends.
+- Style based on Victory.
+- Game dashboard stuff! :D 
+- User dashboard stuff.
+- Battle Setup modal

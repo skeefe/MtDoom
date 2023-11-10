@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+<<<<<<< HEAD
 //import BattleItemList from "../components/battle-item-list";
 import addData from "../firebase/addData";
 import getDocSnapshot from "../firebase/getDocSnapshot";
@@ -8,8 +9,13 @@ import getDocSnapshot from "../firebase/getDocSnapshot";
 - Send data to Firebase on save (potentially on change.)
 */
 
+=======
+import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
+import firebase_app from "./../firebase/config";
+>>>>>>> 02af7ab398ef14e64b9e2910b00289926e7281f0
 
 const FormBattleReport = (battleID) => {
+  const docId: string = battleID.battleID;
 
   const [report, setReport] = useState({
     Date: Date.now(),//getDate(),
@@ -22,55 +28,55 @@ const FormBattleReport = (battleID) => {
     FirstTurn: "",
     Size: "3000pt",
     T1AttackerSecondary1Title: "",
-    T1AttackerSecondary1: 0,
+    T1AttackerSecondary1: "",
     T1AttackerSecondary2Title: "",
-    T1AttackerSecondary2: 0,
+    T1AttackerSecondary2: "",
     T1DefenderSecondary1Title: "",
-    T1DefenderSecondary1: 0,
+    T1DefenderSecondary1: "",
     T1DefenderSecondary2Title: "",
-    T1DefenderSecondary2: 0,
-    T2AttackerPrimary: 0,
+    T1DefenderSecondary2: "",
+    T2AttackerPrimary: "",
     T2AttackerSecondary1Title: "",
-    T2AttackerSecondary1: 0,
+    T2AttackerSecondary1: "",
     T2AttackerSecondary2Title: "",
-    T2AttackerSecondary2: 0,
-    T2DefenderPrimary: 0,
+    T2AttackerSecondary2: "",
+    T2DefenderPrimary: "",
     T2DefenderSecondary1Title: "",
-    T2DefenderSecondary1: 0,
+    T2DefenderSecondary1: "",
     T2DefenderSecondary2Title: "",
-    T2DefenderSecondary2: 0,
-    T3AttackerPrimary: 0,
+    T2DefenderSecondary2: "",
+    T3AttackerPrimary: "",
     T3AttackerSecondary1Title: "",
-    T3AttackerSecondary1: 0,
+    T3AttackerSecondary1: "",
     T3AttackerSecondary2Title: "",
-    T3AttackerSecondary2: 0,
-    T3DefenderPrimary: 0,
+    T3AttackerSecondary2: "",
+    T3DefenderPrimary: "",
     T3DefenderSecondary1Title: "",
-    T3DefenderSecondary1: 0,
+    T3DefenderSecondary1: "",
     T3DefenderSecondary2Title: "",
-    T3DefenderSecondary2: 0,
-    T4AttackerPrimary: 0,
+    T3DefenderSecondary2: "",
+    T4AttackerPrimary: "",
     T4AttackerSecondary1Title: "",
-    T4AttackerSecondary1: 0,
+    T4AttackerSecondary1: "",
     T4AttackerSecondary2Title: "",
-    T4AttackerSecondary2: 0,
-    T4DefenderPrimary: 0,
+    T4AttackerSecondary2: "",
+    T4DefenderPrimary: "",
     T4DefenderSecondary1Title: "",
-    T4DefenderSecondary1: 0,
+    T4DefenderSecondary1: "",
     T4DefenderSecondary2Title: "",
-    T4DefenderSecondary2: 0,
-    T5AttackerPrimary: 0,
+    T4DefenderSecondary2: "",
+    T5AttackerPrimary: "",
     T5AttackerSecondary1Title: "",
-    T5AttackerSecondary1: 0,
+    T5AttackerSecondary1: "",
     T5AttackerSecondary2Title: "",
-    T5AttackerSecondary2: 0,
-    T5DefenderPrimary: 0,
+    T5AttackerSecondary2: "",
+    T5DefenderPrimary: "",
     T5DefenderSecondary1Title: "",
-    T5DefenderSecondary1: 0,
+    T5DefenderSecondary1: "",
     T5DefenderSecondary2Title: "",
-    T5DefenderSecondary2: 0,
-    AttackerMissionBonus: 0,
-    DefenderMissionBonus: 0,
+    T5DefenderSecondary2: "",
+    AttackerMissionBonus: "",
+    DefenderMissionBonus: "",
     Victor: "",
     VictoryType: "",
     TurnEnded: 0,
@@ -81,24 +87,18 @@ const FormBattleReport = (battleID) => {
     TotalDefender: 0,
   });
 
+  const db = getFirestore(firebase_app);
+  const docRef = doc(db, "Battles", docId);
 
-  //Update state with promise data.
-  const battleDataPromise = getDocSnapshot('Battles', battleID.battleID);//To Fix
-  battleDataPromise
-  .then((battleData) => {
-      const battleKeys = Object.keys(battleData);
-      battleKeys.forEach((key, index) => {
-          //console.log(`${key}: ${battleData[key]}`);
-
-          setReport((prev) => {
-            return { ...prev, [key]: battleData[key] }
-          })
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, "Battles", docId), (doc) => {
+      setReport((prev) => {
+        return { ...prev, ...doc.data() };
       });
+    });
 
-  })
-  .catch((err) => console.log(err));
-
-
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     calculateTotal();
@@ -135,83 +135,122 @@ const FormBattleReport = (battleID) => {
     report.DefenderMissionBonus,
   ]);
 
-
   function handleChange(e, calculate: boolean = false) {
     const name = e.target.name;
-    let value = e.target.value;
+    let value: number = e.target.value;
+
+    //Update FB
+    updateDoc(docRef, { [name]: value })
+      .then((docRef) => {
+        console.log("Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     if (calculate) {
       value = parseFloat(e.target.value);
+
       if (isNaN(value)) {
         value = 0;
       }
     }
-
     setReport((prev) => {
-      return { ...prev, [name]: value }
-    })
+      return { ...prev, [name]: value };
+    });
   }
 
-
   function calculateTotal() {
-    //Add all of the relevant fields.
-    const TotalAttacker: number = (
-      report.T1AttackerSecondary1 +
-      report.T1AttackerSecondary2 +
-      report.T2AttackerPrimary +
-      report.T2AttackerSecondary1 +
-      report.T2AttackerSecondary2 +
-      report.T3AttackerPrimary +
-      report.T3AttackerSecondary1 +
-      report.T3AttackerSecondary2 +
-      report.T4AttackerPrimary +
-      report.T4AttackerSecondary1 +
-      report.T4AttackerSecondary2 +
-      report.T5AttackerPrimary +
-      report.T5AttackerSecondary1 +
-      report.T5AttackerSecondary2 +
-      report.AttackerMissionBonus
-    );
+    const TotalAttacker: number =
+      getNumber(report.T1AttackerSecondary1) +
+      getNumber(report.T1AttackerSecondary2) +
+      getNumber(report.T2AttackerPrimary) +
+      getNumber(report.T2AttackerSecondary1) +
+      getNumber(report.T2AttackerSecondary2) +
+      getNumber(report.T3AttackerPrimary) +
+      getNumber(report.T3AttackerSecondary1) +
+      getNumber(report.T3AttackerSecondary2) +
+      getNumber(report.T4AttackerPrimary) +
+      getNumber(report.T4AttackerSecondary1) +
+      getNumber(report.T4AttackerSecondary2) +
+      getNumber(report.T5AttackerPrimary) +
+      getNumber(report.T5AttackerSecondary1) +
+      getNumber(report.T5AttackerSecondary2) +
+      getNumber(report.AttackerMissionBonus);
 
-    const TotalDefender: number = (
-      report.T1DefenderSecondary1 +
-      report.T1DefenderSecondary2 +
-      report.T2DefenderPrimary +
-      report.T2DefenderSecondary1 +
-      report.T2DefenderSecondary2 +
-      report.T3DefenderPrimary +
-      report.T3DefenderSecondary1 +
-      report.T3DefenderSecondary2 +
-      report.T4DefenderPrimary +
-      report.T4DefenderSecondary1 +
-      report.T4DefenderSecondary2 +
-      report.T5DefenderPrimary +
-      report.T5DefenderSecondary1 +
-      report.T5DefenderSecondary2 +
-      report.DefenderMissionBonus
-    );
+    const TotalDefender: number =
+      getNumber(report.T1DefenderSecondary1) +
+      getNumber(report.T1DefenderSecondary2) +
+      getNumber(report.T2DefenderPrimary) +
+      getNumber(report.T2DefenderSecondary1) +
+      getNumber(report.T2DefenderSecondary2) +
+      getNumber(report.T3DefenderPrimary) +
+      getNumber(report.T3DefenderSecondary1) +
+      getNumber(report.T3DefenderSecondary2) +
+      getNumber(report.T4DefenderPrimary) +
+      getNumber(report.T4DefenderSecondary1) +
+      getNumber(report.T4DefenderSecondary2) +
+      getNumber(report.T5DefenderPrimary) +
+      getNumber(report.T5DefenderSecondary1) +
+      getNumber(report.T5DefenderSecondary2) +
+      getNumber(report.DefenderMissionBonus);
 
     setReport((prev) => {
-      return { ...prev, ['TotalAttacker']: TotalAttacker, ['TotalDefender']: TotalDefender }
-    },)
+      updateDoc(docRef, {
+        TotalAttacker: TotalAttacker,
+        TotalDefender: TotalDefender,
+      }).catch((error) => {
+        console.log(error);
+      });
+
+      return {
+        ...prev,
+        ["TotalAttacker"]: TotalAttacker,
+        ["TotalDefender"]: TotalDefender,
+      };
+    });
+  }
+
+  function getNumber(value) {
+    let val = parseFloat(value);
+    if (isNaN(val)) {
+      val = 0;
+    }
+    return val;
   }
 
   function getDate() {
     const date = new Date();
-    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    return (
+      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
+    );
   }
 
+  /*
+  //On Change highlight.
+  const [borderColor, setBorderColor] = React.useState("initial");
+  const updateTimer = React.useRef(null);
 
+  React.useEffect(() => {
+    return () => {
+        if (updateTimer.current) {
+            clearTimeout(updateTimer.current);
+        }
+    };
+  }, []);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  React.useEffect(() => {
+    if (!updateTimer.current) setUpdate();
+  }, [report.PrimaryMission]);
 
-    console.log(JSON.stringify(report)); //Keeping this to take a copy.
-
-    const { result, error } = await addData('Battles', '2', report)//Fix the id
-    console.log('result', result);
-    console.log('error', error);
+  function setUpdate() {
+    setBorderColor("#0284c7");
+    updateTimer.current = setTimeout(() => {
+        setBorderColor("transparent");
+        updateTimer.current = null;
+    }, 1000);
   }
+  */
 
   return (
     <>
@@ -222,17 +261,12 @@ const FormBattleReport = (battleID) => {
               Battle Report
             </h1>
             <form>
-
               {/* SETUP */}
               <fieldset>
                 <legend>Setup</legend>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="date"
-                  >
-                    Date:
-                  </label>
+                  <label htmlFor="date">Date:</label>
                   <input
                     id="date"
                     name="Date"
@@ -246,12 +280,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="size"
-                  >
-                    Battle Size:
-                  </label>
-                  <select id="size"
+                  <label htmlFor="size">Battle Size:</label>
+                  <select
+                    id="size"
                     name="Size"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -266,11 +297,7 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="primaryMission"
-                  >
-                    Primary Mission:
-                  </label>
+                  <label htmlFor="primaryMission">Primary Mission:</label>
                   <input
                     id="primaryMission"
                     name="PrimaryMission"
@@ -280,15 +307,12 @@ const FormBattleReport = (battleID) => {
                     onChange={handleChange}
                     value={report.PrimaryMission}
                     required
+                    //style={{ borderColor: borderColor }}
                   />
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="missionRule"
-                  >
-                    Mission Rule:
-                  </label>
+                  <label htmlFor="missionRule">Mission Rule:</label>
                   <input
                     id="missionRule"
                     name="MissionRule"
@@ -302,12 +326,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="attacker"
-                  >
-                    Attacker:
-                  </label>
-                  <select id="attacker"
+                  <label htmlFor="attacker">Attacker:</label>
+                  <select
+                    id="attacker"
                     name="Attacker"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -325,12 +346,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="attackerArmy"
-                  >
-                    Attacker Army:
-                  </label>
-                  <select id="attackerArmy"
+                  <label htmlFor="attackerArmy">Attacker Army:</label>
+                  <select
+                    id="attackerArmy"
                     name="AttackerArmy"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -360,12 +378,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="defender"
-                  >
-                    Defender:
-                  </label>
-                  <select id="defender"
+                  <label htmlFor="defender">Defender:</label>
+                  <select
+                    id="defender"
                     name="Defender"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -383,12 +398,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="defenderArmy"
-                  >
-                    Defender Army:
-                  </label>
-                  <select id="defenderArmy"
+                  <label htmlFor="defenderArmy">Defender Army:</label>
+                  <select
+                    id="defenderArmy"
                     name="DefenderArmy"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -418,12 +430,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="firstTurn"
-                  >
-                    First Turn:
-                  </label>
-                  <select id="firstTurn"
+                  <label htmlFor="firstTurn">First Turn:</label>
+                  <select
+                    id="firstTurn"
                     name="FirstTurn"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -447,9 +456,7 @@ const FormBattleReport = (battleID) => {
                 <div className="player">
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1AttackerSecondary1Title"
-                      >
+                      <label htmlFor="t1AttackerSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -465,18 +472,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1AttackerSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t1AttackerSecondary1">1 Points:</label>
                       <input
                         id="t1AttackerSecondary1"
                         name="T1AttackerSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T1AttackerSecondary1}
@@ -485,9 +488,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1AttackerSecondary2Title"
-                      >
+                      <label htmlFor="t1AttackerSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -503,18 +504,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1AttackerSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t1AttackerSecondary2">2 Points:</label>
                       <input
                         id="t1AttackerSecondary2"
                         name="T1AttackerSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T1AttackerSecondary2}
@@ -526,9 +523,7 @@ const FormBattleReport = (battleID) => {
                 <div className="player">
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1DefenderSecondary1Title"
-                      >
+                      <label htmlFor="t1DefenderSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -544,18 +539,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1DefenderSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t1DefenderSecondary1">1 Points:</label>
                       <input
                         id="t1DefenderSecondary1"
                         name="T1DefenderSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T1DefenderSecondary1}
@@ -564,9 +555,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1DefenderSecondary2Title"
-                      >
+                      <label htmlFor="t1DefenderSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -582,18 +571,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t1DefenderSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t1DefenderSecondary2">2 Points:</label>
                       <input
                         id="t1DefenderSecondary2"
                         name="T1DefenderSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T1DefenderSecondary2}
@@ -609,18 +594,14 @@ const FormBattleReport = (battleID) => {
                 <legend>Turn 2</legend>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t2AttackerPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t2AttackerPrimary">Primary Points:</label>
                     <input
                       id="t2AttackerPrimary"
                       name="T2AttackerPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T2AttackerPrimary}
@@ -630,9 +611,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2AttackerSecondary1Title"
-                      >
+                      <label htmlFor="t2AttackerSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -648,18 +627,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2AttackerSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t2AttackerSecondary1">1 Points:</label>
                       <input
                         id="t2AttackerSecondary1"
                         name="T2AttackerSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T2AttackerSecondary1}
@@ -668,9 +643,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2AttackerSecondary2Title"
-                      >
+                      <label htmlFor="t2AttackerSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -686,18 +659,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2AttackerSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t2AttackerSecondary2">2 Points:</label>
                       <input
                         id="t2AttackerSecondary2"
                         name="T2AttackerSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T2AttackerSecondary2}
@@ -708,18 +677,14 @@ const FormBattleReport = (battleID) => {
                 </div>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t2DefenderPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t2DefenderPrimary">Primary Points:</label>
                     <input
                       id="t2DefenderPrimary"
                       name="T2DefenderPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T2DefenderPrimary}
@@ -729,9 +694,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2DefenderSecondary1Title"
-                      >
+                      <label htmlFor="t2DefenderSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -747,18 +710,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2DefenderSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t2DefenderSecondary1">1 Points:</label>
                       <input
                         id="t2DefenderSecondary1"
                         name="T2DefenderSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T2DefenderSecondary1}
@@ -767,9 +726,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2DefenderSecondary2Title"
-                      >
+                      <label htmlFor="t2DefenderSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -785,18 +742,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t2DefenderSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t2DefenderSecondary2">2 Points:</label>
                       <input
                         id="t2DefenderSecondary2"
                         name="T2DefenderSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T2DefenderSecondary2}
@@ -812,18 +765,14 @@ const FormBattleReport = (battleID) => {
                 <legend>Turn 3</legend>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t3AttackerPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t3AttackerPrimary">Primary Points:</label>
                     <input
                       id="t3AttackerPrimary"
                       name="T3AttackerPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T3AttackerPrimary}
@@ -833,9 +782,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3AttackerSecondary1Title"
-                      >
+                      <label htmlFor="t3AttackerSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -851,18 +798,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3AttackerSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t3AttackerSecondary1">1 Points:</label>
                       <input
                         id="t3AttackerSecondary1"
                         name="T3AttackerSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T3AttackerSecondary1}
@@ -871,9 +814,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3AttackerSecondary2Title"
-                      >
+                      <label htmlFor="t3AttackerSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -889,18 +830,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3AttackerSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t3AttackerSecondary2">2 Points:</label>
                       <input
                         id="t3AttackerSecondary2"
                         name="T3AttackerSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T3AttackerSecondary2}
@@ -911,18 +848,14 @@ const FormBattleReport = (battleID) => {
                 </div>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t3DefenderPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t3DefenderPrimary">Primary Points:</label>
                     <input
                       id="primary"
                       name="T3DefenderPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T3DefenderPrimary}
@@ -932,9 +865,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3DefenderSecondary1Title"
-                      >
+                      <label htmlFor="t3DefenderSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -950,18 +881,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3DefenderSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t3DefenderSecondary1">1 Points:</label>
                       <input
                         id="t3DefenderSecondary1"
                         name="T3DefenderSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T3DefenderSecondary1}
@@ -970,9 +897,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3DefenderSecondary2Title"
-                      >
+                      <label htmlFor="t3DefenderSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -990,18 +915,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t3DefenderSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t3DefenderSecondary2">2 Points:</label>
                       <input
                         id="t3DefenderSecondary2"
                         name="T3DefenderSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T3DefenderSecondary2}
@@ -1017,18 +938,14 @@ const FormBattleReport = (battleID) => {
                 <legend>Turn 4</legend>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t4AttackerPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t4AttackerPrimary">Primary Points:</label>
                     <input
                       id="primary"
                       name="T4AttackerPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T4AttackerPrimary}
@@ -1038,9 +955,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4AttackerSecondary1Title"
-                      >
+                      <label htmlFor="t4AttackerSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -1056,18 +971,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4AttackerSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t4AttackerSecondary1">1 Points:</label>
                       <input
                         id="t4AttackerSecondary1"
                         name="T4AttackerSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T4AttackerSecondary1}
@@ -1076,9 +987,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4AttackerSecondary2Title"
-                      >
+                      <label htmlFor="t4AttackerSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -1094,18 +1003,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4AttackerSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t4AttackerSecondary2">2 Points:</label>
                       <input
                         id="t4AttackerSecondary2"
                         name="T4AttackerSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T4AttackerSecondary2}
@@ -1116,18 +1021,14 @@ const FormBattleReport = (battleID) => {
                 </div>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t4DefenderPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t4DefenderPrimary">Primary Points:</label>
                     <input
                       id="primary"
                       name="T4DefenderPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T4DefenderPrimary}
@@ -1137,9 +1038,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4DefenderSecondary1Title"
-                      >
+                      <label htmlFor="t4DefenderSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -1155,18 +1054,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4DefenderSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t4DefenderSecondary1">1 Points:</label>
                       <input
                         id="t4DefenderSecondary1"
                         name="T4DefenderSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T4DefenderSecondary1}
@@ -1175,9 +1070,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4DefenderSecondary2Title"
-                      >
+                      <label htmlFor="t4DefenderSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -1193,18 +1086,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t4DefenderSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t4DefenderSecondary2">2 Points:</label>
                       <input
                         id="t4DefenderSecondary2"
                         name="T4DefenderSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T4DefenderSecondary2}
@@ -1220,18 +1109,14 @@ const FormBattleReport = (battleID) => {
                 <legend>Turn 5</legend>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t5AttackerPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t5AttackerPrimary">Primary Points:</label>
                     <input
                       id="t5AttackerPrimary"
                       name="T5AttackerPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T5AttackerPrimary}
@@ -1241,9 +1126,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5AttackerSecondary1Title"
-                      >
+                      <label htmlFor="t5AttackerSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -1259,18 +1142,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5AttackerSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t5AttackerSecondary1">1 Points:</label>
                       <input
                         id="t5AttackerSecondary1"
                         name="T5AttackerSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T5AttackerSecondary1}
@@ -1279,9 +1158,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5AttackerSecondary2Title"
-                      >
+                      <label htmlFor="t5AttackerSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -1297,18 +1174,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5AttackerSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t5AttackerSecondary2">2 Points:</label>
                       <input
                         id="t5AttackerSecondary2"
                         name="T5AttackerSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T5AttackerSecondary2}
@@ -1319,18 +1192,14 @@ const FormBattleReport = (battleID) => {
                 </div>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="t5DefenderPrimary"
-                    >
-                      Primary Points:
-                    </label>
+                    <label htmlFor="t5DefenderPrimary">Primary Points:</label>
                     <input
                       id="primary"
                       name="T5DefenderPrimary"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.T5DefenderPrimary}
@@ -1340,9 +1209,7 @@ const FormBattleReport = (battleID) => {
 
                   <div className="secondaries">
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5DefenderSecondary1Title"
-                      >
+                      <label htmlFor="t5DefenderSecondary1Title">
                         1 Title:
                       </label>
                       <input
@@ -1358,18 +1225,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5DefenderSecondary1"
-                      >
-                        1 Points:
-                      </label>
+                      <label htmlFor="t5DefenderSecondary1">1 Points:</label>
                       <input
                         id="t5DefenderSecondary1"
                         name="T5DefenderSecondary1"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T5DefenderSecondary1}
@@ -1378,9 +1241,7 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5DefenderSecondary2Title"
-                      >
+                      <label htmlFor="t5DefenderSecondary2Title">
                         2 Title:
                       </label>
                       <input
@@ -1396,18 +1257,14 @@ const FormBattleReport = (battleID) => {
                     </div>
 
                     <div className="mb-3">
-                      <label
-                        htmlFor="t5DefenderSecondary2"
-                      >
-                        2 Points:
-                      </label>
+                      <label htmlFor="t5DefenderSecondary2">2 Points:</label>
                       <input
                         id="t5DefenderSecondary2"
                         name="T5DefenderSecondary2"
                         placeholder="--"
                         type="number"
                         className="border p-2 w-full"
-                        onChange={event => handleChange(event, true)}
+                        onChange={(event) => handleChange(event, true)}
                         min="0"
                         max="15"
                         value={report.T5DefenderSecondary2}
@@ -1423,18 +1280,14 @@ const FormBattleReport = (battleID) => {
                 <legend>End of Game</legend>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="attackerMissionBonus"
-                    >
-                      Mission Bonus:
-                    </label>
+                    <label htmlFor="attackerMissionBonus">Mission Bonus:</label>
                     <input
                       id="attackerMissionBonus"
                       name="AttackerMissionBonus"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.AttackerMissionBonus}
@@ -1444,18 +1297,14 @@ const FormBattleReport = (battleID) => {
                 </div>
                 <div className="player">
                   <div className="mb-3">
-                    <label
-                      htmlFor="defenderMissionBonus"
-                    >
-                      Mission Bonus:
-                    </label>
+                    <label htmlFor="defenderMissionBonus">Mission Bonus:</label>
                     <input
                       id="defenderMissionBonus"
                       name="DefenderMissionBonus"
                       placeholder="--"
                       type="number"
                       className="border p-2 w-full"
-                      onChange={event => handleChange(event, true)}
+                      onChange={(event) => handleChange(event, true)}
                       min="0"
                       max="15"
                       value={report.DefenderMissionBonus}
@@ -1471,17 +1320,18 @@ const FormBattleReport = (battleID) => {
 
                 <div className="mb-20">
                   <h2 className="text-center uppercase">Total Scores</h2>
-                  <div className="player score text-8xl font-bold">{report.TotalAttacker}</div>
-                  <div className="player score text-8xl font-bold text-right">{report.TotalDefender}</div>
+                  <div className="player score text-8xl font-bold">
+                    {report.TotalAttacker}
+                  </div>
+                  <div className="player score text-8xl font-bold text-right">
+                    {report.TotalDefender}
+                  </div>
                 </div>
 
                 <div className="mb-3 pt-6">
-                  <label
-                    htmlFor="victor"
-                  >
-                    Victor:
-                  </label>
-                  <select id="victor"
+                  <label htmlFor="victor">Victor:</label>
+                  <select
+                    id="victor"
                     name="Victor"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -1499,12 +1349,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="victoryType"
-                  >
-                    Victory Type:
-                  </label>
-                  <select id="victoryType"
+                  <label htmlFor="victoryType">Victory Type:</label>
+                  <select
+                    id="victoryType"
                     name="VictoryType"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -1521,12 +1368,9 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="turnEnded"
-                  >
-                    Turn Ended:
-                  </label>
-                  <select id="turnEnded"
+                  <label htmlFor="turnEnded">Turn Ended:</label>
+                  <select
+                    id="turnEnded"
                     name="TurnEnded"
                     className="border p-2 w-full"
                     onChange={handleChange}
@@ -1544,77 +1388,76 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
-                  <label
-                    htmlFor="attackerMVP"
-                  >
-                    Attacker MVP:
-                  </label>
+                  <label htmlFor="attackerMVP">Attacker MVP:</label>
                   <input
                     id="attackerMVP"
                     name="AttackerMVP"
                     placeholder="Attacker MVP"
                     type="text"
                     className="border p-2 w-full"
-                    onChange={event => handleChange(event)}
+                    onChange={(event) => handleChange(event)}
                     value={report.AttackerMVP}
                     required
                   />
                 </div>
                 <div className="mb-3">
-                  <label
-                    htmlFor="defenderMVP"
-                  >
-                    Defender MVP:
-                  </label>
+                  <label htmlFor="defenderMVP">Defender MVP:</label>
                   <input
                     id="defenderMVP"
                     name="DefenderMVP"
                     placeholder="Attacker MVP"
                     type="text"
                     className="border p-2 w-full"
-                    onChange={event => handleChange(event)}
+                    onChange={(event) => handleChange(event)}
                     value={report.DefenderMVP}
                     required
                   />
                 </div>
                 <div className="mb-3">
-                  <label
-                    htmlFor="notes"
-                  >
-                    Battle Notes:
-                  </label>
+                  <label htmlFor="notes">Battle Notes:</label>
                   <textarea
                     id="notes"
                     name="Notes"
                     placeholder="Notes"
                     className="border p-2  w-full"
-                    onChange={event => handleChange(event)}
+                    onChange={(event) => handleChange(event)}
                     value={report.Notes}
                     required
                   ></textarea>
                 </div>
-
               </fieldset>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 02af7ab398ef14e64b9e2910b00289926e7281f0
             </form>
           </div>
         </section>
 
         <section id="results" className="lg:w-96 lg:flex-none">
-          {/*
-          <h2>Results</h2>
-          <BattleItemList battleItemList={report} />
-          */}
+            <div className="score-panel text-center fixed lg:w-96">
+              <span></span>
+              <div className="player score text-2xl font-bold">
+                {report.TotalAttacker}
+              </div>
+              <div className="player score text-2xl font-bold">
+                {report.TotalDefender}
+              </div>
+            </div>
         </section>
+
       </div>
 
       <div className="score-bar text-center">
         <span></span>
-        <div className="player score text-2xl font-bold">{report.TotalAttacker}</div>
-        <div className="player score text-2xl font-bold">{report.TotalDefender}</div>
+        <div className="player score text-2xl font-bold">
+          {report.TotalAttacker}
+        </div>
+        <div className="player score text-2xl font-bold">
+          {report.TotalDefender}
+        </div>
       </div>
     </>
-
   );
 };
 

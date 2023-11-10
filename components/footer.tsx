@@ -1,5 +1,4 @@
 import Container from "./container";
-import { EXAMPLE_PATH } from "../lib/constants";
 
 const Footer = () => {
   return (
@@ -12,7 +11,9 @@ const Footer = () => {
             </h3>
           </a>
         </div>
-        <span className="text-sm block lg:inline text-center">&copy; Skeefe.net 2023</span>
+        <span className="text-sm block lg:inline text-center">
+          &copy; Skeefe.net 2023
+        </span>
       </Container>
     </footer>
   );
