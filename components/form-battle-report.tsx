@@ -6,7 +6,7 @@ const FormBattleReport = (battleID) => {
   const docId: string = battleID.battleID;
 
   const [report, setReport] = useState({
-    Date: Date.now(),//getDate(),
+    Date: Date.now(),
     PrimaryMission: "",
     MissionRule: "",
     Attacker: "",
