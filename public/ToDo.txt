@@ -22,7 +22,7 @@
 
 ## Horizon?
 - Auth
-    - Avatars
+    - Avatars (general or army?)
 - Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
 - Add/invite friends.
 - Style based on Victory.
