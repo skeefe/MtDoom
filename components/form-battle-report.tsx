@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
-//import BattleItemList from "../components/battle-item-list";
-import addData from "../firebase/addData";
-import getDocSnapshot from "../firebase/getDocSnapshot";
-
-/* 
-//To Do
-- Send data to Firebase on save (potentially on change.)
-*/
-
-=======
 import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
 import firebase_app from "./../firebase/config";
->>>>>>> 02af7ab398ef14e64b9e2910b00289926e7281f0
 
 const FormBattleReport = (battleID) => {
   const docId: string = battleID.battleID;
@@ -1426,10 +1414,6 @@ const FormBattleReport = (battleID) => {
                   ></textarea>
                 </div>
               </fieldset>
-<<<<<<< HEAD
-
-=======
->>>>>>> 02af7ab398ef14e64b9e2910b00289926e7281f0
             </form>
           </div>
         </section>
