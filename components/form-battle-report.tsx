@@ -3,6 +3,8 @@ import { getFirestore, updateDoc, onSnapshot, doc, getDoc } from "firebase/fires
 import firebase_app from "./../firebase/config";
 import { formatDate } from "../utils/date-format";
 import { primaryMissions } from "../data/primary-missions";
+import { missionRules } from "../data/mission-rules";
+import { deploymentZones } from "../data/deployment-zones";
 
 const FormBattleReport = (battleID) => {
   const db = getFirestore(firebase_app);  
@@ -284,22 +286,6 @@ const FormBattleReport = (battleID) => {
                   </select>
                 </div>
 
-                {/*
-                  <div className="mb-3">
-                    <label htmlFor="primaryMission">Primary Mission:</label>
-                    <input
-                      id="primaryMission"
-                      name="PrimaryMission"
-                      placeholder="Enter the mission."
-                      type="text"
-                      className="border p-2 w-full"
-                      onChange={handleChange}
-                      value={report.PrimaryMission}
-                      required
-                    />
-                  </div>
-                */}
-
                 <div className="mb-3 random">
                   <label htmlFor="primaryMission">Primary Mission:</label>
                   <select
@@ -309,38 +295,40 @@ const FormBattleReport = (battleID) => {
                     onChange={handleChange}
                     required
                     value={report.PrimaryMission}>
-                    <option value="">-- Select the Mission --</option>   
+                    <option value="">-- Select the Primary Mission --</option>   
                     {primaryMissions.map((mission) => <option value={mission.value}>{mission.label}</option>)}
                   </select>
                   <button onClick={(event) => handleRandomise(primaryMissions, "PrimaryMission")}>🎲</button>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 random">
                   <label htmlFor="missionRule">Mission Rule:</label>
-                  <input
+                  <select
                     id="missionRule"
                     name="MissionRule"
-                    placeholder="Enter the mission rule."
-                    type="text"
                     className="border p-2 w-full"
                     onChange={handleChange}
-                    value={report.MissionRule}
                     required
-                  />
+                    value={report.MissionRule}>
+                    <option value="">-- Select the Mission Rule --</option>   
+                    {missionRules.map((mission) => <option value={mission.value}>{mission.label}</option>)}
+                  </select>
+                  <button onClick={(event) => handleRandomise(missionRules, "MissionRule")}>🎲</button>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 random">
                   <label htmlFor="missionRule">Deployment:</label>
-                  <input
+                  <select
                     id="deployment"
                     name="Deployment"
-                    placeholder="Enter the deployment type."
-                    type="text"
                     className="border p-2 w-full"
                     onChange={handleChange}
-                    value={report.Deployment}
                     required
-                  />
+                    value={report.Deployment}>
+                    <option value="">-- Select the Deployment Type --</option>   
+                    {deploymentZones.map((deployment) => <option value={deployment.value}>{deployment.label}</option>)}
+                  </select>
+                  <button onClick={(event) => handleRandomise(deploymentZones, "Deployment")}>🎲</button>
                 </div>
 
                 <div className="mb-3">
