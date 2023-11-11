@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getFirestore, updateDoc, onSnapshot, doc, getDoc } from "firebase/firestore";
 import firebase_app from "./../firebase/config";
 import { formatDate } from "../utils/date-format";
+import { primaryMissions } from "../data/primary-missions";
 
 const FormBattleReport = (battleID) => {
   const db = getFirestore(firebase_app);  
   const docId: string = battleID.battleID;
   const docRef = doc(db, "Battles", docId);
-  
-  const data = docRef.firestore.toJSON();
 
   const [report, setReport] = useState({
     Date: {seconds:null},//Populated on doc creation.
@@ -209,6 +208,25 @@ const FormBattleReport = (battleID) => {
     return val;
   }
 
+  function handleRandomise(data, property){
+    const selection = data[Math.floor(Math.random()*data.length)];
+
+    //Update FB
+    updateDoc(docRef, { [property]: selection["value"] })
+    .then((docRef) => {
+      console.log("Updated");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    setReport((prev) => {
+      return { ...prev, [property]: selection["value"] };
+    });
+
+    return;
+  }
+
 
   /*
   //On Change highlight.
@@ -266,19 +284,35 @@ const FormBattleReport = (battleID) => {
                   </select>
                 </div>
 
+                {/*
+                  <div className="mb-3">
+                    <label htmlFor="primaryMission">Primary Mission:</label>
+                    <input
+                      id="primaryMission"
+                      name="PrimaryMission"
+                      placeholder="Enter the mission."
+                      type="text"
+                      className="border p-2 w-full"
+                      onChange={handleChange}
+                      value={report.PrimaryMission}
+                      required
+                    />
+                  </div>
+                */}
+
                 <div className="mb-3">
                   <label htmlFor="primaryMission">Primary Mission:</label>
-                  <input
+                  <select
                     id="primaryMission"
                     name="PrimaryMission"
-                    placeholder="Enter the mission."
-                    type="text"
                     className="border p-2 w-full"
                     onChange={handleChange}
-                    value={report.PrimaryMission}
                     required
-                    //style={{ borderColor: borderColor }}
-                  />
+                    value={report.PrimaryMission}>
+                    <option value="">-- Select the Mission --</option>   
+                    {primaryMissions.map((mission) => <option value={mission.value}>{mission.label}</option>)}
+                  </select>
+                  <button className="random" onClick={(event) => handleRandomise(primaryMissions, "PrimaryMission")}>🎲</button>
                 </div>
 
                 <div className="mb-3">

@@ -20,7 +20,7 @@ const Index = ({}: Props) => {
     //Add date.
     updateDoc(docRef, { "Date": Timestamp.now() })
       .then((docRef) => {
-        console.log("Date added.");
+        //console.log("Date added.");
       })
       .catch((error) => {
         console.log(error);
