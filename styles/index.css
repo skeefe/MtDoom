@@ -254,6 +254,25 @@
     display: block;
     font-size: 0.75rem;
   }
+
+  .random{
+    display:flex;
+    flex-wrap: wrap;
+    column-gap:10px
+  }
+  .random label{
+    width:100%;
+  }
+  .random select {
+    flex:1;
+  }
+  .random button {
+    background: transparent;
+    padding: 0.75em 0.75em;
+  }
+  .random button:hover {
+    background: #1a2333;
+  }
 }
 
 /* Start purging... */

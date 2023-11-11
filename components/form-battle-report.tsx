@@ -300,7 +300,7 @@ const FormBattleReport = (battleID) => {
                   </div>
                 */}
 
-                <div className="mb-3">
+                <div className="mb-3 random">
                   <label htmlFor="primaryMission">Primary Mission:</label>
                   <select
                     id="primaryMission"
@@ -312,7 +312,7 @@ const FormBattleReport = (battleID) => {
                     <option value="">-- Select the Mission --</option>   
                     {primaryMissions.map((mission) => <option value={mission.value}>{mission.label}</option>)}
                   </select>
-                  <button className="random" onClick={(event) => handleRandomise(primaryMissions, "PrimaryMission")}>🎲</button>
+                  <button onClick={(event) => handleRandomise(primaryMissions, "PrimaryMission")}>🎲</button>
                 </div>
 
                 <div className="mb-3">
