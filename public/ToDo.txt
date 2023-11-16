@@ -8,9 +8,7 @@
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Sort out the col on the right for desktop.
     - Scores, name, army name
-- Add limits to primary and secondary totals.
-- Sort how to have a hardcoded store of values to use in Selects.
-    - Names with Nicknames.
+- Names with Nicknames.
 - Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
 - Loop the turns in a sub component.
 - Add Delete button to the Battles table.

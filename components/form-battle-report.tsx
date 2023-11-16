@@ -78,7 +78,11 @@ const FormBattleReport = (battleID) => {
     AttackerMVP: "",
     DefenderMVP: "",
     Notes: "",
+    TotalAttackerPrimary:0,//50
+    TotalAttackerSecondary:0,//40
     TotalAttacker: 0,
+    TotalDefenderPrimary:0,//50
+    TotalDefenderSecondary:0,//40
     TotalDefender: 0,
   });
 
@@ -152,38 +156,56 @@ const FormBattleReport = (battleID) => {
   }
 
   function calculateTotal() {
-    const TotalAttacker: number =
+    
+    let TotalAttackerPrimary: number =
+      getNumber(report.T2AttackerPrimary) +
+      getNumber(report.T3AttackerPrimary) +
+      getNumber(report.T4AttackerPrimary) +
+      getNumber(report.T5AttackerPrimary);
+    TotalAttackerPrimary = TotalAttackerPrimary > 50 ? 50 : TotalAttackerPrimary;
+
+    let TotalAttackerSecondary: number =
       getNumber(report.T1AttackerSecondary1) +
       getNumber(report.T1AttackerSecondary2) +
-      getNumber(report.T2AttackerPrimary) +
       getNumber(report.T2AttackerSecondary1) +
       getNumber(report.T2AttackerSecondary2) +
-      getNumber(report.T3AttackerPrimary) +
       getNumber(report.T3AttackerSecondary1) +
       getNumber(report.T3AttackerSecondary2) +
-      getNumber(report.T4AttackerPrimary) +
       getNumber(report.T4AttackerSecondary1) +
       getNumber(report.T4AttackerSecondary2) +
-      getNumber(report.T5AttackerPrimary) +
       getNumber(report.T5AttackerSecondary1) +
       getNumber(report.T5AttackerSecondary2) +
       getNumber(report.AttackerMissionBonus);
+    TotalAttackerSecondary = TotalAttackerSecondary > 40 ? 40 : TotalAttackerSecondary;
+    
+    const TotalAttacker: number =
+      TotalAttackerPrimary +
+      TotalAttackerSecondary +
+      getNumber(report.AttackerMissionBonus);
 
-    const TotalDefender: number =
+    let TotalDefenderPrimary: number =
+      getNumber(report.T2DefenderPrimary) +
+      getNumber(report.T3DefenderPrimary) +
+      getNumber(report.T4DefenderPrimary) +
+      getNumber(report.T5DefenderPrimary);
+    TotalDefenderPrimary = TotalDefenderPrimary > 50 ? 50 : TotalDefenderPrimary;
+
+    let TotalDefenderSecondary: number =
       getNumber(report.T1DefenderSecondary1) +
       getNumber(report.T1DefenderSecondary2) +
-      getNumber(report.T2DefenderPrimary) +
       getNumber(report.T2DefenderSecondary1) +
       getNumber(report.T2DefenderSecondary2) +
-      getNumber(report.T3DefenderPrimary) +
       getNumber(report.T3DefenderSecondary1) +
       getNumber(report.T3DefenderSecondary2) +
-      getNumber(report.T4DefenderPrimary) +
       getNumber(report.T4DefenderSecondary1) +
       getNumber(report.T4DefenderSecondary2) +
-      getNumber(report.T5DefenderPrimary) +
       getNumber(report.T5DefenderSecondary1) +
-      getNumber(report.T5DefenderSecondary2) +
+      getNumber(report.T5DefenderSecondary2);
+    TotalDefenderSecondary = TotalDefenderSecondary > 40 ? 40 : TotalDefenderSecondary;
+    
+    const TotalDefender: number =
+      TotalDefenderPrimary +
+      TotalDefenderSecondary +
       getNumber(report.DefenderMissionBonus);
 
     setReport((prev) => {
@@ -196,7 +218,11 @@ const FormBattleReport = (battleID) => {
 
       return {
         ...prev,
+        ["TotalAttackerPrimary"]: TotalAttackerPrimary,
+        ["TotalAttackerSecondary"]: TotalAttackerSecondary,
         ["TotalAttacker"]: TotalAttacker,
+        ["TotalDefenderPrimary"]: TotalDefenderPrimary,
+        ["TotalDefenderSecondary"]: TotalDefenderSecondary,
         ["TotalDefender"]: TotalDefender,
       };
     });
