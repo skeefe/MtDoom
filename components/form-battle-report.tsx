@@ -447,6 +447,7 @@ const FormBattleReport = (battleID) => {
                     <option value="Craftworld">Craftworld</option>
                     <option value="Blood Angels">Filthy Blood Angels</option>
                     <option value="Cold Blooded">Coldies</option>
+                    <option value="Immolators">Immolators</option>
                     <option value="Tau">Tau</option>
                     <option value="Bastiladons">Bastiladons</option>
                     <option value="Rusty Jeckyls">Rusty Jeckyls</option>
