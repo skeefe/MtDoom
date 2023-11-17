@@ -1466,6 +1466,7 @@ const FormBattleReport = (battleID) => {
           <div className="content score-panel text-center fixed lg:w-96">
             <span></span>
             <div className="player score">
+              <h2>{report.AttackerArmy}</h2>
               <span className="text-4xl font-bold text-white">{report.TotalAttacker}</span>
               <div className="score-breakdown">
                 <span>Primary: {report.TotalAttackerPrimary}/50</span>
@@ -1473,6 +1474,7 @@ const FormBattleReport = (battleID) => {
               </div>
             </div>
             <div className="player score">
+              <h2>{report.DefenderArmy}</h2>
               <span className="text-4xl font-bold text-white">{report.TotalDefender}</span>
               <div className="score-breakdown">
                 <span>Primary: {report.TotalDefenderPrimary}/50</span>
