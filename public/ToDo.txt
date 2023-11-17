@@ -14,6 +14,7 @@
     - Delete button needs to be clickable in a row with onClick
 - Handle Fixed Secondaries...
 - Handle Gambits
+- Move the "Create Battle" button to a better location (below the table is too low).
 
 
 ## Horizon?
@@ -25,3 +26,4 @@
 - Game dashboard stuff! :D 
 - User dashboard stuff.
 - Battle Setup modal
+- Pagination on the Battle List table.
