@@ -7,12 +7,12 @@ import { missionRules } from "../data/mission-rules";
 import { deploymentZones } from "../data/deployment-zones";
 
 const FormBattleReport = (battleID) => {
-  const db = getFirestore(firebase_app);  
+  const db = getFirestore(firebase_app);
   const docId: string = battleID.battleID;
   const docRef = doc(db, "Battles", docId);
 
   const [report, setReport] = useState({
-    Date: {seconds:null},//Populated on doc creation.
+    Date: { seconds: null },//Populated on doc creation.
     PrimaryMission: "",
     MissionRule: "",
     Deployment: "",
@@ -78,11 +78,11 @@ const FormBattleReport = (battleID) => {
     AttackerMVP: "",
     DefenderMVP: "",
     Notes: "",
-    TotalAttackerPrimary:0,//50
-    TotalAttackerSecondary:0,//40
+    TotalAttackerPrimary: 0,//50
+    TotalAttackerSecondary: 0,//40
     TotalAttacker: 0,
-    TotalDefenderPrimary:0,//50
-    TotalDefenderSecondary:0,//40
+    TotalDefenderPrimary: 0,//50
+    TotalDefenderSecondary: 0,//40
     TotalDefender: 0,
   });
 
@@ -156,12 +156,13 @@ const FormBattleReport = (battleID) => {
   }
 
   function calculateTotal() {
-    
+
     let TotalAttackerPrimary: number =
       getNumber(report.T2AttackerPrimary) +
       getNumber(report.T3AttackerPrimary) +
       getNumber(report.T4AttackerPrimary) +
-      getNumber(report.T5AttackerPrimary);
+      getNumber(report.T5AttackerPrimary) +
+      getNumber(report.AttackerMissionBonus);
     TotalAttackerPrimary = TotalAttackerPrimary > 50 ? 50 : TotalAttackerPrimary;
 
     let TotalAttackerSecondary: number =
@@ -177,17 +178,17 @@ const FormBattleReport = (battleID) => {
       getNumber(report.T5AttackerSecondary2) +
       getNumber(report.AttackerMissionBonus);
     TotalAttackerSecondary = TotalAttackerSecondary > 40 ? 40 : TotalAttackerSecondary;
-    
+
     const TotalAttacker: number =
       TotalAttackerPrimary +
-      TotalAttackerSecondary +
-      getNumber(report.AttackerMissionBonus);
+      TotalAttackerSecondary
 
     let TotalDefenderPrimary: number =
       getNumber(report.T2DefenderPrimary) +
       getNumber(report.T3DefenderPrimary) +
       getNumber(report.T4DefenderPrimary) +
-      getNumber(report.T5DefenderPrimary);
+      getNumber(report.T5DefenderPrimary) +
+      getNumber(report.DefenderMissionBonus);
     TotalDefenderPrimary = TotalDefenderPrimary > 50 ? 50 : TotalDefenderPrimary;
 
     let TotalDefenderSecondary: number =
@@ -202,11 +203,10 @@ const FormBattleReport = (battleID) => {
       getNumber(report.T5DefenderSecondary1) +
       getNumber(report.T5DefenderSecondary2);
     TotalDefenderSecondary = TotalDefenderSecondary > 40 ? 40 : TotalDefenderSecondary;
-    
+
     const TotalDefender: number =
       TotalDefenderPrimary +
-      TotalDefenderSecondary +
-      getNumber(report.DefenderMissionBonus);
+      TotalDefenderSecondary;
 
     setReport((prev) => {
       updateDoc(docRef, {
@@ -236,17 +236,17 @@ const FormBattleReport = (battleID) => {
     return val;
   }
 
-  function handleRandomise(data, property){
-    const selection = data[Math.floor(Math.random()*data.length)];
+  function handleRandomise(data, property) {
+    const selection = data[Math.floor(Math.random() * data.length)];
 
     //Update FB
     updateDoc(docRef, { [property]: selection["value"] })
-    .then((docRef) => {
-      console.log("Updated");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((docRef) => {
+        console.log("Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     setReport((prev) => {
       return { ...prev, [property]: selection["value"] };
@@ -321,7 +321,7 @@ const FormBattleReport = (battleID) => {
                     onChange={handleChange}
                     required
                     value={report.PrimaryMission}>
-                    <option value="">-- Select the Primary Mission --</option>   
+                    <option value="">-- Select the Primary Mission --</option>
                     {primaryMissions.map((mission) => <option value={mission.value}>{mission.label}</option>)}
                   </select>
                   <button onClick={(event) => handleRandomise(primaryMissions, "PrimaryMission")}>🎲</button>
@@ -336,7 +336,7 @@ const FormBattleReport = (battleID) => {
                     onChange={handleChange}
                     required
                     value={report.MissionRule}>
-                    <option value="">-- Select the Mission Rule --</option>   
+                    <option value="">-- Select the Mission Rule --</option>
                     {missionRules.map((mission) => <option value={mission.value}>{mission.label}</option>)}
                   </select>
                   <button onClick={(event) => handleRandomise(missionRules, "MissionRule")}>🎲</button>
@@ -351,7 +351,7 @@ const FormBattleReport = (battleID) => {
                     onChange={handleChange}
                     required
                     value={report.Deployment}>
-                    <option value="">-- Select the Deployment Type --</option>   
+                    <option value="">-- Select the Deployment Type --</option>
                     {deploymentZones.map((deployment) => <option value={deployment.value}>{deployment.label}</option>)}
                   </select>
                   <button onClick={(event) => handleRandomise(deploymentZones, "Deployment")}>🎲</button>
@@ -1463,15 +1463,23 @@ const FormBattleReport = (battleID) => {
         </section>
 
         <section id="results" className="lg:w-96 lg:flex-none">
-            <div className="score-panel text-center fixed lg:w-96">
-              <span></span>
-              <div className="player score text-2xl font-bold">
-                {report.TotalAttacker}
-              </div>
-              <div className="player score text-2xl font-bold">
-                {report.TotalDefender}
+          <div className="content score-panel text-center fixed lg:w-96">
+            <span></span>
+            <div className="player score">
+              <span className="text-4xl font-bold text-white">{report.TotalAttacker}</span>
+              <div className="score-breakdown">
+                <span>Primary: {report.TotalAttackerPrimary}/50</span>
+                <span>Secondary: {report.TotalAttackerSecondary}/40</span>
               </div>
             </div>
+            <div className="player score">
+              <span className="text-4xl font-bold text-white">{report.TotalDefender}</span>
+              <div className="score-breakdown">
+                <span>Primary: {report.TotalDefenderPrimary}/50</span>
+                <span>Secondary: {report.TotalDefenderSecondary}/40</span>
+              </div>
+            </div>
+          </div>
         </section>
 
       </div>

@@ -204,6 +204,13 @@
     padding: 0 1rem 0 0;
     border-right: 1px solid #64748b;
   }
+  .score-panel .player{
+    margin-bottom:1rem;
+  }
+  .score-breakdown span{
+    display: block;
+    font-size: 0.75rem;
+  }
   .score-bar {
     background: #7c2d12;
     text-align: center;
@@ -227,6 +234,8 @@
   .score-bar .player:nth-child(3) {
     direction: rtl;
   }
+
+
 
   @media only screen and (min-width: 600px) {
     .player {
