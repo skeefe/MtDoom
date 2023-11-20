@@ -6,16 +6,17 @@ import {
   onSnapshot,
   query,
   orderBy,
+  OrderByDirection,
 } from "firebase/firestore";
 
-export default function getCollectionShapshot(fbCollection) {
+export default function getCollectionShapshot(fbCollection, orderProperty:string = "Date", orderDirection:OrderByDirection = "desc") {
   const db = getFirestore(firebase_app);
 
   const [fbData, setFBData] = useState([]);
 
   useEffect(() => {
     const collectionRef = collection(db, fbCollection);
-    const q = query(collectionRef, orderBy('Date','desc'));
+    const q = query(collectionRef, orderBy(orderProperty,orderDirection));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setFBData(
