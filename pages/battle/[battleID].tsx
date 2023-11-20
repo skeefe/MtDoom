@@ -1,6 +1,5 @@
 import Container from "../../components/container";
 import Layout from "../../components/layout";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import FormBattleReport from "../../components/form-battle-report";
 
@@ -20,9 +19,6 @@ const BattleID = () => {
   return (
     <>
       <Layout>
-        <Head>
-          <title>{`Battle: ${battleID}`}</title>
-        </Head>
         <Container>
           <FormBattleReport battleID={battleID} />
         </Container>
