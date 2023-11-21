@@ -30,12 +30,15 @@ const ArmyList = () => {
                 <th>Name</th>
                 <th>Played</th>
                 <th>Won</th>
+                <th>Lost</th>
+                <th>Total Points</th>
+                <th>Points +/-</th>
               </tr>
             </thead>
 
             <tbody>
               {armyCollection.map((armyItem, index) => (
-                <ArmyListRow army={armyItem} key={index} />
+                <ArmyListRow {...armyItem} key={index} />
               ))}
             </tbody>
           </table>

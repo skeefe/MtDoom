@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
+import { getFirestore, updateDoc, onSnapshot, doc, increment, FieldValue, DocumentSnapshot } from "firebase/firestore";
 import Head from "next/head";
 import firebase_app from "./../firebase/config";
 import { formatDate } from "../utils/date-format";
 import { primaryMissions } from "../data/primary-missions";
 import { missionRules } from "../data/mission-rules";
 import { deploymentZones } from "../data/deployment-zones";
+import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 
 const FormBattleReport = (battleID) => {
   const db = getFirestore(firebase_app);
   const docId: string = battleID.battleID;
-  const docRef = doc(db, "Battles", docId);
+  const docBattlesRef = doc(db, "Battles", docId);
+  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+
 
   const [report, setReport] = useState({
     Date: { seconds: null },//Populated on doc creation.
@@ -81,6 +84,7 @@ const FormBattleReport = (battleID) => {
     AttackerMVP: "",
     DefenderMVP: "",
     Notes: "",
+    Status: "ongoing",
     TotalAttackerPrimary: 0,//50
     TotalAttackerSecondary: 0,//40
     TotalAttacker: 0,
@@ -138,8 +142,8 @@ const FormBattleReport = (battleID) => {
     let value: number = e.target.value;
 
     //Update FB
-    updateDoc(docRef, { [name]: value })
-      .then((docRef) => {
+    updateDoc(docBattlesRef, { [name]: value })
+      .then((docBattlesRef) => {
         console.log("Updated");
       })
       .catch((error) => {
@@ -156,6 +160,57 @@ const FormBattleReport = (battleID) => {
     setReport((prev) => {
       return { ...prev, [name]: value };
     });
+  }
+
+
+
+  function handleBattleEnd(e) {
+    e.preventDefault();
+
+    //Run validation on the form.
+
+    //Update the battle status.
+    /*
+    setReport((prev) => {
+      return { ...prev, ["Status"]: "completed" };
+    });
+    */
+
+    //Push data to battles.
+    const docAttackerArmyRef = doc(db, "Armies", report.AttackerArmy);
+    const docDefenderArmyRef = doc(db, "Armies", report.DefenderArmy);
+
+
+    //Update Attacker Army
+    const attackerArmyVictor: boolean = false;//Needs to get the legit value...
+
+    updateDoc(docAttackerArmyRef, {
+      Played: increment(1),
+      Won: increment(attackerArmyVictor ? 1 : 0),
+      Lost: increment(!attackerArmyVictor ? 1 : 0),
+      PrimaryPointsFor: increment(1),
+      PrimaryPointsAgainst: increment(1),
+      SecondaryPointsFor: increment(1),
+      SecondaryPointsAgainst: increment(1)//,
+      //Record: attackerArmyRecord + (attackerArmyVictor ? "W" : "L")
+    })
+      .then((docAttackerArmyRef) => {
+        console.log("Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    //Update Defender Army
+    updateDoc(docDefenderArmyRef, { Won: 1 })
+      .then((docDefenderArmyRef) => {
+        console.log("Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   }
 
   function calculateTotal() {
@@ -212,7 +267,7 @@ const FormBattleReport = (battleID) => {
       TotalDefenderSecondary;
 
     setReport((prev) => {
-      updateDoc(docRef, {
+      updateDoc(docBattlesRef, {
         TotalAttacker: TotalAttacker,
         TotalDefender: TotalDefender,
       }).catch((error) => {
@@ -243,8 +298,8 @@ const FormBattleReport = (battleID) => {
     const selection = data[Math.floor(Math.random() * data.length)];
 
     //Update FB
-    updateDoc(docRef, { [property]: selection["value"] })
-      .then((docRef) => {
+    updateDoc(docBattlesRef, { [property]: selection["value"] })
+      .then((docBattlesRef) => {
         console.log("Updated");
       })
       .catch((error) => {
@@ -328,7 +383,7 @@ const FormBattleReport = (battleID) => {
                     required
                     value={report.PrimaryMission}>
                     <option value="">-- Select the Primary Mission --</option>
-                    {primaryMissions.map((mission) => <option value={mission.value}>{mission.label}</option>)}
+                    {primaryMissions.map((mission, index) => <option value={mission.value} key={index}>{mission.label}</option>)}
                   </select>
                   <button onClick={(event) => handleRandomise(primaryMissions, "PrimaryMission")}>🎲</button>
                 </div>
@@ -343,7 +398,7 @@ const FormBattleReport = (battleID) => {
                     required
                     value={report.MissionRule}>
                     <option value="">-- Select the Mission Rule --</option>
-                    {missionRules.map((mission) => <option value={mission.value}>{mission.label}</option>)}
+                    {missionRules.map((mission, index) => <option value={mission.value} key={index}>{mission.label}</option>)}
                   </select>
                   <button onClick={(event) => handleRandomise(missionRules, "MissionRule")}>🎲</button>
                 </div>
@@ -358,7 +413,7 @@ const FormBattleReport = (battleID) => {
                     required
                     value={report.Deployment}>
                     <option value="">-- Select the Deployment Type --</option>
-                    {deploymentZones.map((deployment) => <option value={deployment.value}>{deployment.label}</option>)}
+                    {deploymentZones.map((deployment, index) => <option value={deployment.value} key={index}>{deployment.label}</option>)}
                   </select>
                   <button onClick={(event) => handleRandomise(deploymentZones, "Deployment")}>🎲</button>
                 </div>
@@ -395,24 +450,7 @@ const FormBattleReport = (battleID) => {
                     required
                   >
                     <option value="">-- Select the Attacker Army --</option>
-                    <option value="Astra Militarum">Astra Militarum</option>
-                    <option value="Space Wolves">Space Wolves</option>
-                    <option value="Ultramarines">Ultramarines</option>
-                    <option value="Craftworld">Craftworld</option>
-                    <option value="Blood Angels">Filthy Blood Angels</option>
-                    <option value="Cold Blooded">Coldies</option>
-                    <option value="Immolators">Immolators</option>
-                    <option value="Tau">Tau</option>
-                    <option value="Bastiladons">Bastiladons</option>
-                    <option value="Rusty Jeckyls">Rusty Jeckyls</option>
-                    <option value="Orks">Orks</option>
-                    <option value="Necrons">Necrons</option>
-                    <option value="Imperial Knights">Imperial Knights</option>
-                    <option value="Deathwatch">Deathwatch</option>
-                    <option value="Dark Angels">Dark Angels</option>
-                    <option value="Custodes">Custodes</option>
-                    <option value="Ad Mech">Ad Mech</option>
-                    <option value="Bridgeburners">Bridgeburners</option>
+                    {armyCollection.map((army, index) => <option value={army.id} key={index}>{army.Name}</option>)}
                   </select>
                 </div>
 
@@ -461,25 +499,7 @@ const FormBattleReport = (battleID) => {
                     value={report.DefenderArmy}
                     required
                   >
-                    <option value="">-- Select the Defender Army --</option>
-                    <option value="Astra Militarum">Astra Militarum</option>
-                    <option value="Space Wolves">Space Wolves</option>
-                    <option value="Ultramarines">Ultramarines</option>
-                    <option value="Craftworld">Craftworld</option>
-                    <option value="Blood Angels">Filthy Blood Angels</option>
-                    <option value="Cold Blooded">Coldies</option>
-                    <option value="Immolators">Immolators</option>
-                    <option value="Tau">Tau</option>
-                    <option value="Bastiladons">Bastiladons</option>
-                    <option value="Rusty Jeckyls">Rusty Jeckyls</option>
-                    <option value="Orks">Orks</option>
-                    <option value="Necrons">Necrons</option>
-                    <option value="Imperial Knights">Imperial Knights</option>
-                    <option value="Deathwatch">Deathwatch</option>
-                    <option value="Dark Angels">Dark Angels</option>
-                    <option value="Custodes">Custodes</option>
-                    <option value="Ad Mech">Ad Mech</option>
-                    <option value="Bridgeburners">Bridgeburners</option>
+                    {armyCollection.map((army, index) => <option value={army.id} key={index}>{army.Name}</option>)}
                   </select>
                 </div>
 
@@ -1408,6 +1428,7 @@ const FormBattleReport = (battleID) => {
                     required
                   >
                     <option value="">-- Select the Victor --</option>
+                    {/* Only Return the 2 Armies in the game. */}
                     <option value="James">JSmooth</option>
                     <option value="Andy">Spoonz</option>
                     <option value="Simon">Sir Sibot</option>
@@ -1494,6 +1515,18 @@ const FormBattleReport = (battleID) => {
                   ></textarea>
                 </div>
               </fieldset>
+
+              {/* - Disable/Hide until there is a victor. */}
+              <button
+                className="mx-auto mt-8 text-2xl"
+                type="submit"
+                onClick={(e) => handleBattleEnd(e)}
+              >
+                End Battle
+              </button>
+
+              {/* Add an Un-end button? This would allow me to keep the maths correct */}
+
             </form>
           </div>
         </section>
@@ -1525,9 +1558,11 @@ const FormBattleReport = (battleID) => {
       <div className="score-bar text-center">
         <span></span>
         <div className="player score text-2xl font-bold">
+          {/* Get the Name, not the ID */}
           {report.TotalAttacker}
         </div>
         <div className="player score text-2xl font-bold">
+          {/* Get the Name, not the ID */}
           {report.TotalDefender}
         </div>
       </div>
