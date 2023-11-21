@@ -14,13 +14,13 @@ export async function getServerSideProps(context) {
 
 const BattleID = () => {
   const router = useRouter();
-  const battleID = router.query.battleID;
+  const armyID = router.query.armyID;
 
   return (
     <>
       <Layout>
         <Container>
-          <FormBattleReport battleID={battleID} />
+          <h1>{armyID}</h1>
         </Container>
       </Layout>
     </>

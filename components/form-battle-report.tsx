@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, updateDoc, onSnapshot, doc, getDoc } from "firebase/firestore";
+import { getFirestore, updateDoc, onSnapshot, doc } from "firebase/firestore";
+import Head from "next/head";
 import firebase_app from "./../firebase/config";
 import { formatDate } from "../utils/date-format";
 import { primaryMissions } from "../data/primary-missions";
@@ -18,8 +19,10 @@ const FormBattleReport = (battleID) => {
     Deployment: "",
     Attacker: "",
     AttackerArmy: "",
+    AttackerDetachment: "",
     Defender: "",
     DefenderArmy: "",
+    DefenderDetachment: "",
     FirstTurn: "",
     Size: "3000pt",
     T1AttackerSecondary1Title: "",
@@ -283,6 +286,9 @@ const FormBattleReport = (battleID) => {
   */
   return (
     <>
+      <Head>
+        <title>{`${report.AttackerArmy} vs ${report.DefenderArmy}`}</title>
+      </Head>
       <div className="lg:flex gap-x-12">
         <section id="calculator" className="lg:flex-1">
           <div className="content relative">
@@ -411,6 +417,20 @@ const FormBattleReport = (battleID) => {
                 </div>
 
                 <div className="mb-3">
+                  <label htmlFor="attackerDetachment">Attacker Detachment:</label>
+                  <input
+                    id="attackererArmy"
+                    name="AttackerDetachment"
+                    placeholder="Enter Detachment"
+                    type="text"
+                    className="border p-2 w-full"
+                    onChange={(event) => handleChange(event)}
+                    value={report.AttackerDetachment}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
                   <label htmlFor="defender">Defender:</label>
                   <select
                     id="defender"
@@ -461,6 +481,20 @@ const FormBattleReport = (battleID) => {
                     <option value="Ad Mech">Ad Mech</option>
                     <option value="Bridgeburners">Bridgeburners</option>
                   </select>
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="defenderDetachment">Defender Detachment:</label>
+                  <input
+                    id="defenderArmy"
+                    name="DefenderDetachment"
+                    placeholder="Enter Detachment"
+                    type="text"
+                    className="border p-2 w-full"
+                    onChange={(event) => handleChange(event)}
+                    value={report.DefenderDetachment}
+                    required
+                  />
                 </div>
 
                 <div className="mb-3">
