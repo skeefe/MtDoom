@@ -20,13 +20,13 @@ const ArmyList = () => {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Played</th>
-                <th>Won</th>
-                <th>Lost</th>
-                <th>Total Points</th>
-                <th>Points +/-</th>
-                <th>Win %</th>
-                <th>Last 5</th>
+                <th className='text-center'>Played</th>
+                <th className='text-center'>Won</th>
+                <th className='text-center'>Lost</th>
+                <th className='text-center'>Total Points</th>
+                <th className='text-center'>Points +/-</th>
+                <th className='text-center'>Win %</th>
+                <th className='text-center'>Last 5</th>
               </tr>
             </thead>
             <tbody>

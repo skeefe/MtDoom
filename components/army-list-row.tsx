@@ -8,7 +8,9 @@ export default function ArmyListRow(army) {
   const primaryPointsFor = isNaN(army.PrimaryPointsFor) ? 0 : army.PrimaryPointsFor;
   const primaryPointsAgainst = isNaN(army.PrimaryPointsAgainst) ? 0 : army.PrimaryPointsAgainst;
   const secondaryPointsFor = isNaN(army.SecondaryPointsFor) ? 0 : army.SecondaryPointsFor;
-  const secondaryPointsAgainst = isNaN(army.SecondaryPointsAgainst) ? 0 : army.SecondaryPointsAgainst; 
+  const secondaryPointsAgainst = isNaN(army.SecondaryPointsAgainst) ? 0 : army.SecondaryPointsAgainst;
+
+  const lastFiveRecord = army.Record.slice(Math.max(army.Record.length - 5, 0))
 
   function handleRowClick(id) {
     router.push(`/army/${id}`);
@@ -21,13 +23,15 @@ export default function ArmyListRow(army) {
         className="cursor-pointer"
       >
         <td>{army.Name}</td>  
-        <td>{army.Played}</td>       
-        <td>{army.Won}</td>        
-        <td>{army.Lost}</td>
-        <td>{primaryPointsFor + secondaryPointsFor}</td>
-        <td>{primaryPointsFor + secondaryPointsFor - primaryPointsAgainst - secondaryPointsAgainst}</td>        
-        <td>{(army.Won/army.Played)*100 + "%"}</td>
-        <td>{army.Record}</td>
+        <td className="text-center">{army.Played}</td>       
+        <td className="text-center">{army.Won}</td>        
+        <td className="text-center">{army.Lost}</td>
+        <td className="text-center">{primaryPointsFor + secondaryPointsFor}</td>
+        <td className="text-center">{primaryPointsFor + secondaryPointsFor - primaryPointsAgainst - secondaryPointsAgainst}</td>        
+        <td className="text-center">{Math.round((army.Won/army.Played)*1000)/10 + "%"}</td>
+        <td className="text-center">
+          {lastFiveRecord.map((record) => record.Result)}
+        </td>
       </tr>
     </>
   );

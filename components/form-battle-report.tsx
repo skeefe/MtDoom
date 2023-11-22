@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, updateDoc, onSnapshot, doc, increment, FieldValue, DocumentSnapshot } from "firebase/firestore";
+import { getFirestore, updateDoc, onSnapshot, doc, increment, FieldValue, DocumentSnapshot, arrayUnion, serverTimestamp } from "firebase/firestore";
 import Head from "next/head";
 import firebase_app from "./../firebase/config";
 import { formatDate } from "../utils/date-format";
@@ -13,7 +13,6 @@ const FormBattleReport = (battleID) => {
   const docId: string = battleID.battleID;
   const docBattlesRef = doc(db, "Battles", docId);
   const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
-
 
   const [report, setReport] = useState({
     Date: { seconds: null },//Populated on doc creation.
@@ -162,8 +161,6 @@ const FormBattleReport = (battleID) => {
     });
   }
 
-
-
   function handleBattleEnd(e) {
     e.preventDefault();
 
@@ -191,8 +188,8 @@ const FormBattleReport = (battleID) => {
       PrimaryPointsFor: increment(1),
       PrimaryPointsAgainst: increment(1),
       SecondaryPointsFor: increment(1),
-      SecondaryPointsAgainst: increment(1)//,
-      //Record: attackerArmyRecord + (attackerArmyVictor ? "W" : "L")
+      SecondaryPointsAgainst: increment(1),
+      Record: arrayUnion({TimeStamp: Date.now(), Result:(attackerArmyVictor ? "W" : "L")})
     })
       .then((docAttackerArmyRef) => {
         console.log("Updated");
