@@ -1,30 +1,22 @@
 import React from "react";
-import getCollection from "../firebase/getCollection";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
-import { collection, getCountFromServer, getFirestore, or, query, where } from "firebase/firestore";
-import { useRouter } from "next/router";
-import firebase_app from "../firebase/config";
 import ArmyListRow from "./army-list-row";
 
 
 const ArmyList = () => {
-  const router = useRouter();
-  const db = getFirestore(firebase_app);
   const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
-  
-  function handleRowClick(id) {
-    router.push(`/army/${id}`);
-  }
+  const activeArmyCollection = armyCollection.filter(obj => Object.keys(obj).includes("Played"));
 
   return (
     <>
       <div className="lg:flex gap-x-12">
         <section id="armyList" className="lg:flex-1">
+
           <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
             Army List - Under Construction
           </h1>
 
-          <table className="armys-list">
+          <table className="armys-list w-full">
             <thead>
               <tr>
                 <th>Name</th>
@@ -33,15 +25,17 @@ const ArmyList = () => {
                 <th>Lost</th>
                 <th>Total Points</th>
                 <th>Points +/-</th>
+                <th>Win %</th>
+                <th>Last 5</th>
               </tr>
             </thead>
-
             <tbody>
-              {armyCollection.map((armyItem, index) => (
+              {activeArmyCollection.map((armyItem, index) => (
                 <ArmyListRow {...armyItem} key={index} />
               ))}
             </tbody>
           </table>
+
         </section>
       </div>
     </>
