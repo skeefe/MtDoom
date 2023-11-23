@@ -32,6 +32,7 @@ export default function ArmyListRow(army) {
         <td className="text-center">
           {lastFiveRecord.map((record) => record.Result)}
         </td>
+        <td className="text-center">{Math.round((army.FirstTurn/army.Played)*1000)/10 + "%"}</td>
       </tr>
     </>
   );

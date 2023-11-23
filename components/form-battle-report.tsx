@@ -179,17 +179,19 @@ const FormBattleReport = (battleID) => {
 
 
     //Update Attacker Army
-    const attackerArmyVictor: boolean = false;//Needs to get the legit value...
+    const attackerVictor: boolean = false;//Needs to get the legit value...
+    const attackerFirstTurn: boolean = true;//Needs to get the legit value...
 
     updateDoc(docAttackerArmyRef, {
       Played: increment(1),
-      Won: increment(attackerArmyVictor ? 1 : 0),
-      Lost: increment(!attackerArmyVictor ? 1 : 0),
+      Won: increment(attackerVictor ? 1 : 0),
+      Lost: increment(!attackerVictor ? 1 : 0),
       PrimaryPointsFor: increment(1),
       PrimaryPointsAgainst: increment(1),
       SecondaryPointsFor: increment(1),
       SecondaryPointsAgainst: increment(1),
-      Record: arrayUnion({TimeStamp: Date.now(), Result:(attackerArmyVictor ? "W" : "L")})
+      Record: arrayUnion({TimeStamp: Date.now(), Result:(attackerVictor ? "W" : "L")}),
+      FirstTurn: increment(!attackerFirstTurn ? 1 : 0),
     })
       .then((docAttackerArmyRef) => {
         console.log("Updated");

@@ -27,6 +27,7 @@ const ArmyList = () => {
                 <th className='text-center'>Points +/-</th>
                 <th className='text-center'>Win %</th>
                 <th className='text-center'>Last 5</th>
+                <th className='text-center'>First Turn %</th>
               </tr>
             </thead>
             <tbody>
