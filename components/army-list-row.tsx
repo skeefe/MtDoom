@@ -9,7 +9,6 @@ export default function ArmyListRow(army) {
   const primaryPointsAgainst = isNaN(army.PrimaryPointsAgainst) ? 0 : army.PrimaryPointsAgainst;
   const secondaryPointsFor = isNaN(army.SecondaryPointsFor) ? 0 : army.SecondaryPointsFor;
   const secondaryPointsAgainst = isNaN(army.SecondaryPointsAgainst) ? 0 : army.SecondaryPointsAgainst;
-
   //const lastFiveRecord = army.Record.slice(Math.max(army.Record.length - 5, 0))
 
   function handleRowClick(id) {

@@ -18,7 +18,6 @@ const Index = ({ }: Props) => {
                     <title>Mt. Doom: Armies</title>
                 </Head>
                 <Container>
-                    <h1>Armies</h1>
                     <ArmyList />
                 </Container>
             </Layout>

@@ -20,7 +20,12 @@ const BattleID = () => {
     <>
       <Layout>
         <Container>
-          <h1>{armyID}</h1>
+          <h1 className="text-2xl mt-20 md:text-4xl font-bold text-center mb-4 md:mb-8">
+          {armyID} 😬
+          </h1>
+          <p className="text-center text-white">
+            Coming soon...
+          </p>
         </Container>
       </Layout>
     </>
