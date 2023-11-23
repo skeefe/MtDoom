@@ -83,7 +83,7 @@ const FormBattleReport = (battleID) => {
     AttackerMVP: "",
     DefenderMVP: "",
     Notes: "",
-    Status: "ongoing",
+    isCompleted: false,
     TotalAttackerPrimary: 0,//50
     TotalAttackerSecondary: 0,//40
     TotalAttacker: 0,
@@ -166,35 +166,51 @@ const FormBattleReport = (battleID) => {
 
     //Run validation on the form.
 
-    //Update the battle status.
-    /*
+    //Update the battle status and lock all changes (disable fieldsets).
+    updateDoc(docBattlesRef, { ["isCompleted"]: true })
+      .then((docBattlesRef) => {
+        console.log("Battle Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setReport((prev) => {
-      return { ...prev, ["Status"]: "completed" };
+      return { ...prev, ["isCompleted"]: true };
     });
-    */
 
     //Push data to battles.
     const docAttackerArmyRef = doc(db, "Armies", report.AttackerArmy);
     const docDefenderArmyRef = doc(db, "Armies", report.DefenderArmy);
 
+    let attackerVictor: boolean = null;
+    if (report.Victor === report.Attacker) {
+      attackerVictor = true;
+    }
+    else if (report.Victor === report.Defender) {
+      attackerVictor = false;
+    }
 
-    //Update Attacker Army
-    const attackerVictor: boolean = false;//Needs to get the legit value...
-    const attackerFirstTurn: boolean = true;//Needs to get the legit value...
+    let attackerFirstTurn: boolean = null;
+    if (report.FirstTurn === report.Attacker) {
+      attackerFirstTurn = true;
+    }
+    else if (report.FirstTurn === report.Defender) {
+      attackerFirstTurn = false;
+    }
 
     updateDoc(docAttackerArmyRef, {
       Played: increment(1),
       Won: increment(attackerVictor ? 1 : 0),
       Lost: increment(!attackerVictor ? 1 : 0),
-      PrimaryPointsFor: increment(1),
-      PrimaryPointsAgainst: increment(1),
-      SecondaryPointsFor: increment(1),
-      SecondaryPointsAgainst: increment(1),
-      Record: arrayUnion({TimeStamp: Date.now(), Result:(attackerVictor ? "W" : "L")}),
-      FirstTurn: increment(!attackerFirstTurn ? 1 : 0),
+      PrimaryPointsFor: increment(report.TotalAttackerPrimary),
+      PrimaryPointsAgainst: increment(report.TotalDefenderPrimary),
+      SecondaryPointsFor: increment(report.TotalAttackerSecondary),
+      SecondaryPointsAgainst: increment(report.TotalDefenderSecondary),
+      //Record: arrayUnion({ TimeStamp: Date.now(), Result: (attackerVictor ? "W" : "L") }),
+      FirstTurn: increment(attackerFirstTurn ? 1 : 0),
     })
       .then((docAttackerArmyRef) => {
-        console.log("Updated");
+        console.log("Attacker Updated");
       })
       .catch((error) => {
         console.log(error);
@@ -202,14 +218,98 @@ const FormBattleReport = (battleID) => {
 
 
     //Update Defender Army
-    updateDoc(docDefenderArmyRef, { Won: 1 })
+    updateDoc(docDefenderArmyRef, {
+      Played: increment(1),
+      Won: increment(!attackerVictor ? 1 : 0),
+      Lost: increment(attackerVictor ? 1 : 0),
+      PrimaryPointsFor: increment(report.TotalDefenderPrimary),
+      PrimaryPointsAgainst: increment(report.TotalAttackerPrimary),
+      SecondaryPointsFor: increment(report.TotalDefenderSecondary),
+      SecondaryPointsAgainst: increment(report.TotalAttackerSecondary),
+      //Record: arrayUnion({ TimeStamp: Date.now(), Result: (!attackerVictor ? "W" : "L") }),
+      FirstTurn: increment(!attackerFirstTurn ? 1 : 0),
+    })
       .then((docDefenderArmyRef) => {
-        console.log("Updated");
+        console.log("Defender Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function handleBattleRestart(e) {
+    e.preventDefault();
+
+    const docAttackerArmyRef = doc(db, "Armies", report.AttackerArmy);
+    const docDefenderArmyRef = doc(db, "Armies", report.DefenderArmy);
+
+    
+    let attackerVictor: boolean = null;
+    if (report.Victor === report.Attacker) {
+      attackerVictor = true;
+    }
+    else if (report.Victor === report.Defender) {
+      attackerVictor = false;
+    }
+
+    let attackerFirstTurn: boolean = null;
+    if (report.FirstTurn === report.Attacker) {
+      attackerFirstTurn = true;
+    }
+    else if (report.FirstTurn === report.Defender) {
+      attackerFirstTurn = false;
+    }
+
+    updateDoc(docAttackerArmyRef, {
+      Played: increment(-1),
+      Won: increment(attackerVictor ? -1 : 0),
+      Lost: increment(!attackerVictor ? -1 : 0),
+      PrimaryPointsFor: increment(-report.TotalAttackerPrimary),
+      PrimaryPointsAgainst: increment(-report.TotalDefenderPrimary),
+      SecondaryPointsFor: increment(-report.TotalAttackerSecondary),
+      SecondaryPointsAgainst: increment(-report.TotalDefenderSecondary),
+      //Record: arrayUnion({ TimeStamp: Date.now(), Result: (attackerVictor ? "W" : "L") }),
+      FirstTurn: increment(attackerFirstTurn ? -1 : 0),
+    })
+      .then((docAttackerArmyRef) => {
+        console.log("Attacker un-Updated");
       })
       .catch((error) => {
         console.log(error);
       });
 
+
+    //Update Defender Army
+    updateDoc(docDefenderArmyRef, {
+      Played: increment(-1),
+      Won: increment(!attackerVictor ? -1 : 0),
+      Lost: increment(attackerVictor ? -1 : 0),
+      PrimaryPointsFor: increment(-report.TotalDefenderPrimary),
+      PrimaryPointsAgainst: increment(-report.TotalAttackerPrimary),
+      SecondaryPointsFor: increment(-report.TotalDefenderSecondary),
+      SecondaryPointsAgainst: increment(-report.TotalAttackerSecondary),
+      //Record: arrayUnion({ TimeStamp: Date.now(), Result: (!attackerVictor ? "W" : "L") }),
+      FirstTurn: increment(!attackerFirstTurn ? -1 : 0),
+    })
+      .then((docDefenderArmyRef) => {
+        console.log("Defender un-Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    //Update the battle status and unlock fieldsets.
+    updateDoc(docBattlesRef, { ["isCompleted"]: false })
+      .then((docBattlesRef) => {
+        console.log("Battle Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setReport((prev) => {
+      return { ...prev, ["isCompleted"]: false };
+    });
   }
 
   function calculateTotal() {
@@ -312,6 +412,14 @@ const FormBattleReport = (battleID) => {
     return;
   }
 
+  let BattleStatusButton;
+  if (!report.isCompleted) {
+    BattleStatusButton = <button className="mx-auto mt-8 text-2xl" type="submit" onClick={(e) => handleBattleEnd(e)}>End Battle</button>
+  }
+  else {
+    BattleStatusButton = <button className="mx-auto mt-8 text-2xl" type="submit" onClick={(e) => handleBattleRestart(e)}>Restart Battle</button>
+  }
+
 
   /*
   //On Change highlight.
@@ -352,7 +460,7 @@ const FormBattleReport = (battleID) => {
             </h1>
             <form>
               {/* SETUP */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>Setup</legend>
 
                 <div className="mb-3">
@@ -360,7 +468,7 @@ const FormBattleReport = (battleID) => {
                   <select
                     id="size"
                     name="Size"
-                    className="border p-2 w-full"
+                    className="border p-2 w-full 123"
                     onChange={handleChange}
                     required
                     value={report.Size}
@@ -538,7 +646,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 1 */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>Turn 1</legend>
                 <div className="player">
                   <div className="secondaries">
@@ -677,7 +785,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 2 */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>Turn 2</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -848,7 +956,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 3 */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>Turn 3</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1021,7 +1129,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 4 */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>Turn 4</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1192,7 +1300,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 5 */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>Turn 5</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1363,7 +1471,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* END OF GAME */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>End of Game</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1402,7 +1510,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* POST GAME */}
-              <fieldset>
+              <fieldset disabled={report.isCompleted}>
                 <legend>Post Game</legend>
 
                 <div className="mb-20">
@@ -1516,15 +1624,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* - Disable/Hide until there is a victor. */}
-              <button
-                className="mx-auto mt-8 text-2xl"
-                type="submit"
-                onClick={(e) => handleBattleEnd(e)}
-              >
-                End Battle
-              </button>
-
-              {/* Add an Un-end button? This would allow me to keep the maths correct */}
+              {BattleStatusButton}
 
             </form>
           </div>
