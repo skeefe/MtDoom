@@ -25,6 +25,7 @@ export default function ArmyListRow(army) {
         <td className="text-center">{army.Played}</td>       
         <td className="text-center">{army.Won}</td>        
         <td className="text-center">{army.Lost}</td>
+        <td className="text-center">{Math.round((primaryPointsFor + secondaryPointsFor)/army.Played*10)/10}</td>
         <td className="text-center">{primaryPointsFor + secondaryPointsFor}</td>
         <td className="text-center">{primaryPointsFor + secondaryPointsFor - primaryPointsAgainst - secondaryPointsAgainst}</td>        
         <td className="text-center">{Math.round((army.Won/army.Played)*1000)/10 + "%"}</td>

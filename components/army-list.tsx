@@ -23,6 +23,7 @@ const ArmyList = () => {
                 <th className='text-center'>Played</th>
                 <th className='text-center'>Won</th>
                 <th className='text-center'>Lost</th>
+                <th className='text-center'>Avg. Points</th>
                 <th className='text-center'>Total Points</th>
                 <th className='text-center'>Points +/-</th>
                 <th className='text-center'>Win %</th>

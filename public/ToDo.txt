@@ -18,26 +18,15 @@
 - Handle Gambits
 - Move the "Create Battle" button to a better location (below the table is too low).
 - 10th Edition Ladder
-- 10th Edition army table.
+    - How to order?
 - Army Dashboard.
-    - Nav with each army in dropdown.
-    - Generic section:
-        - Global win rate.
-        - Total Wins
-        - Total Losses
-        - Points Scored
-            - Primary
-            - Secondary
-        - Points Conceeded
-            - Primary
-            - Secondary
-        - Average Points Scored
-            - Primary
-            - Secondary
-        - MVPs
-        - LVPs?
-        - Last 5 matches: WLWWL
-        - Comments
+    - Average Points Scored
+        - Primary
+        - Secondary
+    - MVPs
+    - LVPs?
+    - Last 5 matches: WLWWL
+    - Comments
     - VS Team Section:
         Same as above?
 
@@ -52,3 +41,4 @@
 - User dashboard stuff.
 - Battle Setup modal
 - Pagination on the Battle List table.
+- Sortable tables.
