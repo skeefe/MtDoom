@@ -13,7 +13,7 @@ const ArmyList = () => {
         <section id="armyList" className="lg:flex-1">
 
           <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
-            Army List - Under Construction
+            Armies
           </h1>
 
           <table className="armys-list w-full">
@@ -26,7 +26,7 @@ const ArmyList = () => {
                 <th className='text-center'>Total Points</th>
                 <th className='text-center'>Points +/-</th>
                 <th className='text-center'>Win %</th>
-                <th className='text-center'>Last 5</th>
+                {/* <th className='text-center'>Last 5</th> */}
                 <th className='text-center'>First Turn %</th>
               </tr>
             </thead>

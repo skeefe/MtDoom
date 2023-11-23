@@ -10,10 +10,10 @@ export default function ArmyListRow(army) {
   const secondaryPointsFor = isNaN(army.SecondaryPointsFor) ? 0 : army.SecondaryPointsFor;
   const secondaryPointsAgainst = isNaN(army.SecondaryPointsAgainst) ? 0 : army.SecondaryPointsAgainst;
 
-  const lastFiveRecord = army.Record.slice(Math.max(army.Record.length - 5, 0))
+  //const lastFiveRecord = army.Record.slice(Math.max(army.Record.length - 5, 0))
 
   function handleRowClick(id) {
-    router.push(`/army/${id}`);
+    router.push(`/armies/${id}`);
   }
 
   return (
@@ -29,9 +29,11 @@ export default function ArmyListRow(army) {
         <td className="text-center">{primaryPointsFor + secondaryPointsFor}</td>
         <td className="text-center">{primaryPointsFor + secondaryPointsFor - primaryPointsAgainst - secondaryPointsAgainst}</td>        
         <td className="text-center">{Math.round((army.Won/army.Played)*1000)/10 + "%"}</td>
+        {/*
         <td className="text-center">
           {lastFiveRecord.map((record) => record.Result)}
         </td>
+        */}
         <td className="text-center">{Math.round((army.FirstTurn/army.Played)*1000)/10 + "%"}</td>
       </tr>
     </>
