@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, updateDoc, onSnapshot, doc, increment, FieldValue, DocumentSnapshot, arrayUnion, serverTimestamp } from "firebase/firestore";
+import { getFirestore, updateDoc, onSnapshot, doc, increment} from "firebase/firestore";
 import Head from "next/head";
 import firebase_app from "./../firebase/config";
 import { formatDate } from "../utils/date-format";
@@ -332,8 +332,7 @@ const FormBattleReport = (battleID) => {
       getNumber(report.T4AttackerSecondary1) +
       getNumber(report.T4AttackerSecondary2) +
       getNumber(report.T5AttackerSecondary1) +
-      getNumber(report.T5AttackerSecondary2) +
-      getNumber(report.AttackerMissionBonus);
+      getNumber(report.T5AttackerSecondary2)
     TotalAttackerSecondary = TotalAttackerSecondary > 40 ? 40 : TotalAttackerSecondary;
 
     const TotalAttacker: number =

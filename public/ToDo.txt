@@ -1,7 +1,6 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Next
-- Move Army list to data.
 - Move General list to data.
 - General tidy up.
     - Break out to smaller components.

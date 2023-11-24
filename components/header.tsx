@@ -13,7 +13,7 @@ const Header = () => {
         </a>
         <nav className="float-right">
           <ul className="flex">
-          ``<li><Link href="/" className="text-slate-300 hover:text-white no-underline transition-colors transition duration-300 ease-in-out font-logo ml-8">Battles</Link></li>
+            <li><Link href="/" className="text-slate-300 hover:text-white no-underline transition-colors transition duration-300 ease-in-out font-logo ml-8">Battles</Link></li>
             <li><Link href="/armies" className="text-slate-300 hover:text-white no-underline transition-colors transition duration-300 ease-in-out font-logo ml-8">Armies</Link></li>
           </ul>
         </nav>
