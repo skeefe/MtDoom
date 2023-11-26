@@ -164,6 +164,42 @@
   }
 
   /* Custom Layout */
+
+  .dashboard-panel{
+    background:#1e293b;
+    padding:2rem;
+    height: 400px;
+    border-radius:.35rem;
+  }
+  .dashboard-panel .recharts-default-legend{
+    margin-left:70px!important;
+  }
+  .stats-panel header{
+    background:#1e293b;
+    padding:.75rem 1rem;
+    color: #e2e8f0;
+  }
+  .stats-panel main{
+    background:#64748b;
+    border-radius:0 0 .35rem .35rem;
+  }
+  .stats-panel main div{
+    background: #1e293b;
+    color: #fff;
+    padding:1.5rem;
+    font-weight:bold;
+    border-radius:.35rem;
+    text-align: center;
+    font-size:3rem;
+  }
+  .stats-panel main span{
+    display:block;
+    font-weight:normal;
+    font-size:1rem;
+    color: #e2e8f0;
+  }
+
+
   .player {
     margin-bottom: 3.5rem;
   }
