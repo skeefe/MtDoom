@@ -15,8 +15,6 @@ const ArmyID = () => {
   const router = useRouter();
   const armyID = router.query.armyID;
 
-  console.log('armyID:',armyID);
-
   return (
     <>
       <Layout>
