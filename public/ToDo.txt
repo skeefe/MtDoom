@@ -17,18 +17,9 @@
     - LVPs?
     - Last 5 matches: WLWWL
 - Install Prettier on home laptop
-- Order 10th edition ladder (Armies Table)
 
-## Horizon?
-- Auth
-    - Avatars (general or army?)
-- Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
-- Add/invite friends.
-- Style based on Victory.
-- Game dashboard stuff! :D 
-- User dashboard stuff.
-- Battle Setup modal
-- Pagination on the Battle List table.
+## Next 
+- Order 10th edition ladder (Armies Table)
 - Sortable tables.
 - Names with Nicknames.
 - Handle Fixed Secondaries...
@@ -38,4 +29,14 @@
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
     - Also needs to update the Armies collection...
-- Table column sorting.
+
+
+## Horizon
+- Auth
+    - Avatars (general or army?)
+    - Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
+- Add/invite friends.
+- Battle Setup modal? Scorecard wizard with panels for setup, each turn, batle end.
+- Game dashboard stuff! :D 
+- User dashboard stuff
+- Pagination on the Battle List table.
