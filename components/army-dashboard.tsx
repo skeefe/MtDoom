@@ -64,8 +64,13 @@ const ArmyDashboard = (armyID) => {
   //- Stats
   let opponentBattles = [];
   armyBattles.forEach(groupBattles);
+
+  //THIS NEEDS TO BE REVISITED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   function groupBattles(battle) {
+    //console.log("battle", battle);
+
     //Get opponent Army.
+    const isAttacker = battle.AttackerArmy === docId ? true : false;
     const opponentArmy =
       battle.AttackerArmy === docId ? battle.DefenderArmy : battle.AttackerArmy;
     const victor =
@@ -88,29 +93,91 @@ const ArmyDashboard = (armyID) => {
     ++opponent["Played"];
     victor === docId ? ++opponent["Won"] : ++opponent["Lost"];
 
+    //Get Scores //Need to cover this for nulls (aka NaNs)
+    opponent["PrimaryPointsFor"] = isAttacker
+      ? parseInt(battle["T2AttackerPrimary"]) +
+        parseInt(battle["T3AttackerPrimary"]) +
+        parseInt(battle["T4AttackerPrimary"]) +
+        parseInt(battle["T5AttackerPrimary"])
+      : parseInt(battle["T2DefenderPrimary"]) +
+        parseInt(battle["T3DefenderPrimary"]) +
+        parseInt(battle["T4DefenderPrimary"]) +
+        parseInt(battle["T5DefenderPrimary"]);
+
+    opponent["PrimaryPointsAgainst"] = isAttacker
+      ? parseInt(battle["T2DefenderPrimary"]) +
+        parseInt(battle["T3DefenderPrimary"]) +
+        parseInt(battle["T4DefenderPrimary"]) +
+        parseInt(battle["T5DefenderPrimary"])
+      : parseInt(battle["T2AttackerPrimary"]) +
+        parseInt(battle["T3AttackerPrimary"]) +
+        parseInt(battle["T4AttackerPrimary"]) +
+        parseInt(battle["T5AttackerPrimary"]);
+
+    opponent["SecondaryPointsFor"] = isAttacker
+      ? parseInt(battle["T1AttackerSecondary1"]) +
+        parseInt(battle["T1AttackerSecondary2"]) +
+        parseInt(battle["T2AttackerSecondary1"]) +
+        parseInt(battle["T2AttackerSecondary2"]) +
+        parseInt(battle["T3AttackerSecondary1"]) +
+        parseInt(battle["T3AttackerSecondary2"]) +
+        parseInt(battle["T4AttackerSecondary1"]) +
+        parseInt(battle["T4AttackerSecondary2"]) +
+        parseInt(battle["T5AttackerSecondary1"]) +
+        parseInt(battle["T5AttackerSecondary2"])
+      : parseInt(battle["T1DefenderSecondary1"]) +
+        parseInt(battle["T1DefenderSecondary2"]) +
+        parseInt(battle["T2DefenderSecondary1"]) +
+        parseInt(battle["T2DefenderSecondary2"]) +
+        parseInt(battle["T3DefenderSecondary1"]) +
+        parseInt(battle["T3DefenderSecondary2"]) +
+        parseInt(battle["T4DefenderSecondary1"]) +
+        parseInt(battle["T4DefenderSecondary2"]) +
+        parseInt(battle["T5DefenderSecondary1"]) +
+        parseInt(battle["T5DefenderSecondary2"]);
+
+    opponent["SecondaryPointsAgainst"] = isAttacker
+      ? parseInt(battle["T1DefenderSecondary1"]) +
+        parseInt(battle["T1DefenderSecondary2"]) +
+        parseInt(battle["T2DefenderSecondary1"]) +
+        parseInt(battle["T2DefenderSecondary2"]) +
+        parseInt(battle["T3DefenderSecondary1"]) +
+        parseInt(battle["T3DefenderSecondary2"]) +
+        parseInt(battle["T4DefenderSecondary1"]) +
+        parseInt(battle["T4DefenderSecondary2"]) +
+        parseInt(battle["T5DefenderSecondary1"]) +
+        parseInt(battle["T5DefenderSecondary2"])
+      : parseInt(battle["T1AttackerSecondary1"]) +
+        parseInt(battle["T1AttackerSecondary2"]) +
+        parseInt(battle["T2AttackerSecondary1"]) +
+        parseInt(battle["T2AttackerSecondary2"]) +
+        parseInt(battle["T3AttackerSecondary1"]) +
+        parseInt(battle["T3AttackerSecondary2"]) +
+        parseInt(battle["T4AttackerSecondary1"]) +
+        parseInt(battle["T4AttackerSecondary2"]) +
+        parseInt(battle["T5AttackerSecondary1"]) +
+        parseInt(battle["T5AttackerSecondary2"]);
+
     //-------------
 
     //Handle NaNs.
-    console.log(dashboard.Opponent.PrimaryPointsFor);
+    //Need to handle max Primary and Secondaries... or just store total primary and secondary in the battle table...
 
-    opponentPrimaryPointsFor = isNaN(dashboard.Opponent.PrimaryPointsFor)
+    opponentPrimaryPointsFor = isNaN(opponent["PrimaryPointsFor"])
       ? 0
-      : dashboard.Opponent.PrimaryPointsFor;
+      : opponent["PrimaryPointsFor"];
 
-    opponentPrimaryPointsAgainst = isNaN(
-      dashboard.Opponent.PrimaryPointsAgainst
-    )
+    opponentPrimaryPointsAgainst = isNaN(opponent["PrimaryPointsAgainst"])
       ? 0
-      : dashboard.Opponent.PrimaryPointsAgainst;
-    opponentSecondaryPointsFor = isNaN(dashboard.Opponent.SecondaryPointsFor)
-      ? 0
-      : dashboard.Opponent.SecondaryPointsFor;
-    opponentSecondaryPointsAgainst = isNaN(
-      dashboard.Opponent.SecondaryPointsAgainst
-    )
-      ? 0
-      : dashboard.Opponent.SecondaryPointsAgainst;
+      : opponent["PrimaryPointsAgainst"];
 
+    opponentSecondaryPointsFor = isNaN(opponent["SecondaryPointsFor"])
+      ? 0
+      : opponent["SecondaryPointsFor"];
+
+    opponentSecondaryPointsAgainst = isNaN(opponent["SecondaryPointsAgainst"])
+      ? 0
+      : opponent["SecondaryPointsAgainst"];
     //-------------
   }
 
