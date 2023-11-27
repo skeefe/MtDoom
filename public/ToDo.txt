@@ -1,6 +1,6 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
-## Next
+## Now
 - Move General list to data.
 - General tidy up.
     - Break out to smaller components.
@@ -8,14 +8,7 @@
 - Loader
 - Improve/Simplify CSS. SASS?
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
-- Names with Nicknames.
 - Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
-- Add Delete button to the Battles table.
-    - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
-    - Delete button needs to be clickable in a row with onClick
-- Handle Fixed Secondaries...
-- Handle Gambits
-- Move the "Create Battle" button to a better location (below the table is too low).
 - 10th Edition Ladder
     - How to order?
 - Army Dashboard.
@@ -25,11 +18,7 @@
     - MVPs
     - LVPs?
     - Last 5 matches: WLWWL
-    - Comments
-    - VS Team Section:
-        Same as above?
-- Prettyify
-
+- Install Prettier on home laptop
 
 ## Horizon?
 - Auth
@@ -42,3 +31,11 @@
 - Battle Setup modal
 - Pagination on the Battle List table.
 - Sortable tables.
+- Names with Nicknames.
+- Handle Fixed Secondaries...
+- Handle Gambits
+- Move the "Create Battle" button to a better location (below the table is too low).
+- Add Delete button to the Battles table.
+    - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
+    - Delete button needs to be clickable in a row with onClick
+    - Also needs to update the Armies collection...
