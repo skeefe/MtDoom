@@ -6,17 +6,18 @@ import Spinner from "./spinner";
 
 const BattleList = () => {
   const router = useRouter();
-  const battleCollection = getCollectionSnapshot("Battles");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [loading, setLoading] = useState(false);
+  const battleCollection = getCollectionSnapshot("Battles", setIsLoading);
 
   function handleRowClick(id) {
     router.push(`/battle/${id}`);
   }
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <>
-      <Spinner visible={loading} />
       <div className="lg:flex gap-x-12">
         <section id="battleList" className="lg:flex-1">
           <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">

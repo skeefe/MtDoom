@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from "react";
 import firebase_app from "../firebase/config";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
-import Head from 'next/head';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
+import Head from "next/head";
+import {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  Label,
+} from "recharts";
 import getArmyBattleCollectionSnapshot from "../firebase/getArmyBattleCollectionSnapshot";
 import { formatDate } from "../utils/date-format";
 import router from "next/router";
-
+import Spinner from "./spinner";
 
 const ArmyDashboard = (armyID) => {
+  const [isLoading, setIsLoading] = useState(true);
 
   /*
   const primaryPointsFor = isNaN(army.PrimaryPointsFor) ? 0 : army.PrimaryPointsFor;
@@ -45,11 +57,10 @@ const ArmyDashboard = (armyID) => {
       SecondaryPointsAgainst: 0,
       SecondaryPointsFor: 0,
       Won: 0,
-    }
+    },
   });
 
-  const armyBattles = getArmyBattleCollectionSnapshot(docId);
-
+  const armyBattles = getArmyBattleCollectionSnapshot(docId, setIsLoading);
 
   //Used in:
   //- "Record vs Opponents" graph
@@ -58,32 +69,52 @@ const ArmyDashboard = (armyID) => {
   armyBattles.forEach(groupBattles);
   function groupBattles(battle) {
     //Get opponent Army.
-    const opponentArmy = battle.AttackerArmy === docId ? battle.DefenderArmy : battle.AttackerArmy;
-    const victor = battle.Attacker === battle.Victor ? battle.AttackerArmy : battle.DefenderArmy;
+    const opponentArmy =
+      battle.AttackerArmy === docId ? battle.DefenderArmy : battle.AttackerArmy;
+    const victor =
+      battle.Attacker === battle.Victor
+        ? battle.AttackerArmy
+        : battle.DefenderArmy;
 
     //Check if it exists in the opponentBattles array.
-    if (!opponentBattles.some(opponent => opponent.Army === opponentArmy)) {
+    if (!opponentBattles.some((opponent) => opponent.Army === opponentArmy)) {
       //Push new opponent to array.
-      opponentBattles.push({ Army: opponentArmy, Played: 0, Won: 0, Lost: 0 })
+      opponentBattles.push({ Army: opponentArmy, Played: 0, Won: 0, Lost: 0 });
     }
 
     //Find the opponent armies object.
-    const opponent = opponentBattles.find((army) => army["Army"] === opponentArmy);
+    const opponent = opponentBattles.find(
+      (army) => army["Army"] === opponentArmy
+    );
 
     //Increment
     ++opponent["Played"];
-    victor === docId ? ++opponent["Won"] : ++opponent["Lost"]
+    victor === docId ? ++opponent["Won"] : ++opponent["Lost"];
   }
 
   //Get the max number of games played.
-  const yAxisLength = Math.max(...opponentBattles.map(opponent => opponent.Played));
+  const yAxisLength = Math.max(
+    ...opponentBattles.map((opponent) => opponent.Played)
+  );
 
-
-
-  const opponentPrimaryPointsFor = isNaN(dashboard.Opponent.PrimaryPointsFor) ? 0 : dashboard.Opponent.PrimaryPointsFor;
-  const opponentPrimaryPointsAgainst = isNaN(dashboard.Opponent.PrimaryPointsAgainst) ? 0 : dashboard.Opponent.PrimaryPointsAgainst;
-  const opponentSecondaryPointsFor = isNaN(dashboard.Opponent.SecondaryPointsFor) ? 0 : dashboard.Opponent.SecondaryPointsFor;
-  const opponentSecondaryPointsAgainst = isNaN(dashboard.Opponent.SecondaryPointsAgainst) ? 0 : dashboard.Opponent.SecondaryPointsAgainst;
+  const opponentPrimaryPointsFor = isNaN(dashboard.Opponent.PrimaryPointsFor)
+    ? 0
+    : dashboard.Opponent.PrimaryPointsFor;
+  const opponentPrimaryPointsAgainst = isNaN(
+    dashboard.Opponent.PrimaryPointsAgainst
+  )
+    ? 0
+    : dashboard.Opponent.PrimaryPointsAgainst;
+  const opponentSecondaryPointsFor = isNaN(
+    dashboard.Opponent.SecondaryPointsFor
+  )
+    ? 0
+    : dashboard.Opponent.SecondaryPointsFor;
+  const opponentSecondaryPointsAgainst = isNaN(
+    dashboard.Opponent.SecondaryPointsAgainst
+  )
+    ? 0
+    : dashboard.Opponent.SecondaryPointsAgainst;
   function handleOpponentChange(e) {
     let value: string = e.target.value;
 
@@ -91,7 +122,8 @@ const ArmyDashboard = (armyID) => {
     if (value === "") {
       setDashboard((prev) => {
         return {
-          ...prev, ["Opponent"]: {
+          ...prev,
+          ["Opponent"]: {
             Name: dashboard.Name,
             Lost: dashboard.Lost,
             FirstTurn: dashboard.FirstTurn,
@@ -100,14 +132,14 @@ const ArmyDashboard = (armyID) => {
             PrimaryPointsFor: dashboard.PrimaryPointsFor,
             SecondaryPointsAgainst: dashboard.SecondaryPointsAgainst,
             SecondaryPointsFor: dashboard.SecondaryPointsFor,
-            Won: dashboard.Won
-          }
+            Won: dashboard.Won,
+          },
         };
       });
       return;
     }
 
-    const opponentData = opponentBattles.filter(opponent => {
+    const opponentData = opponentBattles.filter((opponent) => {
       return opponent.Army === value;
     })[0];
 
@@ -119,17 +151,17 @@ const ArmyDashboard = (armyID) => {
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "Armies", docId), (doc) => {
       setDashboard((prev) => {
-        return { ...prev, ...doc.data(), };
+        return { ...prev, ...doc.data() };
       });
     });
     return () => unsubscribe();
   }, []);
 
-
   useEffect(() => {
     setDashboard((prev) => {
       return {
-        ...prev, ["Opponent"]: {
+        ...prev,
+        ["Opponent"]: {
           Name: dashboard.Name,
           Lost: dashboard.Lost,
           FirstTurn: dashboard.FirstTurn,
@@ -138,22 +170,25 @@ const ArmyDashboard = (armyID) => {
           PrimaryPointsFor: dashboard.PrimaryPointsFor,
           SecondaryPointsAgainst: dashboard.SecondaryPointsAgainst,
           SecondaryPointsFor: dashboard.SecondaryPointsFor,
-          Won: dashboard.Won
-        }, };
-      });
+          Won: dashboard.Won,
+        },
+      };
+    });
   }, [
-      dashboard.Name,
-      dashboard.Lost,
-      dashboard.FirstTurn,
-      dashboard.Played,
-      dashboard.PrimaryPointsAgainst,
-      dashboard.PrimaryPointsFor,
-      dashboard.SecondaryPointsAgainst,
-      dashboard.SecondaryPointsFor,
-      dashboard.Won
-    ]);
+    dashboard.Name,
+    dashboard.Lost,
+    dashboard.FirstTurn,
+    dashboard.Played,
+    dashboard.PrimaryPointsAgainst,
+    dashboard.PrimaryPointsFor,
+    dashboard.SecondaryPointsAgainst,
+    dashboard.SecondaryPointsFor,
+    dashboard.Won,
+  ]);
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <>
       <Head>
         <title>{`Mt. Doom: ${dashboard.Name}`}</title>
@@ -165,7 +200,9 @@ const ArmyDashboard = (armyID) => {
 
         <div className="stats-panel mb-20">
           <header className="flex justify-between w-full items-center">
-            <h2 className="text-lg md:text-2xl font-bold mb-0">{dashboard.Name} Stats</h2>
+            <h2 className="text-lg md:text-2xl font-bold mb-0">
+              {dashboard.Name} Stats
+            </h2>
             <div>
               <label className="text-sm">Filter by opponent:</label>
               <select
@@ -176,30 +213,66 @@ const ArmyDashboard = (armyID) => {
                 required
               >
                 <option value="">All Opponents</option>
-                {opponentBattles.map((opponent, index) => <option value={opponent.Army} key={index}>{opponent.Army}</option>)}
+                {opponentBattles.map((opponent, index) => (
+                  <option value={opponent.Army} key={index}>
+                    {opponent.Army}
+                  </option>
+                ))}
               </select>
             </div>
           </header>
           <main className="flex w-full items-stretch gap-4 py-4 px-4">
-              <div className="grow w-full"><span>Played</span>{dashboard.Opponent.Played}</div>
-              <div className="grow w-full"><span>Won</span>{dashboard.Opponent.Won}</div>
-              <div className="grow w-full"><span>Lost</span>{dashboard.Opponent.Lost}</div>
-              <div className="grow w-full"><span>Avg. Points</span>{Math.round((opponentPrimaryPointsFor + opponentSecondaryPointsFor)/dashboard.Opponent.Played*10)/10}</div>
-              <div className="grow w-full"><span>Total Points</span>{opponentPrimaryPointsFor + opponentSecondaryPointsFor}</div>
-              <div className="grow w-full"><span>Points +/-</span>{opponentPrimaryPointsFor + opponentSecondaryPointsFor -  opponentPrimaryPointsAgainst - opponentSecondaryPointsAgainst}</div>
-              <div className="grow w-full"><span>Win %</span>{Math.round((dashboard.Opponent.Won/dashboard.Opponent.Played)*1000)/10 + "%"}</div>
-              {/* 
+            <div className="grow w-full">
+              <span>Played</span>
+              {dashboard.Opponent.Played}
+            </div>
+            <div className="grow w-full">
+              <span>Won</span>
+              {dashboard.Opponent.Won}
+            </div>
+            <div className="grow w-full">
+              <span>Lost</span>
+              {dashboard.Opponent.Lost}
+            </div>
+            <div className="grow w-full">
+              <span>Avg. Points</span>
+              {Math.round(
+                ((opponentPrimaryPointsFor + opponentSecondaryPointsFor) /
+                  dashboard.Opponent.Played) *
+                  10
+              ) / 10}
+            </div>
+            <div className="grow w-full">
+              <span>Total Points</span>
+              {opponentPrimaryPointsFor + opponentSecondaryPointsFor}
+            </div>
+            <div className="grow w-full">
+              <span>Points +/-</span>
+              {opponentPrimaryPointsFor +
+                opponentSecondaryPointsFor -
+                opponentPrimaryPointsAgainst -
+                opponentSecondaryPointsAgainst}
+            </div>
+            <div className="grow w-full">
+              <span>Win %</span>
+              {Math.round(
+                (dashboard.Opponent.Won / dashboard.Opponent.Played) * 1000
+              ) /
+                10 +
+                "%"}
+            </div>
+            {/* 
                 //Come back to this.
                 <li>First Turn %: {Math.round((dashboard.Opponent.FirstTurn/dashboard.Opponent.Played)*1000)/10 + "%"}</li>
               */}
           </main>
         </div>
 
-
         <div className="dashboard-panels flex gap-4 mb-20">
-
           <div className="dashboard-panel w-full">
-            <h2 className="text-lg md:text-xl font-bold text-center mb-4 md:mb-6">Record vs Opponents</h2>
+            <h2 className="text-lg md:text-xl font-bold text-center mb-4 md:mb-6">
+              Record vs Opponents
+            </h2>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={opponentBattles}
@@ -207,14 +280,14 @@ const ArmyDashboard = (armyID) => {
                 margin={{ left: -43, bottom: 58 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="Army">
-                </XAxis>
+                <XAxis dataKey="Army"></XAxis>
                 <YAxis allowDecimals={false} domain={[0, yAxisLength]} />
-                <Tooltip wrapperStyle={{
-                  color: "#64748b",
-                  backgroundColor: "#fff",
-                  border: "2px solid #1e293b",
-                }}
+                <Tooltip
+                  wrapperStyle={{
+                    color: "#64748b",
+                    backgroundColor: "#fff",
+                    border: "2px solid #1e293b",
+                  }}
                   cursor={false}
                 />
                 <Legend verticalAlign="bottom" />
@@ -224,16 +297,16 @@ const ArmyDashboard = (armyID) => {
             </ResponsiveContainer>
           </div>
 
-          <div className="dashboard-panel w-full">Line Graph showing points and Win/Loss</div>
+          <div className="dashboard-panel w-full">
+            Line Graph showing points and Win/Loss
+          </div>
 
           <div className="dashboard-panel w-full">Generals</div>
 
           <div className="dashboard-panel w-full">MVP/LVP</div>
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-8">
-          Battles
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-8">Battles</h2>
         <table className="battles-list">
           <thead>
             <tr>
@@ -258,12 +331,18 @@ const ArmyDashboard = (armyID) => {
                   <span>Deployment: {battleItem.Deployment}</span>
                 </td>
                 <td>
-                  <strong>{battleItem.AttackerArmy}{battleItem.Victor === battleItem.Attacker ? " 🎖" : null}</strong>
+                  <strong>
+                    {battleItem.AttackerArmy}
+                    {battleItem.Victor === battleItem.Attacker ? " 🎖" : null}
+                  </strong>
                   <span>General: {battleItem.Attacker}</span>
                   <span>Total: {battleItem.TotalAttacker}</span>
                 </td>
                 <td>
-                  <strong>{battleItem.DefenderArmy}{battleItem.Victor === battleItem.Defender ? " 🎖" : null}</strong>
+                  <strong>
+                    {battleItem.DefenderArmy}
+                    {battleItem.Victor === battleItem.Defender ? " 🎖" : null}
+                  </strong>
                   <span>General: {battleItem.Defender}</span>
                   <span>Total: {battleItem.TotalDefender}</span>
                 </td>
@@ -271,7 +350,6 @@ const ArmyDashboard = (armyID) => {
             ))}
           </tbody>
         </table>
-
       </section>
     </>
   );

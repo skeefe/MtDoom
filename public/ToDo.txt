@@ -5,7 +5,6 @@
 - General tidy up.
     - Break out to smaller components.
     - Loop the turns in a sub component.
-- Loader
 - Improve/Simplify CSS. SASS?
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
@@ -16,7 +15,6 @@
     - MVPs
     - LVPs?
     - Last 5 matches: WLWWL
-- Install Prettier on home laptop
 
 ## Next 
 - Order 10th edition ladder (Armies Table)
@@ -40,3 +38,4 @@
 - Game dashboard stuff! :D 
 - User dashboard stuff
 - Pagination on the Battle List table.
+- Optimise spinner - Volcano with smoke lifting?

@@ -1,15 +1,11 @@
 import React from "react";
 
-export default function Spinner(visible) {
-  console.log(visible);
+export default function Spinner() {
   return (
     <>
-      {visible.visible ? (
-        <div className="my-40 text-center text-white text-6xl font-bold">
-          Spinner Baby!
-        </div>
-      ) : null}
-      ;
+      <div className="spinner-container">
+        <div className="loading-spinner"></div>
+      </div>
     </>
   );
 }

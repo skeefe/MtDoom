@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 
 //Order by date.
-export default function getArmyBattleCollectionSnapshot(armyID:string) {
+export default function getArmyBattleCollectionSnapshot(armyID:string, isLoading: Function) {
   const db = getFirestore(firebase_app);
   const [fbData, setFBData] = useState([]);
 
@@ -28,6 +28,7 @@ export default function getArmyBattleCollectionSnapshot(armyID:string) {
           };
         })
       );
+      isLoading(false);
     });
 
     return unsubscribe;

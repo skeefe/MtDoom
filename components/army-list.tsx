@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import ArmyListRow from "./army-list-row";
+import Spinner from "./spinner";
 
 const ArmyList = () => {
-  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const armyCollection = getCollectionSnapshot(
+    "Armies",
+    setIsLoading,
+    "Name",
+    "asc"
+  );
   const activeArmyCollection = armyCollection.filter((obj) =>
     Object.keys(obj).includes("Played")
   );
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <>
       <div className="lg:flex gap-x-12">
         <section id="armyList" className="lg:flex-1">

@@ -6,7 +6,6 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 // - Using the getSnapshot method instead.
 export default function getCollection(colllection) {
   const [data, setdata] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -26,19 +25,12 @@ export default function getCollection(colllection) {
       }
 
       setdata(data);
-      setLoading(false);
-
-      console.log(data);
     };
     getData();
     return () => {
       data;
     };
   }, []);
-
-  if (loading) {
-    //return "...Loading"
-  }
 
   return data;
 }

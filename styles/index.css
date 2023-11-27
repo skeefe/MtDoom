@@ -155,6 +155,30 @@
     background: #f97316;
   }
 
+  /* Spinner */
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 10px solid #1e293b;
+    border-top: 10px solid #94a3b8;
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+  }
+  .spinner-container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+  }
+
   /* Graphs */
   .recharts-legend-item-text{
     color:#cbd5e1;

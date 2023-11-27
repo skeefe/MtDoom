@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, updateDoc, onSnapshot, doc, increment} from "firebase/firestore";
+import {
+  getFirestore,
+  updateDoc,
+  onSnapshot,
+  doc,
+  increment,
+} from "firebase/firestore";
 import Head from "next/head";
 import firebase_app from "./../firebase/config";
 import { formatDate } from "../utils/date-format";
@@ -7,15 +13,23 @@ import { primaryMissions } from "../data/primary-missions";
 import { missionRules } from "../data/mission-rules";
 import { deploymentZones } from "../data/deployment-zones";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
+import Spinner from "./spinner";
 
 const FormBattleReport = (battleID) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const db = getFirestore(firebase_app);
   const docId: string = battleID.battleID;
   const docBattlesRef = doc(db, "Battles", docId);
-  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+  const armyCollection = getCollectionSnapshot(
+    "Armies",
+    setIsLoading,
+    "Name",
+    "asc"
+  );
 
   const [report, setReport] = useState({
-    Date: { seconds: null },//Populated on doc creation.
+    Date: { seconds: null }, //Populated on doc creation.
     PrimaryMission: "",
     MissionRule: "",
     Deployment: "",
@@ -84,11 +98,11 @@ const FormBattleReport = (battleID) => {
     DefenderMVP: "",
     Notes: "",
     isCompleted: false,
-    TotalAttackerPrimary: 0,//50
-    TotalAttackerSecondary: 0,//40
+    TotalAttackerPrimary: 0, //50
+    TotalAttackerSecondary: 0, //40
     TotalAttacker: 0,
-    TotalDefenderPrimary: 0,//50
-    TotalDefenderSecondary: 0,//40
+    TotalDefenderPrimary: 0, //50
+    TotalDefenderSecondary: 0, //40
     TotalDefender: 0,
   });
 
@@ -185,16 +199,14 @@ const FormBattleReport = (battleID) => {
     let attackerVictor: boolean = null;
     if (report.Victor === report.Attacker) {
       attackerVictor = true;
-    }
-    else if (report.Victor === report.Defender) {
+    } else if (report.Victor === report.Defender) {
       attackerVictor = false;
     }
 
     let attackerFirstTurn: boolean = null;
     if (report.FirstTurn === report.Attacker) {
       attackerFirstTurn = true;
-    }
-    else if (report.FirstTurn === report.Defender) {
+    } else if (report.FirstTurn === report.Defender) {
       attackerFirstTurn = false;
     }
 
@@ -215,7 +227,6 @@ const FormBattleReport = (battleID) => {
       .catch((error) => {
         console.log(error);
       });
-
 
     //Update Defender Army
     updateDoc(docDefenderArmyRef, {
@@ -243,20 +254,17 @@ const FormBattleReport = (battleID) => {
     const docAttackerArmyRef = doc(db, "Armies", report.AttackerArmy);
     const docDefenderArmyRef = doc(db, "Armies", report.DefenderArmy);
 
-    
     let attackerVictor: boolean = null;
     if (report.Victor === report.Attacker) {
       attackerVictor = true;
-    }
-    else if (report.Victor === report.Defender) {
+    } else if (report.Victor === report.Defender) {
       attackerVictor = false;
     }
 
     let attackerFirstTurn: boolean = null;
     if (report.FirstTurn === report.Attacker) {
       attackerFirstTurn = true;
-    }
-    else if (report.FirstTurn === report.Defender) {
+    } else if (report.FirstTurn === report.Defender) {
       attackerFirstTurn = false;
     }
 
@@ -278,7 +286,6 @@ const FormBattleReport = (battleID) => {
         console.log(error);
       });
 
-
     //Update Defender Army
     updateDoc(docDefenderArmyRef, {
       Played: increment(-1),
@@ -298,7 +305,6 @@ const FormBattleReport = (battleID) => {
         console.log(error);
       });
 
-
     //Update the battle status and unlock fieldsets.
     updateDoc(docBattlesRef, { ["isCompleted"]: false })
       .then((docBattlesRef) => {
@@ -313,14 +319,14 @@ const FormBattleReport = (battleID) => {
   }
 
   function calculateTotal() {
-
     let TotalAttackerPrimary: number =
       getNumber(report.T2AttackerPrimary) +
       getNumber(report.T3AttackerPrimary) +
       getNumber(report.T4AttackerPrimary) +
       getNumber(report.T5AttackerPrimary) +
       getNumber(report.AttackerMissionBonus);
-    TotalAttackerPrimary = TotalAttackerPrimary > 50 ? 50 : TotalAttackerPrimary;
+    TotalAttackerPrimary =
+      TotalAttackerPrimary > 50 ? 50 : TotalAttackerPrimary;
 
     let TotalAttackerSecondary: number =
       getNumber(report.T1AttackerSecondary1) +
@@ -332,12 +338,11 @@ const FormBattleReport = (battleID) => {
       getNumber(report.T4AttackerSecondary1) +
       getNumber(report.T4AttackerSecondary2) +
       getNumber(report.T5AttackerSecondary1) +
-      getNumber(report.T5AttackerSecondary2)
-    TotalAttackerSecondary = TotalAttackerSecondary > 40 ? 40 : TotalAttackerSecondary;
+      getNumber(report.T5AttackerSecondary2);
+    TotalAttackerSecondary =
+      TotalAttackerSecondary > 40 ? 40 : TotalAttackerSecondary;
 
-    const TotalAttacker: number =
-      TotalAttackerPrimary +
-      TotalAttackerSecondary
+    const TotalAttacker: number = TotalAttackerPrimary + TotalAttackerSecondary;
 
     let TotalDefenderPrimary: number =
       getNumber(report.T2DefenderPrimary) +
@@ -345,7 +350,8 @@ const FormBattleReport = (battleID) => {
       getNumber(report.T4DefenderPrimary) +
       getNumber(report.T5DefenderPrimary) +
       getNumber(report.DefenderMissionBonus);
-    TotalDefenderPrimary = TotalDefenderPrimary > 50 ? 50 : TotalDefenderPrimary;
+    TotalDefenderPrimary =
+      TotalDefenderPrimary > 50 ? 50 : TotalDefenderPrimary;
 
     let TotalDefenderSecondary: number =
       getNumber(report.T1DefenderSecondary1) +
@@ -358,11 +364,10 @@ const FormBattleReport = (battleID) => {
       getNumber(report.T4DefenderSecondary2) +
       getNumber(report.T5DefenderSecondary1) +
       getNumber(report.T5DefenderSecondary2);
-    TotalDefenderSecondary = TotalDefenderSecondary > 40 ? 40 : TotalDefenderSecondary;
+    TotalDefenderSecondary =
+      TotalDefenderSecondary > 40 ? 40 : TotalDefenderSecondary;
 
-    const TotalDefender: number =
-      TotalDefenderPrimary +
-      TotalDefenderSecondary;
+    const TotalDefender: number = TotalDefenderPrimary + TotalDefenderSecondary;
 
     setReport((prev) => {
       updateDoc(docBattlesRef, {
@@ -413,12 +418,26 @@ const FormBattleReport = (battleID) => {
 
   let BattleStatusButton;
   if (!report.isCompleted) {
-    BattleStatusButton = <button className="mx-auto mt-8 text-2xl" type="submit" onClick={(e) => handleBattleEnd(e)}>End Battle</button>
+    BattleStatusButton = (
+      <button
+        className="mx-auto mt-8 text-2xl"
+        type="submit"
+        onClick={(e) => handleBattleEnd(e)}
+      >
+        End Battle
+      </button>
+    );
+  } else {
+    BattleStatusButton = (
+      <button
+        className="mx-auto mt-8 text-2xl"
+        type="submit"
+        onClick={(e) => handleBattleRestart(e)}
+      >
+        Restart Battle
+      </button>
+    );
   }
-  else {
-    BattleStatusButton = <button className="mx-auto mt-8 text-2xl" type="submit" onClick={(e) => handleBattleRestart(e)}>Restart Battle</button>
-  }
-
 
   /*
   //On Change highlight.
@@ -445,7 +464,9 @@ const FormBattleReport = (battleID) => {
     }, 1000);
   }
   */
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <>
       <Head>
         <title>{`${report.AttackerArmy} vs ${report.DefenderArmy}`}</title>
@@ -453,7 +474,9 @@ const FormBattleReport = (battleID) => {
       <div className="lg:flex gap-x-12">
         <section id="calculator" className="lg:flex-1">
           <div className="content relative">
-            <time className="hidden sm:inline sm:absolute sm:right-0 sm:pr-8">{formatDate(report.Date.seconds)}</time>
+            <time className="hidden sm:inline sm:absolute sm:right-0 sm:pr-8">
+              {formatDate(report.Date.seconds)}
+            </time>
             <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
               Battle Report
             </h1>
@@ -487,11 +510,22 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     required
-                    value={report.PrimaryMission}>
+                    value={report.PrimaryMission}
+                  >
                     <option value="">-- Select the Primary Mission --</option>
-                    {primaryMissions.map((mission, index) => <option value={mission.value} key={index}>{mission.label}</option>)}
+                    {primaryMissions.map((mission, index) => (
+                      <option value={mission.value} key={index}>
+                        {mission.label}
+                      </option>
+                    ))}
                   </select>
-                  <button onClick={(event) => handleRandomise(primaryMissions, "PrimaryMission")}>🎲</button>
+                  <button
+                    onClick={(event) =>
+                      handleRandomise(primaryMissions, "PrimaryMission")
+                    }
+                  >
+                    🎲
+                  </button>
                 </div>
 
                 <div className="mb-3 random">
@@ -502,11 +536,22 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     required
-                    value={report.MissionRule}>
+                    value={report.MissionRule}
+                  >
                     <option value="">-- Select the Mission Rule --</option>
-                    {missionRules.map((mission, index) => <option value={mission.value} key={index}>{mission.label}</option>)}
+                    {missionRules.map((mission, index) => (
+                      <option value={mission.value} key={index}>
+                        {mission.label}
+                      </option>
+                    ))}
                   </select>
-                  <button onClick={(event) => handleRandomise(missionRules, "MissionRule")}>🎲</button>
+                  <button
+                    onClick={(event) =>
+                      handleRandomise(missionRules, "MissionRule")
+                    }
+                  >
+                    🎲
+                  </button>
                 </div>
 
                 <div className="mb-3 random">
@@ -517,11 +562,22 @@ const FormBattleReport = (battleID) => {
                     className="border p-2 w-full"
                     onChange={handleChange}
                     required
-                    value={report.Deployment}>
+                    value={report.Deployment}
+                  >
                     <option value="">-- Select the Deployment Type --</option>
-                    {deploymentZones.map((deployment, index) => <option value={deployment.value} key={index}>{deployment.label}</option>)}
+                    {deploymentZones.map((deployment, index) => (
+                      <option value={deployment.value} key={index}>
+                        {deployment.label}
+                      </option>
+                    ))}
                   </select>
-                  <button onClick={(event) => handleRandomise(deploymentZones, "Deployment")}>🎲</button>
+                  <button
+                    onClick={(event) =>
+                      handleRandomise(deploymentZones, "Deployment")
+                    }
+                  >
+                    🎲
+                  </button>
                 </div>
 
                 <div className="mb-3">
@@ -556,12 +612,18 @@ const FormBattleReport = (battleID) => {
                     required
                   >
                     <option value="">-- Select the Attacker Army --</option>
-                    {armyCollection.map((army, index) => <option value={army.id} key={index}>{army.Name}</option>)}
+                    {armyCollection.map((army, index) => (
+                      <option value={army.id} key={index}>
+                        {army.Name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="attackerDetachment">Attacker Detachment:</label>
+                  <label htmlFor="attackerDetachment">
+                    Attacker Detachment:
+                  </label>
                   <input
                     id="attackererArmy"
                     name="AttackerDetachment"
@@ -605,12 +667,18 @@ const FormBattleReport = (battleID) => {
                     value={report.DefenderArmy}
                     required
                   >
-                    {armyCollection.map((army, index) => <option value={army.id} key={index}>{army.Name}</option>)}
+                    {armyCollection.map((army, index) => (
+                      <option value={army.id} key={index}>
+                        {army.Name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="defenderDetachment">Defender Detachment:</label>
+                  <label htmlFor="defenderDetachment">
+                    Defender Detachment:
+                  </label>
                   <input
                     id="defenderArmy"
                     name="DefenderDetachment"
@@ -1624,7 +1692,6 @@ const FormBattleReport = (battleID) => {
 
               {/* - Disable/Hide until there is a victor. */}
               {BattleStatusButton}
-
             </form>
           </div>
         </section>
@@ -1634,7 +1701,9 @@ const FormBattleReport = (battleID) => {
             <span></span>
             <div className="player score">
               <h2>{report.AttackerArmy}</h2>
-              <span className="text-4xl font-bold text-white">{report.TotalAttacker}</span>
+              <span className="text-4xl font-bold text-white">
+                {report.TotalAttacker}
+              </span>
               <div className="score-breakdown">
                 <span>Primary: {report.TotalAttackerPrimary}/50</span>
                 <span>Secondary: {report.TotalAttackerSecondary}/40</span>
@@ -1642,7 +1711,9 @@ const FormBattleReport = (battleID) => {
             </div>
             <div className="player score">
               <h2>{report.DefenderArmy}</h2>
-              <span className="text-4xl font-bold text-white">{report.TotalDefender}</span>
+              <span className="text-4xl font-bold text-white">
+                {report.TotalDefender}
+              </span>
               <div className="score-breakdown">
                 <span>Primary: {report.TotalDefenderPrimary}/50</span>
                 <span>Secondary: {report.TotalDefenderSecondary}/40</span>
@@ -1650,7 +1721,6 @@ const FormBattleReport = (battleID) => {
             </div>
           </div>
         </section>
-
       </div>
 
       <div className="score-bar text-center">
