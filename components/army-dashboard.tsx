@@ -22,13 +22,6 @@ import Spinner from "./spinner";
 const ArmyDashboard = (armyID) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  /*
-  const primaryPointsFor = isNaN(army.PrimaryPointsFor) ? 0 : army.PrimaryPointsFor;
-  const primaryPointsAgainst = isNaN(army.PrimaryPointsAgainst) ? 0 : army.PrimaryPointsAgainst;
-  const secondaryPointsFor = isNaN(army.SecondaryPointsFor) ? 0 : army.SecondaryPointsFor;
-  const secondaryPointsAgainst = isNaN(army.SecondaryPointsAgainst) ? 0 : army.SecondaryPointsAgainst;
-  */
-
   function handleRowClick(id) {
     router.push(`/battle/${id}`);
   }
@@ -60,6 +53,10 @@ const ArmyDashboard = (armyID) => {
     },
   });
 
+  let opponentPrimaryPointsFor = 0;
+  let opponentPrimaryPointsAgainst = 0;
+  let opponentSecondaryPointsFor = 0;
+  let opponentSecondaryPointsAgainst = 0;
   const armyBattles = getArmyBattleCollectionSnapshot(docId, setIsLoading);
 
   //Used in:
@@ -90,6 +87,31 @@ const ArmyDashboard = (armyID) => {
     //Increment
     ++opponent["Played"];
     victor === docId ? ++opponent["Won"] : ++opponent["Lost"];
+
+    //-------------
+
+    //Handle NaNs.
+    console.log(dashboard.Opponent.PrimaryPointsFor);
+
+    opponentPrimaryPointsFor = isNaN(dashboard.Opponent.PrimaryPointsFor)
+      ? 0
+      : dashboard.Opponent.PrimaryPointsFor;
+
+    opponentPrimaryPointsAgainst = isNaN(
+      dashboard.Opponent.PrimaryPointsAgainst
+    )
+      ? 0
+      : dashboard.Opponent.PrimaryPointsAgainst;
+    opponentSecondaryPointsFor = isNaN(dashboard.Opponent.SecondaryPointsFor)
+      ? 0
+      : dashboard.Opponent.SecondaryPointsFor;
+    opponentSecondaryPointsAgainst = isNaN(
+      dashboard.Opponent.SecondaryPointsAgainst
+    )
+      ? 0
+      : dashboard.Opponent.SecondaryPointsAgainst;
+
+    //-------------
   }
 
   //Get the max number of games played.
@@ -97,24 +119,6 @@ const ArmyDashboard = (armyID) => {
     ...opponentBattles.map((opponent) => opponent.Played)
   );
 
-  const opponentPrimaryPointsFor = isNaN(dashboard.Opponent.PrimaryPointsFor)
-    ? 0
-    : dashboard.Opponent.PrimaryPointsFor;
-  const opponentPrimaryPointsAgainst = isNaN(
-    dashboard.Opponent.PrimaryPointsAgainst
-  )
-    ? 0
-    : dashboard.Opponent.PrimaryPointsAgainst;
-  const opponentSecondaryPointsFor = isNaN(
-    dashboard.Opponent.SecondaryPointsFor
-  )
-    ? 0
-    : dashboard.Opponent.SecondaryPointsFor;
-  const opponentSecondaryPointsAgainst = isNaN(
-    dashboard.Opponent.SecondaryPointsAgainst
-  )
-    ? 0
-    : dashboard.Opponent.SecondaryPointsAgainst;
   function handleOpponentChange(e) {
     let value: string = e.target.value;
 
@@ -200,7 +204,7 @@ const ArmyDashboard = (armyID) => {
 
         <div className="stats-panel mb-20">
           <header className="flex justify-between w-full items-center">
-            <h2 className="text-lg md:text-2xl font-bold mb-0">
+            <h2 className="text-lg md:text-xl font-bold mb-0">
               {dashboard.Name} Stats
             </h2>
             <div>
@@ -221,51 +225,91 @@ const ArmyDashboard = (armyID) => {
               </select>
             </div>
           </header>
-          <main className="flex w-full items-stretch gap-4 py-4 px-4">
-            <div className="grow w-full">
-              <span>Played</span>
-              {dashboard.Opponent.Played}
+          <div className="stats-list">
+            <div className="stat">
+              <span className="stat-title">Played</span>
+              <span className="stat-value">{dashboard.Opponent.Played}</span>
             </div>
-            <div className="grow w-full">
-              <span>Won</span>
-              {dashboard.Opponent.Won}
+            <div className="stat">
+              <span className="stat-title">Won</span>
+              <span className="stat-value">{dashboard.Opponent.Won}</span>
             </div>
-            <div className="grow w-full">
-              <span>Lost</span>
-              {dashboard.Opponent.Lost}
+            <div className="stat">
+              <span className="stat-title">Lost</span>
+              <span className="stat-value">{dashboard.Opponent.Lost}</span>
             </div>
-            <div className="grow w-full">
-              <span>Avg. Points</span>
-              {Math.round(
-                ((opponentPrimaryPointsFor + opponentSecondaryPointsFor) /
-                  dashboard.Opponent.Played) *
-                  10
-              ) / 10}
+            <div className="stat">
+              <span className="stat-title">Avg. Points</span>
+              <span className="stat-value">
+                {Math.round(
+                  ((opponentPrimaryPointsFor + opponentSecondaryPointsFor) /
+                    dashboard.Opponent.Played) *
+                    10
+                ) / 10}
+              </span>
+              <div className="stat-appendix">
+                <div>
+                  <span className="stat-appendix-title">Primary</span>
+                  <span className="stat-appendix-value">
+                    {((opponentPrimaryPointsFor / dashboard.Opponent.Played) *
+                      10) /
+                      10}
+                  </span>
+                </div>
+                <div>
+                  <span className="stat-appendix-title">Secondary</span>
+                  <span className="stat-appendix-value">
+                    {((opponentSecondaryPointsFor / dashboard.Opponent.Played) *
+                      10) /
+                      10}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="grow w-full">
-              <span>Total Points</span>
-              {opponentPrimaryPointsFor + opponentSecondaryPointsFor}
+            <div className="stat">
+              <span className="stat-title">Total Points</span>
+              <span className="stat-value">
+                {opponentPrimaryPointsFor + opponentSecondaryPointsFor}
+              </span>
+              <div className="stat-appendix">
+                <div>
+                  <span className="stat-appendix-title">Primary</span>
+                  <span className="stat-appendix-value">
+                    {opponentPrimaryPointsFor}
+                  </span>
+                </div>
+                <div>
+                  <span className="stat-appendix-title">Secondary</span>
+                  <span className="stat-appendix-value">
+                    {opponentSecondaryPointsFor}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="grow w-full">
-              <span>Points +/-</span>
-              {opponentPrimaryPointsFor +
-                opponentSecondaryPointsFor -
-                opponentPrimaryPointsAgainst -
-                opponentSecondaryPointsAgainst}
+            <div className="stat">
+              <span className="stat-title">Points +/-</span>
+              <span className="stat-value">
+                {opponentPrimaryPointsFor +
+                  opponentSecondaryPointsFor -
+                  opponentPrimaryPointsAgainst -
+                  opponentSecondaryPointsAgainst}
+              </span>
             </div>
-            <div className="grow w-full">
-              <span>Win %</span>
-              {Math.round(
-                (dashboard.Opponent.Won / dashboard.Opponent.Played) * 1000
-              ) /
-                10 +
-                "%"}
+            <div className="stat">
+              <span className="stat-title">Win %</span>
+              <span className="stat-value">
+                {Math.round(
+                  (dashboard.Opponent.Won / dashboard.Opponent.Played) * 1000
+                ) /
+                  10 +
+                  "%"}
+              </span>
             </div>
             {/* 
                 //Come back to this.
                 <li>First Turn %: {Math.round((dashboard.Opponent.FirstTurn/dashboard.Opponent.Played)*1000)/10 + "%"}</li>
               */}
-          </main>
+          </div>
         </div>
 
         <div className="dashboard-panels flex gap-4 mb-20">
