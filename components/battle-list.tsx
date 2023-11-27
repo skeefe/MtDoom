@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import { formatDate } from "../utils/date-format";
 import { useRouter } from "next/router";
+import Spinner from "./spinner";
 
 const BattleList = () => {
   const router = useRouter();
   const battleCollection = getCollectionSnapshot("Battles");
+
+  const [loading, setLoading] = useState(false);
 
   function handleRowClick(id) {
     router.push(`/battle/${id}`);
@@ -13,6 +16,7 @@ const BattleList = () => {
 
   return (
     <>
+      <Spinner visible={loading} />
       <div className="lg:flex gap-x-12">
         <section id="battleList" className="lg:flex-1">
           <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8">
@@ -43,12 +47,18 @@ const BattleList = () => {
                     <span>Deployment: {battleItem.Deployment}</span>
                   </td>
                   <td>
-                    <strong>{battleItem.AttackerArmy}{battleItem.Victor === battleItem.Attacker ? " 🎖" : null}</strong>
+                    <strong>
+                      {battleItem.AttackerArmy}
+                      {battleItem.Victor === battleItem.Attacker ? " 🎖" : null}
+                    </strong>
                     <span>General: {battleItem.Attacker}</span>
                     <span>Total: {battleItem.TotalAttacker}</span>
                   </td>
                   <td>
-                    <strong>{battleItem.DefenderArmy}{battleItem.Victor === battleItem.Defender ? " 🎖" : null}</strong>
+                    <strong>
+                      {battleItem.DefenderArmy}
+                      {battleItem.Victor === battleItem.Defender ? " 🎖" : null}
+                    </strong>
                     <span>General: {battleItem.Defender}</span>
                     <span>Total: {battleItem.TotalDefender}</span>
                   </td>
