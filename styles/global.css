@@ -1,0 +1,98 @@
+@import "@fontsource/aleo";
+
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+body {
+  background: #475569;
+  margin: 0;
+  padding: 4.5rem 0 0;
+}
+
+/* Header */
+.primary-header {
+  background: #1e293b;
+  box-sizing: border-box;
+  height: 2.25rem;
+  padding: 0.25rem 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.logo-link {
+  text-decoration: none;
+}
+.logo {
+  color: #e2e8f0;
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 1.75rem;
+  font-family: Aleo, sans-serif;
+}
+.primary-nav {
+  float: right;
+}
+.primary-nav > ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.primary-nav a {
+  color: #e2e8f0;
+  font-family: Aleo, sans-serif;
+  margin-left: 2rem;
+  text-decoration: none;
+}
+.primary-nav a:hover {
+  color: #fff;
+}
+
+/* Footer */
+
+/* Container */
+.container {
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+/*
+ section {
+    padding-top: 6rem;
+  }
+  .content {
+    background: #1e293b;
+    border-radius: 0.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 0.5rem 1.5rem;
+    padding: 2rem 2rem 1rem;
+    margin-top: -2rem;
+    color: #cbd5e1;
+  }
+
+*/

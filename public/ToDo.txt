@@ -1,6 +1,7 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
+- Description META tag.
 - Move General list to data.
 - General tidy up.
     - Break out to smaller components.

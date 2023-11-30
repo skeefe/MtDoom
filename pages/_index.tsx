@@ -2,8 +2,14 @@ import Container from "../components/container";
 import Layout from "../components/layout";
 import Head from "next/head";
 import BattleList from "../components/battle-list";
-import firebase_app from "./../firebase/config";
-import { getFirestore, updateDoc, collection, addDoc, Timestamp } from "firebase/firestore";
+import firebase_app from "../firebase/config";
+import {
+  getFirestore,
+  updateDoc,
+  collection,
+  addDoc,
+  Timestamp,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 
 import React from "react";
@@ -18,13 +24,13 @@ const Index = ({}: Props) => {
     const docRef = await addDoc(collection(db, "Battles"), {});
 
     //Add date.
-    updateDoc(docRef, { "Date": Timestamp.now() })
+    updateDoc(docRef, { Date: Timestamp.now() })
       .then((docRef) => {
         //console.log("Date added.");
       })
       .catch((error) => {
         console.log(error);
-      });          
+      });
 
     router.push(`/battle/${docRef.id}`);
   }

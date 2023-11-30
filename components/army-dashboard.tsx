@@ -5,7 +5,6 @@ import Head from "next/head";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
