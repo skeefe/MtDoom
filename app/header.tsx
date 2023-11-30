@@ -12,20 +12,13 @@ const Header = () => {
         <nav className="primary-nav">
           <ul>
             <li>
-              <Link
-                href="/"
-                className="text-slate-300 hover:text-white no-underline transition-colors transition duration-300 ease-in-out font-logo ml-8"
-              >
-                Battles
-              </Link>
+              <Link href="/">Battles</Link>
             </li>
             <li>
-              <Link
-                href="/armies"
-                className="text-slate-300 hover:text-white no-underline transition-colors transition duration-300 ease-in-out font-logo ml-8"
-              >
-                Armies
-              </Link>
+              <Link href="/armies">Armies</Link>
+            </li>
+            <li>
+              <Link href="/generals">Generals</Link>
             </li>
           </ul>
         </nav>

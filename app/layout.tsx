@@ -1,5 +1,8 @@
 import Script from "next/script";
 import Header from "./header";
+import Footer from "./footer";
+import Container from "../components/container";
+import "../styles/global.css";
 
 export const metadata = {
   title: "Mt. Doom",
@@ -34,7 +37,10 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        {children}
+        <main className="primary-content">
+          <Container>{children}</Container>
+        </main>
+        <Footer />
       </body>
     </html>
   );
