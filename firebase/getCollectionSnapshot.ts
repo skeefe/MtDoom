@@ -9,9 +9,14 @@ import {
   OrderByDirection,
 } from "firebase/firestore";
 
-export default function getCollectionShapshot(fbCollection, isLoading: Function, orderProperty: string = "Date", orderDirection: OrderByDirection = "desc") {
+export default function getCollectionShapshot(
+  fbCollection,
+  isLoading: Function,
+  orderProperty: string = "Date",
+  orderDirection: OrderByDirection = "desc"
+) {
   const db = getFirestore(firebase_app);
-  const [fbData, setFBData] = useState([]);
+  const [fbData, setFBData] = useState(new Array());
 
   useEffect(() => {
     const collectionRef = collection(db, fbCollection);

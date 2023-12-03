@@ -97,7 +97,7 @@ const FormBattleReport = (battleID) => {
     AttackerMVP: "",
     DefenderMVP: "",
     Notes: "",
-    isCompleted: false,
+    IsCompleted: false,
     TotalAttackerPrimary: 0, //50
     TotalAttackerSecondary: 0, //40
     TotalAttacker: 0,
@@ -181,7 +181,7 @@ const FormBattleReport = (battleID) => {
     //Run validation on the form.
 
     //Update the battle status and lock all changes (disable fieldsets).
-    updateDoc(docBattlesRef, { ["isCompleted"]: true })
+    updateDoc(docBattlesRef, { ["IsCompleted"]: true })
       .then((docBattlesRef) => {
         console.log("Battle Updated");
       })
@@ -189,7 +189,7 @@ const FormBattleReport = (battleID) => {
         console.log(error);
       });
     setReport((prev) => {
-      return { ...prev, ["isCompleted"]: true };
+      return { ...prev, ["IsCompleted"]: true };
     });
 
     //Push data to battles.
@@ -306,7 +306,7 @@ const FormBattleReport = (battleID) => {
       });
 
     //Update the battle status and unlock fieldsets.
-    updateDoc(docBattlesRef, { ["isCompleted"]: false })
+    updateDoc(docBattlesRef, { ["IsCompleted"]: false })
       .then((docBattlesRef) => {
         console.log("Battle Updated");
       })
@@ -314,7 +314,7 @@ const FormBattleReport = (battleID) => {
         console.log(error);
       });
     setReport((prev) => {
-      return { ...prev, ["isCompleted"]: false };
+      return { ...prev, ["IsCompleted"]: false };
     });
   }
 
@@ -417,7 +417,7 @@ const FormBattleReport = (battleID) => {
   }
 
   let BattleStatusButton;
-  if (!report.isCompleted) {
+  if (!report.IsCompleted) {
     BattleStatusButton = (
       <button
         className="mx-auto mt-8 text-2xl"
@@ -482,7 +482,7 @@ const FormBattleReport = (battleID) => {
             </h1>
             <form>
               {/* SETUP */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>Setup</legend>
 
                 <div className="mb-3">
@@ -713,7 +713,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 1 */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>Turn 1</legend>
                 <div className="player">
                   <div className="secondaries">
@@ -852,7 +852,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 2 */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>Turn 2</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1023,7 +1023,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 3 */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>Turn 3</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1196,7 +1196,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 4 */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>Turn 4</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1367,7 +1367,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* TURN 5 */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>Turn 5</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1538,7 +1538,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* END OF GAME */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>End of Game</legend>
                 <div className="player">
                   <div className="mb-3">
@@ -1577,7 +1577,7 @@ const FormBattleReport = (battleID) => {
               </fieldset>
 
               {/* POST GAME */}
-              <fieldset disabled={report.isCompleted}>
+              <fieldset disabled={report.IsCompleted}>
                 <legend>Post Game</legend>
 
                 <div className="mb-20">

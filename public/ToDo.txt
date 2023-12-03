@@ -20,7 +20,6 @@
 - Names with Nicknames.
 - Handle Fixed Secondaries...
 - Handle Gambits
-- Move the "Create Battle" button to a better location (below the table is too low).
 - Add Delete button to the Battles table.
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
