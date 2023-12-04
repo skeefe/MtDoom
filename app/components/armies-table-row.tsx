@@ -3,7 +3,7 @@ import { ArmySummary } from "../types/army";
 import rowClick from "../../utils/row-click";
 import { useRouter } from "next/navigation";
 
-const ArmyTableRow = (props: { army: ArmySummary }) => {
+const ArmiesTableRow = (props: { army: ArmySummary }) => {
   const router = useRouter();
 
   return (
@@ -26,4 +26,4 @@ const ArmyTableRow = (props: { army: ArmySummary }) => {
   );
 };
 
-export default ArmyTableRow;
+export default ArmiesTableRow;

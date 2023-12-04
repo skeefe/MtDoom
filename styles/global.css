@@ -7,7 +7,9 @@ html {
 body {
   background: #475569;
   display: grid;
-  font-family: ui-sans-serif, system-ui, Segoe UI, Segoe UI Emoji, Roboto;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   grid-template-rows: 1fr auto;
   line-height: 1.4;
   margin: 0;
@@ -122,8 +124,7 @@ h2 {
 /* Table */
 .primary-table {
   border-collapse: collapse;
-  border-radius: 5rem;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.5rem 1rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0.5rem 1rem;
   width: 100%;
 }
 .primary-table th {
@@ -195,6 +196,51 @@ tr.clickable td {
   justify-content: center;
 }
 
+/* Form */
+form {
+  max-width: 45rem;
+}
+fieldset {
+  border: none;
+  border-bottom: 1px solid #64748b;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+.field-container {
+  margin-bottom: 0.75rem;
+}
+label {
+  color: #cbd5e1;
+  display: block;
+  font-size: 0.75rem;
+  margin: 0 0 0.25rem;
+}
+input[type="color"],
+input[type="number"],
+input[type="text"],
+select,
+textarea {
+  background: #334155;
+  border: none;
+  border-radius: 0.35rem;
+  box-sizing: border-box;
+  color: #fff;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 1rem;
+  line-height: 1.5;
+  outline: none;
+  padding: 0.5rem;
+  width: 100%;
+}
+input[type="color"] {
+  height: 5rem;
+}
+textarea {
+  height: 8rem;
+}
+
 /* Button */
 .button {
   background-color: #c2410c;
@@ -207,11 +253,18 @@ tr.clickable td {
   font-size: 1.125rem;
   font-weight: bold;
   padding: 0.875rem 1.5rem;
-  transition: background-color 0.125s linear;
+  text-decoration: none;
   text-transform: uppercase;
+  transition: background-color 0.125s linear;
 }
 .button:hover {
   background-color: #f97316;
+}
+.button.button-full {
+  width: 100%;
+}
+.button.button-large {
+  font-size: 1.75rem;
 }
 
 /* Section */
@@ -228,3 +281,13 @@ tr.clickable td {
 /*
 .section-header-button
 */
+
+/* Content */
+.content {
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0.5rem 1rem;
+  padding: 1.25rem;
+}
+.content-dark {
+  background: #1e293b;
+}
