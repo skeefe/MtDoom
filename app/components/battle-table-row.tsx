@@ -1,11 +1,11 @@
 import React from "react";
-import { BattleSummary } from "../types/battle";
+import { battleSummary } from "../types/battle";
 import { formatDate } from "../../utils/date-format";
 import getArmyName from "../firebase/getArmyName";
 import rowClick from "../../utils/row-click";
 import { useRouter } from "next/navigation";
 
-const BattleTableRow = (props: { battle: BattleSummary }) => {
+const BattleTableRow = (props: { battle: battleSummary }) => {
   const router = useRouter();
 
   return (

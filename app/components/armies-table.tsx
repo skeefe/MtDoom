@@ -2,11 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Spinner from "./spinner";
 import ArmyTableRow from "./armies-table-row";
-import { ArmySummary } from "../types/army";
+import { armySummary } from "../types/army";
 
 const ArmiesTable = (props: {
   title: string;
-  armies: ArmySummary[];
+  armies: armySummary[];
   showCreateButton: boolean;
 }) => {
   return props.armies.length > 0 ? (

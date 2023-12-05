@@ -1,9 +1,9 @@
 import React from "react";
-import { ArmySummary } from "../types/army";
+import { armySummary } from "../types/army";
 import rowClick from "../../utils/row-click";
 import { useRouter } from "next/navigation";
 
-const ArmiesTableRow = (props: { army: ArmySummary }) => {
+const ArmiesTableRow = (props: { army: armySummary }) => {
   const router = useRouter();
 
   return (

@@ -1,9 +1,10 @@
-export interface Amy {
+export interface army {
   Id: string;
   Name: string;
+  //To Complete
 }
 
-export interface ArmySummary {
+export interface armySummary {
   Id: string;
   Name: string;
   Played: number;

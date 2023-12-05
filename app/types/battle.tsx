@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 
-export interface Battle {
+export interface battle {
   Id: string;
   Date: Timestamp; //Populated on doc creation.
   PrimaryMission: string;
@@ -79,7 +79,7 @@ export interface Battle {
   TotalDefender: number;
 }
 
-export interface BattleSummary {
+export interface battleSummary {
   Id: string;
   Date: Timestamp; //Populated on doc creation.
   PrimaryMission: string;
