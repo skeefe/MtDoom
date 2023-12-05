@@ -3,19 +3,26 @@
 import React from "react";
 import ArmiesTable from "../components/armies-table";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
-import { ArmySummary } from "../types/army";
+import LinkList from "../components/link-list";
+
+import { armySummary } from "../types/army";
+import { linkList } from "../types/link-list";
 
 const Armies = () => {
   // Retrieve army collection data.
   const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+
   const activeArmyCollection = armyCollection.filter((obj) =>
     Object.keys(obj).includes("Played")
   );
+  const inactiveArmyCollection = armyCollection.filter(
+    (obj) => !Object.keys(obj).includes("Played")
+  );
 
   //Setup array of armies.
-  let armies: ArmySummary[] = new Array();
+  let activeArmies: armySummary[] = new Array();
   activeArmyCollection.map((army) => {
-    armies.push({
+    activeArmies.push({
       Id: army.id,
       Name: army.Name,
       Played: army.Played,
@@ -37,9 +44,25 @@ const Armies = () => {
     });
   });
 
+  let inactiveArmies: linkList[] = new Array();
+  inactiveArmyCollection.map((army) => {
+    inactiveArmies.push({
+      Title: army.Name,
+      Destination: `/army/${army.id}`,
+    });
+  });
+
   return (
     <>
-      <ArmiesTable title="Armies" armies={armies} showCreateButton={true} />
+      {/* Active Armies */}
+      <ArmiesTable
+        title="Active Armies"
+        armies={activeArmies}
+        showCreateButton={true}
+      />
+
+      {/* Inactive Armies */}
+      <LinkList title="Inactive Armies" list={inactiveArmies} />
     </>
   );
 };
