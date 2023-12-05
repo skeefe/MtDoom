@@ -1,16 +1,28 @@
 "use client";
 
-import { doc, getFirestore, setDoc, runTransaction } from "firebase/firestore";
-import React, { useState } from "react";
+import {
+  doc,
+  getFirestore,
+  setDoc,
+  runTransaction,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import firebase_app from "../firebase/config";
 import { idify } from "../../utils/idify";
 import { titleCase } from "../../utils/title-case";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Spinner from "./spinner";
 
-const ArmyFormAdd = () => {
+const ArmyForm = (props: { armyId?: string }) => {
   const router = useRouter();
+  const db = getFirestore(firebase_app);
+  const docRef: string = props.armyId ? props.armyId : "";
 
   const [army, setArmy] = useState({
+    isEdit: props.armyId ? true : false,
     Name: "",
     Colour: "#FFD700",
     Crest: "",
@@ -18,6 +30,17 @@ const ArmyFormAdd = () => {
     Adjectives: "",
     Bio: "",
   });
+
+  useEffect(() => {
+    if (army.isEdit) {
+      const unsubscribe = onSnapshot(doc(db, "Armies", docRef), (doc) => {
+        setArmy((prev) => {
+          return { ...prev, ...doc.data() };
+        });
+      });
+      return () => unsubscribe();
+    }
+  }, []);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -35,10 +58,15 @@ const ArmyFormAdd = () => {
     //Split Adjectives string to array and remove empty entries.
     let adjectives = adjectivesValue.split(",").filter((str) => str !== "");
 
-    //Title Case each adgective.
+    //Title Case each Adjective.
     let formattedAdjectives = new Array();
     adjectives.map(function (adjective) {
       formattedAdjectives.push(titleCase(adjective));
+    });
+
+    //Remove Duplicates
+    formattedAdjectives = formattedAdjectives.filter((element, index) => {
+      return formattedAdjectives.indexOf(element) === index;
     });
 
     //Neaten up Adjective Field
@@ -49,20 +77,19 @@ const ArmyFormAdd = () => {
     return formattedAdjectives;
   };
 
-  async function handleAddArmy(e) {
+  const handleAddArmy = async (e) => {
     e.preventDefault();
 
     const db = getFirestore(firebase_app);
 
     //Confirm and army name was supplied.
-
     if (army.Name.length > 0) {
       //Generate ID here
       const armyId = idify(army.Name);
-      const docRef = doc(db, "Armies", armyId);
+      const newDocRef = doc(db, "Armies", armyId);
       try {
         await runTransaction(db, async (transaction) => {
-          const armyDoc = await transaction.get(docRef);
+          const armyDoc = await transaction.get(newDocRef);
           if (armyDoc.exists()) {
             throw "Army already exists. Please try a different name.";
           }
@@ -79,18 +106,48 @@ const ArmyFormAdd = () => {
       } catch (e) {
         console.log("The army was not added: ", e);
       }
+
+      router.push(`/army/${armyId}/edit`);
     }
 
-    router.push("/");
+    return false;
+  };
+
+  const handleUpdateArmy = async (e) => {
+    e.preventDefault();
+
+    await updateDoc(doc(db, "Armies", docRef), {
+      Name: army.Name,
+      Colour: army.Colour,
+      Crest: army.Crest,
+      Emoji: army.Emoji,
+      Adjectives: handleAdjectives(),
+      Bio: army.Bio,
+    })
+      .then((docBattlesRef) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+
+    router.push(`/army/${props.armyId}/edit`);
 
     return false;
-  }
+  };
 
-  return (
+  return !army.isEdit || (army.isEdit && army.Name.length > 0) ? (
     <>
       <section className="section">
         <header className="section-header">
-          <h2>Add an Army</h2>
+          {army.isEdit ? (
+            <>
+              <h2>Edit: {army.Name}</h2>
+              <Link href={`/army/${props.armyId}`}>
+                <button className="button">Cancel</button>
+              </Link>
+            </>
+          ) : (
+            <h2>Add an Army</h2>
+          )}
         </header>
         <form>
           <div className="content content-dark">
@@ -163,18 +220,33 @@ const ArmyFormAdd = () => {
                 />
               </div>
             </fieldset>
-            <button
-              className="button button-full button-large"
-              type="submit"
-              onClick={(e) => handleAddArmy(e)}
-            >
-              Add Army
-            </button>
+
+            {army.isEdit ? (
+              <>
+                <button
+                  className="button button-full button-large"
+                  type="submit"
+                  onClick={(e) => handleUpdateArmy(e)}
+                >
+                  Update {army.Name}
+                </button>
+              </>
+            ) : (
+              <button
+                className="button button-full button-large"
+                type="submit"
+                onClick={(e) => handleAddArmy(e)}
+              >
+                Add Army
+              </button>
+            )}
           </div>
         </form>
       </section>
     </>
+  ) : (
+    <Spinner />
   );
 };
 
-export default ArmyFormAdd;
+export default ArmyForm;

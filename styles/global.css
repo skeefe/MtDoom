@@ -197,9 +197,6 @@ tr.clickable td {
 }
 
 /* Form */
-form {
-  max-width: 45rem;
-}
 fieldset {
   border: none;
   border-bottom: 1px solid #64748b;

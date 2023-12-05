@@ -1,10 +1,10 @@
 import React from "react";
-import ArmyFormAdd from "../../components/army-form-add";
+import ArmyForm from "../../components/army-form";
 
 const AddArmy = () => {
   return (
     <>
-      <ArmyFormAdd />
+      <ArmyForm />
     </>
   );
 };
