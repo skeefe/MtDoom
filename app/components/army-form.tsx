@@ -142,7 +142,7 @@ const ArmyForm = (props: { armyId?: string }) => {
             <>
               <h2>Edit: {army.Name}</h2>
               <Link href={`/army/${props.armyId}`}>
-                <button className="button">Cancel</button>
+                <button className="button section-header-button">Cancel</button>
               </Link>
             </>
           ) : (

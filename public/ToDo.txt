@@ -2,11 +2,9 @@
 
 ## Now
 - Description META tag.
-- Move General list to data.
+- Move General list to DB.
 - General tidy up.
-    - Break out to smaller components.
     - Loop the turns in a sub component.
-- Improve/Simplify CSS. SASS?
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
 - Army Dashboard.
@@ -20,10 +18,10 @@
 - Names with Nicknames.
 - Handle Fixed Secondaries...
 - Handle Gambits
-- Add Delete button to the Battles table.
+- Add Delete button to the Battles and Army tables.
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
-    - Also needs to update the Armies collection...
+    - Delete battle needs to update the Armies collection...
 
 
 ## Horizon

@@ -294,7 +294,7 @@ textarea {
   align-self: center;
 }
 .section-header-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.95rem 1.5rem 0.75rem;
 }
 
 /* Link List */
@@ -311,6 +311,7 @@ textarea {
   color: #fff;
   font-size: 1.25rem;
   text-decoration: none;
+  transition: color 0.25s;
 }
 .link-list a:hover {
   color: #f97316;
