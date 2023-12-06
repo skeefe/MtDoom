@@ -218,13 +218,16 @@ legend {
   text-transform: uppercase;
 }
 .field-container {
-  margin-bottom: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 label {
   color: #cbd5e1;
   display: block;
   font-size: 0.75rem;
   margin: 0 0 0.25rem;
+  width: 100%;
 }
 input[type="color"],
 input[type="number"],
@@ -236,6 +239,7 @@ textarea {
   border-radius: 0.35rem;
   box-sizing: border-box;
   color: #fff;
+  flex: 1;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
     Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
@@ -322,4 +326,15 @@ textarea {
 }
 .link-list a:hover {
   color: #f97316;
+}
+
+/* Battle Form */
+.battle-date {
+  color: #fff;
+}
+.button-randomise {
+  background: none;
+  box-shadow: none;
+  padding: 0.875rem 0.75rem;
+  margin-left: 0.5rem;
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Spinner from "./spinner";
-import { linkList } from "../types/link-list-item";
+import { linkListItem } from "../types/link-list-item";
 
-const LinkList = (props: { title: string; list: linkList[] }) => {
+const LinkList = (props: { title: string; list: linkListItem[] }) => {
   return props.list.length > 0 ? (
     <>
       <section className="section">

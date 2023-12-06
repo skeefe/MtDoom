@@ -10,11 +10,14 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import firebase_app from "../firebase/config";
-import { idify } from "../../utils/idify";
-import { titleCase } from "../../utils/title-case";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Spinner from "./spinner";
+import { formatDate } from "../../utils/date-format";
+import { battleSizes } from "../../data/battle-sizes";
+import { deploymentZones } from "../../data/deployment-zones";
+import { missionRules } from "../../data/mission-rules";
+import { primaryMissions } from "../../data/primary-missions";
+import SelectField from "./selectField";
 
 const BattleForm = (props: { battleId: string }) => {
   const router = useRouter();
@@ -35,47 +38,89 @@ const BattleForm = (props: { battleId: string }) => {
     Date: { seconds: null }, //Populated on doc creation.
     PrimaryMission: "",
     Size: "3000pt",
+    MissionRule: "",
+    Deployment: "",
   });
 
   const handleChange = (e) => {
-    /*
     const name = e.target.name;
-    let value = e.target.value;
-
-    setArmy((prev) => {
+    const value = e.target.value;
+    setBattle((prev) => {
       return { ...prev, [name]: value };
     });
-    */
   };
 
-  return (
+  return battle.Date ? ( //Improve this.
     <>
       <section className="section">
         <header className="section-header">
           <h2>Battle Report</h2>
+          <span className="battle-date">{formatDate(battle.Date.seconds)}</span>
         </header>
 
         <form>
           <div className="content content-dark">
             <fieldset>
               <legend>Pre-Battle Setup</legend>
-              <div className="field-container">
-                <label htmlFor="battleSize">Battle Size*:</label>
-                <input
-                  id="battleSize"
-                  name="Battle Size"
-                  placeholder="Battle Size"
-                  type="text"
-                  value={battle.Size}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <SelectField
+                label="Battle Size"
+                required={true}
+                id="battleSize"
+                name="Size"
+                changeFunction={handleChange}
+                value={battle.Size}
+                options={battleSizes}
+                emptyValue="Select the Battle Size"
+              />
+              <SelectField
+                label="Primary Mission"
+                required={true}
+                id="primaryMission"
+                name="PrimaryMission"
+                changeFunction={handleChange}
+                value={battle.PrimaryMission}
+                options={primaryMissions}
+                emptyValue="Select the Primary Mission"
+                randomise={true}
+              />
+              <SelectField
+                label="Mission Rule"
+                required={true}
+                id="missionRule"
+                name="MissionRule"
+                changeFunction={handleChange}
+                value={battle.MissionRule}
+                options={missionRules}
+                emptyValue="Select the Mission Rule"
+                randomise={true}
+              />
+              <SelectField
+                label="Deployment"
+                required={true}
+                id="deployment"
+                name="Deployment"
+                changeFunction={handleChange}
+                value={battle.Deployment}
+                options={deploymentZones}
+                emptyValue="Select the Deployment Zone"
+                randomise={true}
+              />
+              {/*
+              - Attacker
+              - Attacker Army
+              - Attacker Detachment
+              - Defender
+              - Defender Army
+              - Defender Detachment
+              - First Turn
+              */}
             </fieldset>
           </div>
         </form>
       </section>
     </>
+  ) : (
+    <Spinner />
   );
 };
 

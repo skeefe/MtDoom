@@ -1,11 +1,13 @@
 import React from "react";
 
-export default function Spinner() {
+const Spinner = (props: { size?: string }) => {
   return (
     <>
-      <div className="spinner-container">
+      <div className={`spinner-container spinner-size-${props.size}`}>
         <div className="loading-spinner"></div>
       </div>
     </>
   );
-}
+};
+
+export default Spinner;
