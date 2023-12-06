@@ -6,7 +6,7 @@ import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import LinkList from "../components/link-list";
 
 import { armySummary } from "../types/army";
-import { linkList } from "../types/link-list";
+import { linkListItem } from "../types/link-list-item";
 
 const Armies = () => {
   // Retrieve army collection data.
@@ -44,7 +44,7 @@ const Armies = () => {
     });
   });
 
-  let inactiveArmies: linkList[] = new Array();
+  let inactiveArmies: linkListItem[] = new Array();
   inactiveArmyCollection.map((army) => {
     inactiveArmies.push({
       Title: army.Name,

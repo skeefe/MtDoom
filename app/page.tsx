@@ -4,14 +4,14 @@ import React from "react";
 
 import BattleTable from "./components/battle-table";
 import getCollectionSnapshot from "./firebase/getCollectionSnapshot";
-import { BattleSummary } from "./types/battle";
+import { battleSummary } from "./types/battle";
 
 const HomePage = () => {
   // Retrieve battle collection data.
   const battleCollection = getCollectionSnapshot("Battles");
 
   //Setup array of battles.
-  let battles: BattleSummary[] = new Array();
+  let battles: battleSummary[] = new Array();
   battleCollection.map((battle) => {
     battles.push({
       Id: battle.id,

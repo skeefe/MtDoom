@@ -1,4 +1,4 @@
-export interface linkList {
+export interface linkListItem {
   Title: string;
   Destination: string;
 }

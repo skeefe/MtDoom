@@ -1,13 +1,14 @@
-let primaryMissions: {label: string, value:string, active:boolean}[] = [
-    { label: "Priority Targets", value: "Priority Targets", active:true },
-    { label: "Vital Ground", value: "Vital Ground", active:true },
-    { label: "Scorched Earth", value: "Scorched Earth", active:true },
-    { label: "Purge the Foe", value: "Purge the Foe", active:true },
-    { label: "Take and Hold", value: "Take and Hold", active:true },
-    { label: "Supply Drop", value: "Supply Drop", active:true },
-    { label: "The Ritual", value: "The Ritual", active:true },
-    { label: "Deploy Servo-Skulls", value: "Deploy Servo-Skulls", active:true },
-    { label: "Sites of Power", value: "Sites of Power", active:true }
-]
-;
+import { selectOption } from "../app/types/select-option";
+
+const primaryMissions: selectOption[] = [
+  { Label: "Priority Targets", Value: "Priority Targets", Active: true },
+  { Label: "Vital Ground", Value: "Vital Ground", Active: true },
+  { Label: "Scorched Earth", Value: "Scorched Earth", Active: true },
+  { Label: "Purge the Foe", Value: "Purge the Foe", Active: true },
+  { Label: "Take and Hold", Value: "Take and Hold", Active: true },
+  { Label: "Supply Drop", Value: "Supply Drop", Active: true },
+  { Label: "The Ritual", Value: "The Ritual", Active: true },
+  { Label: "Deploy Servo-Skulls", Value: "Deploy Servo-Skulls", Active: true },
+  { Label: "Sites of Power", Value: "Sites of Power", Active: true },
+];
 export { primaryMissions };

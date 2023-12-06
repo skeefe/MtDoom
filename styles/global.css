@@ -210,6 +210,13 @@ fieldset {
   padding: 2rem 0;
   margin-bottom: 2rem;
 }
+legend {
+  color: #c2410c;
+  font-family: Aleo, sans-serif;
+  font-size: 1.25rem;
+  text-align: center;
+  text-transform: uppercase;
+}
 .field-container {
   margin-bottom: 0.75rem;
 }

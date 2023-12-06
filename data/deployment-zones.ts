@@ -1,9 +1,10 @@
-let deploymentZones: {label: string, value:string, active:boolean}[] = [
-    { label: "Dawn of War", value: "Dawn of War", active:true },
-    { label: "Hammer and Anvil", value: "Hammer and Anvil", active:true },
-    { label: "Search and Destroy", value: "Search and Destroy", active:true },
-    { label: "Sweeping Engagement", value: "Sweeping Engagement", active:true },
-    { label: "Crucible of Battle", value: "Crucible of Battle", active:true }
-]
-;
+import { selectOption } from "../app/types/select-option";
+
+const deploymentZones: selectOption[] = [
+  { Label: "Dawn of War", Value: "Dawn of War", Active: true },
+  { Label: "Hammer and Anvil", Value: "Hammer and Anvil", Active: true },
+  { Label: "Search and Destroy", Value: "Search and Destroy", Active: true },
+  { Label: "Sweeping Engagement", Value: "Sweeping Engagement", Active: true },
+  { Label: "Crucible of Battle", Value: "Crucible of Battle", Active: true },
+];
 export { deploymentZones };
