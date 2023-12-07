@@ -2,11 +2,9 @@
 
 ## Now
 - Description META tag.
-- Move General list to DB.
 - General tidy up.
     - Loop the turns in a sub component.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
-- Sort how to remove options from 1 select based on another select (e.g. Attacker and Defender)
 - Army Dashboard.
     - MVPs
     - LVPs?

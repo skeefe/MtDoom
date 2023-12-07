@@ -9,6 +9,7 @@ const SelectField = (props: {
   value: string;
   emptyValue: string;
   options: selectOption[];
+  noOptionsMessage?: string;
   required?: boolean;
   randomise?: boolean;
   changeFunction: React.ChangeEventHandler<HTMLSelectElement>;
@@ -36,26 +37,30 @@ const SelectField = (props: {
     return;
   }
 
-  return props.options.length > 0 ? (
+  return (
     <>
       <div className="field-container">
         <label htmlFor={props.id}>
           {props.label}
           {props.required ? "*" : null}:
         </label>
-        <select
-          id={props.id}
-          name={props.name}
-          onChange={props.changeFunction}
-          value={props.value}
-        >
-          <option value="">-- {props.emptyValue} --</option>
-          {props.options.map((option, index) => (
-            <option value={option.Value} key={index}>
-              {option.Label}
-            </option>
-          ))}
-        </select>
+        {props.options.length > 0 ? (
+          <select
+            id={props.id}
+            name={props.name}
+            onChange={props.changeFunction}
+            value={props.value}
+          >
+            <option value="">-- {props.emptyValue} --</option>
+            {props.options.map((option, index) => (
+              <option value={option.Value} key={index}>
+                {option.Label}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span className="alert">{props.noOptionsMessage}</span>
+        )}
         {props.randomise ? (
           <button
             className="button button-randomise"
@@ -67,10 +72,6 @@ const SelectField = (props: {
         ) : null}
         :
       </div>
-    </>
-  ) : (
-    <>
-      <Spinner size="small" />
     </>
   );
 };
