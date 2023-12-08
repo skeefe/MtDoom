@@ -1,14 +1,13 @@
 import React from "react";
 
-const TextField = (props: {
+const TextAreaField = (props: {
   label: string;
-  type: string;
   id: string;
   name: string;
   value: string;
   emptyValue: string;
   required?: boolean;
-  changeFunction: React.ChangeEventHandler<HTMLInputElement>;
+  changeFunction: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
   return (
     <>
@@ -17,11 +16,10 @@ const TextField = (props: {
           {props.label}
           {props.required ? "*" : null}:
         </label>
-        <input
+        <textarea
           id={props.id}
           name={props.name}
           placeholder={props.emptyValue}
-          type={props.type}
           onChange={props.changeFunction}
           value={props.value}
         />
@@ -30,4 +28,4 @@ const TextField = (props: {
   );
 };
 
-export default TextField;
+export default TextAreaField;

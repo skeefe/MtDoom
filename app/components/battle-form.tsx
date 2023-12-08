@@ -15,6 +15,7 @@ import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import { collectionToSelect } from "../../utils/collection-to-select";
 import { propertyFromID } from "../../utils/property-from-id";
 import { selectOption } from "../types/select-option";
+import BattleFormPost from "./battle-form-post";
 
 //Hydrate state with battle data on load.
 let isHydrated = false;
@@ -49,6 +50,17 @@ const BattleForm = (props: { battleId: string }) => {
     DefenderArmy: "",
     DefenderDetachment: "",
     FirstTurn: "",
+
+    AttackerScore: 0,
+    DefenderScore: 0,
+    Victor: "",
+    VictoryType: "",
+    TurnEnded: 0,
+    AttackerMVP: "",
+    DefenderMVP: "",
+    AttackerLVP: "",
+    DefenderLVP: "",
+    BattleNotes: "",
   });
 
   //Retrieve Generals
@@ -239,6 +251,23 @@ const BattleForm = (props: { battleId: string }) => {
                 noOptionsMessage="Please select an Attacker and Defender."
               />
             </fieldset>
+
+            <BattleFormPost
+              Opponents={collectOpponents()}
+              AttackerScore={battle.AttackerScore}
+              DefenderScore={battle.DefenderScore}
+              Victor={battle.Victor}
+              VictoryType={battle.VictoryType}
+              TurnEnded={battle.TurnEnded}
+              AttackerMVP={battle.AttackerMVP}
+              DefenderMVP={battle.DefenderMVP}
+              AttackerLVP={battle.AttackerLVP}
+              DefenderLVP={battle.DefenderLVP}
+              BattleNotes={battle.BattleNotes}
+              changeFunctionSelect={handleChange}
+              changeFunctionText={handleChange}
+              changeFunctionTextArea={handleChange}
+            />
           </div>
         </form>
       </section>
