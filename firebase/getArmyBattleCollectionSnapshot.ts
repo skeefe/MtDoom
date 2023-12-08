@@ -7,17 +7,27 @@ import {
   query,
   //orderBy,
   where,
-  or
+  or,
 } from "firebase/firestore";
 
 //Order by date.
-export default function getArmyBattleCollectionSnapshot(armyID:string, isLoading: Function) {
+export default function getArmyBattleCollectionSnapshot(
+  armyID: string,
+  isLoading: Function
+) {
   const db = getFirestore(firebase_app);
-  const [fbData, setFBData] = useState([]);
+  //const [fbData, setFBData] = useState([]);
+  const [fbData, setFBData] = useState(new Array());
 
   useEffect(() => {
-    const collectionRef = collection(db, 'Battles');
-    const q = query(collectionRef, or(where('AttackerArmy', '==', armyID), where('DefenderArmy', '==', armyID)));
+    const collectionRef = collection(db, "Battles");
+    const q = query(
+      collectionRef,
+      or(
+        where("AttackerArmy", "==", armyID),
+        where("DefenderArmy", "==", armyID)
+      )
+    );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setFBData(
