@@ -2,13 +2,12 @@
 
 ## Now
 - Description META tag.
-- General tidy up.
-    - Loop the turns in a sub component.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Army Dashboard.
     - MVPs
     - LVPs?
     - Last 5 matches: WLWWL
+- Show scores in Battle Report.
 
 ## Next 
 - Order 10th edition ladder (Armies Table)
