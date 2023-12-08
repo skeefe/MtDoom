@@ -12,11 +12,11 @@ const Armies = () => {
   // Retrieve army collection data.
   const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
 
-  const activeArmyCollection = armyCollection.filter((obj) =>
-    Object.keys(obj).includes("Played")
+  const activeArmyCollection = armyCollection.filter(
+    (obj) => Object.keys(obj).includes("Played") && obj["Played"] > 0
   );
   const inactiveArmyCollection = armyCollection.filter(
-    (obj) => !Object.keys(obj).includes("Played")
+    (obj) => !Object.keys(obj).includes("Played") || obj["Played"] === 0
   );
 
   //Setup array of armies.
