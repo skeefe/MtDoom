@@ -263,6 +263,11 @@ textarea {
   padding: 0.5rem;
   width: 100%;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 input[type="color"] {
   height: 5rem;
 }
@@ -303,6 +308,26 @@ form .alert {
 }
 .button.button-large {
   font-size: 1.75rem;
+  padding: 1.53rem 2.625rem;
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+}
+.button.button-xlarge {
+  font-size: 2.5rem;
+  padding: 1.75rem 3.75rem;
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+}
+.button.button-secondary {
+  background-color: #475569;
+}
+.button.button-secondary:hover {
+  background-color: #64748b;
+}
+.button.button-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Content */
@@ -377,4 +402,13 @@ form .alert {
 }
 .opponent legend {
   font-size: 0.875rem;
+}
+.score-highlight {
+  color: #fff;
+  display: block;
+  font-size: 6.25rem;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0;
+  text-align: center;
 }

@@ -2,9 +2,11 @@ import React from "react";
 import { selectOption } from "../types/select-option";
 import SelectField from "./selectField";
 import TextField from "./textField";
-import TextAreaField from "./textareaField";
+import TextAreaField from "./textAreaField";
+import { victoryTypes } from "../../data/victory-types";
 
 const BattleFormPost = (props: {
+  IsCompleted: boolean;
   Opponents: selectOption[];
   AttackerScore: number;
   DefenderScore: number;
@@ -21,7 +23,7 @@ const BattleFormPost = (props: {
   changeFunctionTextArea: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
   let roundOptions: selectOption[] = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     roundOptions.push({
       Label: i.toString(),
       Value: i.toString(),
@@ -30,9 +32,20 @@ const BattleFormPost = (props: {
   }
 
   return (
-    <fieldset>
-      <legend>Post-Battle Setup</legend>
-      {/*SCORES*/}
+    <fieldset disabled={props.IsCompleted}>
+      <legend>Post-Battle</legend>
+
+      <div className="opponent-layout">
+        <div className="opponent">
+          <legend>Attacker</legend>
+          <span className="score-highlight">{props.AttackerScore}</span>
+        </div>
+        <div className="opponent">
+          <legend>Defender</legend>
+          <span className="score-highlight">{props.DefenderScore}</span>
+        </div>
+      </div>
+
       <SelectField
         label="Victor"
         required={true}
@@ -42,6 +55,7 @@ const BattleFormPost = (props: {
         value={props.Victor}
         options={props.Opponents}
         emptyValue="Select the Victor"
+        noOptionsMessage="Please select an Attacker and Defender."
       />
       <SelectField
         label="Victory Type"
@@ -50,7 +64,7 @@ const BattleFormPost = (props: {
         name="VictoryType"
         changeFunction={props.changeFunctionSelect}
         value={props.VictoryType}
-        options={props.Opponents}
+        options={victoryTypes}
         emptyValue="Select the Victory Type"
       />
       <SelectField

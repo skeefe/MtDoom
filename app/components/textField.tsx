@@ -23,6 +23,8 @@ const TextField = (props: {
           placeholder={props.emptyValue}
           type={props.type}
           onChange={props.changeFunction}
+          //Required to stop number fields changing on scroll.
+          onWheel={(event) => event.currentTarget.blur()}
           value={props.value}
         />
       </div>
