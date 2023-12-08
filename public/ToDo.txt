@@ -1,6 +1,7 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
+- Generals Table and dashboard.
 - Description META tag.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Army Dashboard.
@@ -8,6 +9,8 @@
     - LVPs?
     - Last 5 matches: WLWWL
 - Show scores in Battle Report.
+- Fix battle form button debarcle.
+
 
 ## Next 
 - Order 10th edition ladder (Armies Table)

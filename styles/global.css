@@ -21,21 +21,21 @@ h1 {
   color: #e2e8f0;
   font-family: Aleo, sans-serif;
   font-size: 2.25rem;
-  font-weight: bold;
+  font-weight: normal;
   margin-bottom: 2rem;
 }
 h2 {
   color: #e2e8f0;
   font-family: Aleo, sans-serif;
   font-size: 1.875rem;
-  font-weight: bold;
+  font-weight: normal;
   margin-bottom: 1.667rem;
 }
 h3 {
   color: #e2e8f0;
   font-family: Aleo, sans-serif;
-  font-size: 1.56rem;
-  font-weight: bold;
+  font-size: 1.35rem;
+  font-weight: normal;
   margin-bottom: 1.3rem;
 }
 
@@ -293,7 +293,7 @@ form .alert {
   cursor: pointer;
   font-family: Aleo, sans-serif;
   font-size: 1.125rem;
-  font-weight: bold;
+  /* font-weight: bold; */
   line-height: 1;
   padding: 0.875rem 1.5rem;
   text-decoration: none;
@@ -367,7 +367,7 @@ form .alert {
 
 .link-list a {
   color: #fff;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   text-decoration: none;
   transition: color 0.25s;
 }
@@ -412,3 +412,13 @@ form .alert {
   margin: 0;
   text-align: center;
 }
+
+/* Graphs */
+/*
+.recharts-legend-item-text{
+  color:#cbd5e1;
+}
+tspan{
+  fill:#cbd5e1;
+}
+*/
