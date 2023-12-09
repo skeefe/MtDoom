@@ -325,7 +325,6 @@ const BattleForm = (props: { battleId: string }) => {
       });
 
     //Push data to Armies.
-
     const docAttackerArmyRef = doc(db, "Armies", battle.AttackerArmy);
     const docDefenderArmyRef = doc(db, "Armies", battle.DefenderArmy);
 
@@ -364,6 +363,46 @@ const BattleForm = (props: { battleId: string }) => {
       .catch((error) => {
         console.log(error);
       });
+
+    //Push data to Generals.
+    const docAttackerRef = doc(db, "Generals", battle.Attacker);
+    const docDefenderRef = doc(db, "Generals", battle.Defender);
+
+    //Attacker General
+    updateDoc(docAttackerRef, {
+      Played: increment(1),
+      Won: increment(isAttackerVictor() ? 1 : 0),
+      Lost: increment(!isAttackerVictor() ? 1 : 0),
+      PrimaryPointsFor: increment(battle.TotalAttackerPrimary),
+      PrimaryPointsAgainst: increment(battle.TotalDefenderPrimary),
+      SecondaryPointsFor: increment(battle.TotalAttackerSecondary),
+      SecondaryPointsAgainst: increment(battle.TotalDefenderSecondary),
+      FirstTurn: increment(isAttackerFirstTurn() ? 1 : 0),
+    })
+      .then(() => {
+        console.log("Attacker Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //Defender General
+    updateDoc(docDefenderRef, {
+      Played: increment(1),
+      Won: increment(!isAttackerVictor() ? 1 : 0),
+      Lost: increment(isAttackerVictor() ? 1 : 0),
+      PrimaryPointsFor: increment(battle.TotalDefenderPrimary),
+      PrimaryPointsAgainst: increment(battle.TotalAttackerPrimary),
+      SecondaryPointsFor: increment(battle.TotalDefenderSecondary),
+      SecondaryPointsAgainst: increment(battle.TotalAttackerSecondary),
+      FirstTurn: increment(!isAttackerFirstTurn() ? 1 : 0),
+    })
+      .then(() => {
+        console.log("Defender Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   //Handle Battle Restart
@@ -390,6 +429,7 @@ const BattleForm = (props: { battleId: string }) => {
     const docAttackerArmyRef = doc(db, "Armies", battle.AttackerArmy);
     const docDefenderArmyRef = doc(db, "Armies", battle.DefenderArmy);
 
+    //Attacker Army
     updateDoc(docAttackerArmyRef, {
       Played: increment(-1),
       Won: increment(isAttackerVictor() ? -1 : 0),
@@ -400,14 +440,14 @@ const BattleForm = (props: { battleId: string }) => {
       SecondaryPointsAgainst: increment(-battle.TotalDefenderSecondary),
       FirstTurn: increment(isAttackerFirstTurn() ? -1 : 0),
     })
-      .then((docAttackerArmyRef) => {
+      .then(() => {
         console.log("Attacker Army un-Updated");
       })
       .catch((error) => {
         console.log(error);
       });
 
-    //Update Defender Army
+    //Defender Army
     updateDoc(docDefenderArmyRef, {
       Played: increment(-1),
       Won: increment(!isAttackerVictor() ? -1 : 0),
@@ -418,8 +458,48 @@ const BattleForm = (props: { battleId: string }) => {
       SecondaryPointsAgainst: increment(-battle.TotalAttackerSecondary),
       FirstTurn: increment(!isAttackerFirstTurn() ? -1 : 0),
     })
-      .then((docDefenderArmyRef) => {
+      .then(() => {
         console.log("Defender Army un-Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //Remove data from Generals.
+    const docAttackerRef = doc(db, "Generals", battle.Attacker);
+    const docDefenderyRef = doc(db, "Generals", battle.Defender);
+
+    //Update Attacker
+    updateDoc(docAttackerRef, {
+      Played: increment(-1),
+      Won: increment(isAttackerVictor() ? -1 : 0),
+      Lost: increment(!isAttackerVictor() ? -1 : 0),
+      PrimaryPointsFor: increment(-battle.TotalAttackerPrimary),
+      PrimaryPointsAgainst: increment(-battle.TotalDefenderPrimary),
+      SecondaryPointsFor: increment(-battle.TotalAttackerSecondary),
+      SecondaryPointsAgainst: increment(-battle.TotalDefenderSecondary),
+      FirstTurn: increment(isAttackerFirstTurn() ? -1 : 0),
+    })
+      .then(() => {
+        console.log("Attacker un-Updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //Update Defender
+    updateDoc(docDefenderyRef, {
+      Played: increment(-1),
+      Won: increment(!isAttackerVictor() ? -1 : 0),
+      Lost: increment(isAttackerVictor() ? -1 : 0),
+      PrimaryPointsFor: increment(-battle.TotalDefenderPrimary),
+      PrimaryPointsAgainst: increment(-battle.TotalAttackerPrimary),
+      SecondaryPointsFor: increment(-battle.TotalDefenderSecondary),
+      SecondaryPointsAgainst: increment(-battle.TotalAttackerSecondary),
+      FirstTurn: increment(!isAttackerFirstTurn() ? -1 : 0),
+    })
+      .then(() => {
+        console.log("Defender un-Updated");
       })
       .catch((error) => {
         console.log(error);
