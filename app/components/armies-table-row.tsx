@@ -12,7 +12,9 @@ const ArmiesTableRow = (props: { army: armySummary }) => {
         onClick={() => rowClick(router, `/army/${props.army.Id}`)}
         className="clickable"
       >
-        <td>{props.army.Name}</td>
+        <td>
+          {props.army.Emoji} {props.army.Name}
+        </td>
         <td>{props.army.Played}</td>
         <td>{props.army.Won}</td>
         <td>{props.army.Lost}</td>

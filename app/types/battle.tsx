@@ -99,8 +99,10 @@ export interface battleSummary {
   Deployment: string;
   Attacker: string;
   AttackerArmy: string;
+  //AttackerArmyEmoji: string;
   Defender: string;
   DefenderArmy: string;
+  //DefenderArmyEmoji: string;
   TotalAttacker: number;
   TotalDefender: number;
   Victor: string;

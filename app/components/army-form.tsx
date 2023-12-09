@@ -52,6 +52,11 @@ const ArmyForm = (props: { armyId?: string }) => {
   };
 
   const handleAdjectives = () => {
+    //Handle no adjectives.
+    if (!army.Adjectives || army.Adjectives.length === 0) {
+      return [];
+    }
+
     //Strip and spaces following commas.
     let adjectivesValue = army.Adjectives.replace(", ", ",");
 

@@ -7,6 +7,7 @@ export interface army {
 export interface armySummary {
   Id: string;
   Name: string;
+  Emoji: string;
   Played: number;
   Won: number;
   Lost: number;

@@ -25,6 +25,7 @@ const Armies = () => {
     activeArmies.push({
       Id: army.id,
       Name: army.Name,
+      Emoji: army.Emoji,
       Played: army.Played,
       Won: army.Won,
       Lost: army.Lost,
