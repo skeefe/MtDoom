@@ -1,15 +1,16 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
-- Generals Table and dashboard.
+- Show scores in Battle Report.
 - Description META tag.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Army Dashboard.
     - MVPs
     - LVPs?
     - Last 5 matches: WLWWL
-- Show scores in Battle Report.
-- Fix battle form button debarcle.
+- General Dashoard.
+- Mobile responsive
+- Use field components in create and edit general/army forms.
 
 
 ## Next 
@@ -22,6 +23,7 @@
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
     - Delete battle needs to update the Armies collection...
+- Ability to host events.
 
 
 ## Horizon
