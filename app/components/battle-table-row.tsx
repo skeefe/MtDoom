@@ -1,7 +1,6 @@
 import React from "react";
 import { battleSummary } from "../types/battle";
 import { formatDate } from "../../utils/date-format";
-import getArmyName from "../firebase/getArmyName";
 import rowClick from "../../utils/row-click";
 import { useRouter } from "next/navigation";
 import getDocSnapshot from "../firebase/getDocSnapshot";
@@ -11,7 +10,6 @@ const BattleTableRow = (props: { battle: battleSummary }) => {
 
   const getArmyTitle = (armyId: string) => {
     const armyDoc = getDocSnapshot("Armies", armyId);
-
     if (armyDoc["Emoji"] !== undefined) {
       return `${armyDoc["Emoji"]} ${armyDoc["Name"]}`;
     } else {
