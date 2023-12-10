@@ -10,7 +10,6 @@
     - Last 5 matches: WLWWL
 - General Dashoard.
 - Mobile responsive
-- Use field components in create and edit general/army forms.
 
 
 ## Next 

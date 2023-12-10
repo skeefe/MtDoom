@@ -15,6 +15,8 @@ import { titleCase } from "../../utils/title-case";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Spinner from "./spinner";
+import TextField from "./textField";
+import TextAreaField from "./textAreaField";
 
 const ArmyForm = (props: { armyId?: string }) => {
   const router = useRouter();
@@ -58,7 +60,7 @@ const ArmyForm = (props: { armyId?: string }) => {
     }
 
     //Strip and spaces following commas.
-    let adjectivesValue = army.Adjectives.replace(", ", ",");
+    let adjectivesValue = army.Adjectives.toString().replace(", ", ",");
 
     //Split Adjectives string to array and remove empty entries.
     let adjectives = adjectivesValue.split(",").filter((str) => str !== "");
@@ -157,73 +159,64 @@ const ArmyForm = (props: { armyId?: string }) => {
         <form>
           <div className="content content-dark">
             <fieldset>
-              <div className="field-container">
-                <label htmlFor="armyName">Name*:</label>
-                <input
-                  id="armyName"
-                  name="Name"
-                  placeholder="Army Name"
-                  type="text"
-                  value={army.Name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="armyColour">Colour:</label>
-                <input
-                  id="armyColour"
-                  name="Colour"
-                  placeholder="Army Colour"
-                  type="color"
-                  value={army.Colour}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="armyCrest">Crest (SVG Only):</label>
-                <input
-                  id="armyCrest"
-                  name="Crest"
-                  placeholder="Army Crest - SVG Only, ideally square with a transparent background."
-                  type="text"
-                  value={army.Crest}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="armyEmoji">Emoji:</label>
-                <input
-                  id="armyEmoji"
-                  name="Emoji"
-                  placeholder="Army Emoji: Windows Key + ."
-                  type="text"
-                  maxLength={4}
-                  value={army.Emoji}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="armyAdjectives">Adjectives:</label>
-                <input
-                  id="armyAdjectives"
-                  name="Adjectives"
-                  placeholder="Army Adjectives: Comma separated, e.g. Example1, Example2"
-                  type="text"
-                  value={army.Adjectives}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="armyBio">Bio:</label>
-                <textarea
-                  id="armyBio"
-                  name="Bio"
-                  placeholder="Army biography."
-                  value={army.Bio}
-                  onChange={handleChange}
-                />
-              </div>
+              <TextField
+                label="Name"
+                type="text"
+                id="armyName"
+                name="Name"
+                value={army.Name}
+                emptyValue="Army Name"
+                required={true}
+                changeFunction={handleChange}
+              />
+              <TextField
+                label="Colour"
+                type="color"
+                id="armyColour"
+                name="Colour"
+                value={army.Colour}
+                emptyValue="Army Colour"
+                required={false}
+                changeFunction={handleChange}
+              />
+              <TextField
+                label="Crest (SVG Only)"
+                type="text"
+                id="armyCrest"
+                name="Crest"
+                value={army.Crest}
+                emptyValue="Army Crest - SVG Only, ideally square with a transparent background."
+                required={false}
+                changeFunction={handleChange}
+              />
+              <TextField
+                label="Emoji"
+                type="text"
+                id="armyEmoji"
+                name="Emoji"
+                value={army.Emoji}
+                emptyValue="Army Emoji: Windows Key + ."
+                required={false}
+                changeFunction={handleChange}
+              />
+              <TextField
+                label="Adjectives"
+                type="text"
+                id="armyAdjectives"
+                name="Adjectives"
+                value={army.Adjectives}
+                emptyValue="Army Adjectives: Comma separated, e.g. Example1, Example2"
+                required={false}
+                changeFunction={handleChange}
+              />
+              <TextAreaField
+                label="Bio"
+                id="armyBio"
+                name="Bio"
+                emptyValue="Army biography."
+                value={army.Bio}
+                changeFunction={handleChange}
+              />
             </fieldset>
 
             {army.isEdit ? (

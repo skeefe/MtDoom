@@ -15,6 +15,8 @@ import { titleCase } from "../../utils/title-case";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Spinner from "./spinner";
+import TextField from "./textField";
+import TextAreaField from "./textAreaField";
 
 const GeneralForm = (props: { generalId?: string }) => {
   const router = useRouter();
@@ -57,7 +59,7 @@ const GeneralForm = (props: { generalId?: string }) => {
     }
 
     //Strip and spaces following commas.
-    let nicknamesValue = general.Nicknames.replace(", ", ",");
+    let nicknamesValue = general.Nicknames.toString().replace(", ", ",");
 
     //Split Nicknames string to array and remove empty entries.
     let nicknames = nicknamesValue.split(",").filter((str) => str !== "");
@@ -154,51 +156,44 @@ const GeneralForm = (props: { generalId?: string }) => {
         <form>
           <div className="content content-dark">
             <fieldset>
-              <div className="field-container">
-                <label htmlFor="generalName">Name*:</label>
-                <input
-                  id="generalName"
-                  name="Name"
-                  placeholder="First Name"
-                  type="text"
-                  value={general.Name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="generalEmoji">Emoji:</label>
-                <input
-                  id="generalEmoji"
-                  name="Emoji"
-                  placeholder="General Emoji: Windows Key + ."
-                  type="text"
-                  maxLength={4}
-                  value={general.Emoji}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="generalNicknames">Nicknames:</label>
-                <input
-                  id="generalNicknames"
-                  name="Nicknames"
-                  placeholder="Nicknames: Comma separated, e.g. Example1, Example2"
-                  type="text"
-                  value={general.Nicknames}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="field-container">
-                <label htmlFor="generalBio">Bio:</label>
-                <textarea
-                  id="generalBio"
-                  name="Bio"
-                  placeholder="The General's biography."
-                  value={general.Bio}
-                  onChange={handleChange}
-                />
-              </div>
+              <TextField
+                label="Name"
+                type="text"
+                id="generalName"
+                name="Name"
+                value={general.Name}
+                emptyValue="First Name"
+                required={true}
+                changeFunction={handleChange}
+              />
+              <TextField
+                label="Emoji"
+                type="text"
+                id="armyEmoji"
+                name="Emoji"
+                value={general.Emoji}
+                emptyValue="General Emoji: Windows Key + ."
+                required={false}
+                changeFunction={handleChange}
+              />
+              <TextField
+                label="Nicknames"
+                type="text"
+                id="generalNicknames"
+                name="Nicknames"
+                value={general.Nicknames}
+                emptyValue="Nicknames: Comma separated, e.g. Example1,Example2"
+                required={false}
+                changeFunction={handleChange}
+              />
+              <TextAreaField
+                label="Bio"
+                id="armyBio"
+                name="Bio"
+                emptyValue="Army biography."
+                value={general.Bio}
+                changeFunction={handleChange}
+              />
             </fieldset>
 
             {general.isEdit ? (
