@@ -47,8 +47,11 @@ const Armies = () => {
 
   let inactiveArmies: linkListItem[] = new Array();
   inactiveArmyCollection.map((army) => {
+    const title: string =
+      army.Emoji !== undefined ? `${army.Emoji} ${army.Name}` : army.Name;
+
     inactiveArmies.push({
-      Title: army.Name,
+      Title: title, //`${army.Emoji !== undefined && army.Emoji} ${army.Name}`,
       Destination: `/army/${army.id}`,
     });
   });
