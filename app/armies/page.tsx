@@ -5,7 +5,7 @@ import ArmiesTable from "../components/armies-table";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import LinkList from "../components/link-list";
 
-import { armySummary } from "../types/army";
+import { iArmySummary } from "../types/army";
 import { linkListItem } from "../types/link-list-item";
 
 const Armies = () => {
@@ -20,10 +20,10 @@ const Armies = () => {
   );
 
   //Setup array of armies.
-  let activeArmies: armySummary[] = new Array();
+  let activeArmies: iArmySummary[] = new Array();
   activeArmyCollection.map((army) => {
     activeArmies.push({
-      Id: army.id,
+      id: army.id,
       Name: army.Name,
       Emoji: army.Emoji,
       Played: army.Played,
