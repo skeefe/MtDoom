@@ -1,10 +1,21 @@
-export interface army {
+export interface iArmy {
   Id: string;
+  Bio: string;
+  Colour: string;
+  Crest: string;
+  Emoji: string;
+  FirstTurn: number;
+  Lost: number;
   Name: string;
-  //To Complete
+  Played: number;
+  PrimaryPointsAgainst: number;
+  PrimaryPointsFor: number;
+  SecondaryPointsAgainst: number;
+  SecondaryPointsFor: number;
+  Won: number;
 }
 
-export interface armySummary {
+export interface iArmySummary {
   Id: string;
   Name: string;
   Emoji: string;

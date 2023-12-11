@@ -443,12 +443,22 @@ form .alert {
   text-align: center;
 }
 
-/* Graphs */
-/*
-.recharts-legend-item-text{
-  color:#cbd5e1;
+/* Dashboard/Graphs */
+.dashboard-panels {
+  max-width: 50%;
 }
-tspan{
-  fill:#cbd5e1;
+.dashboard-panel {
+  background: #1e293b;
+  padding: 2rem;
+  height: 300px;
+  border-radius: 0.35rem;
 }
-*/
+.dashboard-panel .recharts-default-legend {
+  margin-left: 70px !important;
+}
+.recharts-legend-item-text {
+  color: #cbd5e1;
+}
+tspan {
+  fill: #cbd5e1;
+}
