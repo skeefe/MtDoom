@@ -9,7 +9,7 @@ const ArmiesTableRow = (props: { army: iArmySummary }) => {
   return (
     <>
       <tr
-        onClick={() => rowClick(router, `/army/${props.army.Id}`)}
+        onClick={() => rowClick(router, `/army/${props.army.id}`)}
         className="clickable"
       >
         <td>
