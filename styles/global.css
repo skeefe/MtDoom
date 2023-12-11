@@ -348,6 +348,10 @@ form .alert {
 .content-score .opponent-layout {
   margin: 0;
 }
+.content-score .score-highlight {
+  font-size: 5rem;
+  margin-bottom: 0.25rem;
+}
 .content-score span:not(.score-highlight) {
   color: #94a3b8;
   font-size: 0.75rem;
@@ -361,8 +365,6 @@ form .alert {
 }
 .aside-layout > aside {
   flex: 0 0 25em;
-
-  position: relative;
 }
 .aside-layout > .content {
   flex: 1;

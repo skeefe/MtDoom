@@ -1,7 +1,6 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
-- Show scores in Battle Report.
 - Description META tag.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Army Dashboard.
