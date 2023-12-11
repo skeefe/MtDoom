@@ -53,6 +53,7 @@ h3 {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 10;
 }
 .logo-link {
   text-decoration: none;
@@ -95,6 +96,7 @@ h3 {
   background: #1e293b;
   color: #64748b;
   padding: 1.25rem 0;
+  z-index: 10;
 }
 .copyright {
   display: block;
@@ -338,6 +340,32 @@ form .alert {
 }
 .content-dark {
   background: #1e293b;
+}
+.content-sticky {
+  position: sticky;
+  top: 3.25rem;
+}
+.content-score .opponent-layout {
+  margin: 0;
+}
+.content-score span:not(.score-highlight) {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  display: block;
+  text-align: center;
+}
+.aside-layout {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+.aside-layout > aside {
+  flex: 0 0 25em;
+
+  position: relative;
+}
+.aside-layout > .content {
+  flex: 1;
 }
 
 /* Section */

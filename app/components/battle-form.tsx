@@ -336,8 +336,6 @@ const BattleForm = (props: { battleId: string }) => {
   const handleBattleRestart = (e) => {
     e.preventDefault();
 
-    //To Do: Validate the form.
-
     //Update State
     setBattle((prev) => {
       return { ...prev, ["IsCompleted"]: false };
@@ -359,6 +357,7 @@ const BattleForm = (props: { battleId: string }) => {
     updateGenerals(true);
   };
 
+  //Update Armies
   const updateArmies = (isAdd: boolean) => {
     const docAttackerArmyRef = doc(db, "Armies", battle.AttackerArmy);
     const docDefenderArmyRef = doc(db, "Armies", battle.DefenderArmy);
@@ -416,6 +415,7 @@ const BattleForm = (props: { battleId: string }) => {
       });
   };
 
+  //Update Generals
   const updateGenerals = (isAdd: boolean) => {
     const docAttackerRef = doc(db, "Generals", battle.Attacker);
     const docDefenderRef = doc(db, "Generals", battle.Defender);
@@ -499,156 +499,180 @@ const BattleForm = (props: { battleId: string }) => {
           <span className="battle-date">{formatDate(battle.Date.seconds)}</span>
         </header>
 
-        <form>
+        <div className="aside-layout">
           <div className="content content-dark">
-            <BattleFormPre
-              IsCompleted={battle.IsCompleted}
-              Generals={generals}
-              Armies={armies}
-              Opponents={collectOpponents()}
-              Size={battle.Size}
-              PrimaryMission={battle.PrimaryMission}
-              MissionRule={battle.MissionRule}
-              Deployment={battle.Deployment}
-              Attacker={battle.Attacker}
-              Defender={battle.Defender}
-              AttackerArmy={battle.AttackerArmy}
-              DefenderArmy={battle.DefenderArmy}
-              AttackerDetachment={battle.AttackerDetachment}
-              DefenderDetachment={battle.DefenderDetachment}
-              FirstTurn={battle.FirstTurn}
-              changeFunctionSelect={handleChange}
-              changeFunctionText={handleChange}
-            />
+            <form>
+              <BattleFormPre
+                IsCompleted={battle.IsCompleted}
+                Generals={generals}
+                Armies={armies}
+                Opponents={collectOpponents()}
+                Size={battle.Size}
+                PrimaryMission={battle.PrimaryMission}
+                MissionRule={battle.MissionRule}
+                Deployment={battle.Deployment}
+                Attacker={battle.Attacker}
+                Defender={battle.Defender}
+                AttackerArmy={battle.AttackerArmy}
+                DefenderArmy={battle.DefenderArmy}
+                AttackerDetachment={battle.AttackerDetachment}
+                DefenderDetachment={battle.DefenderDetachment}
+                FirstTurn={battle.FirstTurn}
+                changeFunctionSelect={handleChange}
+                changeFunctionText={handleChange}
+              />
 
-            {/* Round 1 */}
-            <BattleFormRound
-              RoundNumber={1}
-              IsCompleted={battle.IsCompleted}
-              AttackerSecondary1Title={battle.T1AttackerSecondary1Title}
-              AttackerSecondary1={battle.T1AttackerSecondary1}
-              AttackerSecondary2Title={battle.T1AttackerSecondary2Title}
-              AttackerSecondary2={battle.T1AttackerSecondary2}
-              DefenderSecondary1Title={battle.T1DefenderSecondary1Title}
-              DefenderSecondary1={battle.T1DefenderSecondary1}
-              DefenderSecondary2Title={battle.T1DefenderSecondary2Title}
-              DefenderSecondary2={battle.T1DefenderSecondary2}
-              changeFunction={handleChange}
-            />
+              {/* Round 1 */}
+              <BattleFormRound
+                RoundNumber={1}
+                IsCompleted={battle.IsCompleted}
+                AttackerSecondary1Title={battle.T1AttackerSecondary1Title}
+                AttackerSecondary1={battle.T1AttackerSecondary1}
+                AttackerSecondary2Title={battle.T1AttackerSecondary2Title}
+                AttackerSecondary2={battle.T1AttackerSecondary2}
+                DefenderSecondary1Title={battle.T1DefenderSecondary1Title}
+                DefenderSecondary1={battle.T1DefenderSecondary1}
+                DefenderSecondary2Title={battle.T1DefenderSecondary2Title}
+                DefenderSecondary2={battle.T1DefenderSecondary2}
+                changeFunction={handleChange}
+              />
 
-            {/* Round 2 */}
-            <BattleFormRound
-              RoundNumber={2}
-              IsCompleted={battle.IsCompleted}
-              AttackerPrimary={battle.T2AttackerPrimary}
-              AttackerSecondary1Title={battle.T2AttackerSecondary1Title}
-              AttackerSecondary1={battle.T2AttackerSecondary1}
-              AttackerSecondary2Title={battle.T2AttackerSecondary2Title}
-              AttackerSecondary2={battle.T2AttackerSecondary2}
-              DefenderPrimary={battle.T2DefenderPrimary}
-              DefenderSecondary1Title={battle.T2DefenderSecondary1Title}
-              DefenderSecondary1={battle.T2DefenderSecondary1}
-              DefenderSecondary2Title={battle.T2DefenderSecondary2Title}
-              DefenderSecondary2={battle.T2DefenderSecondary2}
-              changeFunction={handleChange}
-            />
+              {/* Round 2 */}
+              <BattleFormRound
+                RoundNumber={2}
+                IsCompleted={battle.IsCompleted}
+                AttackerPrimary={battle.T2AttackerPrimary}
+                AttackerSecondary1Title={battle.T2AttackerSecondary1Title}
+                AttackerSecondary1={battle.T2AttackerSecondary1}
+                AttackerSecondary2Title={battle.T2AttackerSecondary2Title}
+                AttackerSecondary2={battle.T2AttackerSecondary2}
+                DefenderPrimary={battle.T2DefenderPrimary}
+                DefenderSecondary1Title={battle.T2DefenderSecondary1Title}
+                DefenderSecondary1={battle.T2DefenderSecondary1}
+                DefenderSecondary2Title={battle.T2DefenderSecondary2Title}
+                DefenderSecondary2={battle.T2DefenderSecondary2}
+                changeFunction={handleChange}
+              />
 
-            {/* Round 3 */}
-            <BattleFormRound
-              RoundNumber={3}
-              IsCompleted={battle.IsCompleted}
-              AttackerPrimary={battle.T3AttackerPrimary}
-              AttackerSecondary1Title={battle.T3AttackerSecondary1Title}
-              AttackerSecondary1={battle.T3AttackerSecondary1}
-              AttackerSecondary2Title={battle.T3AttackerSecondary2Title}
-              AttackerSecondary2={battle.T3AttackerSecondary2}
-              DefenderPrimary={battle.T3DefenderPrimary}
-              DefenderSecondary1Title={battle.T3DefenderSecondary1Title}
-              DefenderSecondary1={battle.T3DefenderSecondary1}
-              DefenderSecondary2Title={battle.T3DefenderSecondary2Title}
-              DefenderSecondary2={battle.T3DefenderSecondary2}
-              changeFunction={handleChange}
-            />
+              {/* Round 3 */}
+              <BattleFormRound
+                RoundNumber={3}
+                IsCompleted={battle.IsCompleted}
+                AttackerPrimary={battle.T3AttackerPrimary}
+                AttackerSecondary1Title={battle.T3AttackerSecondary1Title}
+                AttackerSecondary1={battle.T3AttackerSecondary1}
+                AttackerSecondary2Title={battle.T3AttackerSecondary2Title}
+                AttackerSecondary2={battle.T3AttackerSecondary2}
+                DefenderPrimary={battle.T3DefenderPrimary}
+                DefenderSecondary1Title={battle.T3DefenderSecondary1Title}
+                DefenderSecondary1={battle.T3DefenderSecondary1}
+                DefenderSecondary2Title={battle.T3DefenderSecondary2Title}
+                DefenderSecondary2={battle.T3DefenderSecondary2}
+                changeFunction={handleChange}
+              />
 
-            {/* Round 4 */}
-            <BattleFormRound
-              RoundNumber={4}
-              IsCompleted={battle.IsCompleted}
-              AttackerPrimary={battle.T4AttackerPrimary}
-              AttackerSecondary1Title={battle.T4AttackerSecondary1Title}
-              AttackerSecondary1={battle.T4AttackerSecondary1}
-              AttackerSecondary2Title={battle.T4AttackerSecondary2Title}
-              AttackerSecondary2={battle.T4AttackerSecondary2}
-              DefenderPrimary={battle.T4DefenderPrimary}
-              DefenderSecondary1Title={battle.T4DefenderSecondary1Title}
-              DefenderSecondary1={battle.T4DefenderSecondary1}
-              DefenderSecondary2Title={battle.T4DefenderSecondary2Title}
-              DefenderSecondary2={battle.T4DefenderSecondary2}
-              changeFunction={handleChange}
-            />
+              {/* Round 4 */}
+              <BattleFormRound
+                RoundNumber={4}
+                IsCompleted={battle.IsCompleted}
+                AttackerPrimary={battle.T4AttackerPrimary}
+                AttackerSecondary1Title={battle.T4AttackerSecondary1Title}
+                AttackerSecondary1={battle.T4AttackerSecondary1}
+                AttackerSecondary2Title={battle.T4AttackerSecondary2Title}
+                AttackerSecondary2={battle.T4AttackerSecondary2}
+                DefenderPrimary={battle.T4DefenderPrimary}
+                DefenderSecondary1Title={battle.T4DefenderSecondary1Title}
+                DefenderSecondary1={battle.T4DefenderSecondary1}
+                DefenderSecondary2Title={battle.T4DefenderSecondary2Title}
+                DefenderSecondary2={battle.T4DefenderSecondary2}
+                changeFunction={handleChange}
+              />
 
-            {/* Round 5 */}
-            <BattleFormRound
-              RoundNumber={5}
-              IsCompleted={battle.IsCompleted}
-              AttackerPrimary={battle.T5AttackerPrimary}
-              AttackerSecondary1Title={battle.T5AttackerSecondary1Title}
-              AttackerSecondary1={battle.T5AttackerSecondary1}
-              AttackerSecondary2Title={battle.T5AttackerSecondary2Title}
-              AttackerSecondary2={battle.T5AttackerSecondary2}
-              DefenderPrimary={battle.T5DefenderPrimary}
-              DefenderSecondary1Title={battle.T5DefenderSecondary1Title}
-              DefenderSecondary1={battle.T5DefenderSecondary1}
-              DefenderSecondary2Title={battle.T5DefenderSecondary2Title}
-              DefenderSecondary2={battle.T5DefenderSecondary2}
-              changeFunction={handleChange}
-            />
+              {/* Round 5 */}
+              <BattleFormRound
+                RoundNumber={5}
+                IsCompleted={battle.IsCompleted}
+                AttackerPrimary={battle.T5AttackerPrimary}
+                AttackerSecondary1Title={battle.T5AttackerSecondary1Title}
+                AttackerSecondary1={battle.T5AttackerSecondary1}
+                AttackerSecondary2Title={battle.T5AttackerSecondary2Title}
+                AttackerSecondary2={battle.T5AttackerSecondary2}
+                DefenderPrimary={battle.T5DefenderPrimary}
+                DefenderSecondary1Title={battle.T5DefenderSecondary1Title}
+                DefenderSecondary1={battle.T5DefenderSecondary1}
+                DefenderSecondary2Title={battle.T5DefenderSecondary2Title}
+                DefenderSecondary2={battle.T5DefenderSecondary2}
+                changeFunction={handleChange}
+              />
 
-            <BattleFormEnd
-              IsCompleted={battle.IsCompleted}
-              AttackerMissionBonus={battle.AttackerMissionBonus}
-              DefenderMissionBonus={battle.DefenderMissionBonus}
-              changeFunctionText={handleChange}
-            />
+              <BattleFormEnd
+                IsCompleted={battle.IsCompleted}
+                AttackerMissionBonus={battle.AttackerMissionBonus}
+                DefenderMissionBonus={battle.DefenderMissionBonus}
+                changeFunctionText={handleChange}
+              />
 
-            <BattleFormPost
-              IsCompleted={battle.IsCompleted}
-              Opponents={collectOpponents()}
-              AttackerScore={battle.TotalAttacker}
-              DefenderScore={battle.TotalDefender}
-              Victor={battle.Victor}
-              VictoryType={battle.VictoryType}
-              TurnEnded={battle.TurnEnded}
-              AttackerMVP={battle.AttackerMVP}
-              DefenderMVP={battle.DefenderMVP}
-              AttackerLVP={battle.AttackerLVP}
-              DefenderLVP={battle.DefenderLVP}
-              BattleNotes={battle.BattleNotes}
-              changeFunctionSelect={handleChange}
-              changeFunctionText={handleChange}
-              changeFunctionTextArea={handleChange}
-            />
+              <BattleFormPost
+                IsCompleted={battle.IsCompleted}
+                Opponents={collectOpponents()}
+                AttackerScore={battle.TotalAttacker}
+                DefenderScore={battle.TotalDefender}
+                Victor={battle.Victor}
+                VictoryType={battle.VictoryType}
+                TurnEnded={battle.TurnEnded}
+                AttackerMVP={battle.AttackerMVP}
+                DefenderMVP={battle.DefenderMVP}
+                AttackerLVP={battle.AttackerLVP}
+                DefenderLVP={battle.DefenderLVP}
+                BattleNotes={battle.BattleNotes}
+                changeFunctionSelect={handleChange}
+                changeFunctionText={handleChange}
+                changeFunctionTextArea={handleChange}
+              />
 
-            {battle.Victor &&
-              (battle.IsCompleted ? (
-                <button
-                  className="button button-large button-center button-secondary"
-                  type="submit"
-                  onClick={(e) => handleBattleRestart(e)}
-                >
-                  Restart Battle
-                </button>
-              ) : (
-                <button
-                  className="button button-xlarge button-center"
-                  type="submit"
-                  onClick={(e) => handleBattleEnd(e)}
-                >
-                  End Battle
-                </button>
-              ))}
+              {battle.Victor &&
+                (battle.IsCompleted ? (
+                  <button
+                    className="button button-large button-center button-secondary"
+                    type="submit"
+                    onClick={(e) => handleBattleRestart(e)}
+                  >
+                    Restart Battle
+                  </button>
+                ) : (
+                  <button
+                    className="button button-xlarge button-center"
+                    type="submit"
+                    onClick={(e) => handleBattleEnd(e)}
+                  >
+                    End Battle
+                  </button>
+                ))}
+            </form>
           </div>
-        </form>
+          <aside>
+            <div className="content content-dark content-sticky content-score">
+              <div className="opponent-layout">
+                <div className="opponent">
+                  <legend>Attacker</legend>
+                  <span className="score-highlight">
+                    {battle.TotalAttacker}
+                  </span>
+                  <span>Primary:{battle.TotalAttackerPrimary}/50</span>
+                  <span>Secondary:{battle.TotalAttackerSecondary}/40</span>
+                </div>
+                <div className="opponent">
+                  <legend>Defender</legend>
+                  <span className="score-highlight">
+                    {battle.TotalDefender}
+                  </span>
+                  <span>Primary:{battle.TotalDefenderPrimary}/50</span>
+                  <span>Secondary:{battle.TotalDefenderSecondary}/40</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
       </section>
     </>
   ) : (
