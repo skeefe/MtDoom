@@ -47,7 +47,7 @@ const BattleForm = (props: { battleId: string }) => {
 
   //Hydrate State
   const [battle, setBattle] = useState<iBattle>({
-    Id: props.battleId,
+    id: props.battleId,
     IsCompleted: false,
 
     Date: {
