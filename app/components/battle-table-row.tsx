@@ -1,11 +1,11 @@
 import React from "react";
-import { battleSummary } from "../types/battle";
+import { iBattleSummary } from "../types/battle";
 import { formatDate } from "../../utils/date-format";
 import rowClick from "../../utils/row-click";
 import { useRouter } from "next/navigation";
 import getDocSnapshot from "../firebase/getDocSnapshot";
 
-const BattleTableRow = (props: { battle: battleSummary }) => {
+const BattleTableRow = (props: { battle: iBattleSummary }) => {
   const router = useRouter();
 
   const getArmyTitle = (armyId: string) => {
@@ -33,7 +33,7 @@ const BattleTableRow = (props: { battle: battleSummary }) => {
   return (
     <>
       <tr
-        onClick={() => rowClick(router, `/battle/${props.battle.Id}`)}
+        onClick={() => rowClick(router, `/battle/${props.battle.id}`)}
         className="clickable"
       >
         <td>{formatDate(props.battle.Date.seconds)}</td>

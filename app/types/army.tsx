@@ -1,5 +1,5 @@
 export interface iArmy {
-  Id: string;
+  id: string;
   Bio: string;
   Colour: string;
   Crest: string;
@@ -16,7 +16,7 @@ export interface iArmy {
 }
 
 export interface iArmySummary {
-  Id: string;
+  id: string;
   Name: string;
   Emoji: string;
   Played: number;

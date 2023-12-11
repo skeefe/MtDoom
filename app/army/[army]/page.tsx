@@ -37,7 +37,7 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
 
       <ArmyDashboard
         army={{
-          Id: armyId,
+          id: armyId,
           Bio: armyDetails["Bio"],
           Colour: armyDetails["Colour"],
           Crest: armyDetails["Crest"],

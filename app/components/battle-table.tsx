@@ -7,14 +7,14 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import BattleTableRow from "./battle-table-row";
-import { battleSummary } from "../types/battle";
+import { iBattleSummary } from "../types/battle";
 import firebase_app from "../firebase/config";
 import router from "next/router";
 import Spinner from "./spinner";
 
 const BattleTable = (props: {
   title: string;
-  battles: battleSummary[];
+  battles: iBattleSummary[];
   showCreateButton: boolean;
 }) => {
   async function handleAddBattle() {

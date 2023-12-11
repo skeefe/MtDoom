@@ -12,6 +12,7 @@ export default function getDocSnapshot(collectionId: string, docId: string) {
       setFBData(() => {
         return {
           ...doc.data(),
+          id: doc.id,
         };
       });
     });
