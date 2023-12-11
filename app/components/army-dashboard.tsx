@@ -30,7 +30,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
   const groupOpponentBattles = (battle) => {
     //Get opponent Army.
     const opponentArmyId =
-      battle.AttackerArmy === props.army.Id
+      battle.AttackerArmy === props.army.id
         ? battle.DefenderArmy
         : battle.AttackerArmy;
 
@@ -60,8 +60,8 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
 
     //Increment
     opponent && ++opponent["Played"];
-    opponent && victor === props.army.Id && ++opponent["Won"];
-    opponent && victor !== props.army.Id && ++opponent["Lost"];
+    opponent && victor === props.army.id && ++opponent["Won"];
+    opponent && victor !== props.army.id && ++opponent["Lost"];
   };
 
   const getArmyName = (armyId: string) => {
