@@ -1,9 +1,9 @@
 import React from "react";
 import rowClick from "../../utils/row-click";
 import { useRouter } from "next/navigation";
-import { generalSummary } from "../types/general";
+import { iGeneralSummary } from "../types/general";
 
-const GeneralsTableRow = (props: { general: generalSummary }) => {
+const GeneralsTableRow = (props: { general: iGeneralSummary }) => {
   const router = useRouter();
 
   return (

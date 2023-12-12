@@ -1,11 +1,22 @@
-export interface general {
-  Id: string;
+export interface iGeneral {
+  id: string;
+  Alias: string;
   Name: string;
-  //To Complete
+  Emoji: string;
+  FirstTurn: number;
+  Lost: number;
+  Nicknames: string;
+  Bio: string;
+  Played: number;
+  PrimaryPointsAgainst: number;
+  PrimaryPointsFor: number;
+  SecondaryPointsAgainst: number;
+  SecondaryPointsFor: number;
+  Won: number;
 }
 
-export interface generalSummary {
-  Id: string;
+export interface iGeneralSummary {
+  id: string;
   //Name: string;
   Alias: string;
   Emoji: string;

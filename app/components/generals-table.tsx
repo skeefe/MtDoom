@@ -2,11 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Spinner from "./spinner";
 import GeneralsTableRow from "./generals-table-row";
-import { generalSummary } from "../types/general";
+import { iGeneralSummary } from "../types/general";
 
 const GeneralsTable = (props: {
   title: string;
-  generals: generalSummary[];
+  generals: iGeneralSummary[];
   showCreateButton: boolean;
 }) => {
   return props.generals.length > 0 ? (
