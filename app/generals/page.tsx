@@ -18,7 +18,7 @@ const Armies = () => {
   let activeGenerals: iGeneralSummary[] = new Array();
   activeGeneralCollection.map((general) => {
     activeGenerals.push({
-      Id: general.id,
+      id: general.id,
       //Name: general.Name,
       Alias: general.Alias,
       Emoji: general.Emoji,
