@@ -4,7 +4,7 @@ import React from "react";
 import GeneralsTable from "../components/generals-table";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 
-import { generalSummary } from "../types/general";
+import { iGeneralSummary } from "../types/general";
 
 const Armies = () => {
   // Retrieve army collection data.
@@ -15,7 +15,7 @@ const Armies = () => {
   );
 
   //Setup array of armies.
-  let activeGenerals: generalSummary[] = new Array();
+  let activeGenerals: iGeneralSummary[] = new Array();
   activeGeneralCollection.map((general) => {
     activeGenerals.push({
       Id: general.id,
