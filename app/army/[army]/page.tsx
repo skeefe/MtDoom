@@ -20,7 +20,7 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
     );
   });
 
-  return armyDetails["Name"] ? ( //Improve this?
+  return armyDetails["Name"] ? (
     <>
       <header className="section-header">
         <h1>
@@ -56,7 +56,7 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
       />
 
       <BattleTable
-        title={`${armyDetails["Name"]} Battles`}
+        title={`${armyDetails["Name"]}'s Battles`}
         battles={armyBattleCollection}
         showCreateButton={false}
       />

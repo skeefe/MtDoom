@@ -26,8 +26,6 @@ const HomePage = () => {
       DefenderArmy: battle.DefenderArmy,
       TotalDefender: battle.TotalDefender,
       Victor: battle.Victor,
-      IsAttackerVictor: battle.Victor === battle.Attacker,
-      IsDefenderVictor: battle.Victor === battle.Defender,
       IsCompleted: battle.IsCompleted,
     });
   });

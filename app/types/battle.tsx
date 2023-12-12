@@ -106,6 +106,4 @@ export interface iBattleSummary {
   TotalAttacker: number;
   TotalDefender: number;
   Victor: string;
-  IsAttackerVictor: boolean;
-  IsDefenderVictor: boolean;
 }

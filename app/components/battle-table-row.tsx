@@ -30,6 +30,11 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
     }
   };
 
+  const IsAttackerVictor: boolean =
+    props.battle.Victor === props.battle.Attacker ? true : false;
+  const IsDefenderVictor: boolean =
+    props.battle.Victor === props.battle.Defender ? true : false;
+
   return (
     <>
       <tr
@@ -45,7 +50,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         <td>
           <span className="cell-heading">
             {getArmyTitle(props.battle.AttackerArmy)}
-            {props.battle.IsAttackerVictor ? " 🎖" : null}
+            {IsAttackerVictor ? " 🎖" : null}
           </span>
           <span>General: {getGeneralNickname(props.battle.Attacker)}</span>
           <span>Total: {props.battle.TotalAttacker}</span>
@@ -53,7 +58,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         <td>
           <span className="cell-heading">
             {getArmyTitle(props.battle.DefenderArmy)}
-            {props.battle.IsDefenderVictor ? " 🎖" : null}
+            {IsDefenderVictor ? " 🎖" : null}
           </span>
           <span>General: {getGeneralNickname(props.battle.Defender)}</span>
           <span>Total: {props.battle.TotalDefender}</span>
