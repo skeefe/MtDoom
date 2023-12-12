@@ -445,13 +445,16 @@ form .alert {
 
 /* Dashboard/Graphs */
 .dashboard-panels {
-  max-width: 50%;
+  display: flex;
+  gap: 2rem;
+  width: 100%;
 }
 .dashboard-panel {
   background: #1e293b;
   padding: 2rem;
   height: 300px;
   border-radius: 0.35rem;
+  flex: 1;
 }
 .dashboard-panel .recharts-default-legend {
   margin-left: 70px !important;
