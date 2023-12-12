@@ -9,7 +9,7 @@ const GeneralsTableRow = (props: { general: iGeneralSummary }) => {
   return (
     <>
       <tr
-        onClick={() => rowClick(router, `/general/${props.general.Id}`)}
+        onClick={() => rowClick(router, `/general/${props.general.id}`)}
         className="clickable"
       >
         <td>
