@@ -118,4 +118,5 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     <Spinner />
   );
 };
+
 export default ArmyDashboard;
