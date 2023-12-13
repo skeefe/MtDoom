@@ -12,6 +12,14 @@
     display: block !important;
   }
 }
+@media (min-width: 768px) {
+  .hide-md {
+    display: none !important;
+  }
+  .show-md {
+    display: block !important;
+  }
+}
 
 html {
   -webkit-overflow-scrolling: touch;
@@ -200,9 +208,14 @@ h3 {
   display: block;
   font-size: 0.75rem;
 }
+
 .primary-table span.cell-heading {
-  font-size: 1rem;
-  font-weight: bold;
+}
+@media (min-width: 640px) {
+  .primary-table span.cell-heading {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 }
 tr.clickable td {
   cursor: pointer;

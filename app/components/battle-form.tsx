@@ -496,7 +496,9 @@ const BattleForm = (props: { battleId: string }) => {
               )} vs 
             ${propertyFromID(armiesCollection, battle.DefenderArmy, "Name")}`}
           </h2>
-          <span className="battle-date">{formatDate(battle.Date.seconds)}</span>
+          <span className="battle-date">
+            {formatDate(battle.Date.seconds).full}
+          </span>
         </header>
 
         <div className="aside-layout">

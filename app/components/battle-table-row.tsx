@@ -62,24 +62,38 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
           </span>
         </td>
         <td>
-            <span className="cell-heading hide show-sm">
-              {attackerArmy.Emoji && `${attackerArmy.Emoji} `}
-              {attackerArmy.Name}
-            </span>
+          <span className="cell-heading hide-md">
             {attackerArmy.Name}
             {IsAttackerVictor ? " 🎖" : null}
           </span>
-          <span>General: {getGeneralNickname(props.battle.Attacker)}</span>
-          <span>Total: {props.battle.TotalAttacker}</span>
+          <span className="cell-heading hide show-md">
+            {attackerArmy.Emoji && `${attackerArmy.Emoji} `}
+            {attackerArmy.Name}
+            {IsAttackerVictor ? " 🎖" : null}
+          </span>
+          <span className="hide show-sm">
+            General: {getGeneralNickname(props.battle.Attacker)}
+          </span>
+          <span className="hide show-sm">
+            Total: {props.battle.TotalAttacker}
+          </span>
         </td>
         <td>
-          <span className="cell-heading">
-            <span className=" hide show-sm">{defenderArmy.Emoji}</span>
+          <span className="cell-heading hide-md">
             {defenderArmy.Name}
             {IsDefenderVictor ? " 🎖" : null}
           </span>
-          <span>General: {getGeneralNickname(props.battle.Defender)}</span>
-          <span>Total: {props.battle.TotalDefender}</span>
+          <span className="cell-heading hide show-md">
+            {defenderArmy.Emoji && `${defenderArmy.Emoji} `}
+            {defenderArmy.Name}
+            {IsDefenderVictor ? " 🎖" : null}
+          </span>
+          <span className="hide show-sm">
+            General: {getGeneralNickname(props.battle.Defender)}
+          </span>
+          <span className="hide show-sm">
+            Total: {props.battle.TotalDefender}
+          </span>
         </td>
       </tr>
     </>

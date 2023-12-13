@@ -1,14 +1,15 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
+- Mobile responsive
 - Description META tag.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
+- Army/General Dashboards: Pull in table details. option to switch opponent (or opponent army)
 - Army Dashboard.
     - MVPs
     - LVPs?
     - Last 5 matches: WLWWL
-- General Dashoard.
-- Mobile responsive
+
 
 
 ## Next 
@@ -21,7 +22,7 @@
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
     - Delete battle needs to update the Armies collection...
-- Ability to host events.
+- Ability to host events (e.g. tournies)
 
 
 ## Horizon
