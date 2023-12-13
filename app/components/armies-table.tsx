@@ -15,11 +15,11 @@ const ArmiesTable = (props: {
         <header className="section-header">
           <h2>{props.title}</h2>
 
-          {props.showCreateButton ? (
+          {props.showCreateButton && (
             <Link href="/army/add" className="button section-header-button">
               Add Army
             </Link>
-          ) : null}
+          )}
         </header>
 
         <table className="primary-table">
@@ -27,13 +27,15 @@ const ArmiesTable = (props: {
             <tr>
               <th>Name</th>
               <th>Played</th>
-              <th>Won</th>
-              <th>Lost</th>
-              <th>Avg. Points</th>
-              <th>Total Points</th>
-              <th>Points +/-</th>
-              <th>Win %</th>
-              <th>First Turn %</th>
+              <th className="hide show-lg">First Turn&nbsp;%</th>
+              <th className="hide show-sm">Won</th>
+              <th className="hide show-sm">Lost</th>
+              <th className="hide show-md">Avg. Points</th>
+              <th className="hide show-lg">Total Points</th>
+              <th title="Points +/-">
+                <span className="hide show-md-inline">Points&nbsp;</span>+/-
+              </th>
+              <th>Win&nbsp;%</th>
             </tr>
           </thead>
 
