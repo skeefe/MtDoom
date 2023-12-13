@@ -206,10 +206,14 @@ h3 {
 }
 .primary-table span {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
-.primary-table span.cell-heading {
+@media (min-width: 640px) {
+  .primary-table span {
+    display: block;
+    font-size: 0.75rem;
+  }
 }
 @media (min-width: 640px) {
   .primary-table span.cell-heading {

@@ -52,7 +52,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
           </span>
           <span className="hide show-md">{getDate.full}</span>
         </td>
-        <td>
+        <td className="hide show-sm">
           <span className="cell-heading">{props.battle.PrimaryMission}</span>
           <span className="hide show-sm">
             Mission Rule: {props.battle.MissionRule}

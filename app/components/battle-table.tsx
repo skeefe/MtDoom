@@ -52,7 +52,7 @@ const BattleTable = (props: {
           <thead>
             <tr>
               <th>Date</th>
-              <th>Mission</th>
+              <th className="hide show-sm">Mission</th>
               <th>Attacker</th>
               <th>Defender</th>
             </tr>
