@@ -1,5 +1,18 @@
 @import "@fontsource/aleo";
 
+/* Utilities */
+.hide {
+  display: none !important;
+}
+@media (min-width: 640px) {
+  .hide-sm {
+    display: none !important;
+  }
+  .show-sm {
+    display: block !important;
+  }
+}
+
 html {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
@@ -70,6 +83,7 @@ h3 {
 }
 .primary-nav > ul {
   display: flex;
+  line-height: 1;
   list-style: none;
   margin: 0.23rem 0;
   padding: 0;
@@ -77,13 +91,21 @@ h3 {
 .primary-nav a {
   color: #e2e8f0;
   font-family: Aleo, sans-serif;
-  margin-left: 2rem;
+  font-size: 0.875rem;
+  margin-left: 0.875rem;
   padding: 0.25rem;
   text-decoration: none;
   transition: color 0.25s;
 }
 .primary-nav a:hover {
   color: #fff;
+}
+
+@media (min-width: 640px) {
+  .primary-nav a {
+    font-size: 1rem;
+    margin-left: 2rem;
+  }
 }
 
 /* Priamry Content Area */

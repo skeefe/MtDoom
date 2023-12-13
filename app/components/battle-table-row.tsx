@@ -8,13 +8,15 @@ import getDocSnapshot from "../firebase/getDocSnapshot";
 const BattleTableRow = (props: { battle: iBattleSummary }) => {
   const router = useRouter();
 
+  const getDate = formatDate(props.battle.Date.seconds);
+
   const getArmyTitle = (armyId: string) => {
     const armyDoc = getDocSnapshot("Armies", armyId);
-    if (armyDoc["Emoji"] !== undefined) {
-      return `${armyDoc["Emoji"]} ${armyDoc["Name"]}`;
-    } else {
-      return armyDoc["Name"];
-    }
+    //if (armyDoc["Emoji"] !== undefined) {
+    return { Name: armyDoc["Name"], Emoji: armyDoc["Emoji"] };
+    //} else {
+    //  return {Name: armyDoc["Name"], Emoji: armyDoc["Emoji"]};
+    //}
   };
 
   const getGeneralNickname = (generalId: string) => {
@@ -30,6 +32,9 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
     }
   };
 
+  const attackerArmy = getArmyTitle(props.battle.AttackerArmy);
+  const defenderArmy = getArmyTitle(props.battle.DefenderArmy);
+
   const IsAttackerVictor: boolean =
     props.battle.Victor === props.battle.Attacker ? true : false;
   const IsDefenderVictor: boolean =
@@ -41,15 +46,27 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         onClick={() => rowClick(router, `/battle/${props.battle.id}`)}
         className="clickable"
       >
-        <td>{formatDate(props.battle.Date.seconds)}</td>
         <td>
-          <span className="cell-heading">{props.battle.PrimaryMission}</span>
-          <span>Mission Rule: {props.battle.MissionRule}</span>
-          <span>Deployment: {props.battle.Deployment}</span>
+          <span className="hide-md" title={getDate.full}>
+            {getDate.short}
+          </span>
+          <span className="hide show-md">{getDate.full}</span>
         </td>
         <td>
-          <span className="cell-heading">
-            {getArmyTitle(props.battle.AttackerArmy)}
+          <span className="cell-heading">{props.battle.PrimaryMission}</span>
+          <span className="hide show-sm">
+            Mission Rule: {props.battle.MissionRule}
+          </span>
+          <span className="hide show-sm">
+            Deployment: {props.battle.Deployment}
+          </span>
+        </td>
+        <td>
+            <span className="cell-heading hide show-sm">
+              {attackerArmy.Emoji && `${attackerArmy.Emoji} `}
+              {attackerArmy.Name}
+            </span>
+            {attackerArmy.Name}
             {IsAttackerVictor ? " 🎖" : null}
           </span>
           <span>General: {getGeneralNickname(props.battle.Attacker)}</span>
@@ -57,7 +74,8 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         </td>
         <td>
           <span className="cell-heading">
-            {getArmyTitle(props.battle.DefenderArmy)}
+            <span className=" hide show-sm">{defenderArmy.Emoji}</span>
+            {defenderArmy.Name}
             {IsDefenderVictor ? " 🎖" : null}
           </span>
           <span>General: {getGeneralNickname(props.battle.Defender)}</span>
