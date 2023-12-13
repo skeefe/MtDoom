@@ -206,7 +206,7 @@ h3 {
 }
 .primary-table span {
   display: block;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 @media (min-width: 640px) {
