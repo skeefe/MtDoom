@@ -1,6 +1,9 @@
 @import "@fontsource/aleo";
 
 /* Utilities */
+.text-center {
+  text-align: center !important;
+}
 .hide {
   display: none !important;
 }
@@ -11,6 +14,13 @@
   .show-sm {
     display: block !important;
   }
+  .show-sm-inline {
+    display: inline !important;
+  }
+  th.show-sm,
+  td.show-sm {
+    display: table-cell !important;
+  }
 }
 @media (min-width: 768px) {
   .hide-md {
@@ -18,6 +28,28 @@
   }
   .show-md {
     display: block !important;
+  }
+  .show-md-inline {
+    display: inline !important;
+  }
+  th.show-md,
+  td.show-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1024px) {
+  .hide-lg {
+    display: none !important;
+  }
+  .show-lg {
+    display: block !important;
+  }
+  .show-lg-inline {
+    display: inline !important;
+  }
+  th.show-lg,
+  td.show-lg {
+    display: table-cell !important;
   }
 }
 
@@ -109,7 +141,7 @@ h3 {
   color: #fff;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 460px) {
   .primary-nav a {
     font-size: 1rem;
     margin-left: 2rem;
@@ -204,13 +236,13 @@ h3 {
 .primary-table tr:hover td {
   background: #94a3b8;
 }
-.primary-table span {
+.primary-table td span {
   display: block;
   font-size: 1rem;
 }
 
 @media (min-width: 640px) {
-  .primary-table span {
+  .primary-table td span {
     display: block;
     font-size: 0.75rem;
   }

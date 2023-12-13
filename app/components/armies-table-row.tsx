@@ -13,16 +13,21 @@ const ArmiesTableRow = (props: { army: iArmySummary }) => {
         className="clickable"
       >
         <td>
-          {props.army.Emoji} {props.army.Name}
+          {props.army.Emoji && `${props.army.Emoji} `}
+          {props.army.Name}
         </td>
-        <td>{props.army.Played}</td>
-        <td>{props.army.Won}</td>
-        <td>{props.army.Lost}</td>
-        <td>{props.army.AveragePoints}</td>
-        <td>{props.army.TotalPoints}</td>
-        <td>{props.army.PointDifference}</td>
-        <td>{props.army.WinPercentage}%</td>
-        <td>{props.army.FirstTurnPercentage}%</td>
+        <td className="text-center">{props.army.Played}</td>
+        <td className="hide show-lg text-center">
+          {props.army.FirstTurnPercentage}%
+        </td>
+        <td className="hide show-sm text-center">{props.army.Won}</td>
+        <td className="hide show-sm text-center">{props.army.Lost}</td>
+        <td className="hide show-md text-center">{props.army.AveragePoints}</td>
+        <td className="hide show-lg text-center">{props.army.TotalPoints}</td>
+        <td className="text-center text-center">
+          {props.army.PointDifference}
+        </td>
+        <td className="text-center">{props.army.WinPercentage}%</td>
       </tr>
     </>
   );
