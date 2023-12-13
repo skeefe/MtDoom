@@ -17,7 +17,7 @@ const GeneralsTable = (props: {
 
           {props.showCreateButton ? (
             <Link href="/army/add" className="button section-header-button">
-              Add Army
+              Add<span className="hide show-sm-inline"> General</span>
             </Link>
           ) : null}
         </header>
@@ -26,14 +26,16 @@ const GeneralsTable = (props: {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Played</th>
-              <th>Won</th>
-              <th>Lost</th>
-              <th>Avg. Points</th>
-              <th>Total Points</th>
-              <th>Points +/-</th>
-              <th>Win %</th>
-              <th>First Turn %</th>
+              <th className="text-center">Played</th>
+              <th className="hide show-lg text-center">First Turn&nbsp;%</th>
+              <th className="hide show-sm text-center">Won</th>
+              <th className="hide show-sm text-center">Lost</th>
+              <th className="hide show-md text-center">Avg. Points</th>
+              <th className="hide show-lg text-center">Total Points</th>
+              <th className="text-center" title="Points +/-">
+                <span className="hide show-md-inline">Points&nbsp;</span>+/-
+              </th>
+              <th className="text-center">Win&nbsp;%</th>
             </tr>
           </thead>
 

@@ -15,14 +15,22 @@ const GeneralsTableRow = (props: { general: iGeneralSummary }) => {
         <td>
           {props.general.Emoji} {props.general.Alias}
         </td>
-        <td>{props.general.Played}</td>
-        <td>{props.general.Won}</td>
-        <td>{props.general.Lost}</td>
-        <td>{props.general.AveragePoints}</td>
-        <td>{props.general.TotalPoints}</td>
-        <td>{props.general.PointDifference}</td>
-        <td>{props.general.WinPercentage}%</td>
-        <td>{props.general.FirstTurnPercentage}%</td>
+        <td className="text-center">{props.general.Played}</td>
+        <td className="hide show-lg text-center">
+          {props.general.FirstTurnPercentage}%
+        </td>
+        <td className="hide show-sm text-center">{props.general.Won}</td>
+        <td className="hide show-sm text-center">{props.general.Lost}</td>
+        <td className="hide show-md text-center">
+          {props.general.AveragePoints}
+        </td>
+        <td className="hide show-lg text-center">
+          {props.general.TotalPoints}
+        </td>
+        <td className="text-center text-center">
+          {props.general.PointDifference}
+        </td>
+        <td className="text-center">{props.general.WinPercentage}%</td>
       </tr>
     </>
   );
