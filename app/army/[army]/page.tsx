@@ -31,7 +31,7 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
           href={`/army/${armyId}/edit`}
           className="button section-header-button"
         >
-          Edit Army
+          Edit
         </Link>
       </header>
 

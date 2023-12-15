@@ -486,15 +486,14 @@ const BattleForm = (props: { battleId: string }) => {
       <section className="section">
         <header className="section-header">
           <h2>
-            Battle Report:
-            {battle.AttackerArmy &&
-              battle.DefenderArmy &&
-              ` ${propertyFromID(
-                armiesCollection,
-                battle.AttackerArmy,
-                "Name"
-              )} vs 
-            ${propertyFromID(armiesCollection, battle.DefenderArmy, "Name")}`}
+            {battle.AttackerArmy && battle.DefenderArmy
+              ? ` ${propertyFromID(
+                  armiesCollection,
+                  battle.AttackerArmy,
+                  "Name"
+                )} vs 
+            ${propertyFromID(armiesCollection, battle.DefenderArmy, "Name")}`
+              : `Battle Report`}
           </h2>
           <span className="battle-date">
             {formatDate(battle.Date.seconds).full}

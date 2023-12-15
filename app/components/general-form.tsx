@@ -153,70 +153,73 @@ const GeneralForm = (props: { generalId?: string }) => {
             <h2>Add a General</h2>
           )}
         </header>
-        <form>
+        <div className="aside-layout">
           <div className="content content-dark">
-            <fieldset>
-              <TextField
-                label="Name"
-                type="text"
-                id="generalName"
-                name="Name"
-                value={general.Name}
-                emptyValue="First Name"
-                required={true}
-                changeFunction={handleChange}
-              />
-              <TextField
-                label="Emoji"
-                type="text"
-                id="armyEmoji"
-                name="Emoji"
-                value={general.Emoji}
-                emptyValue="General Emoji: Windows Key + ."
-                required={false}
-                changeFunction={handleChange}
-              />
-              <TextField
-                label="Nicknames"
-                type="text"
-                id="generalNicknames"
-                name="Nicknames"
-                value={general.Nicknames}
-                emptyValue="Nicknames: Comma separated, e.g. Example1,Example2"
-                required={false}
-                changeFunction={handleChange}
-              />
-              <TextAreaField
-                label="Bio"
-                id="armyBio"
-                name="Bio"
-                emptyValue="Army biography."
-                value={general.Bio}
-                changeFunction={handleChange}
-              />
-            </fieldset>
+            <form>
+              <fieldset>
+                <TextField
+                  label="Name"
+                  type="text"
+                  id="generalName"
+                  name="Name"
+                  value={general.Name}
+                  emptyValue="First Name"
+                  required={true}
+                  changeFunction={handleChange}
+                />
+                <TextField
+                  label="Emoji"
+                  type="text"
+                  id="armyEmoji"
+                  name="Emoji"
+                  value={general.Emoji}
+                  emptyValue="General Emoji: Windows Key + ."
+                  required={false}
+                  changeFunction={handleChange}
+                />
+                <TextField
+                  label="Nicknames"
+                  type="text"
+                  id="generalNicknames"
+                  name="Nicknames"
+                  value={general.Nicknames}
+                  emptyValue="Nicknames: Comma separated, e.g. Example1,Example2"
+                  required={false}
+                  changeFunction={handleChange}
+                />
+                <TextAreaField
+                  label="Bio"
+                  id="armyBio"
+                  name="Bio"
+                  emptyValue="Army biography."
+                  value={general.Bio}
+                  changeFunction={handleChange}
+                />
+              </fieldset>
 
-            {general.isEdit ? (
-              <>
+              {general.isEdit ? (
+                <>
+                  <button
+                    className="button button-center button-large"
+                    type="submit"
+                    onClick={(e) => handleUpdateGeneral(e)}
+                  >
+                    Update {general.Name}
+                  </button>
+                </>
+              ) : (
                 <button
-                  className="button button-full button-large"
+                  className="button button-center button-large"
                   type="submit"
-                  onClick={(e) => handleUpdateGeneral(e)}
+                  onClick={(e) => handleAddGeneral(e)}
                 >
-                  Update {general.Name}
+                  Add General
                 </button>
-              </>
-            ) : (
-              <button
-                className="button button-full button-large"
-                type="submit"
-                onClick={(e) => handleAddGeneral(e)}
-              >
-                Add General
-              </button>
-            )}
+              )}
+            </form>
           </div>
-        </form>
+          <aside></aside>
+        </div>
       </section>
     </>
   ) : (

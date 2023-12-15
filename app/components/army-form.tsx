@@ -156,90 +156,93 @@ const ArmyForm = (props: { armyId?: string }) => {
             <h2>Add an Army</h2>
           )}
         </header>
-        <form>
+        <div className="aside-layout">
           <div className="content content-dark">
-            <fieldset>
-              <TextField
-                label="Name"
-                type="text"
-                id="armyName"
-                name="Name"
-                value={army.Name}
-                emptyValue="Army Name"
-                required={true}
-                changeFunction={handleChange}
-              />
-              <TextField
-                label="Colour"
-                type="color"
-                id="armyColour"
-                name="Colour"
-                value={army.Colour}
-                emptyValue="Army Colour"
-                required={false}
-                changeFunction={handleChange}
-              />
-              <TextField
-                label="Crest (SVG Only)"
-                type="text"
-                id="armyCrest"
-                name="Crest"
-                value={army.Crest}
-                emptyValue="Army Crest - SVG Only, ideally square with a transparent background."
-                required={false}
-                changeFunction={handleChange}
-              />
-              <TextField
-                label="Emoji"
-                type="text"
-                id="armyEmoji"
-                name="Emoji"
-                value={army.Emoji}
-                emptyValue="Army Emoji: Windows Key + ."
-                required={false}
-                changeFunction={handleChange}
-              />
-              <TextField
-                label="Adjectives"
-                type="text"
-                id="armyAdjectives"
-                name="Adjectives"
-                value={army.Adjectives}
-                emptyValue="Army Adjectives: Comma separated, e.g. Example1, Example2"
-                required={false}
-                changeFunction={handleChange}
-              />
-              <TextAreaField
-                label="Bio"
-                id="armyBio"
-                name="Bio"
-                emptyValue="Army biography."
-                value={army.Bio}
-                changeFunction={handleChange}
-              />
-            </fieldset>
+            <form>
+              <fieldset>
+                <TextField
+                  label="Name"
+                  type="text"
+                  id="armyName"
+                  name="Name"
+                  value={army.Name}
+                  emptyValue="Army Name"
+                  required={true}
+                  changeFunction={handleChange}
+                />
+                <TextField
+                  label="Colour"
+                  type="color"
+                  id="armyColour"
+                  name="Colour"
+                  value={army.Colour}
+                  emptyValue="Army Colour"
+                  required={false}
+                  changeFunction={handleChange}
+                />
+                <TextField
+                  label="Crest (SVG Only)"
+                  type="text"
+                  id="armyCrest"
+                  name="Crest"
+                  value={army.Crest}
+                  emptyValue="Army Crest - SVG Only, ideally square with a transparent background."
+                  required={false}
+                  changeFunction={handleChange}
+                />
+                <TextField
+                  label="Emoji"
+                  type="text"
+                  id="armyEmoji"
+                  name="Emoji"
+                  value={army.Emoji}
+                  emptyValue="Army Emoji: Windows Key + ."
+                  required={false}
+                  changeFunction={handleChange}
+                />
+                <TextField
+                  label="Adjectives"
+                  type="text"
+                  id="armyAdjectives"
+                  name="Adjectives"
+                  value={army.Adjectives}
+                  emptyValue="Army Adjectives: Comma separated, e.g. Example1, Example2"
+                  required={false}
+                  changeFunction={handleChange}
+                />
+                <TextAreaField
+                  label="Bio"
+                  id="armyBio"
+                  name="Bio"
+                  emptyValue="Army biography."
+                  value={army.Bio}
+                  changeFunction={handleChange}
+                />
+              </fieldset>
 
-            {army.isEdit ? (
-              <>
+              {army.isEdit ? (
+                <>
+                  <button
+                    className="button button-large button-center"
+                    type="submit"
+                    onClick={(e) => handleUpdateArmy(e)}
+                  >
+                    Update {army.Name}
+                  </button>
+                </>
+              ) : (
                 <button
-                  className="button button-full button-large"
+                  className="button button-large button-center"
                   type="submit"
-                  onClick={(e) => handleUpdateArmy(e)}
+                  onClick={(e) => handleAddArmy(e)}
                 >
-                  Update {army.Name}
+                  Add Army
                 </button>
-              </>
-            ) : (
-              <button
-                className="button button-full button-large"
-                type="submit"
-                onClick={(e) => handleAddArmy(e)}
-              >
-                Add Army
-              </button>
-            )}
+              )}
+            </form>
           </div>
-        </form>
+          <aside></aside>
+        </div>
       </section>
     </>
   ) : (
