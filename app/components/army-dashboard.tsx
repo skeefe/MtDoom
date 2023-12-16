@@ -84,14 +84,27 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     props.battles.map((battle) => {
       if (battle.AttackerArmy === props.army.id && battle.AttackerMVP) {
         mvps.push({ Unit: battle.AttackerMVP });
-      }
-      if (battle.DefenderArmy === props.army.id && battle.DefenderMVP) {
+      } else if (battle.DefenderArmy === props.army.id && battle.DefenderMVP) {
         mvps.push({ Unit: battle.DefenderMVP });
       }
     });
 
     //Trim the first 10
     return mvps.slice(0, 10);
+  };
+
+  const getLVPs = () => {
+    let lvps: { Unit: string }[] = [];
+    props.battles.map((battle) => {
+      if (battle.AttackerArmy === props.army.id && battle.AttackerLVP) {
+        lvps.push({ Unit: battle.AttackerLVP });
+      } else if (battle.DefenderArmy === props.army.id && battle.DefenderLVP) {
+        lvps.push({ Unit: battle.DefenderLVP });
+      }
+    });
+
+    //Trim the first 10
+    return lvps.slice(0, 10);
   };
 
   return props.battles ? (
@@ -131,6 +144,14 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
             <ol>
               {getMVPs().map((mvp, index) => (
                 <li key={index}>{mvp.Unit}</li>
+              ))}
+            </ol>
+          </div>
+          <div className="dashboard-panel">
+            <h3>LVPs</h3>
+            <ol>
+              {getLVPs().map((lvp, index) => (
+                <li key={index}>{lvp.Unit}</li>
               ))}
             </ol>
           </div>
