@@ -95,6 +95,11 @@ h3 {
   margin-top: 0;
 }
 
+.primary-content ul,
+.primary-content ol {
+  padding: 0 0 0 1rem;
+}
+
 .alert {
   color: #94a3b8;
   font-style: italic;
@@ -592,6 +597,7 @@ form .alert {
 
 /* Dashboard/Graphs */
 .dashboard-panels {
+  color: #cbd5e1;
   width: 100%;
 }
 @media (min-width: 640px) {

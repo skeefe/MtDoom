@@ -79,6 +79,21 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     return maxPlayed;
   };
 
+  const getMVPs = () => {
+    let mvps: { Unit: string }[] = [];
+    props.battles.map((battle) => {
+      if (battle.AttackerArmy === props.army.id && battle.AttackerMVP) {
+        mvps.push({ Unit: battle.AttackerMVP });
+      }
+      if (battle.DefenderArmy === props.army.id && battle.DefenderMVP) {
+        mvps.push({ Unit: battle.DefenderMVP });
+      }
+    });
+
+    //Trim the first 10
+    return mvps.slice(0, 10);
+  };
+
   return props.battles ? (
     <>
       <section className="section">
@@ -105,11 +120,19 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                   cursor={false}
                 />
                 <Legend verticalAlign="bottom" />
-
                 <Bar dataKey="Won" stackId="a" fill="#667b99" label="1234" />
                 <Bar dataKey="Lost" stackId="a" fill="#94a3b8" />
               </BarChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className="dashboard-panel">
+            <h3>MVPs</h3>
+            <ol>
+              {getMVPs().map((mvp, index) => (
+                <li key={index}>{mvp.Unit}</li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
