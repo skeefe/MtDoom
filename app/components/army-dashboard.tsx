@@ -101,7 +101,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
       }
     });
 
-    //Trim the first 4
+    //Only the latest 4
     return { mvps: mvps.slice(0, 4), lvps: lvps.slice(0, 4) };
   };
 
@@ -139,13 +139,13 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
 
           <div className="dashboard-panel">
             <h3>MVPs</h3>
-            <ol className="col-2">
+            <ol>
               {getVPs().mvps.map((mvp, index) => (
                 <li key={index}>{mvp.Unit}</li>
               ))}
             </ol>
             <h3>LVPs</h3>
-            <ol className="col-2">
+            <ol>
               {getVPs().lvps.map((lvp, index) => (
                 <li key={index}>{lvp.Unit}</li>
               ))}
