@@ -3,12 +3,13 @@
 ## Now
 - Description META tag.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
-- Army/General Dashboards: Pull in table details. option to switch opponent (or opponent army)
-- Army Dashboard.
-    - Last 5 matches: WLWWL
+
 
 
 ## Next 
+- Army/General Dashboards: Pull in table details. Option to switch opponent (or opponent army)
+- Army/General Dashboard.
+    - Last 5 matches: WLWWL
 - Order 10th edition ladder (Armies Table)
 - Sortable tables.
 - Names with Nicknames.

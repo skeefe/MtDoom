@@ -79,32 +79,30 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     return maxPlayed;
   };
 
-  const getMVPs = () => {
+  const getVPs = () => {
     let mvps: { Unit: string }[] = [];
-    props.battles.map((battle) => {
-      if (battle.AttackerArmy === props.army.id && battle.AttackerMVP) {
-        mvps.push({ Unit: battle.AttackerMVP });
-      } else if (battle.DefenderArmy === props.army.id && battle.DefenderMVP) {
-        mvps.push({ Unit: battle.DefenderMVP });
-      }
-    });
-
-    //Trim the first 10
-    return mvps.slice(0, 10);
-  };
-
-  const getLVPs = () => {
     let lvps: { Unit: string }[] = [];
+
     props.battles.map((battle) => {
-      if (battle.AttackerArmy === props.army.id && battle.AttackerLVP) {
-        lvps.push({ Unit: battle.AttackerLVP });
-      } else if (battle.DefenderArmy === props.army.id && battle.DefenderLVP) {
-        lvps.push({ Unit: battle.DefenderLVP });
+      if (battle.AttackerArmy === props.army.id) {
+        if (battle.AttackerMVP) {
+          mvps.push({ Unit: battle.AttackerMVP });
+        }
+        if (battle.AttackerLVP) {
+          lvps.push({ Unit: battle.AttackerLVP });
+        }
+      } else {
+        if (battle.DefenderMVP) {
+          mvps.push({ Unit: battle.DefenderMVP });
+        }
+        if (battle.DefenderLVP) {
+          lvps.push({ Unit: battle.DefenderLVP });
+        }
       }
     });
 
-    //Trim the first 10
-    return lvps.slice(0, 10);
+    //Trim the first 4
+    return { mvps: mvps.slice(0, 4), lvps: lvps.slice(0, 4) };
   };
 
   return props.battles ? (
@@ -141,16 +139,14 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
 
           <div className="dashboard-panel">
             <h3>MVPs</h3>
-            <ol>
-              {getMVPs().map((mvp, index) => (
+            <ol className="col-2">
+              {getVPs().mvps.map((mvp, index) => (
                 <li key={index}>{mvp.Unit}</li>
               ))}
             </ol>
-          </div>
-          <div className="dashboard-panel">
             <h3>LVPs</h3>
-            <ol>
-              {getLVPs().map((lvp, index) => (
+            <ol className="col-2">
+              {getVPs().lvps.map((lvp, index) => (
                 <li key={index}>{lvp.Unit}</li>
               ))}
             </ol>

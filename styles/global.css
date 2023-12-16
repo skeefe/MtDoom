@@ -52,6 +52,10 @@
     display: table-cell !important;
   }
 }
+.col-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 
 html {
   -webkit-overflow-scrolling: touch;
@@ -97,6 +101,7 @@ h3 {
 
 .primary-content ul,
 .primary-content ol {
+  margin: 0 0 1rem;
   padding: 0 0 0 1rem;
 }
 
@@ -637,4 +642,7 @@ form .alert {
 }
 tspan {
   fill: #cbd5e1;
+}
+.dashboard-panel ol + h3 {
+  margin: 2.5rem 0 0;
 }
