@@ -674,6 +674,34 @@ const BattleForm = (props: { battleId: string }) => {
             </div>
           </aside>
         </div>
+        <div className="device-score-bar hide-lg">
+          <div className="opponent-layout">
+            <div className="opponent">
+              <span className="score-highlight">{battle.TotalAttacker}</span>
+              <div>
+                <legend>Attacker</legend>
+                <span title="Primary Points">
+                  P:{battle.TotalAttackerPrimary}/50
+                </span>
+                <span title="Secondary Points">
+                  S:{battle.TotalAttackerSecondary}/40
+                </span>
+              </div>
+            </div>
+            <div className="opponent">
+              <span className="score-highlight">{battle.TotalDefender}</span>
+              <div>
+                <legend>Defender</legend>
+                <span title="Primary Points">
+                  P:{battle.TotalDefenderPrimary}/50
+                </span>
+                <span title="Secondary Points">
+                  S:{battle.TotalDefenderSecondary}/40
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   ) : (

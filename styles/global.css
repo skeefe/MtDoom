@@ -172,11 +172,12 @@ h3 {
 /* Container */
 .container {
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 0.75rem;
 }
 @media (min-width: 640px) {
   .container {
     max-width: 640px;
+    padding: 0 1.25rem;
   }
 }
 @media (min-width: 768px) {
@@ -410,8 +411,14 @@ form .alert {
 .content {
   border-radius: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0.25) 0 0.5rem 1rem;
-  padding: 1.25rem;
+  padding: 0.75rem;
 }
+@media (min-width: 640px) {
+  .content {
+    padding: 1.25rem;
+  }
+}
+
 .content-dark {
   background: #1e293b;
 }
@@ -510,11 +517,21 @@ form .alert {
 }
 .opponent:nth-child(1) {
   border-right: 0.062rem solid #64748b;
-  padding-right: 1.5rem;
+  padding-right: 0.75rem;
+}
+@media (min-width: 640px) {
+  .opponent:nth-child(1) {
+    padding-right: 1.5rem;
+  }
 }
 .opponent:nth-child(2) {
   border-left: 0.062rem solid #64748b;
-  padding-left: 1.5rem;
+  padding-left: 0.75rem;
+}
+@media (min-width: 640px) {
+  .opponent:nth-child(2) {
+    padding-left: 1.5rem;
+  }
 }
 .opponent legend {
   font-size: 0.875rem;
@@ -527,6 +544,50 @@ form .alert {
   line-height: 1;
   margin: 0;
   text-align: center;
+}
+.device-score-bar {
+  background: #c2410c;
+  bottom: 0;
+  box-sizing: border-box;
+  color: #e2e8f0;
+  left: 0;
+  padding: 0.5rem 0.75rem 0.75rem;
+  position: fixed;
+  width: 100%;
+}
+.device-score-bar .opponent-layout {
+  margin: 0;
+}
+.device-score-bar .opponent {
+  display: flex;
+  gap: 0.5rem;
+}
+.device-score-bar .score-highlight {
+  font-size: 2.5rem;
+  margin: 0;
+}
+.device-score-bar legend {
+  color: #e2e8f0;
+  display: inline;
+  font-size: 0.75rem;
+  margin-top: 0.4rem;
+  margin-bottom: -0.3rem;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+.device-score-bar span {
+  font-size: 0.75rem;
+  margin: 0 0.5rem 0 0;
+}
+.device-score-bar .opponent:nth-child(1) {
+  direction: rtl;
+}
+.device-score-bar .opponent:nth-child(1) legend {
+  text-align: right;
+}
+.device-score-bar .opponent:nth-child(1) span:not(.score-highlight) {
+  margin: 0 0 0 0.5rem;
 }
 
 /* Dashboard/Graphs */

@@ -1,7 +1,6 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
-- Mobile responsive
 - Description META tag.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
 - Army/General Dashboards: Pull in table details. option to switch opponent (or opponent army)
@@ -9,7 +8,6 @@
     - MVPs
     - LVPs?
     - Last 5 matches: WLWWL
-
 
 
 ## Next 
