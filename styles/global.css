@@ -619,12 +619,12 @@ form .alert {
 }
 @media (min-width: 1024px) {
   .dashboard-panels {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 2fr;
   }
 }
 @media (min-width: 1280px) {
   .dashboard-panels {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 2fr;
   }
 }
 .dashboard-panel {

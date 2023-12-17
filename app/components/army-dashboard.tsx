@@ -10,11 +10,55 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LineChart,
+  Line,
 } from "recharts";
 import { iBattle } from "../types/battle";
 import getDocSnapshot from "../firebase/getDocSnapshot";
+import { formatDate } from "../../utils/date-format";
 
 const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
+  let battleHistory: {
+    OpponentArmy: string;
+    OpponentScore: number;
+    Score: number;
+    Date: string;
+  }[] = [];
+
+  //Need for a tool tip.
+  const armyName: string = props.army.Name;
+
+  const getBattleHistoryData = () => {
+    props.battles.forEach(getBattleHistory);
+    return battleHistory;
+  };
+
+  const getBattleHistory = (battle) => {
+    const isAttacker =
+      battle.AttackerArmy === props.army.id ? battle.true : battle.false;
+
+    const opponentArmyName = isAttacker
+      ? getArmyName(battle.DefenderArmy)
+      : getArmyName(battle.AttackerArmy);
+
+    const opponentScore = isAttacker
+      ? battle.TotalDefender
+      : battle.TotalAttacker;
+
+    const score = isAttacker ? battle.TotalAttacker : battle.TotalDefender;
+
+    battleHistory.push({
+      OpponentArmy: opponentArmyName,
+      OpponentScore: opponentScore,
+      Score: score,
+      Date: formatDate(battle.Date.seconds).short,
+    });
+
+    console.log(battleHistory);
+
+    return battleHistory;
+  };
+
   let opponentBattles: {
     Army: string;
     Played: number;
@@ -150,6 +194,91 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                 <li key={index}>{lvp.Unit}</li>
               ))}
             </ol>
+          </div>
+
+          <div className="dashboard-panel">
+            <h3>Battle Score Chart</h3>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                width={730}
+                height={250}
+                data={getBattleHistoryData()}
+                margin={{ left: -35, bottom: 58 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="Date" />
+                <YAxis allowDecimals={false} domain={[0, 90]} />
+                <Tooltip
+                  wrapperStyle={{
+                    backgroundColor: "#fff",
+                    border: "2px solid #1e293b",
+                    color: "#64748b",
+                  }}
+                  cursor={false}
+                  separator=": "
+                  content={(props) => (
+                    <div
+                      style={{
+                        backgroundColor: "#fff",
+                        border: "2px solid #1e293b",
+                        color: "#64748b",
+                        display: "grid",
+                        fontSize: ".875rem",
+                        gridTemplateColumns: "1fr 1fr",
+                        padding: "1rem .5rem",
+                      }}
+                    >
+                      <div
+                        style={{
+                          color: "#c2410c",
+                          paddingRight: ".5rem",
+                          borderRight: "1px solid #64748b",
+                          textAlign: "right",
+                        }}
+                      >
+                        <strong>{armyName}</strong>
+                        <br />
+                        <span>
+                          {props.payload &&
+                            props.payload[0] != null &&
+                            props.payload[0].payload.Score}
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          paddingLeft: ".5rem",
+                          borderLeft: "1px solid #64748b",
+                          textAlign: "left",
+                        }}
+                      >
+                        <strong>
+                          {props.payload &&
+                            props.payload[0] != null &&
+                            props.payload[0].payload.OpponentArmy}
+                        </strong>
+                        <br />
+                        {props.payload &&
+                          props.payload[0] != null &&
+                          props.payload[0].payload.OpponentScore}
+                      </div>
+                    </div>
+                  )}
+                />
+                <Legend verticalAlign="bottom" />
+                <Line
+                  type="monotone"
+                  dataKey="Score"
+                  stroke="#c2410c"
+                  activeDot={{ r: 8 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="OpponentScore"
+                  name="Opponent Score"
+                  stroke="#94a3b8"
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </section>
