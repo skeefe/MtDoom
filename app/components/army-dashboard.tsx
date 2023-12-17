@@ -29,8 +29,8 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
   const armyName: string = props.army.Name;
 
   const getBattleHistoryData = () => {
-    props.battles.forEach(getBattleHistory);
-    return battleHistory;
+    props.battles.reverse().forEach(getBattleHistory);
+    return battleHistory.reverse();
   };
 
   const getBattleHistory = (battle) => {
@@ -53,8 +53,6 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
       Score: score,
       Date: formatDate(battle.Date.seconds).short,
     });
-
-    console.log(battleHistory);
 
     return battleHistory;
   };
