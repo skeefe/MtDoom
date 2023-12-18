@@ -195,7 +195,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
           </div>
 
           <div className="dashboard-panel">
-            <h3>Battle Score Chart</h3>
+            <h3>Battle Points</h3>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 width={730}
