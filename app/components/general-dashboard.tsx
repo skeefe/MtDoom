@@ -10,11 +10,61 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LineChart,
+  Line,
 } from "recharts";
 import { iBattle } from "../types/battle";
 import getDocSnapshot from "../firebase/getDocSnapshot";
+import { formatDate } from "../../utils/date-format";
+import ChartTooltipRecord from "./chart-tooltip-record";
+import ChartTooltipPoints from "./chart-tooltip-points";
 
 const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
+  let battleHistory: {
+    Army: string;
+    OpponentArmy: string;
+    OpponentScore: number;
+    Score: number;
+    Date: string;
+  }[] = [];
+
+  //Need for a tool tip.
+  const armyName: string = props.general.Name;
+
+  const getBattleHistoryData = () => {
+    props.battles.reverse().forEach(getBattleHistory);
+    return battleHistory.reverse();
+  };
+
+  const getBattleHistory = (battle) => {
+    const isAttacker: boolean =
+      battle.Attacker === props.general.id ? true : false;
+
+    const armyName: string = isAttacker
+      ? getArmyName(battle.AttackerArmy)
+      : getArmyName(battle.DefenderArmy);
+
+    const opponentArmyName: string = isAttacker
+      ? getArmyName(battle.DefenderArmy)
+      : getArmyName(battle.AttackerArmy);
+
+    const opponentScore = isAttacker
+      ? battle.TotalDefender
+      : battle.TotalAttacker;
+
+    const score = isAttacker ? battle.TotalAttacker : battle.TotalDefender;
+
+    battleHistory.push({
+      Army: armyName,
+      OpponentArmy: opponentArmyName,
+      OpponentScore: opponentScore,
+      Score: score,
+      Date: formatDate(battle.Date.seconds).short,
+    });
+
+    return battleHistory;
+  };
+
   let opponentGeneralBattles: {
     General: string;
     Played: number;
@@ -162,12 +212,26 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                 <XAxis dataKey="Army" />
                 <YAxis allowDecimals={false} domain={[0, yAxisArmyLength()]} />
                 <Tooltip
-                  wrapperStyle={{
-                    color: "#64748b",
-                    backgroundColor: "#fff",
-                    border: "2px solid #1e293b",
-                  }}
                   cursor={false}
+                  content={(props) => (
+                    <ChartTooltipRecord
+                      OpponentArmy={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Army
+                      }
+                      Won={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Won
+                      }
+                      Lost={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Lost
+                      }
+                    />
+                  )}
                 />
                 <Legend verticalAlign="bottom" />
 
@@ -193,18 +257,104 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                   domain={[0, yAxisGeneralLength()]}
                 />
                 <Tooltip
-                  wrapperStyle={{
-                    color: "#64748b",
-                    backgroundColor: "#fff",
-                    border: "2px solid #1e293b",
-                  }}
                   cursor={false}
+                  content={(props) => (
+                    <ChartTooltipRecord
+                      OpponentArmy={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.General
+                      }
+                      Won={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Won
+                      }
+                      Lost={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Lost
+                      }
+                    />
+                  )}
                 />
                 <Legend verticalAlign="bottom" />
 
                 <Bar dataKey="Won" stackId="a" fill="#667b99" label="1234" />
                 <Bar dataKey="Lost" stackId="a" fill="#94a3b8" />
               </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="dashboard-panel">
+            <h3>Points Record</h3>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                width={730}
+                height={250}
+                data={getBattleHistoryData()}
+                margin={{ left: -35, bottom: 58 }}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  horizontalValues={[30, 60, 90]}
+                />
+                <XAxis dataKey="Date" />
+                <YAxis
+                  allowDecimals={false}
+                  ticks={[30, 60, 90]}
+                  domain={[0, 90]}
+                />
+                <Tooltip
+                  wrapperStyle={{
+                    backgroundColor: "#fff",
+                    border: "2px solid #1e293b",
+                    color: "#64748b",
+                  }}
+                  cursor={false}
+                  content={(props) => (
+                    <ChartTooltipPoints
+                      Date={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Date
+                      }
+                      Army={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Army
+                      }
+                      ArmyScore={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Score
+                      }
+                      OpponentArmy={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.OpponentArmy
+                      }
+                      OpponentArmyScore={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.OpponentScore
+                      }
+                    />
+                  )}
+                />
+                <Legend verticalAlign="bottom" />
+                <Line
+                  type="monotone"
+                  dataKey="Score"
+                  stroke="#c2410c"
+                  activeDot={{ r: 8 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="OpponentScore"
+                  name="Opponent Score"
+                  stroke="#94a3b8"
+                />
+              </LineChart>
             </ResponsiveContainer>
           </div>
         </div>

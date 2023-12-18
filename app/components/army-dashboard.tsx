@@ -167,11 +167,6 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                 <XAxis dataKey="Army" />
                 <YAxis allowDecimals={false} domain={[0, yAxisLength()]} />
                 <Tooltip
-                  wrapperStyle={{
-                    color: "#64748b",
-                    backgroundColor: "#fff",
-                    border: "2px solid #1e293b",
-                  }}
                   cursor={false}
                   content={(props) => (
                     <ChartTooltipRecord
@@ -235,11 +230,6 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                   domain={[0, 90]}
                 />
                 <Tooltip
-                  wrapperStyle={{
-                    backgroundColor: "#fff",
-                    border: "2px solid #1e293b",
-                    color: "#64748b",
-                  }}
                   cursor={false}
                   content={(props) => (
                     <ChartTooltipPoints
