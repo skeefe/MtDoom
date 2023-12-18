@@ -646,3 +646,13 @@ tspan {
 .dashboard-panel ol + h3 {
   margin: 2.5rem 0 0;
 }
+.chart-tooltip {
+  background: #fff;
+  border: 2px solid #1e293b;
+  color: #64748b;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+.chart-tooltip .highlight {
+  color: #c2410c;
+}

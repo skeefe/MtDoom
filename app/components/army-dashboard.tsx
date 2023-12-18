@@ -16,6 +16,8 @@ import {
 import { iBattle } from "../types/battle";
 import getDocSnapshot from "../firebase/getDocSnapshot";
 import { formatDate } from "../../utils/date-format";
+import ChartTooltipRecord from "./chart-tooltip-record";
+import ChartTooltipPoints from "./chart-tooltip-points";
 
 const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
   let battleHistory: {
@@ -34,10 +36,10 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
   };
 
   const getBattleHistory = (battle) => {
-    const isAttacker =
-      battle.AttackerArmy === props.army.id ? battle.true : battle.false;
+    const isAttacker: boolean =
+      battle.AttackerArmy === props.army.id ? true : false;
 
-    const opponentArmyName = isAttacker
+    const opponentArmyName: string = isAttacker
       ? getArmyName(battle.DefenderArmy)
       : getArmyName(battle.AttackerArmy);
 
@@ -171,6 +173,25 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                     border: "2px solid #1e293b",
                   }}
                   cursor={false}
+                  content={(props) => (
+                    <ChartTooltipRecord
+                      OpponentArmy={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Army
+                      }
+                      Won={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Won
+                      }
+                      Lost={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Lost
+                      }
+                    />
+                  )}
                 />
                 <Legend verticalAlign="bottom" />
                 <Bar dataKey="Won" stackId="a" fill="#667b99" label="1234" />
@@ -195,7 +216,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
           </div>
 
           <div className="dashboard-panel">
-            <h3>Battle Points</h3>
+            <h3>Points Record</h3>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 width={730}
@@ -203,9 +224,16 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                 data={getBattleHistoryData()}
                 margin={{ left: -35, bottom: 58 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  horizontalValues={[30, 60, 90]}
+                />
                 <XAxis dataKey="Date" />
-                <YAxis allowDecimals={false} domain={[0, 90]} />
+                <YAxis
+                  allowDecimals={false}
+                  ticks={[30, 60, 90]}
+                  domain={[0, 90]}
+                />
                 <Tooltip
                   wrapperStyle={{
                     backgroundColor: "#fff",
@@ -213,53 +241,30 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                     color: "#64748b",
                   }}
                   cursor={false}
-                  separator=": "
                   content={(props) => (
-                    <div
-                      style={{
-                        backgroundColor: "#fff",
-                        border: "2px solid #1e293b",
-                        color: "#64748b",
-                        display: "grid",
-                        fontSize: ".875rem",
-                        gridTemplateColumns: "1fr 1fr",
-                        padding: "1rem .5rem",
-                      }}
-                    >
-                      <div
-                        style={{
-                          color: "#c2410c",
-                          paddingRight: ".5rem",
-                          borderRight: "1px solid #64748b",
-                          textAlign: "right",
-                        }}
-                      >
-                        <strong>{armyName}</strong>
-                        <br />
-                        <span>
-                          {props.payload &&
-                            props.payload[0] != null &&
-                            props.payload[0].payload.Score}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          paddingLeft: ".5rem",
-                          borderLeft: "1px solid #64748b",
-                          textAlign: "left",
-                        }}
-                      >
-                        <strong>
-                          {props.payload &&
-                            props.payload[0] != null &&
-                            props.payload[0].payload.OpponentArmy}
-                        </strong>
-                        <br />
-                        {props.payload &&
-                          props.payload[0] != null &&
-                          props.payload[0].payload.OpponentScore}
-                      </div>
-                    </div>
+                    <ChartTooltipPoints
+                      Date={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Date
+                      }
+                      Army={armyName}
+                      ArmyScore={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.Score
+                      }
+                      OpponentArmy={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.OpponentArmy
+                      }
+                      OpponentArmyScore={
+                        props.payload &&
+                        props.payload[0] != null &&
+                        props.payload[0].payload.OpponentScore
+                      }
+                    />
                   )}
                 />
                 <Legend verticalAlign="bottom" />
