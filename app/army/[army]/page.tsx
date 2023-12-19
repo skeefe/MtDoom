@@ -7,6 +7,7 @@ import BattleTable from "../../components/battle-table";
 import getCollectionSnapshot from "../../firebase/getCollectionSnapshot";
 import Link from "next/link";
 import Spinner from "../../components/spinner";
+import StatPanel from "../../components/stat-panel";
 
 export default function ArmyDetails({ params }: { params: { army: string } }) {
   const armyId = params.army;
@@ -54,6 +55,8 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
         }}
         battles={armyBattleCollection}
       />
+
+      <StatPanel Item={armyId} Type="Armies" Battles={armyBattleCollection} />
 
       <BattleTable
         title={`${armyDetails["Name"]}'s Battles`}

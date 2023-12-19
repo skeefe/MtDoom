@@ -3,7 +3,7 @@ import Spinner from "./spinner";
 import { selectOption } from "../types/select-option";
 
 const SelectField = (props: {
-  label: string;
+  label?: string;
   id: string;
   name: string;
   value: string;
@@ -40,10 +40,12 @@ const SelectField = (props: {
   return (
     <>
       <div className="field-container">
-        <label htmlFor={props.id}>
-          {props.label}
-          {props.required ? "*" : null}:
-        </label>
+        {props.label && (
+          <label htmlFor={props.id}>
+            {props.label}
+            {props.required ? "*" : null}:
+          </label>
+        )}
         {props.options.length > 0 ? (
           <select
             id={props.id}

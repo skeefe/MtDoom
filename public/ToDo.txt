@@ -3,16 +3,16 @@
 ## Now
 - Description META tag.
 - Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
+- Domain Name
 
 
 
 ## Next 
 - Army/General Dashboards: Pull in table details. Option to switch opponent (or opponent army)
-- Army/General Dashboard.
-    - Last 5 matches: WLWWL
 - Order 10th edition ladder (Armies Table)
 - Sortable tables.
-- Names with Nicknames.
+- General Names with Nicknames.
+- General Names with Adjectives.
 - Handle Fixed Secondaries...
 - Handle Gambits
 - Add Delete button to the Battles and Army tables.
@@ -20,6 +20,8 @@
     - Delete button needs to be clickable in a row with onClick
     - Delete battle needs to update the Armies collection...
 - Ability to host events (e.g. tournies)
+- Confetti on battle completion
+    - Army colours.
 
 
 ## Horizon
@@ -32,3 +34,4 @@
 - User dashboard stuff
 - Pagination on the Battle List table.
 - Optimise spinner - Volcano with smoke lifting?
+- Work out how to use Army Colours
