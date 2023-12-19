@@ -8,23 +8,25 @@ const ChartTooltipRecord = (props: {
   return (
     <>
       <table className="chart-tooltip">
-        <tr>
-          <td colSpan={2}>
-            <strong>{props.OpponentArmy}</strong>
-          </td>
-        </tr>
-        <tr className="highlight">
-          <td>
-            <strong>Won:</strong>
-          </td>
-          <td>{props.Won}</td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Lost:</strong>
-          </td>
-          <td>{props.Lost}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td colSpan={2}>
+              <strong>{props.OpponentArmy}</strong>
+            </td>
+          </tr>
+          <tr className="highlight">
+            <td>
+              <strong>Won:</strong>
+            </td>
+            <td>{props.Won}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Lost:</strong>
+            </td>
+            <td>{props.Lost}</td>
+          </tr>
+        </tbody>
       </table>
     </>
   );

@@ -10,23 +10,25 @@ const ChartTooltipPoints = (props: {
   return (
     <>
       <table className="chart-tooltip">
-        <tr>
-          <td colSpan={2}>
-            <strong>{props.Date}</strong>
-          </td>
-        </tr>
-        <tr className="highlight">
-          <td>
-            <strong>{props.Army}:</strong>
-          </td>
-          <td>{props.ArmyScore}</td>
-        </tr>
-        <tr>
-          <td>
-            <strong>{props.OpponentArmy}:</strong>
-          </td>
-          <td>{props.OpponentArmyScore}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td colSpan={2}>
+              <strong>{props.Date}</strong>
+            </td>
+          </tr>
+          <tr className="highlight">
+            <td>
+              <strong>{props.Army}:</strong>
+            </td>
+            <td>{props.ArmyScore}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>{props.OpponentArmy}:</strong>
+            </td>
+            <td>{props.OpponentArmyScore}</td>
+          </tr>
+        </tbody>
       </table>
     </>
   );
