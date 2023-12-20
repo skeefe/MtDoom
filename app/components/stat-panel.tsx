@@ -179,7 +179,7 @@ const StatPanel = (props: {
       TotalPoints: totalPointsFor,
       PointDifference: totalPointsFor - totalPointsAgainst,
       WinPercentage: (totalWins / opponentBattleData.length) * 100,
-      FirstTurnPercentage: firstTurnTotal / opponentBattleData.length,
+      FirstTurnPercentage: (firstTurnTotal / opponentBattleData.length) * 100,
     };
 
     //Update State
