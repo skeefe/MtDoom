@@ -72,7 +72,6 @@ const SelectField = (props: {
             🎲
           </button>
         ) : null}
-        :
       </div>
     </>
   );

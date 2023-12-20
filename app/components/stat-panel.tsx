@@ -204,16 +204,54 @@ const StatPanel = (props: {
       </header>
       <div className="conent">
         <ul className="stat-panel-list">
-          <li>ID {stats.id}</li>
-          <li>Name{stats.Name}</li>
-          <li>Played {stats.Played}</li>
-          <li>Won {stats.Won}</li>
-          <li>Lost {stats.Lost}</li>
-          <li>AveragePoints {stats.AveragePoints}</li>
-          <li>TotalPoints {stats.TotalPoints}</li>
-          <li>PointDifference {stats.PointDifference}</li>
-          <li>WinPercentage {stats.WinPercentage}</li>
-          <li>FirstTurnPercentage {stats.FirstTurnPercentage}</li>
+          <li>
+            <span className="stat-label" title="Battles Played">
+              Played
+            </span>
+            <span className="stat-value">{stats.Played}</span>
+          </li>
+          <li>
+            <span className="stat-label" title="First Turn Percentage">
+              First&nbsp;Turn&nbsp;%
+            </span>
+            <span className="stat-value">{stats.FirstTurnPercentage}%</span>
+          </li>
+          <li>
+            <span className="stat-label" title="Battles Won">
+              Won
+            </span>
+            <span className="stat-value">{stats.Won}</span>
+          </li>
+          <li>
+            <span className="stat-label" title="Battles Lost">
+              Lost
+            </span>
+            <span className="stat-value">{stats.Lost}</span>
+          </li>
+          <li>
+            <span className="stat-label" title="Average Points/Battle">
+              Avg.&nbsp;Points
+            </span>
+            <span className="stat-value">{stats.AveragePoints}</span>
+          </li>
+          <li>
+            <span className="stat-label" title="Total Points">
+              Total&nbsp;Points
+            </span>
+            <span className="stat-value">{stats.TotalPoints}</span>
+          </li>
+          <li>
+            <span className="stat-label" title="Points Difference">
+              +/-
+            </span>
+            <span className="stat-value">{stats.PointDifference}</span>
+          </li>
+          <li>
+            <span className="stat-label" title="Win Percentage">
+              Win&nbsp;%
+            </span>
+            <span className="stat-value">{stats.WinPercentage}%</span>
+          </li>
         </ul>
       </div>
     </section>
