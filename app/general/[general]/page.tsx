@@ -7,6 +7,7 @@ import BattleTable from "../../components/battle-table";
 import getCollectionSnapshot from "../../firebase/getCollectionSnapshot";
 import Link from "next/link";
 import Spinner from "../../components/spinner";
+import StatPanel from "../../components/stat-panel";
 
 export default function GeneralDetails({
   params,
@@ -57,6 +58,12 @@ export default function GeneralDetails({
           Nicknames: generalDetails["Nicknames"],
         }}
         battles={generalBattleCollection}
+      />
+
+      <StatPanel
+        Item={generalId}
+        Type="Generals"
+        Battles={generalBattleCollection}
       />
 
       <BattleTable
