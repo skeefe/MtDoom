@@ -6,7 +6,8 @@ import "../styles/global.css";
 
 export const metadata = {
   title: "Mt. Doom",
-  description: "",
+  description:
+    "Here lie the records of the finest generals in Mt. Doom. Get excited!!",
 };
 
 export default function RootLayout({

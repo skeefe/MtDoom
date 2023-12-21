@@ -1,10 +1,6 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
-- Description META tag.
-
-
-## Next 
 - Army/General Dashboards: Pull in table details. Option to switch opponent (or opponent army)
 - Order 10th edition ladder (Armies Table)
 - Sortable tables.
