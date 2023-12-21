@@ -717,6 +717,16 @@ tspan {
   text-align: center;
   width: 100%;
 }
+@media (min-width: 640px) {
+  .stat-panel-list > li .stat-value {
+    font-size: 3.25rem;
+  }
+}
+@media (min-width: 768px) {
+  .stat-panel-list > li .stat-value {
+    font-size: 2.75rem;
+  }
+}
 @media (min-width: 1024px) {
   .stat-panel-list > li .stat-value {
     font-size: 4.5rem;
@@ -724,6 +734,11 @@ tspan {
 }
 @media (min-width: 1280px) {
   .stat-panel-list > li .stat-value {
-    font-size: 3.25rem;
+    font-size: 2.25rem;
+  }
+}
+@media (min-width: 1536px) {
+  .stat-panel-list > li .stat-value {
+    font-size: 3rem;
   }
 }

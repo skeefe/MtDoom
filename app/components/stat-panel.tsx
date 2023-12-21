@@ -7,6 +7,7 @@ import { iStatPanel } from "../types/stat-panel";
 import SelectField from "./selectField";
 import { propertyFromID } from "../../utils/property-from-id";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
+import getDocSnapshot from "../firebase/getDocSnapshot";
 
 const StatPanel = (props: {
   Item: string;
@@ -26,17 +27,14 @@ const StatPanel = (props: {
     FirstTurnPercentage: 0,
   });
 
-  /*
-  //Retrieve Battle
-  useEffect(() => {
-    setStats((prev) => {
-      return { ...prev, ...props.Battles };
-    });
-  }, []);
-  */
-
   const armiesCollection = getCollectionSnapshot("Armies", "Name", "asc");
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
+  const itemData = getDocSnapshot(props.Type, props.Item);
+
+  //Retrieve Battle
+  useEffect(() => {
+    unfilteredStats();
+  }, [itemData]);
 
   const getArmiesGenerals = () => {
     let Armies: selectOption[] = [];
@@ -107,10 +105,11 @@ const StatPanel = (props: {
   const handleChange = (e) => {
     const value = e.target.value;
 
-    filterStatPanel(value);
-  };
+    //Check for "Show All"
+    if (value === "") {
+      return unfilteredStats();
+    }
 
-  const filterStatPanel = (value) => {
     //Army or General
     const type: "Army" | "General" =
       value.slice(0, 1) === "a" ? "Army" : "General";
@@ -175,16 +174,51 @@ const StatPanel = (props: {
       Played: opponentBattleData.length,
       Won: totalWins,
       Lost: opponentBattleData.length - totalWins,
-      AveragePoints: totalPointsFor / opponentBattleData.length,
+      AveragePoints:
+        Math.round((totalPointsFor / opponentBattleData.length) * 10) / 10,
       TotalPoints: totalPointsFor,
       PointDifference: totalPointsFor - totalPointsAgainst,
-      WinPercentage: (totalWins / opponentBattleData.length) * 100,
-      FirstTurnPercentage: (firstTurnTotal / opponentBattleData.length) * 100,
+      WinPercentage:
+        Math.round((totalWins / opponentBattleData.length) * 1000) / 10,
+      FirstTurnPercentage:
+        Math.round((firstTurnTotal / opponentBattleData.length) * 1000) / 10,
     };
 
     //Update State
     setStats((prev) => {
       return { ...prev, ...opponentData };
+    });
+  };
+
+  const unfilteredStats = () => {
+    const statData: iStatPanel = {
+      id: "",
+      Name: "",
+      Played: itemData["Played"],
+      Won: itemData["Won"],
+      Lost: itemData["Lost"],
+      AveragePoints:
+        Math.round(
+          ((itemData["PrimaryPointsFor"] + itemData["SecondaryPointsFor"]) /
+            itemData["Played"]) *
+            10
+        ) / 10,
+      TotalPoints:
+        itemData["PrimaryPointsFor"] + itemData["SecondaryPointsFor"],
+      PointDifference:
+        itemData["PrimaryPointsFor"] +
+        itemData["SecondaryPointsFor"] -
+        itemData["PrimaryPointsAgainst"] -
+        itemData["SecondaryPointsAgainst"],
+      WinPercentage:
+        Math.round((itemData["Won"] / itemData["Played"]) * 1000) / 10,
+      FirstTurnPercentage:
+        Math.round((itemData["FirstTurn"] / itemData["Played"]) * 1000) / 10,
+    };
+
+    //Update State
+    setStats((prev) => {
+      return { ...prev, ...statData };
     });
   };
 
@@ -199,7 +233,7 @@ const StatPanel = (props: {
           changeFunction={handleChange}
           value={stats.id}
           options={getArmiesGenerals()}
-          emptyValue="Select an Opponent"
+          emptyValue="Show All"
         />
       </header>
       <div className="conent">
