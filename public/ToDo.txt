@@ -2,9 +2,6 @@
 
 ## Now
 - Description META tag.
-- Favicon: https://favicon.io/emoji-favicons/volcano/ (needs credits)
-- Domain Name
-
 
 
 ## Next 
@@ -35,3 +32,4 @@
 - Pagination on the Battle List table.
 - Optimise spinner - Volcano with smoke lifting?
 - Work out how to use Army Colours
+- Domain Name
