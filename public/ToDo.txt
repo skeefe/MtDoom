@@ -1,20 +1,27 @@
 ######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
-- Army/General Dashboards: Pull in table details. Option to switch opponent (or opponent army)
-- Order 10th edition ladder (Armies Table)
-- Sortable tables.
-- General Names with Nicknames.
-- General Names with Adjectives.
+- How to order 10th edition ladder (Armies Table) - feedback
+- General Names with Nicknames/Emojis
+- General Names with Adjectives/Emojis
+- Handle Draws
 - Handle Fixed Secondaries...
 - Handle Gambits
+- Detachment Options list when army selected.
+- Secondaries from a select list.
+    - Handle discarded secondaries
+
+
+## Next
+- Ability to host events (e.g. tournies)
+- Sortable tables.
+- Confetti on battle completion
+    - Army colours.
 - Add Delete button to the Battles and Army tables.
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
     - Delete battle needs to update the Armies collection...
-- Ability to host events (e.g. tournies)
-- Confetti on battle completion
-    - Army colours.
+- Game dashboard stuff! :D 
 
 
 ## Horizon
@@ -23,9 +30,7 @@
     - Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
 - Add/invite friends.
 - Battle Setup modal? Scorecard wizard with panels for setup, each turn, batle end.
-- Game dashboard stuff! :D 
-- User dashboard stuff
 - Pagination on the Battle List table.
 - Optimise spinner - Volcano with smoke lifting?
-- Work out how to use Army Colours
+- Work out how to use Army Colours and Crests
 - Domain Name
