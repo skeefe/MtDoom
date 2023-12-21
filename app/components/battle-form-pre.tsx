@@ -1,6 +1,6 @@
 import React from "react";
 import { selectOption } from "../types/select-option";
-import SelectField from "./selectField";
+import SelectField from "./select-field";
 import TextField from "./textField";
 import { battleSizes } from "../../data/battle-sizes";
 import { deploymentZones } from "../../data/deployment-zones";

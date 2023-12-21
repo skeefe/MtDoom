@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { iBattle } from "../types/battle";
 import { selectOption } from "../types/select-option";
 import { iStatPanel } from "../types/stat-panel";
-import SelectField from "./selectField";
+import SelectField from "./select-field";
 import { propertyFromID } from "../../utils/property-from-id";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import getDocSnapshot from "../firebase/getDocSnapshot";
