@@ -9,7 +9,7 @@ import {
 import BattleTableRow from "./battle-table-row";
 import { iBattleSummary } from "../types/battle";
 import firebase_app from "../firebase/config";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import Spinner from "./spinner";
 
 const BattleTable = (props: {
@@ -17,7 +17,8 @@ const BattleTable = (props: {
   battles: iBattleSummary[];
   showCreateButton: boolean;
 }) => {
-  async function handleAddBattle() {
+  const router = useRouter();
+  const handleAddBattle = async () => {
     const db = getFirestore(firebase_app);
     const docRef = await addDoc(collection(db, "Battles"), {});
 
@@ -29,7 +30,7 @@ const BattleTable = (props: {
       });
 
     router.push(`/battle/${docRef.id}`);
-  }
+  };
 
   return props.battles.length > 0 ? (
     <>

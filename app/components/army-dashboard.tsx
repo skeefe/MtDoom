@@ -87,7 +87,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
 
     //Check if it exists in the opponentBattles array, if not add it (empty).
     if (
-      !opponentBattles.some((opponent) => opponent["Army"] === opponentArmyId)
+      !opponentBattles.some((opponent) => opponent["Army"] === opponentArmyName)
     ) {
       opponentBattles.push({
         Army: opponentArmyName,

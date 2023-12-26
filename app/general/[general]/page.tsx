@@ -20,7 +20,7 @@ export default function GeneralDetails({
   const battleCollection = getCollectionSnapshot("Battles");
   let generalBattleCollection = battleCollection.filter(function (battle) {
     return (
-      battle.isCompleted &&
+      battle.IsCompleted &&
       (battle.Attacker === generalId || battle.Defender === generalId)
     );
   });

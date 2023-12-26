@@ -16,7 +16,7 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
   const battleCollection = getCollectionSnapshot("Battles");
   let armyBattleCollection = battleCollection.filter(function (battle) {
     return (
-      battle.isCompleted &&
+      battle.IsCompleted &&
       (battle.AttackerArmy === armyId || battle.DefenderArmy === armyId)
     );
   });
