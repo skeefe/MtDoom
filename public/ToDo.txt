@@ -3,7 +3,7 @@
 ## Now
 - How to order 10th edition ladder (Armies Table) - feedback
 - General Names with Nicknames/Emojis
-- General Names with Adjectives/Emojis
+- Army Names with Adjectives/Emojis
 - Handle Draws
 - Handle Fixed Secondaries...
 - Handle Gambits
@@ -15,8 +15,6 @@
 ## Next
 - Ability to host events (e.g. tournies)
 - Sortable tables.
-- Confetti on battle completion
-    - Army colours.
 - Add Delete button to the Battles and Army tables.
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
@@ -33,4 +31,6 @@
 - Pagination on the Battle List table.
 - Optimise spinner - Volcano with smoke lifting?
 - Work out how to use Army Colours and Crests
+    - Confetti on battle completion
+        - Army colours.
 - Domain Name
