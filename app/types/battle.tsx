@@ -18,6 +18,7 @@ export interface iBattle {
   DefenderDetachment: string;
   FirstTurn: string;
 
+  T1AttackerPrimary: number;
   T2AttackerPrimary: number;
   T3AttackerPrimary: number;
   T4AttackerPrimary: number;
@@ -49,6 +50,7 @@ export interface iBattle {
 
   TotalAttacker: number;
 
+  T1DefenderPrimary: number;
   T2DefenderPrimary: number;
   T3DefenderPrimary: number;
   T4DefenderPrimary: number;

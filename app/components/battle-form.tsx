@@ -64,6 +64,7 @@ const BattleForm = (props: { battleId: string }) => {
     DefenderDetachment: "",
     FirstTurn: "",
 
+    T1AttackerPrimary: 0,
     T2AttackerPrimary: 0,
     T3AttackerPrimary: 0,
     T4AttackerPrimary: 0,
@@ -95,6 +96,7 @@ const BattleForm = (props: { battleId: string }) => {
 
     TotalAttacker: 0,
 
+    T1DefenderPrimary: 0,
     T2DefenderPrimary: 0,
     T3DefenderPrimary: 0,
     T4DefenderPrimary: 0,
@@ -195,6 +197,7 @@ const BattleForm = (props: { battleId: string }) => {
   useEffect(() => {
     //-- Primary --
     let totalAttackerPrimary: number =
+      stringToNumber(battle.T1AttackerPrimary.toString()) +
       stringToNumber(battle.T2AttackerPrimary.toString()) +
       stringToNumber(battle.T3AttackerPrimary.toString()) +
       stringToNumber(battle.T4AttackerPrimary.toString()) +
@@ -204,6 +207,7 @@ const BattleForm = (props: { battleId: string }) => {
       totalAttackerPrimary > 50 ? 50 : totalAttackerPrimary;
 
     let totalDefenderPrimary: number =
+      stringToNumber(battle.T1DefenderPrimary.toString()) +
       stringToNumber(battle.T2DefenderPrimary.toString()) +
       stringToNumber(battle.T3DefenderPrimary.toString()) +
       stringToNumber(battle.T4DefenderPrimary.toString()) +
@@ -272,11 +276,13 @@ const BattleForm = (props: { battleId: string }) => {
         console.log(error);
       });
   }, [
+    battle.T1AttackerPrimary,
     battle.T2AttackerPrimary,
     battle.T3AttackerPrimary,
     battle.T4AttackerPrimary,
     battle.T5AttackerPrimary,
     battle.AttackerMissionBonus,
+    battle.T1DefenderPrimary,
     battle.T2DefenderPrimary,
     battle.T3DefenderPrimary,
     battle.T4DefenderPrimary,
@@ -526,10 +532,12 @@ const BattleForm = (props: { battleId: string }) => {
               <BattleFormRound
                 RoundNumber={1}
                 IsCompleted={battle.IsCompleted}
+                AttackerPrimary={battle.T1AttackerPrimary}
                 AttackerSecondary1Title={battle.T1AttackerSecondary1Title}
                 AttackerSecondary1={battle.T1AttackerSecondary1}
                 AttackerSecondary2Title={battle.T1AttackerSecondary2Title}
                 AttackerSecondary2={battle.T1AttackerSecondary2}
+                DefenderPrimary={battle.T1DefenderPrimary}
                 DefenderSecondary1Title={battle.T1DefenderSecondary1Title}
                 DefenderSecondary1={battle.T1DefenderSecondary1}
                 DefenderSecondary2Title={battle.T1DefenderSecondary2Title}
