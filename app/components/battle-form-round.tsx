@@ -77,18 +77,16 @@ const BattleFormRound = (props: {
 
         <div className="opponent">
           <legend>Defender</legend>
-          {props.RoundNumber > 1 && (
-            <TextField
-              label="Primary Points"
-              type="number"
-              required={false}
-              id={`t${props.RoundNumber}DefenderPrimary`}
-              name={`T${props.RoundNumber}DefenderPrimary`}
-              changeFunction={props.changeFunction}
-              value={`${props.DefenderPrimary}`}
-              emptyValue="--"
-            />
-          )}
+          <TextField
+            label="Primary Points"
+            type="number"
+            required={false}
+            id={`t${props.RoundNumber}DefenderPrimary`}
+            name={`T${props.RoundNumber}DefenderPrimary`}
+            changeFunction={props.changeFunction}
+            value={`${props.DefenderPrimary}`}
+            emptyValue="--"
+          />
           <TextField
             label="Secondary 1 Title"
             type="text"
