@@ -162,6 +162,7 @@ h3 {
 
 /* Priamry Content Area */
 .primary-content {
+  overflow-x: hidden;
   padding: 4.5rem 0 0;
 }
 
@@ -741,4 +742,12 @@ tspan {
   .stat-panel-list > li .stat-value {
     font-size: 3rem;
   }
+}
+
+/* Step Panel */
+.step-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: right;
 }
