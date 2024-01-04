@@ -7,7 +7,7 @@ import { deploymentZones } from "../../data/deployment-zones";
 import { missionRules } from "../../data/mission-rules";
 import { primaryMissions } from "../../data/primary-missions";
 
-const BattleFormPost = (props: {
+const BattleFormPre = (props: {
   IsCompleted: boolean;
   Generals: selectOption[];
   Armies: selectOption[];
@@ -163,4 +163,4 @@ const BattleFormPost = (props: {
   );
 };
 
-export default BattleFormPost;
+export default BattleFormPre;
