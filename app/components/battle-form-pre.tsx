@@ -6,6 +6,7 @@ import { battleSizes } from "../../data/battle-sizes";
 import { deploymentZones } from "../../data/deployment-zones";
 import { missionRules } from "../../data/mission-rules";
 import { primaryMissions } from "../../data/primary-missions";
+import TextAreaField from "./textAreaField";
 
 const BattleFormPre = (props: {
   IsCompleted: boolean;
@@ -22,9 +23,12 @@ const BattleFormPre = (props: {
   DefenderArmy: string;
   AttackerDetachment: string;
   DefenderDetachment: string;
+  AttackerList: string;
+  DefenderList: string;
   FirstTurn: string;
   changeFunctionSelect: React.ChangeEventHandler<HTMLSelectElement>;
   changeFunctionText: React.ChangeEventHandler<HTMLInputElement>;
+  changeFunctionTextArea: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
   return (
     <fieldset disabled={props.IsCompleted}>
@@ -109,6 +113,16 @@ const BattleFormPre = (props: {
             value={props.AttackerDetachment}
             emptyValue="Enter Detachment"
           />
+
+          <TextAreaField
+            label="Attacker Army List (optional)"
+            id="attackerList"
+            name="AttackerList"
+            changeFunction={props.changeFunctionTextArea}
+            value={props.AttackerList}
+            emptyValue="Enter the Attacker's List"
+            required={false}
+          />
         </div>
 
         <div className="opponent">
@@ -145,6 +159,15 @@ const BattleFormPre = (props: {
             changeFunction={props.changeFunctionText}
             value={props.DefenderDetachment}
             emptyValue="Enter Detachment"
+          />
+          <TextAreaField
+            label="Defender Army List (optional)"
+            id="defenderList"
+            name="DefenderList"
+            changeFunction={props.changeFunctionTextArea}
+            value={props.DefenderList}
+            emptyValue="Enter the Defender's List"
+            required={false}
           />
         </div>
       </div>

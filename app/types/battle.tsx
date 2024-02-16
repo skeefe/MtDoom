@@ -13,9 +13,11 @@ export interface iBattle {
   Attacker: string;
   AttackerArmy: string;
   AttackerDetachment: string;
+  AttackerList: string;
   Defender: string;
   DefenderArmy: string;
   DefenderDetachment: string;
+  DefenderList: string;
   FirstTurn: string;
 
   T1AttackerPrimary: number;
