@@ -162,7 +162,7 @@ h3 {
 
 /* Priamry Content Area */
 .primary-content {
-  overflow-x: hidden;
+  /*overflow-x: hidden; //Breaks the sticky score panel*/
   padding: 4.5rem 0 0;
 }
 
