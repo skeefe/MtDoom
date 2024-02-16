@@ -64,9 +64,11 @@ const StepBattleForm = (props: { battleId: string }) => {
     Attacker: "",
     AttackerArmy: "",
     AttackerDetachment: "",
+    AttackerList: "",
     Defender: "",
     DefenderArmy: "",
     DefenderDetachment: "",
+    DefenderList: "",
     FirstTurn: "",
 
     T1AttackerPrimary: 0,
@@ -531,9 +533,12 @@ const StepBattleForm = (props: { battleId: string }) => {
                   DefenderArmy={battle.DefenderArmy}
                   AttackerDetachment={battle.AttackerDetachment}
                   DefenderDetachment={battle.DefenderDetachment}
+                  AttackerList={battle.AttackerList}
+                  DefenderList={battle.DefenderList}
                   FirstTurn={battle.FirstTurn}
                   changeFunctionSelect={handleChange}
                   changeFunctionText={handleChange}
+                  changeFunctionTextArea={handleChange}
                 />
               </Step>
             </AnimatedStep>
