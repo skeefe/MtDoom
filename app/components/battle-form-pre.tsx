@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { selectOption } from "../types/select-option";
 import SelectField from "./select-field";
 import TextField from "./textField";
@@ -7,6 +7,8 @@ import { deploymentZones } from "../../data/deployment-zones";
 import { missionRules } from "../../data/mission-rules";
 import { primaryMissions } from "../../data/primary-missions";
 import TextAreaField from "./textAreaField";
+import Modal from "./modal";
+import { titleCase } from "../../utils/title-case";
 
 const BattleFormPre = (props: {
   IsCompleted: boolean;
@@ -30,6 +32,9 @@ const BattleFormPre = (props: {
   changeFunctionText: React.ChangeEventHandler<HTMLInputElement>;
   changeFunctionTextArea: React.ChangeEventHandler<HTMLTextAreaElement>;
 }) => {
+  const [showAttackerList, setShowAttackerList] = useState(false);
+  const [showDefenderList, setShowDefenderList] = useState(false);
+
   return (
     <fieldset disabled={props.IsCompleted}>
       <legend>Pre-Battle Setup</legend>
@@ -114,15 +119,48 @@ const BattleFormPre = (props: {
             emptyValue="Enter Detachment"
           />
 
-          <TextAreaField
-            label="Attacker Army List (optional)"
-            id="attackerList"
-            name="AttackerList"
-            changeFunction={props.changeFunctionTextArea}
-            value={props.AttackerList}
-            emptyValue="Enter the Attacker's List"
-            required={false}
-          />
+          {props.AttackerList ? (
+            <>
+              <button
+                className="button"
+                type="button"
+                onClick={() => setShowAttackerList(true)}
+              >
+                View List
+              </button>
+
+              {showAttackerList && (
+                <Modal
+                  onClose={() => setShowAttackerList(false)}
+                  title={
+                    titleCase(props.Attacker) +
+                    "'s " +
+                    titleCase(props.AttackerArmy) +
+                    " List"
+                  }
+                >
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: props.AttackerList.replace(
+                        /(\r\n|\r|\n)/g,
+                        "<br>"
+                      ).replace(/• /g, ""),
+                    }}
+                  />
+                </Modal>
+              )}
+            </>
+          ) : (
+            <TextAreaField
+              label="Attacker Army List"
+              id="attackerList"
+              name="AttackerList"
+              changeFunction={props.changeFunctionTextArea}
+              value={props.AttackerList}
+              emptyValue="Enter the Attacker's List"
+              required={false}
+            />
+          )}
         </div>
 
         <div className="opponent">
@@ -160,15 +198,48 @@ const BattleFormPre = (props: {
             value={props.DefenderDetachment}
             emptyValue="Enter Detachment"
           />
-          <TextAreaField
-            label="Defender Army List (optional)"
-            id="defenderList"
-            name="DefenderList"
-            changeFunction={props.changeFunctionTextArea}
-            value={props.DefenderList}
-            emptyValue="Enter the Defender's List"
-            required={false}
-          />
+          {props.DefenderList ? (
+            <>
+              <button
+                className="button"
+                type="button"
+                onClick={() => setShowDefenderList(true)}
+              >
+                View List
+              </button>
+
+              {showDefenderList && (
+                <Modal
+                  onClose={() => setShowDefenderList(false)}
+                  title={
+                    titleCase(props.Defender) +
+                    "'s " +
+                    titleCase(props.DefenderArmy) +
+                    " List"
+                  }
+                >
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: props.DefenderList.replace(
+                        /(\r\n|\r|\n)/g,
+                        "<br>"
+                      ).replace(/• /g, ""),
+                    }}
+                  />
+                </Modal>
+              )}
+            </>
+          ) : (
+            <TextAreaField
+              label="Defender Army List"
+              id="defenderList"
+              name="DefenderList"
+              changeFunction={props.changeFunctionTextArea}
+              value={props.DefenderList}
+              emptyValue="Enter the Defender's List"
+              required={false}
+            />
+          )}
         </div>
       </div>
       <SelectField

@@ -751,3 +751,54 @@ tspan {
   justify-content: space-between;
   text-align: right;
 }
+
+/* Modal */
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+.modal-wrapper {
+  height: calc(100vh - 2.25rem * 3);
+  margin: 4.5rem auto 0;
+  max-width: 500px;
+  width: 100%;
+}
+.modal {
+  background: #64748b;
+  border-radius: 0.35rem;
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+}
+.modal-header {
+  background: #1e293b;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  width: 100%;
+}
+.modal-header a {
+  color: #fff;
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+}
+.modal-header h2 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+.icon-close {
+  float: right;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.modal-body {
+  color: #1e293b;
+  font-weight: 500;
+  padding: 1rem;
+}
