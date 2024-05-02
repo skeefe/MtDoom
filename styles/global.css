@@ -383,12 +383,16 @@ form .alert {
   /* font-weight: bold; */
   line-height: 1;
   padding: 0.875rem 1.5rem;
+  text-align: center;
   text-decoration: none;
   text-transform: uppercase;
   transition: background-color 0.125s linear;
 }
 .button:hover {
   background-color: #f97316;
+}
+.button.button-block {
+  display: block;
 }
 .button.button-full {
   width: 100%;

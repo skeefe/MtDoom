@@ -121,13 +121,12 @@ const BattleFormPre = (props: {
 
           {props.AttackerList ? (
             <>
-              <button
-                className="button"
-                type="button"
+              <a
+                className="button button-block"
                 onClick={() => setShowAttackerList(true)}
               >
                 View List
-              </button>
+              </a>
 
               {showAttackerList && (
                 <Modal
@@ -200,13 +199,12 @@ const BattleFormPre = (props: {
           />
           {props.DefenderList ? (
             <>
-              <button
-                className="button"
-                type="button"
+              <a
+                className="button button-block"
                 onClick={() => setShowDefenderList(true)}
               >
                 View List
-              </button>
+              </a>
 
               {showDefenderList && (
                 <Modal
