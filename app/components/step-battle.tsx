@@ -29,6 +29,7 @@ import Step from "./step";
 import AnimatedStep from "./step-animated";
 import { AnimatePresence } from "framer-motion";
 import { Wizard } from "react-use-wizard";
+import { Descendant, Node } from "slate";
 
 //Hydrate state with battle data on load.
 let isHydrated = false;
@@ -194,6 +195,27 @@ const StepBattleForm = (props: { battleId: string }) => {
 
     //Update Firestore
     updateDoc(doc(db, "Battles", docId), { [name]: value })
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  //Handle Editor Change
+  const handleEditorChange = (name: string, value: Descendant[]) => {
+    const valueAsString = value.map((n) => Node.string(n)).join("\n");
+
+    const formattedValue = valueAsString
+      .replace(/(\r\n|\r|\n)/g, "<br>")
+      .replace(/• /g, "");
+
+    //Update State
+    setBattle((prev) => {
+      return { ...prev, [name]: formattedValue };
+    });
+
+    //Update Firestore
+    updateDoc(doc(db, "Battles", docId), { [name]: formattedValue })
       .then(() => {})
       .catch((error) => {
         console.log(error);
@@ -539,6 +561,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   changeFunctionSelect={handleChange}
                   changeFunctionText={handleChange}
                   changeFunctionTextArea={handleChange}
+                  changeFunctionEditor={handleEditorChange}
                 />
               </Step>
             </AnimatedStep>
