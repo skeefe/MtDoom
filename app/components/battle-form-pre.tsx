@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { selectOption } from "../types/select-option";
 import SelectField from "./select-field";
 import TextField from "./textField";
@@ -9,6 +9,21 @@ import { primaryMissions } from "../../data/primary-missions";
 import TextAreaField from "./textAreaField";
 import Modal from "./modal";
 import { titleCase } from "../../utils/title-case";
+import { createEditor, BaseEditor, Descendant, Node } from "slate";
+import { Slate, Editable, withReact, ReactEditor } from "slate-react";
+import { HistoryEditor } from "slate-history";
+
+// Import the Slate components and React plugin.
+type CustomText = { text: string };
+type CustomElement = { type: "paragraph"; children: CustomText[] };
+
+declare module "slate" {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor & HistoryEditor;
+    Element: CustomElement;
+    Text: CustomText;
+  }
+}
 
 const BattleFormPre = (props: {
   IsCompleted: boolean;
@@ -31,9 +46,30 @@ const BattleFormPre = (props: {
   changeFunctionSelect: React.ChangeEventHandler<HTMLSelectElement>;
   changeFunctionText: React.ChangeEventHandler<HTMLInputElement>;
   changeFunctionTextArea: React.ChangeEventHandler<HTMLTextAreaElement>;
+  changeFunctionEditor: Function;
 }) => {
+  const editorAttacker = useMemo(() => withReact(createEditor()), []);
+  const editorDefender = useMemo(() => withReact(createEditor()), []);
+
   const [showAttackerList, setShowAttackerList] = useState(false);
   const [showDefenderList, setShowDefenderList] = useState(false);
+
+  const [attackerList, setAttackerList] = useState<Descendant[]>([
+    { type: "paragraph", children: [{ text: props.AttackerList }] },
+  ]);
+  const [defenderList, setDefenderList] = useState<Descendant[]>([
+    { type: "paragraph", children: [{ text: props.DefenderList }] },
+  ]);
+
+  const updateAttackerList = (newList: Descendant[]) => {
+    setAttackerList(newList);
+    props.changeFunctionEditor("AttackerList", newList);
+  };
+
+  const updateDefenderList = (newList: Descendant[]) => {
+    setDefenderList(newList);
+    props.changeFunctionEditor("DefenderList", newList);
+  };
 
   return (
     <fieldset disabled={props.IsCompleted}>
@@ -119,46 +155,33 @@ const BattleFormPre = (props: {
             emptyValue="Enter Detachment"
           />
 
-          {props.AttackerList ? (
-            <>
-              <a
-                className="button button-block"
-                onClick={() => setShowAttackerList(true)}
-              >
-                View List
-              </a>
+          <a
+            className="button button-block"
+            onClick={() => setShowAttackerList(true)}
+          >
+            View/Update List
+          </a>
 
-              {showAttackerList && (
-                <Modal
-                  onClose={() => setShowAttackerList(false)}
-                  title={
-                    titleCase(props.Attacker) +
-                    "'s " +
-                    titleCase(props.AttackerArmy) +
-                    " List"
-                  }
-                >
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: props.AttackerList.replace(
-                        /(\r\n|\r|\n)/g,
-                        "<br>"
-                      ).replace(/• /g, ""),
-                    }}
-                  />
-                </Modal>
-              )}
-            </>
-          ) : (
-            <TextAreaField
-              label="Attacker Army List"
-              id="attackerList"
-              name="AttackerList"
-              changeFunction={props.changeFunctionTextArea}
-              value={props.AttackerList}
-              emptyValue="Enter the Attacker's List"
-              required={false}
-            />
+          {showAttackerList && (
+            <Modal
+              onClose={() => setShowAttackerList(false)}
+              title={
+                titleCase(props.Attacker) +
+                "'s " +
+                titleCase(props.AttackerArmy) +
+                " List"
+              }
+            >
+              <Slate
+                editor={editorAttacker}
+                initialValue={attackerList}
+                onChange={(newAttackerList) =>
+                  updateAttackerList(newAttackerList)
+                }
+              >
+                <Editable />
+              </Slate>
+            </Modal>
           )}
         </div>
 
@@ -197,46 +220,34 @@ const BattleFormPre = (props: {
             value={props.DefenderDetachment}
             emptyValue="Enter Detachment"
           />
-          {props.DefenderList ? (
-            <>
-              <a
-                className="button button-block"
-                onClick={() => setShowDefenderList(true)}
-              >
-                View List
-              </a>
 
-              {showDefenderList && (
-                <Modal
-                  onClose={() => setShowDefenderList(false)}
-                  title={
-                    titleCase(props.Defender) +
-                    "'s " +
-                    titleCase(props.DefenderArmy) +
-                    " List"
-                  }
-                >
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: props.DefenderList.replace(
-                        /(\r\n|\r|\n)/g,
-                        "<br>"
-                      ).replace(/• /g, ""),
-                    }}
-                  />
-                </Modal>
-              )}
-            </>
-          ) : (
-            <TextAreaField
-              label="Defender Army List"
-              id="defenderList"
-              name="DefenderList"
-              changeFunction={props.changeFunctionTextArea}
-              value={props.DefenderList}
-              emptyValue="Enter the Defender's List"
-              required={false}
-            />
+          <a
+            className="button button-block"
+            onClick={() => setShowDefenderList(true)}
+          >
+            View/Update List
+          </a>
+
+          {showDefenderList && (
+            <Modal
+              onClose={() => setShowDefenderList(false)}
+              title={
+                titleCase(props.Defender) +
+                "'s " +
+                titleCase(props.DefenderArmy) +
+                " List"
+              }
+            >
+              <Slate
+                editor={editorDefender}
+                initialValue={defenderList}
+                onChange={(newDefenderList) =>
+                  updateDefenderList(newDefenderList)
+                }
+              >
+                <Editable />
+              </Slate>
+            </Modal>
           )}
         </div>
       </div>

@@ -785,6 +785,7 @@ tspan {
   position: sticky;
   top: 0;
   width: 100%;
+  z-index: 5;
 }
 .modal-header a {
   color: #fff;
