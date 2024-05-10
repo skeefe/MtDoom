@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import {
   doc,
   getFirestore,
@@ -24,7 +23,6 @@ import BattleFormPre from "./battle-form-pre";
 import BattleFormRound from "./battle-form-round";
 import BattleFormEnd from "./battle-form-end";
 import BattleFormPost from "./battle-form-post";
-import { Descendant, Node } from "slate";
 
 //Hydrate state with battle data on load.
 let isHydrated = false;
@@ -190,27 +188,6 @@ const BattleForm = (props: { battleId: string }) => {
 
     //Update Firestore
     updateDoc(doc(db, "Battles", docId), { [name]: value })
-      .then(() => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  //Handle Editor Change
-  const handleEditorChange = (name: string, value: Descendant[]) => {
-    const valueAsString = value.map((n) => Node.string(n)).join("\n");
-
-    const formattedValue = valueAsString
-      .replace(/(\r\n|\r|\n)/g, "<br>")
-      .replace(/• /g, "");
-
-    //Update State
-    setBattle((prev) => {
-      return { ...prev, [name]: formattedValue };
-    });
-
-    //Update Firestore
-    updateDoc(doc(db, "Battles", docId), { [name]: formattedValue })
       .then(() => {})
       .catch((error) => {
         console.log(error);
@@ -553,7 +530,6 @@ const BattleForm = (props: { battleId: string }) => {
                 changeFunctionSelect={handleChange}
                 changeFunctionText={handleChange}
                 changeFunctionTextArea={handleChange}
-                changeFunctionEditor={handleEditorChange}
               />
 
               {/* Round 1 */}

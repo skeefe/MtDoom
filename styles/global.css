@@ -775,6 +775,8 @@ tspan {
 .modal {
   background: #64748b;
   border-radius: 0.35rem;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow-y: auto;
   width: 100%;
@@ -805,5 +807,13 @@ tspan {
 .modal-body {
   color: #1e293b;
   font-weight: 500;
+  height: 100%;
   padding: 1rem;
+}
+.modal .field-container {
+  flex-direction: column;
+  height: 100%;
+}
+.modal .textarea {
+  height: 100%;
 }
