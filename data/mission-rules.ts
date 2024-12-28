@@ -17,5 +17,15 @@ const missionRules: selectOption[] = [
   { Label: "Vox Static", Value: "Vox Static", Active: true },
   { Label: "Chosen Battlefield", Value: "Chosen Battlefield", Active: true },
   { Label: "Maelstrom of Battle", Value: "Maelstrom of Battle", Active: true },
+
+  { Label: "Fog of War", Value: "Fog of War", Active: true },
+  { Label: "Adapt or Die", Value: "Adapt or Die", Active: true },
+  { Label: "Inspired Leadership", Value: "Inspired Leadership", Active: true },
+  { Label: "Smoke and Mirrors", Value: "Smoke and Mirrors", Active: true },
+  { Label: "Swift Action", Value: "Swift Action", Active: true },
+  { Label: "Stalwarts", Value: "Stalwarts", Active: true },
+  { Label: "Rapid Escalation", Value: "Rapid Escalation", Active: true },
+  { Label: "Raise Banners", Value: "Raise Banners", Active: true },
+  { Label: "Prepared Positions", Value: "Prepared Positions", Active: true },
 ];
 export { missionRules };

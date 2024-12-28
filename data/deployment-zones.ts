@@ -6,5 +6,7 @@ const deploymentZones: selectOption[] = [
   { Label: "Search and Destroy", Value: "Search and Destroy", Active: true },
   { Label: "Sweeping Engagement", Value: "Sweeping Engagement", Active: true },
   { Label: "Crucible of Battle", Value: "Crucible of Battle", Active: true },
+
+  { Label: "Tipping Point", Value: "Tipping Point", Active: true },
 ];
 export { deploymentZones };
