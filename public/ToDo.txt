@@ -10,6 +10,7 @@
 - Detachment Options list when army selected.
 - Secondaries from a select list.
     - Handle discarded secondaries
+- MVPs and LVPs not showing most recent (see SW/Nec battle).
 
 
 ## Next

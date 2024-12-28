@@ -337,11 +337,15 @@ const StepBattleForm = (props: { battleId: string }) => {
         console.log(error);
       });
 
+    /*
+    //#### No longer doing this - pulling data directly from the Battle Table. ####
+
     //Push data to Armies.
-    updateArmies(true);
+    //updateArmies(true);
 
     //Push data to Generals.
-    updateGenerals(true);
+    //updateGenerals(true);
+    */
   };
 
   //Handle Battle Restart
@@ -362,12 +366,19 @@ const StepBattleForm = (props: { battleId: string }) => {
         console.log(error);
       });
 
-    //Remove data to Armies.
-    updateArmies(true);
+    /*
+    //#### No longer doing this - pulling data directly from the Battle Table. ####
 
-    //Remove data to Generals.
-    updateGenerals(true);
+    //Push data to Armies.
+    //updateArmies(true);
+
+    //Push data to Generals.
+    //updateGenerals(true);
+    */
   };
+
+  /*
+    //#### No longer doing this - pulling data directly from the Battle Table. ####
 
   //Update Armies
   const updateArmies = (isAdd: boolean) => {
@@ -426,7 +437,10 @@ const StepBattleForm = (props: { battleId: string }) => {
         console.log(error);
       });
   };
+  */
 
+  /*
+    //#### No longer doing this - pulling data directly from the Battle Table. ####
   //Update Generals
   const updateGenerals = (isAdd: boolean) => {
     const docAttackerRef = doc(db, "Generals", battle.Attacker);
@@ -484,6 +498,7 @@ const StepBattleForm = (props: { battleId: string }) => {
         console.log(error);
       });
   };
+  */
 
   //Utilities
   const checkAttackerVictor = () => {
