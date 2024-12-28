@@ -1,6 +1,6 @@
-######### START USING IT AND GET FEEDBACK! #########
 
 ## Now
+- Fix the "Restart Battle" bug.
 - How to order 10th edition ladder (Armies Table) - feedback
 - General Names with Nicknames/Emojis
 - Army Names with Adjectives/Emojis
@@ -19,7 +19,8 @@
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
     - Delete battle needs to update the Armies collection...
-- Game dashboard stuff! :D 
+- Game dashboard stuff! :D
+- Add a "Doesn't Count"" flag.
 
 
 ## Horizon
