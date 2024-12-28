@@ -110,4 +110,5 @@ export interface iBattleSummary {
   TotalAttacker: number;
   TotalDefender: number;
   Victor: string;
+  FirstTurn: string;
 }

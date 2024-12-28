@@ -27,6 +27,7 @@ const HomePage = () => {
       TotalDefender: battle.TotalDefender,
       Victor: battle.Victor,
       IsCompleted: battle.IsCompleted,
+      FirstTurn: battle.FirstTurn,
     });
   });
 
