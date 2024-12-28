@@ -3,16 +3,8 @@ export interface iGeneral {
   Alias: string;
   Name: string;
   Emoji: string;
-  FirstTurn: number;
-  Lost: number;
   Nicknames: string;
   Bio: string;
-  Played: number;
-  PrimaryPointsAgainst: number;
-  PrimaryPointsFor: number;
-  SecondaryPointsAgainst: number;
-  SecondaryPointsFor: number;
-  Won: number;
 }
 
 export interface iGeneralSummary {

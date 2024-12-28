@@ -190,30 +190,127 @@ const StatPanel = (props: {
     });
   };
 
+  const generalPlayed = (generalId) => {
+    return props.Battles.filter(
+      (obj) =>
+        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) ===
+          generalId ||
+        (Object.keys(obj).includes("Defender") && obj["Defender"] === generalId)
+    ).length;
+  };
+
+  const generalWon = (generalId) => {
+    return props.Battles.filter(
+      (obj) =>
+        ((Object.keys(obj).includes("Victor") &&
+          Object.keys(obj).includes("Attacker") &&
+          obj["Attacker"]) === generalId &&
+          obj["Attacker"] === obj["Victor"]) ||
+        ((Object.keys(obj).includes("Victor") &&
+          Object.keys(obj).includes("Defender") &&
+          obj["Defender"]) === generalId &&
+          obj["Defender"] === obj["Victor"])
+    ).length;
+  };
+
+  const generalLost = (generalId) => {
+    return props.Battles.filter(
+      (obj) =>
+        ((Object.keys(obj).includes("Victor") &&
+          Object.keys(obj).includes("Attacker") &&
+          obj["Attacker"]) === generalId &&
+          obj["Attacker"] !== obj["Victor"]) ||
+        ((Object.keys(obj).includes("Victor") &&
+          Object.keys(obj).includes("Defender") &&
+          obj["Defender"]) === generalId &&
+          obj["Defender"] !== obj["Victor"])
+    ).length;
+  };
+
+  const addGeneralPointsFor = (generalId) => {
+    const generalAttackerBattles = props.Battles.filter(
+      (obj) =>
+        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) === generalId
+    );
+
+    let generalAttackerTotal = 0;
+    generalAttackerBattles.map(function (battle) {
+      generalAttackerTotal += battle.TotalAttacker;
+    });
+
+    const generalDefenderBattles = props.Battles.filter(
+      (obj) =>
+        (Object.keys(obj).includes("Defender") && obj["Defender"]) === generalId
+    );
+
+    let generalDefenderTotal = 0;
+    generalDefenderBattles.map(function (battle) {
+      generalDefenderTotal += battle.TotalDefender;
+    });
+
+    return generalAttackerTotal + generalDefenderTotal;
+  };
+
+  const addGeneralPointsAgainst = (generalId) => {
+    const generalAttackerBattles = props.Battles.filter(
+      (obj) =>
+        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) === generalId
+    );
+
+    let generalAttackerTotal = 0;
+    generalAttackerBattles.map(function (battle) {
+      generalAttackerTotal += battle.TotalDefender;
+    });
+
+    const generalDefenderBattles = props.Battles.filter(
+      (obj) =>
+        (Object.keys(obj).includes("Defender") && obj["Defender"]) === generalId
+    );
+
+    let generalDefenderTotal = 0;
+    generalDefenderBattles.map(function (battle) {
+      generalDefenderTotal += battle.TotalAttacker;
+    });
+
+    return generalAttackerTotal + generalDefenderTotal;
+  };
+
+  const generalFirstTurn = (generalId) => {
+    return props.Battles.filter(
+      (obj) =>
+        ((Object.keys(obj).includes("Attacker") &&
+          Object.keys(obj).includes("FirstTurn") &&
+          obj["Attacker"]) === generalId &&
+          obj["Attacker"] === obj["FirstTurn"]) ||
+        ((Object.keys(obj).includes("Defender") &&
+          Object.keys(obj).includes("FirstTurn") &&
+          obj["Defender"]) === generalId &&
+          obj["Defender"] === obj["FirstTurn"])
+    ).length;
+  };
+
   const unfilteredStats = () => {
     const statData: iStatPanel = {
       id: "",
       Name: "",
-      Played: itemData["Played"],
-      Won: itemData["Won"],
-      Lost: itemData["Lost"],
-      AveragePoints:
-        Math.round(
-          ((itemData["PrimaryPointsFor"] + itemData["SecondaryPointsFor"]) /
-            itemData["Played"]) *
-            10
-        ) / 10,
-      TotalPoints:
-        itemData["PrimaryPointsFor"] + itemData["SecondaryPointsFor"],
+      Played: generalPlayed(props.Item),
+      Won: generalWon(props.Item),
+      Lost: generalLost(props.Item),
+      AveragePoints: Math.round(
+        ((addGeneralPointsFor(props.Item) / generalPlayed(props.Item)) * 10) /
+          10
+      ),
+      TotalPoints: addGeneralPointsFor(props.Item),
       PointDifference:
-        itemData["PrimaryPointsFor"] +
-        itemData["SecondaryPointsFor"] -
-        itemData["PrimaryPointsAgainst"] -
-        itemData["SecondaryPointsAgainst"],
+        addGeneralPointsFor(props.Item) - addGeneralPointsAgainst(props.Item),
       WinPercentage:
-        Math.round((itemData["Won"] / itemData["Played"]) * 1000) / 10,
+        Math.round(
+          (generalWon(props.Item) / generalPlayed(props.Item)) * 1000
+        ) / 10,
       FirstTurnPercentage:
-        Math.round((itemData["FirstTurn"] / itemData["Played"]) * 1000) / 10,
+        Math.round(
+          (generalFirstTurn(props.Item) / generalPlayed(props.Item)) * 1000
+        ) / 10,
     };
 
     //Update State

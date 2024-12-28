@@ -46,15 +46,7 @@ export default function GeneralDetails({
           Alias: generalDetails["Alias"],
           Bio: generalDetails["Bio"],
           Emoji: generalDetails["Emoji"],
-          FirstTurn: generalDetails["FirstTurn"],
-          Lost: generalDetails["Lost"],
           Name: generalDetails["Name"],
-          Played: generalDetails["Played"],
-          PrimaryPointsAgainst: generalDetails["PrimaryPointsAgainst"],
-          PrimaryPointsFor: generalDetails["PrimaryPointsFor"],
-          SecondaryPointsAgainst: generalDetails["SecondaryPointsAgainst"],
-          SecondaryPointsFor: generalDetails["SecondaryPointsFor"],
-          Won: generalDetails["Won"],
           Nicknames: generalDetails["Nicknames"],
         }}
         battles={generalBattleCollection}
