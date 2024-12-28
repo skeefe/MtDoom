@@ -4,15 +4,7 @@ export interface iArmy {
   Colour: string;
   Crest: string;
   Emoji: string;
-  FirstTurn: number;
-  Lost: number;
   Name: string;
-  Played: number;
-  PrimaryPointsAgainst: number;
-  PrimaryPointsFor: number;
-  SecondaryPointsAgainst: number;
-  SecondaryPointsFor: number;
-  Won: number;
 }
 
 export interface iArmySummary {

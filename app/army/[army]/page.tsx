@@ -43,15 +43,7 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
           Colour: armyDetails["Colour"],
           Crest: armyDetails["Crest"],
           Emoji: armyDetails["Emoji"],
-          FirstTurn: armyDetails["FirstTurn"],
-          Lost: armyDetails["Lost"],
           Name: armyDetails["Name"],
-          Played: armyDetails["Played"],
-          PrimaryPointsAgainst: armyDetails["PrimaryPointsAgainst"],
-          PrimaryPointsFor: armyDetails["PrimaryPointsFor"],
-          SecondaryPointsAgainst: armyDetails["SecondaryPointsAgainst"],
-          SecondaryPointsFor: armyDetails["SecondaryPointsFor"],
-          Won: armyDetails["Won"],
         }}
         battles={armyBattleCollection}
       />
