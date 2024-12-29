@@ -1,20 +1,17 @@
 ## Now
-- Bug MVPs and LVPs not showing most recent (see SW/Nec battle).
-- Handle Draws
-
-
-## Next
-
-- Sortable tables.
 - Add Delete button to the Battles and Army tables.
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
-    - Delete battle needs to update the Armies collection...
+
+
+## Next
+- Sortable tables.
 - Game dashboard stuff! :D
 - Add a "Doesn't Count" flag (for off the record games).
 - Handle discarded secondaries
 - Handle Gambits
 - Handle Fixed Secondaries...
+- Handle Draws
 
 
 ## Horizon

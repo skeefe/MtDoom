@@ -665,6 +665,11 @@ tspan {
   color: #c2410c;
 }
 
+/* MVP/LVP Lists */
+.vp-list {
+  font-size: 0.875rem;
+}
+
 /* Stat Panel */
 .primary-content ul.stat-panel-list {
   display: grid;
