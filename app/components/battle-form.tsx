@@ -561,6 +561,7 @@ const BattleForm = (props: { battleId: string }) => {
                 DefenderSecondary2Title={battle.T1DefenderSecondary2Title}
                 DefenderSecondary2={battle.T1DefenderSecondary2}
                 changeFunction={handleChange}
+                changeFunctionSelect={handleChange}
               />
 
               {/* Round 2 */}
@@ -578,6 +579,7 @@ const BattleForm = (props: { battleId: string }) => {
                 DefenderSecondary2Title={battle.T2DefenderSecondary2Title}
                 DefenderSecondary2={battle.T2DefenderSecondary2}
                 changeFunction={handleChange}
+                changeFunctionSelect={handleChange}
               />
 
               {/* Round 3 */}
@@ -595,6 +597,7 @@ const BattleForm = (props: { battleId: string }) => {
                 DefenderSecondary2Title={battle.T3DefenderSecondary2Title}
                 DefenderSecondary2={battle.T3DefenderSecondary2}
                 changeFunction={handleChange}
+                changeFunctionSelect={handleChange}
               />
 
               {/* Round 4 */}
@@ -612,6 +615,7 @@ const BattleForm = (props: { battleId: string }) => {
                 DefenderSecondary2Title={battle.T4DefenderSecondary2Title}
                 DefenderSecondary2={battle.T4DefenderSecondary2}
                 changeFunction={handleChange}
+                changeFunctionSelect={handleChange}
               />
 
               {/* Round 5 */}
@@ -629,6 +633,7 @@ const BattleForm = (props: { battleId: string }) => {
                 DefenderSecondary2Title={battle.T5DefenderSecondary2Title}
                 DefenderSecondary2={battle.T5DefenderSecondary2}
                 changeFunction={handleChange}
+                changeFunctionSelect={handleChange}
               />
 
               <BattleFormEnd

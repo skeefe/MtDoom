@@ -1,27 +1,20 @@
-
 ## Now
-- Fix the "Restart Battle" bug.
-- How to order 10th edition ladder (Armies Table) - feedback
-- General Names with Nicknames/Emojis
-- Army Names with Adjectives/Emojis
+- Bug MVPs and LVPs not showing most recent (see SW/Nec battle).
 - Handle Draws
-- Handle Fixed Secondaries...
-- Handle Gambits
-- Detachment Options list when army selected.
-- Secondaries from a select list.
-    - Handle discarded secondaries
-- MVPs and LVPs not showing most recent (see SW/Nec battle).
 
 
 ## Next
-- Ability to host events (e.g. tournies)
+
 - Sortable tables.
 - Add Delete button to the Battles and Army tables.
     - Probs doesn't actually delete, just sets a hide status removing it fromt he table. Actual delete can be manual (or in an admin area).
     - Delete button needs to be clickable in a row with onClick
     - Delete battle needs to update the Armies collection...
 - Game dashboard stuff! :D
-- Add a "Doesn't Count"" flag.
+- Add a "Doesn't Count" flag (for off the record games).
+- Handle discarded secondaries
+- Handle Gambits
+- Handle Fixed Secondaries...
 
 
 ## Horizon
@@ -36,3 +29,5 @@
     - Confetti on battle completion
         - Army colours.
 - Domain Name
+- Detachment Options list when army selected.
+- Ability to host events (e.g. tournies)

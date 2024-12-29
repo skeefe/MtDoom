@@ -1,5 +1,7 @@
 import React from "react";
 import TextField from "./textField";
+import SelectField from "./select-field";
+import { secondaryMissions } from "../../data/secondary-missions";
 
 const BattleFormRound = (props: {
   IsCompleted: boolean;
@@ -15,6 +17,7 @@ const BattleFormRound = (props: {
   DefenderSecondary2Title: string;
   DefenderSecondary2: number;
   changeFunction: React.ChangeEventHandler<HTMLInputElement>;
+  changeFunctionSelect: React.ChangeEventHandler<HTMLSelectElement>;
 }) => {
   return (
     <fieldset disabled={props.IsCompleted}>
@@ -33,16 +36,19 @@ const BattleFormRound = (props: {
             value={`${props.AttackerPrimary}`}
             emptyValue="--"
           />
-          <TextField
+
+          <SelectField
             label="Secondary 1 Title"
-            type="text"
             required={false}
             id={`t${props.RoundNumber}AttackerSecondary1Title`}
             name={`T${props.RoundNumber}AttackerSecondary1Title`}
-            changeFunction={props.changeFunction}
+            changeFunction={props.changeFunctionSelect}
             value={props.AttackerSecondary1Title}
-            emptyValue="Enter Title"
+            options={secondaryMissions}
+            emptyValue="Select a Secondary Mission"
+            randomise={false}
           />
+
           <TextField
             label="Secondary 1 Points"
             type="number"
@@ -53,15 +59,16 @@ const BattleFormRound = (props: {
             value={`${props.AttackerSecondary1}`}
             emptyValue="--"
           />
-          <TextField
+          <SelectField
             label="Secondary 2 Title"
-            type="text"
             required={false}
             id={`t${props.RoundNumber}AttackerSecondary2Title`}
             name={`T${props.RoundNumber}AttackerSecondary2Title`}
-            changeFunction={props.changeFunction}
+            changeFunction={props.changeFunctionSelect}
             value={props.AttackerSecondary2Title}
-            emptyValue="Enter Title"
+            options={secondaryMissions}
+            emptyValue="Select a Secondary Mission"
+            randomise={false}
           />
           <TextField
             label="Secondary 2 Points"
@@ -87,15 +94,17 @@ const BattleFormRound = (props: {
             value={`${props.DefenderPrimary}`}
             emptyValue="--"
           />
-          <TextField
+
+          <SelectField
             label="Secondary 1 Title"
-            type="text"
             required={false}
             id={`t${props.RoundNumber}DefenderSecondary1Title`}
             name={`T${props.RoundNumber}DefenderSecondary1Title`}
-            changeFunction={props.changeFunction}
+            changeFunction={props.changeFunctionSelect}
             value={props.DefenderSecondary1Title}
-            emptyValue="Enter Title"
+            options={secondaryMissions}
+            emptyValue="Select a Secondary Mission"
+            randomise={false}
           />
           <TextField
             label="Secondary 1 Points"
@@ -107,15 +116,16 @@ const BattleFormRound = (props: {
             value={`${props.DefenderSecondary1}`}
             emptyValue="--"
           />
-          <TextField
+          <SelectField
             label="Secondary 2 Title"
-            type="text"
             required={false}
             id={`t${props.RoundNumber}DefenderSecondary2Title`}
             name={`T${props.RoundNumber}DefenderSecondary2Title`}
-            changeFunction={props.changeFunction}
+            changeFunction={props.changeFunctionSelect}
             value={props.DefenderSecondary2Title}
-            emptyValue="Enter Title"
+            options={secondaryMissions}
+            emptyValue="Select a Secondary Mission"
+            randomise={false}
           />
           <TextField
             label="Secondary 2 Points"
