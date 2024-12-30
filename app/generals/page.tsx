@@ -13,8 +13,13 @@ const Armies = () => {
   // Retrieve General collection data.
   const generalCollection = getCollectionSnapshot("Generals", "Alias", "asc");
 
+  //Required to remove any "Show=FALSE" battles.
+  const filterShow = (battle) => {
+    return battle.Show !== false;
+  };
+
   // Retrieve battle collection data.
-  const battleCollection = getCollectionSnapshot("Battles");
+  const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
 
   //Setup array of battles.
   let battles: iBattleSummary[] = new Array();
@@ -33,6 +38,7 @@ const Armies = () => {
       TotalDefender: battle.TotalDefender,
       Victor: battle.Victor,
       IsCompleted: battle.IsCompleted,
+      Show: battle.Show,
       FirstTurn: battle.FirstTurn,
     });
   });

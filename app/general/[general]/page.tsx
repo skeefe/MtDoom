@@ -17,7 +17,12 @@ export default function GeneralDetails({
   const generalId = params.general;
   const generalDetails = getDocSnapshot("Generals", generalId);
 
-  const battleCollection = getCollectionSnapshot("Battles");
+  //Required to remove any "Show=FALSE" battles.
+  const filterShow = (battle) => {
+    return battle.Show !== false;
+  };
+
+  const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
   let generalBattleCollection = battleCollection.filter(function (battle) {
     return (
       battle.IsCompleted &&

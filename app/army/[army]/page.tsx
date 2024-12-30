@@ -8,18 +8,44 @@ import getCollectionSnapshot from "../../firebase/getCollectionSnapshot";
 import Link from "next/link";
 import Spinner from "../../components/spinner";
 import StatPanel from "../../components/stat-panel";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import firebase_app from "../../firebase/config";
 
 export default function ArmyDetails({ params }: { params: { army: string } }) {
+  const router = useRouter();
+  const db = getFirestore(firebase_app);
   const armyId = params.army;
   const armyDetails = getDocSnapshot("Armies", armyId);
 
-  const battleCollection = getCollectionSnapshot("Battles");
+  //Required to remove any "Show=FALSE" battles.
+  const filterShow = (battle) => {
+    return battle.Show !== false;
+  };
+
+  const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
   let armyBattleCollection = battleCollection.filter(function (battle) {
     return (
       battle.IsCompleted &&
       (battle.AttackerArmy === armyId || battle.DefenderArmy === armyId)
     );
   });
+
+  const handleArmyHide = (e) => {
+    e.preventDefault();
+
+    //Update Firestore
+    updateDoc(doc(db, "Armies", armyId), { ["Show"]: false })
+      .then(() => {
+        console.log("Army hidden.");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //Redirect back to the Armies list.
+    router.push("/armies");
+  };
 
   return armyDetails["Name"] ? (
     <>
@@ -55,6 +81,10 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
         battles={armyBattleCollection}
         showCreateButton={false}
       />
+
+      <a className="a-delete" type="submit" onClick={(e) => handleArmyHide(e)}>
+        Delete Army
+      </a>
     </>
   ) : (
     <Spinner />

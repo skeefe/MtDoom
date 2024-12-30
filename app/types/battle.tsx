@@ -3,6 +3,7 @@ import { Timestamp } from "firebase/firestore";
 export interface iBattle {
   id: string;
   IsCompleted: boolean;
+  Show: boolean;
 
   Date: { seconds: number }; //Timestamp; //Populated on doc creation.
 
@@ -97,6 +98,7 @@ export interface iBattle {
 export interface iBattleSummary {
   id: string;
   IsCompleted: boolean;
+  Show: boolean;
   Date: Timestamp; //Populated on doc creation.
   PrimaryMission: string;
   MissionRule: string;

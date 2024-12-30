@@ -10,11 +10,18 @@ import { iBattleSummary } from "../types/battle";
 import { linkListItem } from "../types/link-list-item";
 
 const Armies = () => {
+  //Required to remove any "Show=FALSE" battles.
+  const filterShow = (item) => {
+    return item.Show !== false;
+  };
+
   // Retrieve army collection data.
-  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc").filter(
+    filterShow
+  );
 
   // Retrieve battle collection data.
-  const battleCollection = getCollectionSnapshot("Battles");
+  const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
 
   //Setup array of battles.
   let battles: iBattleSummary[] = new Array();
@@ -33,6 +40,7 @@ const Armies = () => {
       TotalDefender: battle.TotalDefender,
       Victor: battle.Victor,
       IsCompleted: battle.IsCompleted,
+      Show: battle.Show,
       FirstTurn: battle.FirstTurn,
     });
   });

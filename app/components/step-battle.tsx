@@ -12,6 +12,8 @@ import {
 import firebase_app from "../firebase/config";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 
+import { useRouter } from "next/navigation";
+
 import { selectOption } from "../types/select-option";
 import { iBattle } from "../types/battle";
 
@@ -34,7 +36,7 @@ import { Wizard } from "react-use-wizard";
 let isHydrated = false;
 
 const StepBattleForm = (props: { battleId: string }) => {
-  //const router = useRouter();
+  const router = useRouter();
   const db = getFirestore(firebase_app);
   const docId: string = props.battleId;
 
@@ -53,7 +55,7 @@ const StepBattleForm = (props: { battleId: string }) => {
   const [battle, setBattle] = useState<iBattle>({
     id: props.battleId,
     IsCompleted: false,
-
+    Show: true,
     Date: {
       seconds: 0,
     },
@@ -375,6 +377,27 @@ const StepBattleForm = (props: { battleId: string }) => {
     //Push data to Generals.
     //updateGenerals(true);
     */
+  };
+
+  const handleBattleHide = (e) => {
+    e.preventDefault();
+
+    //Update State
+    setBattle((prev) => {
+      return { ...prev, ["Show"]: false };
+    });
+
+    //Update Firestore
+    updateDoc(doc(db, "Battles", docId), { ["Show"]: false })
+      .then(() => {
+        console.log("Battle hidden.");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //Redirect back to the Battle list.
+    router.push("/");
   };
 
   /*
@@ -705,13 +728,21 @@ const StepBattleForm = (props: { battleId: string }) => {
               <Step withCallback={false}>
                 {battle.Victor &&
                   (battle.IsCompleted ? (
-                    <button
-                      className="button button-large button-center button-secondary"
-                      type="submit"
-                      onClick={(e) => handleBattleRestart(e)}
-                    >
-                      Restart Battle
-                    </button>
+                    <>
+                      <button
+                        className="button button-large button-center button-secondary"
+                        type="submit"
+                        onClick={(e) => handleBattleRestart(e)}
+                      >
+                        Restart Battle
+                      </button>
+                      <a
+                        className="a-delete"
+                        onClick={(e) => handleBattleHide(e)}
+                      >
+                        Delete Battle
+                      </a>
+                    </>
                   ) : (
                     <button
                       className="button button-xlarge button-center"

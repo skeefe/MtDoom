@@ -607,6 +607,15 @@ form .alert {
 .device-score-bar .opponent:nth-child(1) span:not(.score-highlight) {
   margin: 0 0 0 0.5rem;
 }
+.a-delete {
+  color: #94a3b8;
+  cursor: pointer;
+  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+  text-align: right;
+  text-decoration: underline;
+}
 
 /* Dashboard/Graphs */
 .dashboard-panels {
