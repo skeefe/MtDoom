@@ -1,11 +1,10 @@
 ## Now
+- Army/General Stats panel state with no data.
+- Refactor - "Show"
 
 
 ## Next
 - Sortable tables.
-- Game dashboard stuff! :D
-- Add a "Doesn't Count" flag (for off the record games).
-- Handle discarded secondaries
 - Handle Gambits
 - Handle Fixed Secondaries...
 - Handle Draws
@@ -25,3 +24,4 @@
 - Domain Name
 - Detachment Options list when army selected.
 - Ability to host events (e.g. tournies)
+- Game dashboard stuff! :D

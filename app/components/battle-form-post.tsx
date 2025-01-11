@@ -55,7 +55,7 @@ const BattleFormPost = (props: {
         value={props.Victor}
         options={props.Opponents}
         emptyValue="Select the Victor"
-        noOptionsMessage="Please select an Attacker and Defender."
+        noOptionsMessage="Select the Attacker or Defender."
       />
       <SelectField
         label="Victory Type"

@@ -181,7 +181,7 @@ const BattleFormPre = (props: {
           value={props.FirstTurn}
           options={props.Opponents}
           emptyValue="Select the Player"
-          noOptionsMessage="Please select an Attacker and Defender."
+          noOptionsMessage="Select the Attacker or Defender."
         />
       </fieldset>
 
