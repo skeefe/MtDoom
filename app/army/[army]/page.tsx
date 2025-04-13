@@ -24,14 +24,12 @@ export default function ArmyDetails({ params }: { params: { army: string } }) {
   };
 
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
-  let armyBattleCollection = battleCollection
-    .filter(function (battle) {
-      return (
-        battle.IsCompleted &&
-        (battle.AttackerArmy === armyId || battle.DefenderArmy === armyId)
-      );
-    })
-    .sort((a, b) => b.Date - a.Date);
+  let armyBattleCollection = battleCollection.filter(function (battle) {
+    return (
+      battle.IsCompleted &&
+      (battle.AttackerArmy === armyId || battle.DefenderArmy === armyId)
+    );
+  });
 
   const handleArmyHide = (e) => {
     e.preventDefault();
