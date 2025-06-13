@@ -6,7 +6,7 @@ export interface iBattle {
   Show: boolean;
 
   Date: { seconds: number }; //Timestamp; //Populated on doc creation.
-
+  ChapterApprovedVersion: string;
   PrimaryMission: string;
   Size: string;
   MissionRule: string;
@@ -51,6 +51,16 @@ export interface iBattle {
   T5AttackerSecondary2: number;
   TotalAttackerSecondary: number;
 
+  T2AttackerChallengerTitle: string;
+  T2AttackerChallenger: number;
+  T3AttackerChallenger: number;
+  T3AttackerChallengerTitle: string;
+  T4AttackerChallengerTitle: string;
+  T4AttackerChallenger: number;
+  T5AttackerChallengerTitle: string;
+  T5AttackerChallenger: number;
+  TotalAttackerChallenger: number;
+
   TotalAttacker: number;
 
   T1DefenderPrimary: number;
@@ -82,6 +92,16 @@ export interface iBattle {
   T5DefenderSecondary2Title: string;
   T5DefenderSecondary2: number;
   TotalDefenderSecondary: number;
+
+  T2DefenderChallengerTitle: string;
+  T2DefenderChallenger: number;
+  T3DefenderChallenger: number;
+  T3DefenderChallengerTitle: string;
+  T4DefenderChallengerTitle: string;
+  T4DefenderChallenger: number;
+  T5DefenderChallengerTitle: string;
+  T5DefenderChallenger: number;
+  TotalDefenderChallenger: number;
 
   TotalDefender: number;
 

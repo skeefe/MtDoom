@@ -49,10 +49,10 @@ const BattleForm = (props: { battleId: string }) => {
     id: props.battleId,
     IsCompleted: false,
     Show: true,
-
     Date: {
       seconds: 0,
     },
+    ChapterApprovedVersion: "",
     PrimaryMission: "",
     Size: "3000pt",
     MissionRule: "",
@@ -97,6 +97,16 @@ const BattleForm = (props: { battleId: string }) => {
     T5AttackerSecondary2: 0,
     TotalAttackerSecondary: 0,
 
+    T2AttackerChallengerTitle: "",
+    T2AttackerChallenger: 0,
+    T3AttackerChallengerTitle: "",
+    T3AttackerChallenger: 0,
+    T4AttackerChallengerTitle: "",
+    T4AttackerChallenger: 0,
+    T5AttackerChallengerTitle: "",
+    T5AttackerChallenger: 0,
+    TotalAttackerChallenger: 0,
+
     TotalAttacker: 0,
 
     T1DefenderPrimary: 0,
@@ -129,6 +139,16 @@ const BattleForm = (props: { battleId: string }) => {
     T5DefenderSecondary2: 0,
     TotalDefenderSecondary: 0,
 
+    T2DefenderChallengerTitle: "",
+    T2DefenderChallenger: 0,
+    T3DefenderChallengerTitle: "",
+    T3DefenderChallenger: 0,
+    T4DefenderChallengerTitle: "",
+    T4DefenderChallenger: 0,
+    T5DefenderChallengerTitle: "",
+    T5DefenderChallenger: 0,
+    TotalDefenderChallenger: 0,
+
     TotalDefender: 0,
 
     Victor: "",
@@ -140,6 +160,10 @@ const BattleForm = (props: { battleId: string }) => {
     DefenderLVP: "",
     BattleNotes: "",
   });
+
+  //Check if battle includes Challenger:
+  const isChallenger =
+    battle.ChapterApprovedVersion === "2025-26 Mission Deck" ? true : false;
 
   //Retrieve Generals
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
@@ -248,9 +272,34 @@ const BattleForm = (props: { battleId: string }) => {
     totalDefenderSecondary =
       totalDefenderSecondary > 40 ? 40 : totalDefenderSecondary;
 
+    //-- Challenger Cards --
+    let totalAttackerChallenger: number =
+      stringToNumber(battle.T2AttackerChallenger.toString()) +
+      stringToNumber(battle.T3AttackerChallenger.toString()) +
+      stringToNumber(battle.T4AttackerChallenger.toString()) +
+      stringToNumber(battle.T5AttackerChallenger.toString());
+    totalAttackerChallenger =
+      totalAttackerChallenger > 12 ? 12 : totalAttackerChallenger;
+
+    let totalDefenderChallenger: number =
+      stringToNumber(battle.T2DefenderChallenger.toString()) +
+      stringToNumber(battle.T3DefenderChallenger.toString()) +
+      stringToNumber(battle.T4DefenderChallenger.toString()) +
+      stringToNumber(battle.T5DefenderChallenger.toString());
+    totalDefenderChallenger = !isChallenger
+      ? 0
+      : totalDefenderChallenger > 12
+      ? 12
+      : totalDefenderChallenger;
+
     //-- Total --
-    const totalAttacker: number = totalAttackerPrimary + totalAttackerSecondary;
-    const totalDefender: number = totalDefenderPrimary + totalDefenderSecondary;
+    let totalAttacker: number =
+      totalAttackerPrimary + totalAttackerSecondary + totalAttackerChallenger;
+    totalAttacker = totalAttacker > 90 ? 90 : totalAttacker;
+
+    let totalDefender: number =
+      totalDefenderPrimary + totalDefenderSecondary + totalDefenderChallenger;
+    totalDefender = totalDefender > 90 ? 90 : totalDefender;
 
     //Update State
     setBattle((prev) => {
@@ -258,9 +307,11 @@ const BattleForm = (props: { battleId: string }) => {
         ...prev,
         ["TotalAttackerPrimary"]: totalAttackerPrimary,
         ["TotalAttackerSecondary"]: totalAttackerSecondary,
+        ["TotalAttackerChallenger"]: totalAttackerChallenger,
         ["TotalAttacker"]: totalAttacker,
         ["TotalDefenderPrimary"]: totalDefenderPrimary,
         ["TotalDefenderSecondary"]: totalDefenderSecondary,
+        ["TotalDefenderChallenger"]: totalDefenderChallenger,
         ["TotalDefender"]: totalDefender,
       };
     });
@@ -269,9 +320,11 @@ const BattleForm = (props: { battleId: string }) => {
     updateDoc(doc(db, "Battles", docId), {
       TotalAttackerPrimary: totalAttackerPrimary,
       TotalAttackerSecondary: totalAttackerSecondary,
+      TotalAttackerChallenger: totalAttackerChallenger,
       TotalAttacker: totalAttacker,
       TotalDefenderPrimary: totalDefenderPrimary,
       TotalDefenderSecondary: totalDefenderSecondary,
+      TotalDefenderChallenger: totalDefenderChallenger,
       TotalDefender: totalDefender,
     })
       .then(() => {})
@@ -279,6 +332,7 @@ const BattleForm = (props: { battleId: string }) => {
         console.log(error);
       });
   }, [
+    battle.ChapterApprovedVersion,
     battle.T1AttackerPrimary,
     battle.T2AttackerPrimary,
     battle.T3AttackerPrimary,
@@ -311,6 +365,14 @@ const BattleForm = (props: { battleId: string }) => {
     battle.T4DefenderSecondary2,
     battle.T5DefenderSecondary1,
     battle.T5DefenderSecondary2,
+    battle.T2AttackerChallenger,
+    battle.T3AttackerChallenger,
+    battle.T4AttackerChallenger,
+    battle.T5AttackerChallenger,
+    battle.T2DefenderChallenger,
+    battle.T3DefenderChallenger,
+    battle.T4DefenderChallenger,
+    battle.T5DefenderChallenger,
   ]);
 
   //Handle Battle End
@@ -551,6 +613,7 @@ const BattleForm = (props: { battleId: string }) => {
                 Generals={generals}
                 Armies={armies}
                 Opponents={collectOpponents()}
+                ChapterApprovedVersion={battle.ChapterApprovedVersion}
                 Size={battle.Size}
                 PrimaryMission={battle.PrimaryMission}
                 MissionRule={battle.MissionRule}
@@ -572,6 +635,7 @@ const BattleForm = (props: { battleId: string }) => {
               {/* Round 1 */}
               <BattleFormRound
                 RoundNumber={1}
+                ChapterApprovedVersion={battle.ChapterApprovedVersion}
                 IsCompleted={battle.IsCompleted}
                 AttackerPrimary={battle.T1AttackerPrimary}
                 AttackerSecondary1Title={battle.T1AttackerSecondary1Title}
@@ -585,22 +649,31 @@ const BattleForm = (props: { battleId: string }) => {
                 DefenderSecondary2={battle.T1DefenderSecondary2}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
+                AttackerChallengerTitle={""}
+                AttackerChallenger={0}
+                DefenderChallengerTitle={""}
+                DefenderChallenger={0}
               />
 
               {/* Round 2 */}
               <BattleFormRound
                 RoundNumber={2}
+                ChapterApprovedVersion={battle.ChapterApprovedVersion}
                 IsCompleted={battle.IsCompleted}
                 AttackerPrimary={battle.T2AttackerPrimary}
                 AttackerSecondary1Title={battle.T2AttackerSecondary1Title}
                 AttackerSecondary1={battle.T2AttackerSecondary1}
                 AttackerSecondary2Title={battle.T2AttackerSecondary2Title}
                 AttackerSecondary2={battle.T2AttackerSecondary2}
+                AttackerChallengerTitle={battle.T2AttackerChallengerTitle}
+                AttackerChallenger={battle.T2AttackerChallenger}
                 DefenderPrimary={battle.T2DefenderPrimary}
                 DefenderSecondary1Title={battle.T2DefenderSecondary1Title}
                 DefenderSecondary1={battle.T2DefenderSecondary1}
                 DefenderSecondary2Title={battle.T2DefenderSecondary2Title}
                 DefenderSecondary2={battle.T2DefenderSecondary2}
+                DefenderChallengerTitle={battle.T2DefenderChallengerTitle}
+                DefenderChallenger={battle.T2DefenderChallenger}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
               />
@@ -608,17 +681,22 @@ const BattleForm = (props: { battleId: string }) => {
               {/* Round 3 */}
               <BattleFormRound
                 RoundNumber={3}
+                ChapterApprovedVersion={battle.ChapterApprovedVersion}
                 IsCompleted={battle.IsCompleted}
                 AttackerPrimary={battle.T3AttackerPrimary}
                 AttackerSecondary1Title={battle.T3AttackerSecondary1Title}
                 AttackerSecondary1={battle.T3AttackerSecondary1}
                 AttackerSecondary2Title={battle.T3AttackerSecondary2Title}
                 AttackerSecondary2={battle.T3AttackerSecondary2}
+                AttackerChallengerTitle={battle.T3AttackerChallengerTitle}
+                AttackerChallenger={battle.T3AttackerChallenger}
                 DefenderPrimary={battle.T3DefenderPrimary}
                 DefenderSecondary1Title={battle.T3DefenderSecondary1Title}
                 DefenderSecondary1={battle.T3DefenderSecondary1}
                 DefenderSecondary2Title={battle.T3DefenderSecondary2Title}
                 DefenderSecondary2={battle.T3DefenderSecondary2}
+                DefenderChallengerTitle={battle.T3DefenderChallengerTitle}
+                DefenderChallenger={battle.T3DefenderChallenger}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
               />
@@ -626,17 +704,22 @@ const BattleForm = (props: { battleId: string }) => {
               {/* Round 4 */}
               <BattleFormRound
                 RoundNumber={4}
+                ChapterApprovedVersion={battle.ChapterApprovedVersion}
                 IsCompleted={battle.IsCompleted}
                 AttackerPrimary={battle.T4AttackerPrimary}
                 AttackerSecondary1Title={battle.T4AttackerSecondary1Title}
                 AttackerSecondary1={battle.T4AttackerSecondary1}
                 AttackerSecondary2Title={battle.T4AttackerSecondary2Title}
                 AttackerSecondary2={battle.T4AttackerSecondary2}
+                AttackerChallengerTitle={battle.T4AttackerChallengerTitle}
+                AttackerChallenger={battle.T4AttackerChallenger}
                 DefenderPrimary={battle.T4DefenderPrimary}
                 DefenderSecondary1Title={battle.T4DefenderSecondary1Title}
                 DefenderSecondary1={battle.T4DefenderSecondary1}
                 DefenderSecondary2Title={battle.T4DefenderSecondary2Title}
                 DefenderSecondary2={battle.T4DefenderSecondary2}
+                DefenderChallengerTitle={battle.T4DefenderChallengerTitle}
+                DefenderChallenger={battle.T4DefenderChallenger}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
               />
@@ -644,17 +727,22 @@ const BattleForm = (props: { battleId: string }) => {
               {/* Round 5 */}
               <BattleFormRound
                 RoundNumber={5}
+                ChapterApprovedVersion={battle.ChapterApprovedVersion}
                 IsCompleted={battle.IsCompleted}
                 AttackerPrimary={battle.T5AttackerPrimary}
                 AttackerSecondary1Title={battle.T5AttackerSecondary1Title}
                 AttackerSecondary1={battle.T5AttackerSecondary1}
                 AttackerSecondary2Title={battle.T5AttackerSecondary2Title}
                 AttackerSecondary2={battle.T5AttackerSecondary2}
+                AttackerChallengerTitle={battle.T5AttackerChallengerTitle}
+                AttackerChallenger={battle.T5AttackerChallenger}
                 DefenderPrimary={battle.T5DefenderPrimary}
                 DefenderSecondary1Title={battle.T5DefenderSecondary1Title}
                 DefenderSecondary1={battle.T5DefenderSecondary1}
                 DefenderSecondary2Title={battle.T5DefenderSecondary2Title}
                 DefenderSecondary2={battle.T5DefenderSecondary2}
+                DefenderChallengerTitle={battle.T5DefenderChallengerTitle}
+                DefenderChallenger={battle.T5DefenderChallenger}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
               />
@@ -722,6 +810,11 @@ const BattleForm = (props: { battleId: string }) => {
                   </span>
                   <span>Primary:{battle.TotalAttackerPrimary}/50</span>
                   <span>Secondary:{battle.TotalAttackerSecondary}/40</span>
+                  {isChallenger ? (
+                    <span>Challenger:{battle.TotalAttackerChallenger}/12</span>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="opponent">
                   <legend>Defender</legend>
@@ -730,6 +823,11 @@ const BattleForm = (props: { battleId: string }) => {
                   </span>
                   <span>Primary:{battle.TotalDefenderPrimary}/50</span>
                   <span>Secondary:{battle.TotalDefenderSecondary}/40</span>
+                  {isChallenger ? (
+                    <span>Challenger:{battle.TotalDefenderChallenger}/12</span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>
@@ -747,6 +845,13 @@ const BattleForm = (props: { battleId: string }) => {
                 <span title="Secondary Points">
                   S:{battle.TotalAttackerSecondary}/40
                 </span>
+                {isChallenger ? (
+                  <span title="Challenger Points">
+                    C:{battle.TotalAttackerChallenger}/12
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
             <div className="opponent">
@@ -759,6 +864,13 @@ const BattleForm = (props: { battleId: string }) => {
                 <span title="Secondary Points">
                   S:{battle.TotalDefenderSecondary}/40
                 </span>
+                {isChallenger ? (
+                  <span title="Challenger Points">
+                    C:{battle.TotalDefenderChallenger}/12
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>

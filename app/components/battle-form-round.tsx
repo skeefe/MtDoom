@@ -2,8 +2,10 @@ import React from "react";
 import TextField from "./textField";
 import SelectField from "./select-field";
 import { secondaryMissions } from "../../data/secondary-missions";
+import { challengerCards } from "../../data/challenger-cards";
 
 const BattleFormRound = (props: {
+  ChapterApprovedVersion: string;
   IsCompleted: boolean;
   RoundNumber: number;
   AttackerPrimary?: number;
@@ -11,14 +13,22 @@ const BattleFormRound = (props: {
   AttackerSecondary1: number;
   AttackerSecondary2Title: string;
   AttackerSecondary2: number;
+  AttackerChallengerTitle: string;
+  AttackerChallenger: number;
   DefenderPrimary?: number;
   DefenderSecondary1Title: string;
   DefenderSecondary1: number;
   DefenderSecondary2Title: string;
   DefenderSecondary2: number;
+  DefenderChallengerTitle: string;
+  DefenderChallenger: number;
   changeFunction: React.ChangeEventHandler<HTMLInputElement>;
   changeFunctionSelect: React.ChangeEventHandler<HTMLSelectElement>;
 }) => {
+  const showChallengerCards =
+    props.ChapterApprovedVersion === "2025-26 Mission Deck" &&
+    props.RoundNumber > 1;
+
   return (
     <fieldset disabled={props.IsCompleted}>
       <legend>Battle Round {props.RoundNumber.toString()}</legend>
@@ -80,6 +90,34 @@ const BattleFormRound = (props: {
             value={`${props.AttackerSecondary2}`}
             emptyValue="--"
           />
+
+          {showChallengerCards ? (
+            <>
+              <SelectField
+                label="Challenger Card Title"
+                required={false}
+                id={`t${props.RoundNumber}AttackerChallengerTitle`}
+                name={`T${props.RoundNumber}AttackerChallengerTitle`}
+                changeFunction={props.changeFunctionSelect}
+                value={props.AttackerChallengerTitle}
+                options={challengerCards}
+                emptyValue="Select a Challenger Card"
+                randomise={false}
+              />
+              <TextField
+                label="Challenger Card Points"
+                type="number"
+                required={false}
+                id={`t${props.RoundNumber}AttackerChallenger`}
+                name={`T${props.RoundNumber}AttackerChallenger`}
+                changeFunction={props.changeFunction}
+                value={`${props.AttackerChallenger}`}
+                emptyValue="--"
+              />
+            </>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="opponent">
@@ -94,7 +132,6 @@ const BattleFormRound = (props: {
             value={`${props.DefenderPrimary}`}
             emptyValue="--"
           />
-
           <SelectField
             label="Secondary 1 Title"
             required={false}
@@ -137,6 +174,34 @@ const BattleFormRound = (props: {
             value={`${props.DefenderSecondary2}`}
             emptyValue="--"
           />
+
+          {showChallengerCards ? (
+            <>
+              <SelectField
+                label="Challenger Card Title"
+                required={false}
+                id={`t${props.RoundNumber}DefenderChallengerTitle`}
+                name={`T${props.RoundNumber}DefenderChallengerTitle`}
+                changeFunction={props.changeFunctionSelect}
+                value={props.DefenderChallengerTitle}
+                options={challengerCards}
+                emptyValue="Select a Challenger Card"
+                randomise={false}
+              />
+              <TextField
+                label="Challenger Card Points"
+                type="number"
+                required={false}
+                id={`t${props.RoundNumber}DefenderChallenger`}
+                name={`T${props.RoundNumber}DefenderChallenger`}
+                changeFunction={props.changeFunction}
+                value={`${props.DefenderChallenger}`}
+                emptyValue="--"
+              />
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </fieldset>

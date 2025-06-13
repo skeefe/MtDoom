@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { selectOption } from "../types/select-option";
 import SelectField from "./select-field";
 import TextField from "./textField";
+import { chapterApprovedVersions } from "../../data/chapter-approved-versions";
 import { battleSizes } from "../../data/battle-sizes";
 import { deploymentZones } from "../../data/deployment-zones";
 import { missionRules } from "../../data/mission-rules";
@@ -15,6 +16,7 @@ const BattleFormPre = (props: {
   Generals: selectOption[];
   Armies: selectOption[];
   Opponents: selectOption[];
+  ChapterApprovedVersion: string;
   Size: string;
   PrimaryMission: string;
   MissionRule: string;
@@ -39,6 +41,16 @@ const BattleFormPre = (props: {
     <>
       <fieldset disabled={props.IsCompleted}>
         <legend>Pre-Battle Setup</legend>
+        <SelectField
+          label="Chapter Approved Version"
+          required={true}
+          id="chapterApproved"
+          name="ChapterApprovedVersion"
+          changeFunction={props.changeFunctionSelect}
+          value={props.ChapterApprovedVersion}
+          options={chapterApprovedVersions}
+          emptyValue="Select the Chapter Approved Version"
+        />
         <SelectField
           label="Battle Size"
           required={true}
