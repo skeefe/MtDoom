@@ -73,6 +73,7 @@ const StepBattleForm = (props: { battleId: string }) => {
     DefenderDetachment: "",
     DefenderList: "",
     FirstTurn: "",
+    IsAttackerFirst: true,
 
     T1AttackerPrimary: 0,
     T2AttackerPrimary: 0,
@@ -172,8 +173,16 @@ const StepBattleForm = (props: { battleId: string }) => {
   const isChallenger =
     battle.ChapterApprovedVersion === "2025-26 Mission Deck" ? true : false;
 
-  //Check if Attacker is First
-  const isAttackerFirst = battle.FirstTurn === battle.Attacker ? true : false;
+  //Handle Player Order
+  useEffect(() => {
+    setBattle((prev) => {
+      return {
+        ...prev,
+        ["IsAttackerFirst"]:
+          battle.FirstTurn === battle.Defender ? false : true,
+      };
+    });
+  }, [battle.FirstTurn]);
 
   //Retrieve Generals
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
@@ -466,136 +475,15 @@ const StepBattleForm = (props: { battleId: string }) => {
     router.push("/");
   };
 
-  /*
-    //#### No longer doing this - pulling data directly from the Battle Table. ####
-
-  //Update Armies
-  const updateArmies = (isAdd: boolean) => {
-    const docAttackerArmyRef = doc(db, "Armies", battle.AttackerArmy);
-    const docDefenderArmyRef = doc(db, "Armies", battle.DefenderArmy);
-
-    const incrementValue = isAdd ? 1 : -1;
-    const isAttackerVictor = checkAttackerVictor();
-    const isAttackerFirstTurn = checkAttackerFirstTurn();
-
-    //Attacker Army
-    updateDoc(docAttackerArmyRef, {
-      Played: increment(incrementValue),
-      Won: increment(isAttackerVictor ? incrementValue : 0),
-      Lost: increment(!isAttackerVictor ? incrementValue : 0),
-      PrimaryPointsFor: increment(incrementValue * battle.TotalAttackerPrimary),
-      PrimaryPointsAgainst: increment(
-        incrementValue * battle.TotalDefenderPrimary
-      ),
-      SecondaryPointsFor: increment(
-        incrementValue * battle.TotalAttackerSecondary
-      ),
-      SecondaryPointsAgainst: increment(
-        incrementValue * battle.TotalDefenderSecondary
-      ),
-      FirstTurn: increment(isAttackerFirstTurn ? incrementValue : 0),
-    })
-      .then(() => {
-        console.log("Attacker Army Updated");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    //Defender Army
-    updateDoc(docDefenderArmyRef, {
-      Played: increment(incrementValue),
-      Won: increment(!isAttackerVictor ? incrementValue : 0),
-      Lost: increment(isAttackerVictor ? incrementValue : 0),
-      PrimaryPointsFor: increment(incrementValue * battle.TotalDefenderPrimary),
-      PrimaryPointsAgainst: increment(
-        incrementValue * battle.TotalAttackerPrimary
-      ),
-      SecondaryPointsFor: increment(
-        incrementValue * battle.TotalDefenderSecondary
-      ),
-      SecondaryPointsAgainst: increment(
-        incrementValue * battle.TotalAttackerSecondary
-      ),
-      FirstTurn: increment(!isAttackerFirstTurn ? incrementValue : 0),
-    })
-      .then(() => {
-        console.log("Defender Army Updated");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  */
-
-  /*
-    //#### No longer doing this - pulling data directly from the Battle Table. ####
-  //Update Generals
-  const updateGenerals = (isAdd: boolean) => {
-    const docAttackerRef = doc(db, "Generals", battle.Attacker);
-    const docDefenderRef = doc(db, "Generals", battle.Defender);
-
-    const incrementValue = isAdd ? 1 : -1;
-    const isAttackerVictor = checkAttackerVictor();
-    const isAttackerFirstTurn = checkAttackerFirstTurn();
-
-    //Attacker General
-    updateDoc(docAttackerRef, {
-      Played: increment(incrementValue),
-      Won: increment(isAttackerVictor ? incrementValue : 0),
-      Lost: increment(!isAttackerVictor ? incrementValue : 0),
-      PrimaryPointsFor: increment(incrementValue * battle.TotalAttackerPrimary),
-      PrimaryPointsAgainst: increment(
-        incrementValue * battle.TotalDefenderPrimary
-      ),
-      SecondaryPointsFor: increment(
-        incrementValue * battle.TotalAttackerSecondary
-      ),
-      SecondaryPointsAgainst: increment(
-        incrementValue * battle.TotalDefenderSecondary
-      ),
-      FirstTurn: increment(isAttackerFirstTurn ? incrementValue : 0),
-    })
-      .then(() => {
-        console.log("Attacker Updated");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    //Defender General
-    updateDoc(docDefenderRef, {
-      Played: increment(incrementValue),
-      Won: increment(!isAttackerVictor ? incrementValue : 0),
-      Lost: increment(isAttackerVictor ? incrementValue : 0),
-      PrimaryPointsFor: increment(incrementValue * battle.TotalDefenderPrimary),
-      PrimaryPointsAgainst: increment(
-        incrementValue * battle.TotalAttackerPrimary
-      ),
-      SecondaryPointsFor: increment(
-        incrementValue * battle.TotalDefenderSecondary
-      ),
-      SecondaryPointsAgainst: increment(
-        incrementValue * battle.TotalAttackerSecondary
-      ),
-      FirstTurn: increment(!isAttackerFirstTurn ? incrementValue : 0),
-    })
-      .then(() => {
-        console.log("Defender Updated");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  */
-
   //Utilities
+  /*
   const checkAttackerVictor = () => {
     return battle.Victor === battle.Attacker ? true : false;
   };
   const checkAttackerFirstTurn = () => {
     return battle.FirstTurn === battle.Attacker ? true : false;
   };
+  */
 
   const previousStep = React.useRef<number>(0);
 
@@ -624,7 +512,7 @@ const StepBattleForm = (props: { battleId: string }) => {
               <Step withCallback={false}>
                 <BattleFormPre
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   Generals={generals}
                   Armies={armies}
                   Opponents={collectOpponents()}
@@ -656,7 +544,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={1}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   AttackerPrimary={battle.T1AttackerPrimary}
                   AttackerSecondary1Title={battle.T1AttackerSecondary1Title}
                   AttackerSecondary1={battle.T1AttackerSecondary1}
@@ -684,7 +572,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={2}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   AttackerPrimary={battle.T2AttackerPrimary}
                   AttackerSecondary1Title={battle.T2AttackerSecondary1Title}
                   AttackerSecondary1={battle.T2AttackerSecondary1}
@@ -712,7 +600,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={3}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   AttackerPrimary={battle.T3AttackerPrimary}
                   AttackerSecondary1Title={battle.T3AttackerSecondary1Title}
                   AttackerSecondary1={battle.T3AttackerSecondary1}
@@ -740,7 +628,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={4}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   AttackerPrimary={battle.T4AttackerPrimary}
                   AttackerSecondary1Title={battle.T4AttackerSecondary1Title}
                   AttackerSecondary1={battle.T4AttackerSecondary1}
@@ -768,7 +656,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={5}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   AttackerPrimary={battle.T5AttackerPrimary}
                   AttackerSecondary1Title={battle.T5AttackerSecondary1Title}
                   AttackerSecondary1={battle.T5AttackerSecondary1}
@@ -793,7 +681,7 @@ const StepBattleForm = (props: { battleId: string }) => {
               <Step withCallback={false}>
                 <BattleFormEnd
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   AttackerMissionBonus={battle.AttackerMissionBonus}
                   DefenderMissionBonus={battle.DefenderMissionBonus}
                   changeFunctionText={handleChange}
@@ -805,7 +693,7 @@ const StepBattleForm = (props: { battleId: string }) => {
               <Step withCallback={false}>
                 <BattleFormPost
                   IsCompleted={battle.IsCompleted}
-                  IsAttackerFirst={isAttackerFirst}
+                  IsAttackerFirst={battle.IsAttackerFirst}
                   Opponents={collectOpponents()}
                   AttackerScore={battle.TotalAttacker}
                   DefenderScore={battle.TotalDefender}
@@ -859,7 +747,9 @@ const StepBattleForm = (props: { battleId: string }) => {
 
         <div className="device-score-bar hide-lg">
           <div
-            className={`opponent-layout ${!isAttackerFirst ? "reverse" : ""}`}
+            className={`opponent-layout ${
+              !battle.IsAttackerFirst ? "reverse" : ""
+            }`}
           >
             <div className="opponent">
               <span className="score-highlight">{battle.TotalAttacker}</span>

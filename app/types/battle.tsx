@@ -20,6 +20,7 @@ export interface iBattle {
   DefenderDetachment: string;
   DefenderList: string;
   FirstTurn: string;
+  IsAttackerFirst: boolean;
 
   T1AttackerPrimary: number;
   T2AttackerPrimary: number;
