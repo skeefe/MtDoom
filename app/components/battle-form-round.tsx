@@ -7,6 +7,7 @@ import { challengerCards } from "../../data/challenger-cards";
 const BattleFormRound = (props: {
   ChapterApprovedVersion: string;
   IsCompleted: boolean;
+  IsAttackerFirst: boolean;
   RoundNumber: number;
   AttackerPrimary?: number;
   AttackerSecondary1Title: string;
@@ -33,7 +34,9 @@ const BattleFormRound = (props: {
     <fieldset disabled={props.IsCompleted}>
       <legend>Battle Round {props.RoundNumber.toString()}</legend>
 
-      <div className="opponent-layout">
+      <div
+        className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}
+      >
         <div className="opponent">
           <legend>Attacker</legend>
           <TextField

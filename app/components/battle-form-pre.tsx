@@ -13,6 +13,7 @@ import { titleCase } from "../../utils/title-case";
 
 const BattleFormPre = (props: {
   IsCompleted: boolean;
+  IsAttackerFirst: boolean;
   Generals: selectOption[];
   Armies: selectOption[];
   Opponents: selectOption[];
@@ -95,7 +96,11 @@ const BattleFormPre = (props: {
           randomise={true}
         />
 
-        <div className="opponent-layout">
+        <div
+          className={`opponent-layout ${
+            !props.IsAttackerFirst ? "reverse" : ""
+          }`}
+        >
           <div className="opponent">
             <legend>Attacker</legend>
             <SelectField

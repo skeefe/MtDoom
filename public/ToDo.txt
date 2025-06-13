@@ -1,11 +1,10 @@
 ## Now
 - Army/General Stats panel state with no data.
-- Refactor - "Show"
 
 
 ## Next
 - Sortable tables.
-- Handle Gambits
+- Handle Gambits - deprecated now.
 - Handle Fixed Secondaries...
 - Handle Draws
 

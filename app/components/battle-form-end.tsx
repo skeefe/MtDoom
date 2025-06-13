@@ -3,6 +3,7 @@ import TextField from "./textField";
 
 const BattleFormEnd = (props: {
   IsCompleted: boolean;
+  IsAttackerFirst: boolean;
   AttackerMissionBonus: number;
   DefenderMissionBonus: number;
   changeFunctionText: React.ChangeEventHandler<HTMLInputElement>;
@@ -11,7 +12,9 @@ const BattleFormEnd = (props: {
     <fieldset disabled={props.IsCompleted}>
       <legend>End of Game</legend>
 
-      <div className="opponent-layout">
+      <div
+        className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}
+      >
         <div className="opponent">
           <legend>Attacker</legend>
           <TextField

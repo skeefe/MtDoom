@@ -172,6 +172,9 @@ const StepBattleForm = (props: { battleId: string }) => {
   const isChallenger =
     battle.ChapterApprovedVersion === "2025-26 Mission Deck" ? true : false;
 
+  //Check if Attacker is First
+  const isAttackerFirst = battle.FirstTurn === battle.Attacker ? true : false;
+
   //Retrieve Generals
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
   const generals = collectionToSelect(generalsCollection, "Alias", "id");
@@ -621,6 +624,7 @@ const StepBattleForm = (props: { battleId: string }) => {
               <Step withCallback={false}>
                 <BattleFormPre
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   Generals={generals}
                   Armies={armies}
                   Opponents={collectOpponents()}
@@ -652,6 +656,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={1}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   AttackerPrimary={battle.T1AttackerPrimary}
                   AttackerSecondary1Title={battle.T1AttackerSecondary1Title}
                   AttackerSecondary1={battle.T1AttackerSecondary1}
@@ -679,6 +684,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={2}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   AttackerPrimary={battle.T2AttackerPrimary}
                   AttackerSecondary1Title={battle.T2AttackerSecondary1Title}
                   AttackerSecondary1={battle.T2AttackerSecondary1}
@@ -706,6 +712,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={3}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   AttackerPrimary={battle.T3AttackerPrimary}
                   AttackerSecondary1Title={battle.T3AttackerSecondary1Title}
                   AttackerSecondary1={battle.T3AttackerSecondary1}
@@ -733,6 +740,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={4}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   AttackerPrimary={battle.T4AttackerPrimary}
                   AttackerSecondary1Title={battle.T4AttackerSecondary1Title}
                   AttackerSecondary1={battle.T4AttackerSecondary1}
@@ -760,6 +768,7 @@ const StepBattleForm = (props: { battleId: string }) => {
                   RoundNumber={5}
                   ChapterApprovedVersion={battle.ChapterApprovedVersion}
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   AttackerPrimary={battle.T5AttackerPrimary}
                   AttackerSecondary1Title={battle.T5AttackerSecondary1Title}
                   AttackerSecondary1={battle.T5AttackerSecondary1}
@@ -784,6 +793,7 @@ const StepBattleForm = (props: { battleId: string }) => {
               <Step withCallback={false}>
                 <BattleFormEnd
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   AttackerMissionBonus={battle.AttackerMissionBonus}
                   DefenderMissionBonus={battle.DefenderMissionBonus}
                   changeFunctionText={handleChange}
@@ -795,6 +805,7 @@ const StepBattleForm = (props: { battleId: string }) => {
               <Step withCallback={false}>
                 <BattleFormPost
                   IsCompleted={battle.IsCompleted}
+                  IsAttackerFirst={isAttackerFirst}
                   Opponents={collectOpponents()}
                   AttackerScore={battle.TotalAttacker}
                   DefenderScore={battle.TotalDefender}
@@ -847,7 +858,9 @@ const StepBattleForm = (props: { battleId: string }) => {
         </form>
 
         <div className="device-score-bar hide-lg">
-          <div className="opponent-layout">
+          <div
+            className={`opponent-layout ${!isAttackerFirst ? "reverse" : ""}`}
+          >
             <div className="opponent">
               <span className="score-highlight">{battle.TotalAttacker}</span>
               <div>

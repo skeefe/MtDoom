@@ -7,6 +7,7 @@ import { victoryTypes } from "../../data/victory-types";
 
 const BattleFormPost = (props: {
   IsCompleted: boolean;
+  IsAttackerFirst: boolean;
   Opponents: selectOption[];
   AttackerScore: number;
   DefenderScore: number;
@@ -35,7 +36,9 @@ const BattleFormPost = (props: {
     <fieldset disabled={props.IsCompleted}>
       <legend>Post-Battle</legend>
 
-      <div className="opponent-layout">
+      <div
+        className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}
+      >
         <div className="opponent">
           <legend>Attacker</legend>
           <span className="score-highlight">{props.AttackerScore}</span>
