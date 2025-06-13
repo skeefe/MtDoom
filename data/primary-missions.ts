@@ -15,5 +15,7 @@ const primaryMissions: selectOption[] = [
   { Label: "Burden of Trust", Value: "Burden of Trust", Active: true },
   { Label: "Terraform", Value: "Terraform", Active: true },
   { Label: "Linchpin", Value: "Linchpin", Active: true },
+
+  { Label: "Hidden Supplies", Value: "Hidden Supplies", Active: true },
 ];
 export { primaryMissions };

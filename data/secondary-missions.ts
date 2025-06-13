@@ -44,5 +44,7 @@ const secondaryMissions: selectOption[] = [
   { Label: "Marked for Death", Value: "Marked for Death", Active: true },
   { Label: "Sabotage", Value: "Sabotage", Active: true },
   { Label: "Containment", Value: "Containment", Active: true },
+
+  { Label: "Display of Might", Value: "Display of Might", Active: true },
 ];
 export { secondaryMissions };
