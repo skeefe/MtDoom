@@ -8,7 +8,7 @@ const Footer = () => {
         <Link href="/" className="logo-link">
           <span className="logo">Mt. Doom &#x1F30B;</span>
         </Link>
-        <span className="copyright">&copy; Skeefe.net 2024</span>
+        <span className="copyright">&copy; Skeefe.net 2025</span>
       </Container>
     </footer>
   );
