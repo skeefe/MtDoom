@@ -22,7 +22,11 @@ export default function GeneralDetails({
     return battle.Show !== false;
   };
 
-  const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
+  const battleCollection = getCollectionSnapshot(
+    "Battles",
+    "Date",
+    "asc"
+  ).filter(filterShow);
   let generalBattleCollection = battleCollection.filter(function (battle) {
     return (
       battle.IsCompleted &&
