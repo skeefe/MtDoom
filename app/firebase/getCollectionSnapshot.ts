@@ -14,7 +14,7 @@ import firebase_app from "./config";
 export default function getCollectionSnapshot(
   fbCollection,
   orderProperty: string = "Date",
-  orderDirection: OrderByDirection = "asc"
+  orderDirection: OrderByDirection = "desc"
 ) {
   const [fbData, setFBData] = useState(new Array());
 
