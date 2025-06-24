@@ -285,6 +285,8 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
               </BarChart>
             </ResponsiveContainer>
           </div>
+        </div>
+        <div className="dashboard-panels single">
           <div className="dashboard-panel">
             <h3>Points Record</h3>
             <ResponsiveContainer width="100%" height="100%">

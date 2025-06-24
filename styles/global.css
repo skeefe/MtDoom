@@ -666,13 +666,16 @@ form .alert {
 }
 @media (min-width: 1024px) {
   .dashboard-panels {
-    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 @media (min-width: 1280px) {
   .dashboard-panels {
-    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
   }
+}
+.dashboard-panels.single {
+  grid-template-columns: 1fr;
 }
 .dashboard-panel {
   background: #1e293b;

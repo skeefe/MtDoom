@@ -147,8 +147,8 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
 
     //Only the latest 4
     return {
-      mvps: mvps.reverse().slice(0, 4),
-      lvps: lvps.reverse().slice(0, 4),
+      mvps: mvps.reverse().slice(0, 10),
+      lvps: lvps.reverse().slice(0, 10),
     };
   };
 
@@ -196,21 +196,6 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                 <Bar dataKey="Lost" stackId="a" fill="#94a3b8" />
               </BarChart>
             </ResponsiveContainer>
-          </div>
-
-          <div className="dashboard-panel">
-            <h3>MVPs</h3>
-            <ol className="vp-list">
-              {getVPs().mvps.map((mvp, index) => (
-                <li key={index}>{mvp.Unit}</li>
-              ))}
-            </ol>
-            <h3>LVPs</h3>
-            <ol className="vp-list">
-              {getVPs().lvps.map((lvp, index) => (
-                <li key={index}>{lvp.Unit}</li>
-              ))}
-            </ol>
           </div>
 
           <div className="dashboard-panel">
@@ -275,6 +260,23 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                 />
               </LineChart>
             </ResponsiveContainer>
+          </div>
+          <div className="dashboard-panel">
+            <h3>MVPs</h3>
+            <ol className="vp-list">
+              {getVPs().mvps.map((mvp, index) => (
+                <li key={index}>{mvp.Unit}</li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="dashboard-panel">
+            <h3>LVPs</h3>
+            <ol className="vp-list">
+              {getVPs().lvps.map((lvp, index) => (
+                <li key={index}>{lvp.Unit}</li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
