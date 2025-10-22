@@ -114,7 +114,7 @@ const ArmyForm = (props: { armyId?: string }) => {
         console.log("The army was not added: ", e);
       }
 
-      router.push(`/army/${armyId}/edit`);
+      router.push(`/army/${armyId}`);
     }
 
     return false;
@@ -136,7 +136,7 @@ const ArmyForm = (props: { armyId?: string }) => {
         console.log(error);
       });
 
-    router.push(`/army/${props.armyId}/edit`);
+    router.push(`/army/${props.armyId}`);
 
     return false;
   };

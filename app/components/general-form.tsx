@@ -112,7 +112,7 @@ const GeneralForm = (props: { generalId?: string }) => {
         console.log("The general was not added: ", e);
       }
 
-      router.push(`/general/${generalId}/edit`);
+      router.push(`/general/${generalId}`);
     }
 
     return false;
@@ -133,7 +133,7 @@ const GeneralForm = (props: { generalId?: string }) => {
         console.log(error);
       });
 
-    router.push(`/general/${props.generalId}/edit`);
+    router.push(`/general/${props.generalId}`);
 
     return false;
   };
