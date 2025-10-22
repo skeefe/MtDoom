@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { use } from 'react';
 import getDocSnapshot from "../../firebase/getDocSnapshot";
 import ArmyDashboard from "../../components/army-dashboard";
 import BattleTable from "../../components/battle-table";
@@ -12,10 +12,10 @@ import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import firebase_app from "../../firebase/config";
 
-export default function ArmyDetails({ params }: { params: { army: string } }) {
+export default function ArmyDetails({ params }: { params: Promise<{ army: string }> }) {
   const router = useRouter();
   const db = getFirestore(firebase_app);
-  const armyId = params.army;
+  const armyId = use(params).army;
   const armyDetails = getDocSnapshot("Armies", armyId);
 
   //Required to remove any "Show=FALSE" battles.

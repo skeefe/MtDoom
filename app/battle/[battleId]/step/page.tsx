@@ -1,8 +1,8 @@
-import React from "react";
+import { use } from 'react';
 import StepBattle from "../../../components/step-battle";
 
-export default function Steps({ params }: { params: { battleId: string } }) {
-  const battleId = params.battleId;
+export default function Steps({ params }: { params: Promise<{ battleId: string }> }) {
+  const battleId = use(params).battleId;
 
   return (
     <>

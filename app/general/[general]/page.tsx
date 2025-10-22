@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { use } from 'react';
 import getDocSnapshot from "../../firebase/getDocSnapshot";
 import GeneralDashboard from "../../components/general-dashboard";
 import BattleTable from "../../components/battle-table";
@@ -12,9 +12,9 @@ import StatPanel from "../../components/stat-panel";
 export default function GeneralDetails({
   params,
 }: {
-  params: { general: string };
+  params: Promise<{ general: string }>;
 }) {
-  const generalId = params.general;
+  const generalId = use(params).general;
   const generalDetails = getDocSnapshot("Generals", generalId);
 
   //Required to remove any "Show=FALSE" battles.

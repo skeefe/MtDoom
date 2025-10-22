@@ -1,8 +1,8 @@
-import React from "react";
+import { use } from 'react';
 import GeneralForm from "../../../components/general-form";
 
-export default function ArmyEdit({ params }: { params: { general: string } }) {
-  const generalId = params.general;
+export default function ArmyEdit({ params }: { params: Promise<{ general: string }> }) {
+  const generalId = use(params).general;
 
   return (
     <>
