@@ -350,6 +350,24 @@ textarea {
   padding: 0.5rem;
   width: 100%;
 }
+
+.field-container.field-container-checkbox {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+input[type="checkbox"]{
+  height: 1.25rem;
+  width: 1.25rem;
+}
+input[type="checkbox"] + label{
+  float:left;
+  font-size:1rem;
+  line-height: 1.6;
+  width:auto;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -420,6 +438,17 @@ form .alert {
   margin-left: auto;
   margin-right: auto;
 }
+.button.button-left {
+  display: block;
+  margin-left: 0;
+  margin-right: auto;
+}
+.button.button-right {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
 
 /* Content */
 .content {
@@ -816,7 +845,7 @@ tspan {
 .modal-wrapper {
   height: calc(100vh - 2.25rem * 3);
   margin: 4.5rem auto 0;
-  max-width: 500px;
+  max-width: 31.25rem;
   width: 100%;
 }
 .modal {
@@ -857,10 +886,35 @@ tspan {
   height: 100%;
   padding: 1rem;
 }
-.modal .field-container {
+.modal .field-container:not(.field-container.field-container-checkbox) {
   flex-direction: column;
   height: 100%;
 }
 .modal .textarea {
   height: 100%;
+}
+.modal footer {
+  border-top: 1px solid #334155;
+  margin-top:3rem;
+  padding: 1rem 0 0;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+
+/* Inventory */
+.inventory-modal .modal-wrapper{
+  box-sizing: border-box;
+  max-width: 75rem;
+  padding:0 4rem;
+}
+.inventory-modal .modal{
+  height:auto
+}
+.primary-content .inventory-wargear{
+  font-size: 0.875rem;
+  font-style: italic;
+  margin:0
 }

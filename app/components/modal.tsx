@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const Modal = (props: { onClose: any; children; title: string }) => {
+const Modal = (props: { onClose: any; children; title: string; className?: string }) => {
   const handleCloseClick = (e) => {
     console.log("closed");
     e.preventDefault();
@@ -9,7 +9,7 @@ const Modal = (props: { onClose: any; children; title: string }) => {
   };
 
   const modalContent = (
-    <div className="modal-overlay">
+    <div className={`modal-overlay ${props.className || ''}`}>
       <div className="modal-wrapper">
         <div className="modal">
           <div className="modal-header">

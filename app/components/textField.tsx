@@ -5,7 +5,7 @@ const TextField = (props: {
   type: string;
   id: string;
   name: string;
-  value: string;
+  value: any;
   emptyValue: string;
   required?: boolean;
   changeFunction: React.ChangeEventHandler<HTMLInputElement>;

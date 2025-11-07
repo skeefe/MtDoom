@@ -1,0 +1,1138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<catalogue id="cb97-b97a-fe06-ebdb" name="Imperium - Astra Militarum" revision="2" battleScribeVersion="2.03" library="false" gameSystemId="a8f6-dd2e-ea3b-1511" gameSystemRevision="1" xmlns="http://www.battlescribe.net/schema/catalogueSchema">
+  <entryLinks>
+    <entryLink id="9173-763d-4dd8-0c46" name="Battle Size" hidden="false" collective="false" import="true" targetId="9f26-de51-fad4-5cec" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="ce93-889d-46da-6f33" name="New CategoryLink" hidden="false" targetId="19b8-16e6-407b-cc4d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="8cf2-7da3-3254-6216" name="Aegis Defence Line" hidden="false" collective="false" import="true" targetId="df9b-fcba-f643-08c6" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="8199-000a-ba46-60a6" name="New CategoryLink" hidden="false" targetId="56a8-7143-031e-072a" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2c7a-9eef-a9a5-69eb" name="Armoured Sentinels" hidden="false" collective="false" import="true" targetId="73e3-ef0c-e447-2be7" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="ddbd-62a7-c110-c759" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="4a8c-5d94-4a8e-592c" name="Attilan Rough Riders" hidden="false" collective="false" import="true" targetId="c8cb-b648-a5c3-b767" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="52c8-832a-0a77-0d46" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="0ad6-b5f1-e03a-9db8" name="Baneblade" hidden="false" collective="false" import="true" targetId="9a46-d82a-de75-e7da" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="caeb-e124-9b35-78f8" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="5525-9faa-7c7c-c6bb" name="Banehammer" hidden="false" collective="false" import="true" targetId="2d12-3648-e943-b6bb" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="60a2-857e-c76e-74e9" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="7a4d-7c22-ddca-a896" name="Banesword" hidden="false" collective="false" import="true" targetId="574e-f4b9-bfda-f34c" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="64c1-edd1-69a2-2294" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="1891-08b0-fa2f-31d4" name="Basilisk" hidden="false" collective="false" import="true" targetId="e6d4-4aed-a08c-b108" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="d31d-1e1c-23ab-a4c5" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="cf8a-a645-d7d2-e970" name="Bullgryn Squad" hidden="false" collective="false" import="true" targetId="667e-c1e8-8d73-697a" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="e99f-a9ec-4714-406a" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="1440-4726-f477-04e9" name="Cadian Castellan" hidden="false" collective="false" import="true" targetId="7e06-63d8-190e-9b0d" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="785a-ab7a-cfb6-38b1" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="6ead-744b-29d7-962c" name="Cadian Command Squad" hidden="false" collective="false" import="true" targetId="0433-98fb-abfc-0d3b" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="a709-1671-80d5-9ef9" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="fefa-3b15-43d6-1556" name="Cadian Shock Troops" hidden="false" collective="false" import="true" targetId="d7ea-8b87-6cad-2db3" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="7d71-a68d-0f3c-baa4" name="New CategoryLink" hidden="false" targetId="e396-eadd-d5ee-cec8" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="d416-91c7-9b59-39c2" name="Catachan Jungle Fighters" hidden="false" collective="false" import="true" targetId="ed75-2d30-f8c5-313f" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="f8d6-3c20-8f1c-185f" name="New CategoryLink" hidden="false" targetId="e396-eadd-d5ee-cec8" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2bef-c195-ab4c-d044" name="Chimera" hidden="false" collective="false" import="true" targetId="2b84-8124-471d-cec5" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="9edf-47be-6ad9-5fef" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="88ba-90a8-2157-c32e" name="Commissar" hidden="false" collective="false" import="true" targetId="c0a4-a6f2-b72f-bf7d" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="f6f3-8552-6b2f-cf38" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="d3c0-6922-b727-8269" name="Death Korps of Krieg" hidden="false" collective="false" import="true" targetId="15fa-df42-7c2d-8b40" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="a9e4-05ee-a0d3-b38d" name="New CategoryLink" hidden="false" targetId="e396-eadd-d5ee-cec8" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="d647-4474-b83e-30da" name="Deathstrike" hidden="false" collective="false" import="true" targetId="af40-0249-eebe-6ee1" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="d667-a352-e8e8-614b" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="c187-2850-7979-9e78" name="Doomhammer" hidden="false" collective="false" import="true" targetId="b114-b677-df17-f7c8" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="0c8b-1d49-7710-3ec0" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="80bc-fcad-e671-f66a" name="Field Ordnance Battery" hidden="false" collective="false" import="true" targetId="7eb4-f979-925a-9bf8" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="cf67-115c-cfad-4395" name="New CategoryLink" hidden="false" targetId="541e-c6f4-5c40-45ec" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2917-2c6c-4cf2-dc33" name="Gaunt’s Ghosts" hidden="false" collective="false" import="true" targetId="bba9-8a77-a181-e69e" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="9668-22d5-9ee8-b232" name="New CategoryLink" hidden="false" targetId="852e-c795-2e7d-b332" primary="true"/>
+        <categoryLink id="54d7-2f28-aba9-ec42" name="Character" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="false"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2452-1d22-92d4-5502" name="Heavy Weapons Squad" hidden="false" collective="false" import="true" targetId="f736-4f8b-e997-9d7f" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="bb56-b917-ab92-23f4" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="18ea-1a1f-5628-885e" name="Hellhammer" hidden="false" collective="false" import="true" targetId="b179-b4c3-7435-9655" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="ec9e-edc2-96c1-b96b" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="17bc-db41-1e0c-0075" name="Regimental Attachés" hidden="false" collective="false" import="true" targetId="7cce-370c-8ce0-4670" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="5272-5e2b-8d55-2e27" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="0f7c-a62e-b2a1-642a" name="Primaris Psyker" hidden="false" collective="false" import="true" targetId="0706-6dd6-0639-53aa" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="9a5f-a8ec-fa33-8e8d" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="dc37-f7c4-184d-95ec" name="Platoon Command Squad" hidden="false" collective="false" import="true" targetId="18e6-7ddf-0d01-f4bb" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="1b56-1d7a-38d4-7ecd" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="b907-40d0-2419-00c1" name="Ogryn Squad" hidden="false" collective="false" import="true" targetId="3502-4c51-c3b6-4e8a" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="3067-015f-1334-4326" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="35e7-243e-80f2-9b01" name="Ogryn Bodyguard" hidden="false" collective="false" import="true" targetId="72b1-1c11-ca8e-bda1" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="a442-70a9-8450-ef77" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="bfe0-aa4c-8ddd-9a0a" name="Nork Deddog" hidden="false" collective="false" import="true" targetId="051c-fa1b-a7c3-dab0" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="8ae0-efb8-f49a-d975" name="New CategoryLink" hidden="false" targetId="852e-c795-2e7d-b332" primary="true"/>
+        <categoryLink id="221c-1876-025b-cefb" name="Character" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="false"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="0070-6467-3839-f658" name="Munitorum Servitors" hidden="false" collective="false" import="true" targetId="e106-291e-e197-127e" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="4cd5-79ed-60ea-ce0c" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="e6e9-abd3-c93c-11d2" name="Militarum Tempestus Command Squad" hidden="false" collective="false" import="true" targetId="6c25-8fbc-7ad4-24bd" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="673e-292e-871d-a20e" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="b4d4-2331-2ede-1522" name="Manticore" hidden="false" collective="false" import="true" targetId="5414-047e-4aa6-c065" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="802a-a5ae-338a-bd99" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="5adc-dbc6-2d5d-d2f7" name="Ratling Snipers" hidden="false" collective="false" import="true" targetId="a17e-cfaf-4c44-3763" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="f18d-9a9a-74bc-6c95" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="5efc-e3fb-ea6e-3b2e" name="Lord Solar Leontus" hidden="false" collective="false" import="true" targetId="e552-423d-1143-dd65" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="17fb-6f05-8de1-c802" name="New CategoryLink" hidden="false" targetId="852e-c795-2e7d-b332" primary="true"/>
+        <categoryLink id="1625-a119-1490-910b" name="Character" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="false"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="4459-48d7-a601-1237" name="Leman Russ Vanquisher" hidden="false" collective="false" import="true" targetId="f103-aa97-2577-ebca" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="bc0e-1644-77eb-8666" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="7289-706c-2886-cd69" name="Leman Russ Punisher" hidden="false" collective="false" import="true" targetId="318c-7131-8e73-96a2" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="8a8a-b561-6a33-496e" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2a04-23c0-5bf9-18c3" name="Leman Russ Exterminator" hidden="false" collective="false" import="true" targetId="b42b-67a3-863d-cc6a" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="3906-a1c7-0603-a508" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="87b4-23de-c668-c0ec" name="Leman Russ Executioner" hidden="false" collective="false" import="true" targetId="3f51-a8de-55f2-68d4" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="5a57-d962-b14b-1ea7" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="9f19-0373-c161-02c2" name="Leman Russ Eradicator" hidden="false" collective="false" import="true" targetId="cce7-8911-b192-16f0" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="20d3-9abe-03d1-006a" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="8a6c-7d4b-958c-baf6" name="Leman Russ Demolisher" hidden="false" collective="false" import="true" targetId="f1f1-ae76-7537-d92d" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="5ee1-64b6-76f8-9511" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="1045-2c08-4ae4-a253" name="Leman Russ Battle Tank" hidden="false" collective="false" import="true" targetId="a84e-d67c-aa3c-b775" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="3cda-5056-7c35-4ccf" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="4f00-712b-711a-d884" name="Kasrkin" hidden="false" collective="false" import="true" targetId="4821-6de9-ada4-5d43" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="db66-8ce5-8ab9-4c8e" name="New CategoryLink" hidden="false" targetId="541e-c6f4-5c40-45ec" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="3dab-54c8-3e91-05ca" name="‘Iron Hand’ Straken" hidden="false" collective="false" import="true" targetId="1667-d559-943e-85fa" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="c9ba-229f-87f3-9390" name="New CategoryLink" hidden="false" targetId="852e-c795-2e7d-b332" primary="true"/>
+        <categoryLink id="13d9-9778-8e87-dd37" name="Character" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="false"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="d0f2-0cc5-bb73-8657" name="Infantry Squad" hidden="false" collective="false" import="true" targetId="8122-8111-268a-094a" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="570c-5854-9d38-f5eb" name="New CategoryLink" hidden="false" targetId="e396-eadd-d5ee-cec8" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="165c-c61a-c81b-762b" name="Hydra" hidden="false" collective="false" import="true" targetId="b425-babe-0545-4c0d" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="0c0a-a4ff-6257-1d9f" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="99d3-dcc9-6639-4c95" name="Hellhound" hidden="false" collective="false" import="true" targetId="0c57-c97a-b01c-0266" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="e98a-1547-3d9f-b8bc" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="36b5-4c2f-f170-a12a" name="Regimental Enginseer" hidden="false" collective="false" import="true" targetId="4f5b-2852-2548-4ff3" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="ed0f-e4b2-e8f3-4bfc" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="ef31-3145-ca7d-f360" name="Regimental Preacher" hidden="false" collective="false" import="true" targetId="e0df-7021-06eb-2514" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="52c8-dcf8-a2fe-914e" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="4061-67b4-3613-0823" name="Rogal Dorn Battle Tank" hidden="false" collective="false" import="true" targetId="4b2b-e188-8026-5d3b" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="0ce8-5ef8-73dc-3b7d" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="7009-c947-e1f7-f00f" name="Scout Sentinels" hidden="false" collective="false" import="true" targetId="9eae-2926-9beb-6f0c" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="a454-8945-9e2d-e2e6" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="9ff4-59e9-26a8-bbe3" name="Sergeant Harker" hidden="false" collective="false" import="true" targetId="def5-b3a4-9f52-2492" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="7a3c-8c89-1637-abdd" name="New CategoryLink" hidden="false" targetId="852e-c795-2e7d-b332" primary="true"/>
+        <categoryLink id="3676-e258-c2da-7db4" name="Character" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="false"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="bb40-a8bf-e581-9cdc" name="Shadowsword" hidden="false" collective="false" import="true" targetId="dc5d-f596-75e4-ad50" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="6943-bc66-e4f4-a8bf" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="1963-25e3-f98e-e333" name="Sly Marbo" hidden="false" collective="false" import="true" targetId="0692-5250-7f9d-2a3c" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="8918-5ec4-c2f4-b385" name="New CategoryLink" hidden="false" targetId="852e-c795-2e7d-b332" primary="true"/>
+        <categoryLink id="b0a2-6011-fe4b-e027" name="Character" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="false"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="920d-db72-f02d-5738" name="Stormlord" hidden="false" collective="false" import="true" targetId="8269-22e7-697c-0ced" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="0ac6-f31e-efa5-6d06" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="a1c3-64d3-f482-8864" name="Stormsword" hidden="false" collective="false" import="true" targetId="e731-f479-35d9-91b9" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="d3fc-040e-40c9-d795" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="aa6a-b00e-09b3-4320" name="Tank Commander" hidden="false" collective="false" import="true" targetId="99a7-5e2f-b88d-ee04" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="4705-d997-9db6-67bb" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="a21c-d79c-52a9-b073" name="Taurox" hidden="false" collective="false" import="true" targetId="760b-c52f-bf73-d3a6" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="35fa-45c0-7f7b-a63e" name="New CategoryLink" hidden="false" targetId="4c72-75fb-cc79-7b8d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="0eda-86b6-e607-1c13" name="Taurox Prime" hidden="false" collective="false" import="true" targetId="2bc4-6357-b676-b1fb" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="f228-9fc2-bb4b-3453" name="New CategoryLink" hidden="false" targetId="4c72-75fb-cc79-7b8d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="bc37-f41a-a96f-cc6e" name="Tempestus Scions" hidden="false" collective="false" import="true" targetId="a71e-3685-7107-e8f3" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="1792-7aca-8837-e494" name="New CategoryLink" hidden="false" targetId="b91a-4073-57e9-607b" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="7a39-a694-bb64-2e8c" name="Ursula Creed" hidden="false" collective="false" import="true" targetId="508d-733c-6398-610f" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="1d30-12b3-293b-81c3" name="New CategoryLink" hidden="false" targetId="852e-c795-2e7d-b332" primary="true"/>
+        <categoryLink id="fa83-d654-cc96-56ac" name="Character" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="false"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="8fb4-48d2-d622-2c31" name="Valkyrie" hidden="false" collective="false" import="true" targetId="0b14-6e24-c856-1a68" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="cc43-8946-ffb0-61cb" name="New CategoryLink" hidden="false" targetId="539f-1ed0-2d90-599a" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="974d-ae40-cb13-4f2d" name="Wyvern" hidden="false" collective="false" import="true" targetId="9ab2-edbe-a4af-d6b4" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="0658-156e-2201-1a99" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="affa-9085-78f9-02c6" name="Death Rider Squadron" hidden="false" collective="false" import="true" targetId="3d23-ad92-b82b-0a99" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="3dbd-eb13-664a-f3a4" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="bb07-a73a-50ac-00bc" name="Death Rider Squadron Commander" hidden="false" collective="false" import="true" targetId="6085-37a4-de6a-9421" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="e527-4d9e-a779-cd20" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2352-c87c-c362-f28c" name="Earthshaker Carriage Battery" hidden="false" collective="false" import="true" targetId="b1dd-fc38-3f44-d84e" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="1955-9b86-d146-f9d3" name="New CategoryLink" hidden="false" targetId="541e-c6f4-5c40-45ec" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="3c92-e8bb-53c6-8b5a" name="Hades Breaching Drill" hidden="false" collective="false" import="true" targetId="f771-f852-4f82-0d6d" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="e9c2-d5cb-97d0-f83f" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="8037-2474-bc7f-0c5c" name="Macharius" hidden="false" collective="false" import="true" targetId="bb12-8e26-1d43-2528" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="5049-cad5-e762-72f1" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="84f9-97a7-a4e9-1fd2" name="Macharius Vanquisher" hidden="false" collective="false" import="true" targetId="ba01-3da9-4e7a-3bcb" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="b53d-0db9-769d-5952" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="4a07-b421-c3f1-3e60" name="Macharius Vulcan" hidden="false" collective="false" import="true" targetId="406f-6ce2-f7f8-cd66" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="6d0f-77c8-ffd6-9d88" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="08d4-4f8a-dcc5-8518" name="Malcador" hidden="false" collective="false" import="true" targetId="8bea-d67a-9c13-9f13" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="5306-9f76-32e8-02fa" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="67ee-134a-f187-67e7" name="Malcador Annihilator" hidden="false" collective="false" import="true" targetId="8981-3687-4864-f6f2" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="924d-f6ea-b9ac-c30a" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="924c-0d46-662b-9ed1" name="Malcador Defender" hidden="false" collective="false" import="true" targetId="2313-ab68-8a74-9e62" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="5870-eab1-c016-c8b8" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="6664-95da-4086-c34a" name="Malcador Infernus" hidden="false" collective="false" import="true" targetId="54bc-83df-4ddb-a15a" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="dd8c-6668-1525-f962" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="c01a-d52c-15e9-27d8" name="Marauder Bomber" hidden="false" collective="false" import="true" targetId="c431-a7bd-2322-1219" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="270d-3da4-2ec6-17fb" name="New CategoryLink" hidden="false" targetId="539f-1ed0-2d90-599a" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="3e1a-eca4-d920-c57d" name="Marauder Destroyer" hidden="false" collective="false" import="true" targetId="fa5e-be73-98d3-b3ef" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="2013-7174-9d59-f009" name="New CategoryLink" hidden="false" targetId="539f-1ed0-2d90-599a" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="ceae-30d3-a10f-8a5a" name="Medusa Carriage Battery" hidden="false" collective="false" import="true" targetId="67f1-c27a-5657-20ad" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="e267-6b90-68db-dfa0" name="New CategoryLink" hidden="false" targetId="541e-c6f4-5c40-45ec" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="a013-4107-9f6c-a9c9" name="Praetor" hidden="false" collective="false" import="true" targetId="59c2-ea1e-5e9f-34df" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="88e0-0b8d-b9ef-bed0" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="acd4-f40d-0393-b23b" name="Rapier Laser Destroyer Battery" hidden="false" collective="false" import="true" targetId="16dc-1243-0d8f-a541" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="d20d-0caa-efc7-4784" name="New CategoryLink" hidden="false" targetId="541e-c6f4-5c40-45ec" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="43db-99ef-0e5a-6e6f" name="Stormblade" hidden="false" collective="false" import="true" targetId="c916-05fd-0269-0e84" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="fd82-018a-d30b-0b5d" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="6e78-9078-7c73-e8a2" name="Tarantula Battery" hidden="false" collective="false" import="true" targetId="1773-bb37-aa4a-7556" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="2776-00e9-7d75-90a7" name="New CategoryLink" hidden="false" targetId="541e-c6f4-5c40-45ec" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="9a26-78d7-ec7d-1d44" name="Thunderbolt Heavy Fighter" hidden="false" collective="false" import="true" targetId="a071-90c8-a32e-8a32" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="bf61-8a34-22e1-56b3" name="New CategoryLink" hidden="false" targetId="539f-1ed0-2d90-599a" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2953-df92-7fbf-01c7" name="Trojan Support Vehicle" hidden="false" collective="false" import="true" targetId="bf42-b1c2-d155-8107" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="1564-e1e1-f13d-37b3" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="9341-01c7-97a7-d972" name="Valdor" hidden="false" collective="false" import="true" targetId="42b8-6cec-0995-7236" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="237c-7260-5ec8-4551" name="New CategoryLink" hidden="false" targetId="3fa2-503f-eaa0-1827" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="28b0-b350-e244-686f" name="Voss-pattern Lightning" hidden="false" collective="false" import="true" targetId="54d9-c1f9-6216-f7a0" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="3d04-5a0f-9f97-015a" name="New CategoryLink" hidden="false" targetId="541e-c6f4-5c40-45ec" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="de13-ad83-7bb1-51f1" name="Vulture Gunship" hidden="false" collective="false" import="true" targetId="b7e0-d8ed-03ce-9edf" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="53f5-162d-6ec8-ae94" name="New CategoryLink" hidden="false" targetId="539f-1ed0-2d90-599a" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="2e91-ad9b-8dab-dcb6" name="Avenger Strike Fighter" hidden="false" collective="false" import="true" targetId="ff6c-bc4b-a17c-4d31" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="175a-577d-5e43-0c72" name="New CategoryLink" hidden="false" targetId="539f-1ed0-2d90-599a" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="21b3-7951-c7e8-e675" name="Carnodon" hidden="false" collective="false" import="true" targetId="be5e-9355-db6e-0e7f" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="22b2-2600-91b6-1bc5" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="29d9-d732-3f48-0dfe" name="Colossus" hidden="false" collective="false" import="true" targetId="596d-7bc0-a6cd-e46c" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="ea52-e307-00bf-8466" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="38bc-c413-9df0-02d2" name="Crassus" hidden="false" collective="false" import="true" targetId="66e0-d744-a2bb-5579" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="eeb4-96d8-76ed-095d" name="New CategoryLink" hidden="false" targetId="4c72-75fb-cc79-7b8d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="624f-2ed3-2efc-9233" name="Cyclops Demolition Vehicle" hidden="false" collective="false" import="true" targetId="9ca3-0bcf-3c12-1f05" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="d023-8372-5b63-901d" name="New CategoryLink" hidden="false" targetId="bda2-b32a-3f5b-862e" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+    <entryLink id="62e7-8ca3-c432-f316" name="Death Korps Marshal" hidden="false" collective="false" import="true" targetId="269b-2f8f-dcbb-5f5e" type="selectionEntry">
+      <categoryLinks>
+        <categoryLink id="b698-91a1-5d09-b8e1" name="New CategoryLink" hidden="false" targetId="2bc4-8c19-bc7b-a70d" primary="true"/>
+      </categoryLinks>
+    </entryLink>
+  </entryLinks>
+  <sharedSelectionEntries>
+    <selectionEntry id="df9b-fcba-f643-08c6" name="Aegis Defence Line" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="145.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="73e3-ef0c-e447-2be7" name="Armoured Sentinels" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="cace-75fb-2d41-37aa" name="1 Armoured Sentinel" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="3.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="6d53-1b1c-9cb1-66e6" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="70.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="c8cb-b648-a5c3-b767" name="Attilan Rough Riders" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="079d-a716-fbcc-da36" name="5 Attilan Rough Riders" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="8bca-13e3-76d0-f5d2" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="80.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="9a46-d82a-de75-e7da" name="Baneblade" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="540.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="2d12-3648-e943-b6bb" name="Banehammer" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="490.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="574e-f4b9-bfda-f34c" name="Banesword" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="515.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="7e06-63d8-190e-9b0d" name="Cadian Castellan" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="e230-cb86-7860-fe3f" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="50.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="0433-98fb-abfc-0d3b" name="Cadian Command Squad" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="435f-a91d-3604-13ba" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="65.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="d7ea-8b87-6cad-2db3" name="Cadian Shock Troops" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="4580-90b9-7737-8a27" name="10 Cadian Shock Troops" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="013c-8dc5-67b1-b69d" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="65.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="ed75-2d30-f8c5-313f" name="Catachan Jungle Fighters" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="ef9f-8946-122e-0997" name="10 Catachan Jungle Fighters" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="0179-dcbe-6165-00f5" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="65.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="2b84-8124-471d-cec5" name="Chimera" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="85.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="c0a4-a6f2-b72f-bf7d" name="Commissar" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="c0da-670b-4ed2-89fd" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="35.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="15fa-df42-7c2d-8b40" name="Death Korps of Krieg" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="d83f-6f6f-4f94-fd0c" name="10 Death Korps of Krieg" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="3a5d-3bcd-9887-1575" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="65.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="af40-0249-eebe-6ee1" name="Deathstrike" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="160.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="b114-b677-df17-f7c8" name="Doomhammer" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="455.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="7eb4-f979-925a-9bf8" name="Field Ordnance Battery" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="120.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="bba9-8a77-a181-e69e" name="Gaunt’s Ghosts" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <constraints>
+        <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="4657-822a-b241-7dae" type="max"/>
+      </constraints>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="115.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="e6d4-4aed-a08c-b108" name="Basilisk" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="135.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="f736-4f8b-e997-9d7f" name="Heavy Weapons Squad" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="60.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="b179-b4c3-7435-9655" name="Hellhammer" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="510.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="7cce-370c-8ce0-4670" name="Regimental Attachés" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="40.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="0706-6dd6-0639-53aa" name="Primaris Psyker" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="3d45-98a9-2868-bf21" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="60.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="18e6-7ddf-0d01-f4bb" name="Platoon Command Squad" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="0117-e7c4-75cb-fc2a" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="60.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="3502-4c51-c3b6-4e8a" name="Ogryn Squad" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="d72e-013f-56d9-cd02" name="3 Ogryns" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="feb1-1e4d-d999-9a0a" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="75.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="72b1-1c11-ca8e-bda1" name="Ogryn Bodyguard" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="40.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="051c-fa1b-a7c3-dab0" name="Nork Deddog" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <constraints>
+        <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="413a-a16a-5e76-c93f" type="max"/>
+      </constraints>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="70.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="e106-291e-e197-127e" name="Munitorum Servitors" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="35.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="6c25-8fbc-7ad4-24bd" name="Militarum Tempestus Command Squad" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="c7a5-8c88-4c27-504d" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="80.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="5414-047e-4aa6-c065" name="Manticore" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="125.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="f1f1-ae76-7537-d92d" name="Leman Russ Demolisher" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="220.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="a84e-d67c-aa3c-b775" name="Leman Russ Battle Tank" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="195.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="b425-babe-0545-4c0d" name="Hydra" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="95.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="0c57-c97a-b01c-0266" name="Hellhound" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="125.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="4f5b-2852-2548-4ff3" name="Regimental Enginseer" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="04a3-5938-1e50-5eb7" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="45.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="e0df-7021-06eb-2514" name="Regimental Preacher" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="b31a-99aa-3e4f-0a2f" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="35.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="4b2b-e188-8026-5d3b" name="Rogal Dorn Battle Tank" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="285.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="9eae-2926-9beb-6f0c" name="Scout Sentinels" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="e2f7-a185-66ed-14a9" name="1 Scout Sentinel" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="3.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="ac11-d16f-0e13-bfc7" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="50.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="def5-b3a4-9f52-2492" name="Sergeant Harker" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <constraints>
+        <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="50c8-b65d-4ecc-2ffd" type="max"/>
+      </constraints>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="60.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="dc5d-f596-75e4-ad50" name="Shadowsword" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="440.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="0692-5250-7f9d-2a3c" name="Sly Marbo" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <constraints>
+        <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="caff-253c-3cee-2fc9" type="max"/>
+      </constraints>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="75.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="8269-22e7-697c-0ced" name="Stormlord" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="460.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="e731-f479-35d9-91b9" name="Stormsword" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="520.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="99a7-5e2f-b88d-ee04" name="Tank Commander" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="ad35-5b3c-959e-3e39" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="240.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="760b-c52f-bf73-d3a6" name="Taurox" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="65.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="e552-423d-1143-dd65" name="Lord Solar Leontus" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <constraints>
+        <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="1e25-8bfb-c75d-6ed2" type="max"/>
+      </constraints>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="125.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="2bc4-6357-b676-b1fb" name="Taurox Prime" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="90.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="a71e-3685-7107-e8f3" name="Tempestus Scions" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="0f8d-645b-8799-77fc" name="5 Tempestus Scions" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="15df-6b9f-7137-aaeb" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="60.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="508d-733c-6398-610f" name="Ursula Creed" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <constraints>
+        <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="4731-af93-0c0f-8302" type="max"/>
+      </constraints>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="55.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="8122-8111-268a-094a" name="Infantry Squad" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="630b-077b-ebc3-3cff" name="9-10 Infantry Squadmen" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="525f-35d4-d972-dfe7" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="65.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="1667-d559-943e-85fa" name="‘Iron Hand’ Straken" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <constraints>
+        <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="b34a-d3f1-e28f-74c4" type="max"/>
+      </constraints>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="80.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="667e-c1e8-8d73-697a" name="Bullgryn Squad" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="93b6-ec80-6a21-b9d4" name="3 Bullgryns" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="b927-1b09-5328-c09d" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="90.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="4821-6de9-ada4-5d43" name="Kasrkin" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="120.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="f103-aa97-2577-ebca" name="Leman Russ Vanquisher" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="190.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="cce7-8911-b192-16f0" name="Leman Russ Eradicator" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="180.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="3f51-a8de-55f2-68d4" name="Leman Russ Executioner" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="195.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="a17e-cfaf-4c44-3763" name="Ratling Snipers" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="70.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="b42b-67a3-863d-cc6a" name="Leman Russ Exterminator" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="200.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="318c-7131-8e73-96a2" name="Leman Russ Punisher" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="180.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="0b14-6e24-c856-1a68" name="Valkyrie" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="200.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="9ab2-edbe-a4af-d6b4" name="Wyvern" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="110.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="ff6c-bc4b-a17c-4d31" name="Avenger Strike Fighter" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="130.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="be5e-9355-db6e-0e7f" name="Carnodon" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="160.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="596d-7bc0-a6cd-e46c" name="Colossus" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="160.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="66e0-d744-a2bb-5579" name="Crassus" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="180.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="9ca3-0bcf-3c12-1f05" name="Cyclops Demolition Vehicle" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="25.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="269b-2f8f-dcbb-5f5e" name="Death Korps Marshal" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="217e-aebb-ff4e-51e9" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="60.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="3d23-ad92-b82b-0a99" name="Death Rider Squadron" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="75ee-0722-20bc-5086" name="5 Death Riders" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="2.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="056f-70f0-18e5-8cbc" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="70.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="6085-37a4-de6a-9421" name="Death Rider Squadron Commander" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <entryLinks>
+        <entryLink id="2be2-f326-73e9-6c5c" name="Combined Regiment" hidden="false" collective="false" import="true" targetId="6880-cad7-399a-5cd3" type="selectionEntryGroup"/>
+      </entryLinks>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="60.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="b1dd-fc38-3f44-d84e" name="Earthshaker Carriage Battery" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="80.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="f771-f852-4f82-0d6d" name="Hades Breaching Drill" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="110.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="bb12-8e26-1d43-2528" name="Macharius" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="310.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="ba01-3da9-4e7a-3bcb" name="Macharius Vanquisher" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="285.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="406f-6ce2-f7f8-cd66" name="Macharius Vulcan" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="310.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="8bea-d67a-9c13-9f13" name="Malcador" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="250.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="8981-3687-4864-f6f2" name="Malcador Annihilator" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="270.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="2313-ab68-8a74-9e62" name="Malcador Defender" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="310.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="54bc-83df-4ddb-a15a" name="Malcador Infernus" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="235.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="c431-a7bd-2322-1219" name="Marauder Bomber" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="345.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="fa5e-be73-98d3-b3ef" name="Marauder Destroyer" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="375.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="67f1-c27a-5657-20ad" name="Medusa Carriage Battery" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="80.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="59c2-ea1e-5e9f-34df" name="Praetor" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="275.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="16dc-1243-0d8f-a541" name="Rapier Laser Destroyer Battery" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="e222-035c-e945-56bd" name="1 Rapier Laser Destroyer Battery" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="3.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="7350-3671-8038-7c64" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="30.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="c916-05fd-0269-0e84" name="Stormblade" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="415.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="1773-bb37-aa4a-7556" name="Tarantula Battery" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="unit">
+      <selectionEntries>
+        <selectionEntry id="601c-d3a0-38b3-1b81" name="Tarantula Battery" hidden="false" collective="false" import="true" type="model">
+          <constraints>
+            <constraint field="selections" scope="parent" value="3.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="d455-6b88-74f1-8679" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="35.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="0.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="a071-90c8-a32e-8a32" name="Thunderbolt Heavy Fighter" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="190.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="bf42-b1c2-d155-8107" name="Trojan Support Vehicle" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="80.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="42b8-6cec-0995-7236" name="Valdor" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="285.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="54d9-c1f9-6216-f7a0" name="Voss-pattern Lightning" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="130.0"/>
+      </costs>
+    </selectionEntry>
+    <selectionEntry id="b7e0-d8ed-03ce-9edf" name="Vulture Gunship" publicationId="5602-a76d-2811-707d" hidden="false" collective="false" import="true" type="model">
+      <costs>
+        <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="225.0"/>
+      </costs>
+    </selectionEntry>
+  </sharedSelectionEntries>
+  <sharedSelectionEntryGroups>
+    <selectionEntryGroup id="6880-cad7-399a-5cd3" name="Combined Regiment" hidden="false" collective="false" import="true">
+      <constraints>
+        <constraint field="selections" scope="roster" value="3.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="54f9-0a7c-621c-3003" type="max"/>
+      </constraints>
+      <selectionEntries>
+        <selectionEntry id="c91c-aca8-4a14-261e" name="Death Mask of Ollanius" hidden="false" collective="false" import="true" type="upgrade">
+          <constraints>
+            <constraint field="selections" scope="parent" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="7f15-7cfa-f814-9bdf" type="max"/>
+            <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="7ec6-3c4c-7bfe-29dd" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="10.0"/>
+          </costs>
+        </selectionEntry>
+        <selectionEntry id="4435-93d2-d87d-f45f" name="Drill Commander" hidden="false" collective="false" import="true" type="upgrade">
+          <constraints>
+            <constraint field="selections" scope="parent" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="d467-22b5-6b64-798f" type="max"/>
+            <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="9d4d-5102-9b15-e31d" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="20.0"/>
+          </costs>
+        </selectionEntry>
+        <selectionEntry id="60dc-5f5c-7a79-c0f5" name="Grand Strategist" hidden="false" collective="false" import="true" type="upgrade">
+          <constraints>
+            <constraint field="selections" scope="parent" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="5363-d5d6-8377-0ffd" type="max"/>
+            <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="2f6b-d00b-35eb-6058" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="15.0"/>
+          </costs>
+        </selectionEntry>
+        <selectionEntry id="caa4-e0d6-e9bb-8118" name="Kurov’s Aquila" hidden="false" collective="false" import="true" type="upgrade">
+          <constraints>
+            <constraint field="selections" scope="parent" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="196d-8645-5dbe-80e2" type="max"/>
+            <constraint field="selections" scope="roster" value="1.0" percentValue="false" shared="true" includeChildSelections="false" includeChildForces="false" id="4968-b965-c2a1-069d" type="max"/>
+          </constraints>
+          <costs>
+            <cost name="Points" typeId="6dab-1e38-1f37-5d19" value="40.0"/>
+          </costs>
+        </selectionEntry>
+      </selectionEntries>
+    </selectionEntryGroup>
+  </sharedSelectionEntryGroups>
+</catalogue>
