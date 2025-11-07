@@ -8,12 +8,17 @@ import SelectField from "../../../../components/select-field";
 import Modal from '../../../../components/modal';
 import TextField from "../../../../components/textField";
 import CheckboxField from "../../../../components/checkboxField";
+import { unitBuiltOptions } from '../../../../../data/unit-built-options';
+import { unitPaintOptions } from '../../../../../data/unit-paint-options';
+import { unitTypes } from '../../../../../data/unit-types';
 
+/*
 import Link from "next/link";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import firebase_app from "../../../../firebase/config";
 import { Label } from 'recharts';
+*/
 
 
 export default function Inventory({ params }: { params: Promise<{ general: string; army: string }> }) {
@@ -44,14 +49,90 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
   //const db = getFirestore(firebase_app);
   */
 
-  //Required for the Title
-  //To update: Avoid returniing everything if I only need a few fields?
+  /*
+  //To add: Hide Inventory from user. Keep in Firebase.
+  const handleInventoryHide = (e) => {
+    e.preventDefault();
+
+    //Update Firestore
+    updateDoc(doc(db, "Armies", armyId), { ["Show"]: false })
+      .then(() => {
+        console.log("Army hidden.");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //Redirect back to the Armies list.
+    router.push("/armies");
+  };
+  */
+
+  // Load and parse XML data on component mount
+  // To Do:
+    // - Do not hardode to Custodes
+    // - Decide if we keep using the XML Data files... more effort than they are worth? Maybe just get the data separately.
+    // Split out XML data retrieve to Util?
+  useEffect(() => {
+    const loadXMLData = async () => {
+      try {
+        const data = await parseXML('/data/army/Imperium - Adeptus Custodes.cat');
+        if (data) {
+          setXmlData(data);
+        } else {
+          console.error('No data returned from parseXML.');
+        }
+      } catch (error) {
+        console.error('Error loading XML data:', error);
+      }
+    };
+
+    loadXMLData();
+  }, []);
+
+  //Extract unit list from XML data when xmlData
+  // To Do - as above.
+  useEffect(() => {
+    //console.log('Current xmlData:', xmlData); // Debugging line
+    if (xmlData && xmlData.catalogue?.categoryEntries) {
+      const entries = xmlData.catalogue.categoryEntries.categoryEntry;
+      const entriesArray = Array.isArray(entries) ? entries : [entries];
+      const fetchedUnits = entriesArray
+        .filter(entry => entry.hidden === 'false')
+        .map(entry => ({
+          name: entry.name || null,
+          id: entry.targetId || null
+        }));
+
+      setUnitList(fetchedUnits);
+    }
+
+  }, [xmlData]);
+
+  // Sort XML units alphabetically by name
+  const sortedUnits = [...unitList].sort((a, b) => {
+    const nameA = a.name?.toLowerCase() || '';
+    const nameB = b.name?.toLowerCase() || '';
+    return nameA.localeCompare(nameB);
+  });
+
+  // Map sorted units to Select options
+  let selectOptions: selectOption[] = sortedUnits.map(unit => ({
+    Label: unit.name || '',
+    Value: unit.id || '',
+    Active: true // or set to false based on your logic
+  }));
+  selectOptions.push({ Label: "- Other Unit -", Value: "", Active: true })
+
+
+  // Required for the Title
+  // To update: Avoid returniing everything if I only need a few fields?
   const generalId = use(params).general;
   const armyId = use(params).army;
   const generalDetails = getDocSnapshot("Generals", generalId);
   const armyDetails = getDocSnapshot("Armies", armyId);
 
-
+  //Triggered after Unit selected from the dropdown.
   const handleUnitSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const unitName = e.target.options[e.target.selectedIndex].text;    
 
@@ -66,6 +147,7 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
 
   };
 
+  //Triggered when unit saved - either Updates or Adds.
   const handleInventoryItemSave = () => {
     if (!selectedUnit) return;
 
@@ -83,131 +165,6 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
     setShowSelectedUnit({ show: false, action: "" });
     setEditingIndex(null);
   };
-
-
-  const handleInventoryHide = (e) => {
-    e.preventDefault();
-    alert("Inventory deletion is not yet implemented.");
-    /*
-    //Update Firestore
-    updateDoc(doc(db, "Armies", armyId), { ["Show"]: false })
-      .then(() => {
-        console.log("Army hidden.");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    //Redirect back to the Armies list.
-    router.push("/armies");
-    */
-  };
-
-  //Load and parse XML data on component mount
-  useEffect(() => {
-    const loadXMLData = async () => {
-      try {
-        const data = await parseXML('/data/army/Imperium - Adeptus Custodes.cat');
-        if (data) {
-          setXmlData(data);
-          console.log('XML Data Loaded:', data);
-        } else {
-          console.error('No data returned from parseXML.');
-        }
-      } catch (error) {
-        console.error('Error loading XML data:', error);
-      }
-    };
-
-    loadXMLData();
-  }, []);
-
-  //Extract unit list from XML data when xmlData
-  useEffect(() => {
-    console.log('Current xmlData:', xmlData); // Debugging line
-    if (xmlData && xmlData.catalogue?.categoryEntries) {
-      const entries = xmlData.catalogue.categoryEntries.categoryEntry;
-      const entriesArray = Array.isArray(entries) ? entries : [entries];
-
-
-      const fetchedUnits = entriesArray
-        .filter(entry => entry.hidden === 'false')
-        .map(entry => ({
-          name: entry.name || null,
-          id: entry.targetId || null
-        }));
-
-      setUnitList(fetchedUnits);
-    }
-
-  }, [xmlData]);
-
-  // Sort units alphabetically by name
-  const sortedUnits = [...unitList].sort((a, b) => {
-    const nameA = a.name?.toLowerCase() || '';
-    const nameB = b.name?.toLowerCase() || '';
-    return nameA.localeCompare(nameB);
-  });
-
-  // Map sorted units to select options
-  let selectOptions: selectOption[] = sortedUnits.map(unit => ({
-    Label: unit.name || '',
-    Value: unit.id || '',
-    Active: true // or set to false based on your logic
-  }));
-  selectOptions.push({ Label: "- Other Unit -", Value: "", Active: true })
-
-  //List of Unit Type select options
-  //Don't store this hear long term.
-  const unitTypeOptions: selectOption[] = [{
-    Label: "Infantry 💂‍♂️",
-    Value: "Infantry",
-    Active: true
-  }, {
-    Label: "Monster 👾",
-    Value: "Monster",
-    Active: true
-  }, {
-    Label: "Vehicle 🚜",
-    Value: "Vehicle",
-    Active: true
-  }, {
-    Label: "Mounted 🏇",
-    Value: "Mounted",
-    Active: true
-  }, {
-    Label: "Other ❓",
-    Value: "Other",
-    Active: true
-  }];
-
-  const unitPaintedOptions: selectOption[] = [{
-    Label: "Not Started 🩶",
-    Value: "Not Started",
-    Active: true
-  }, {
-    Label: "In Progress 🎨",
-    Value: "In Progress",
-    Active: true
-  }, {
-    Label: "Completed 🖼️",
-    Value: "Completed",
-    Active: true
-  }];
-
-  const unitBuiltOptions: selectOption[] = [{
-    Label: "Not Started ☢️",
-    Value: "Not Started",
-    Active: true
-  }, {
-    Label: "In Progress 🏗️",
-    Value: "In Progress",
-    Active: true
-  }, {
-    Label: "Completed 🏨",
-    Value: "Completed",
-    Active: true
-  }];
 
   //Calculate total points
   useEffect(() => {
@@ -246,22 +203,14 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
     }
   };
 
+  //To Do: UI
   return armyDetails["Name"] ? (
     <>
       <header className="section-header">
         <h1>
           {generalDetails["Emoji"]} {generalDetails["Alias"]}'s {armyDetails["Name"]} {armyDetails["Emoji"]}
         </h1>
-        {/*}
-        <Link
-          href={`/army/${armyId}/edit`}
-          className="button section-header-button" 
-        >
-          Edit
-        </Link>
-        */}
       </header>
-
 
       <section className="section inventory">
         <SelectField
@@ -277,6 +226,15 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
         />
       </section>
 
+      {/*
+        To Do:
+          - Break up by unit type?
+          - Emoji's for built and painted cols?
+          - Change buttons for Update and Delete
+          - Add tfoot with totals.
+          - Remove leading zero in Points Col
+          - Painted and Built should be per model, not per unit (but maybe calculated for the unit)
+      */}
 
       {inventory.length > 0 && (
         <section className="section">
@@ -321,10 +279,19 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
         </section>
       )}
 
+      {/*
       <a className="a-delete" type="submit" onClick={(e) => handleInventoryHide(e)}>
         Delete Inventory
       </a>
+      */}
 
+      {/*
+        - UI...
+        - Hanlde 1-Many model units
+        - Add "Legends" checkbox
+        - Paint/Built status should be per model
+        - Add custom Names, notes, etc...
+      */}
       {showSelectedUnit.show && (
         <Modal
           onClose={() => setShowSelectedUnit({ show: false, action: "" })}
@@ -357,7 +324,7 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
                     id="unitType"
                     name="type"
                     value={selectedUnit?.type ?? ""}
-                    options={unitTypeOptions}
+                    options={unitTypes}
                     changeFunction={handleSelectedUnitFieldChange}
                     randomise={false}
                     emptyValue="Select the Unit Type"
@@ -383,7 +350,7 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
                     id="painted"
                     name="painted"
                     value={selectedUnit?.painted ?? ""}
-                    options={unitPaintedOptions}
+                    options={unitPaintOptions}
                     changeFunction={handleSelectedUnitFieldChange}
                     randomise={false}
                     emptyValue="Select the Paint Status"
@@ -405,7 +372,7 @@ export default function Inventory({ params }: { params: Promise<{ general: strin
           </form>
           <footer>
             <button className="button button-right"
-              type="submit" onClick={(id) => handleInventoryItemSave(id)}>Save Unit</button>
+              type="submit" onClick={(id) => handleInventoryItemSave()}>Save Unit</button>
           </footer>
         </Modal>
       )}
