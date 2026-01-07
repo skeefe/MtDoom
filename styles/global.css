@@ -482,7 +482,11 @@ form .alert {
   display: block;
   text-align: center;
 }
-.aside-layout aside {
+ .type-points{
+  display:block;
+ }
+
+ .aside-layout aside {
   display: none;
 }
 @media (min-width: 1024px) {

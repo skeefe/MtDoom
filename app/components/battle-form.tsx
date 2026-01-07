@@ -747,14 +747,14 @@ const BattleForm = (props: { battleId: string }) => {
               <span className="score-highlight">{battle.TotalAttacker}</span>
               <div>
                 <legend>Attacker</legend>
-                <span title="Primary Points">
+                <span title="Primary Points" className="type-points">
                   P:{battle.TotalAttackerPrimary}/50
                 </span>
-                <span title="Secondary Points">
+                <span title="Secondary Points" className="type-points">
                   S:{battle.TotalAttackerSecondary}/40
                 </span>
                 {isChallenger ? (
-                  <span title="Challenger Points">
+                  <span title="Challenger Points" className="type-points">
                     C:{battle.TotalAttackerChallenger}/12
                   </span>
                 ) : (
@@ -766,14 +766,14 @@ const BattleForm = (props: { battleId: string }) => {
               <span className="score-highlight">{battle.TotalDefender}</span>
               <div>
                 <legend>Defender</legend>
-                <span title="Primary Points">
+                <span title="Primary Points" className="type-points">
                   P:{battle.TotalDefenderPrimary}/50
                 </span>
-                <span title="Secondary Points">
+                <span title="Secondary Points" className="type-points">
                   S:{battle.TotalDefenderSecondary}/40
                 </span>
                 {isChallenger ? (
-                  <span title="Challenger Points">
+                  <span title="Challenger Points" className="type-points">
                     C:{battle.TotalDefenderChallenger}/12
                   </span>
                 ) : (
