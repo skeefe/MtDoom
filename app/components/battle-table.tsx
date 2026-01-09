@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   getFirestore,
   updateDoc,
@@ -18,6 +18,18 @@ const BattleTable = (props: {
   showCreateButton: boolean;
 }) => {
   const router = useRouter();
+  const [sortColumn, setSortColumn] = useState<string>("Date");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
+  };
+
   const handleAddBattle = async () => {
     const db = getFirestore(firebase_app);
     const docRef = await addDoc(collection(db, "Battles"), {});
@@ -30,6 +42,23 @@ const BattleTable = (props: {
       });
 
     router.push(`/battle/${docRef.id}`);
+  };
+
+  const getSortedBattles = () => {
+    const sorted = [...props.battles].sort((a, b) => {
+      let aValue = a[sortColumn as keyof iBattleSummary];
+      let bValue = b[sortColumn as keyof iBattleSummary];
+
+      if (typeof aValue === "string") {
+        aValue = aValue.toLowerCase();
+        bValue = (bValue as string).toLowerCase();
+      }
+
+      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+    return sorted;
   };
 
   return props.battles.length > 0 ? (
@@ -52,15 +81,23 @@ const BattleTable = (props: {
         <table className="primary-table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th className="hide show-sm">Mission</th>
-              <th>Attacker</th>
-              <th>Defender</th>
+              <th onClick={() => handleSort("Date")} style={{ cursor: "pointer" }}>
+                Date {sortColumn === "Date" && (sortDirection === "asc" ? "▲" : "▼")}
+              </th>
+              <th className="hide show-sm" onClick={() => handleSort("Mission")} style={{ cursor: "pointer" }}>
+                Mission {sortColumn === "Mission" && (sortDirection === "asc" ? "▲" : "▼")}
+              </th>
+              <th onClick={() => handleSort("Attacker")} style={{ cursor: "pointer" }}>
+                Attacker {sortColumn === "Attacker" && (sortDirection === "asc" ? "▲" : "▼")}
+              </th>
+              <th onClick={() => handleSort("Defender")} style={{ cursor: "pointer" }}>
+                Defender {sortColumn === "Defender" && (sortDirection === "asc" ? "▲" : "▼")}
+              </th>
             </tr>
           </thead>
 
           <tbody>
-            {props.battles.map((battle, index) => (
+            {getSortedBattles().map((battle, index) => (
               <BattleTableRow battle={battle} key={index} />
             ))}
           </tbody>
