@@ -26,9 +26,15 @@ const ArmiesTable = (props: {
       let aValue = a[sortColumn as keyof iArmySummary];
       let bValue = b[sortColumn as keyof iArmySummary];
 
-      if (typeof aValue === "string") {
+      // Handle undefined/null values
+      if (aValue == null && bValue == null) return 0;
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
+
+      // Convert to string for comparison if needed
+      if (typeof aValue === "string" && typeof bValue === "string") {
         aValue = aValue.toLowerCase();
-        bValue = (bValue as string).toLowerCase();
+        bValue = bValue.toLowerCase();
       }
 
       if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
@@ -79,8 +85,8 @@ const ArmiesTable = (props: {
               <th className="hide show-lg text-center" onClick={() => handleSort("TotalPoints")} style={{ cursor: "pointer" }}>
                 Total Points {sortColumn === "TotalPoints" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="text-center" title="Points +/-" onClick={() => handleSort("PointsDifference")} style={{ cursor: "pointer" }}>
-                <span className="hide show-md-inline">Points&nbsp;</span>+/- {sortColumn === "PointsDifference" && (sortDirection === "asc" ? "▲" : "▼")}
+              <th className="text-center" title="Points +/-" onClick={() => handleSort("PointDifference")} style={{ cursor: "pointer" }}>
+                <span className="hide show-md-inline">Points&nbsp;</span>+/- {sortColumn === "PointDifference" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
               <th className="text-center" onClick={() => handleSort("WinPercentage")} style={{ cursor: "pointer" }}>
                 Win&nbsp;% {sortColumn === "WinPercentage" && (sortDirection === "asc" ? "▲" : "▼")}

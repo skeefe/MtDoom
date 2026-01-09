@@ -46,12 +46,18 @@ const BattleTable = (props: {
 
   const getSortedBattles = () => {
     const sorted = [...props.battles].sort((a, b) => {
-      let aValue = a[sortColumn as keyof iBattleSummary];
-      let bValue = b[sortColumn as keyof iBattleSummary];
+      let aValue: any = a[sortColumn as keyof iBattleSummary];
+      let bValue: any = b[sortColumn as keyof iBattleSummary];
 
-      if (typeof aValue === "string") {
+      // Handle undefined/null values
+      if (aValue == null && bValue == null) return 0;
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
+
+      // Convert to string for comparison if needed
+      if (typeof aValue === "string" && typeof bValue === "string") {
         aValue = aValue.toLowerCase();
-        bValue = (bValue as string).toLowerCase();
+        bValue = bValue.toLowerCase();
       }
 
       if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
@@ -84,14 +90,13 @@ const BattleTable = (props: {
               <th onClick={() => handleSort("Date")} style={{ cursor: "pointer" }}>
                 Date {sortColumn === "Date" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="hide show-sm" onClick={() => handleSort("Mission")} style={{ cursor: "pointer" }}>
-                Mission {sortColumn === "Mission" && (sortDirection === "asc" ? "▲" : "▼")}
+              <th className="hide show-sm" onClick={() => handleSort("PrimaryMission")} style={{ cursor: "pointer" }}>
+                Mission {sortColumn === "PrimaryMission" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th onClick={() => handleSort("Attacker")} style={{ cursor: "pointer" }}>
-                Attacker {sortColumn === "Attacker" && (sortDirection === "asc" ? "▲" : "▼")}
+              <th>Attacker
               </th>
-              <th onClick={() => handleSort("Defender")} style={{ cursor: "pointer" }}>
-                Defender {sortColumn === "Defender" && (sortDirection === "asc" ? "▲" : "▼")}
+             <th>
+                Defender
               </th>
             </tr>
           </thead>
