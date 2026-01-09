@@ -145,10 +145,10 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
       }
     });
 
-    //Only the latest 4
+    //Only the latest 10
     return {
-      mvps: mvps.reverse().slice(0, 10),
-      lvps: lvps.reverse().slice(0, 10),
+      mvps: mvps.slice(0, 10),
+      lvps: lvps.slice(0, 10),
     };
   };
 
