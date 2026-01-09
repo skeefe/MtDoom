@@ -217,7 +217,7 @@ const BattleFormPre = (props: {
           }
         >
           <TextAreaField
-            label=""
+            label={null}
             id="attackerList"
             name="AttackerList"
             value={props.AttackerList}
@@ -239,7 +239,7 @@ const BattleFormPre = (props: {
           }
         >
           <TextAreaField
-            label=""
+            label={null}
             id="defenderList"
             name="DefenderList"
             value={props.DefenderList}
