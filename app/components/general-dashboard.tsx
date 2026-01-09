@@ -32,8 +32,8 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
   const armyName: string = props.general.Name;
 
   const getBattleHistoryData = () => {
-    [...props.battles].reverse().forEach(getBattleHistory);
-    return battleHistory.reverse();
+    [...props.battles].forEach(getBattleHistory);
+    return battleHistory;
   };
 
   const getBattleHistory = (battle) => {
@@ -74,7 +74,7 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
 
   const getOpponentGeneralRecordData = () => {
     props.battles.forEach(groupOpponentGeneralBattles);
-    return opponentGeneralBattles;
+    return opponentGeneralBattles.reverse();
   };
 
   const groupOpponentGeneralBattles = (battle) => {
@@ -123,7 +123,7 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
 
   const getOpponentArmyRecordData = () => {
     props.battles.forEach(groupOpponentArmyBattles);
-    return opponentArmyBattles;
+    return opponentArmyBattles.reverse();
   };
 
   const groupOpponentArmyBattles = (battle) => {

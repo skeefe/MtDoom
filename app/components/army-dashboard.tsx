@@ -31,8 +31,8 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
   const armyName: string = props.army.Name;
 
   const getBattleHistoryData = () => {
-    [...props.battles].reverse().forEach(getBattleHistory);
-    return battleHistory.reverse();
+    [...props.battles].forEach(getBattleHistory);
+    return battleHistory;
   };
 
   const getBattleHistory = (battle) => {
@@ -68,7 +68,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
 
   const getOpponentRecordData = () => {
     props.battles.forEach(groupOpponentBattles);
-    return opponentBattles;
+    return opponentBattles.reverse();
   };
 
   const groupOpponentBattles = (battle) => {
@@ -204,7 +204,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
               <LineChart
                 width={730}
                 height={250}
-                data={getBattleHistoryData()}
+                data={getBattleHistoryData().reverse()}
                 margin={{ left: -35, bottom: 58 }}
               >
                 <CartesianGrid
