@@ -38,6 +38,8 @@ const BattleFormPre = (props: {
   const [showAttackerList, setShowAttackerList] = useState(false);
   const [showDefenderList, setShowDefenderList] = useState(false);
 
+  const showMissionRule = props.ChapterApprovedVersion !== "2025-26 Mission Deck";
+
   return (
     <>
       <fieldset disabled={props.IsCompleted}>
@@ -70,20 +72,22 @@ const BattleFormPre = (props: {
           changeFunction={props.changeFunctionSelect}
           value={props.PrimaryMission}
           options={primaryMissions}
-          emptyValue="Select the Primary Mission"
-          randomise={true}
+          emptyValue="Select the Primary Mission"          
+          randomise={!props.IsCompleted}
         />
-        <SelectField
-          label="Mission Rule"
-          required={true}
-          id="missionRule"
-          name="MissionRule"
-          changeFunction={props.changeFunctionSelect}
-          value={props.MissionRule}
-          options={missionRules}
-          emptyValue="Select the Mission Rule"
-          randomise={true}
-        />
+        {showMissionRule && (
+          <SelectField
+            label="Mission Rule"
+            required={true}
+            id="missionRule"
+            name="MissionRule"
+            changeFunction={props.changeFunctionSelect}
+            value={props.MissionRule}
+            options={missionRules}
+            emptyValue="Select the Mission Rule"          
+            randomise={!props.IsCompleted}
+          />
+        )}
         <SelectField
           label="Deployment"
           required={true}
@@ -92,8 +96,8 @@ const BattleFormPre = (props: {
           changeFunction={props.changeFunctionSelect}
           value={props.Deployment}
           options={deploymentZones}
-          emptyValue="Select the Deployment Zone"
-          randomise={true}
+          emptyValue="Select the Deployment Zone"          
+          randomise={!props.IsCompleted}
         />
 
         <div
