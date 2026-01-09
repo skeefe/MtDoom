@@ -67,6 +67,13 @@ const BattleTable = (props: {
     return sorted;
   };
 
+  const getArrowIcon = (column: string) => {
+    if (sortColumn === column) {
+      return sortDirection === "asc" ? "▲" : "▼";
+    }
+    return "↕";
+  };
+
   return props.battles.length > 0 ? (
     <>
       <section className="section">
@@ -88,10 +95,10 @@ const BattleTable = (props: {
           <thead>
             <tr>
               <th onClick={() => handleSort("Date")} className="sort-title">
-                Date {sortColumn === "Date" && (sortDirection === "asc" ? "▲" : "▼")}
+                Date <span className={sortColumn === "Date" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("Date")}</span>
               </th>
               <th className="hide show-sm sort-title" onClick={() => handleSort("PrimaryMission")} >
-                Mission {sortColumn === "PrimaryMission" && (sortDirection === "asc" ? "▲" : "▼")}
+                Mission <span className={sortColumn === "PrimaryMission" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("PrimaryMission")}</span>
               </th>
               <th>Attacker
               </th>

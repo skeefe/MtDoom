@@ -44,9 +44,16 @@ const ArmiesTable = (props: {
     return sorted;
   };
 
+  const getArrowIcon = (column: string) => {
+    if (sortColumn === column) {
+      return sortDirection === "asc" ? "▲" : "▼";
+    }
+    return "↕";
+  };
+
   const SortableHeader = ({ column, label }: { column: string; label: string }) => (
     <th onClick={() => handleSort(column)}>
-      {label} {sortColumn === column && (sortDirection === "asc" ? "▲" : "▼")}
+      {label} <span className={sortColumn === column ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon(column)}</span>
     </th>
   );
 
@@ -67,31 +74,31 @@ const ArmiesTable = (props: {
           <thead>
             <tr>
               <th className="sort-title" onClick={() => handleSort("Name")}>
-                Name {sortColumn === "Name" && (sortDirection === "asc" ? "▲" : "▼")}
+                Name <span className={sortColumn === "Name" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("Name")}</span>
               </th>
               <th className="text-center sort-title" onClick={() => handleSort("Played")}>
-                Played {sortColumn === "Played" && (sortDirection === "asc" ? "▲" : "▼")}
+                Played <span className={sortColumn === "Played" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("Played")}</span>
               </th>
               <th className="hide show-lg text-center sort-title" onClick={() => handleSort("FirstTurnPercentage")}>
-                First Turn&nbsp;% {sortColumn === "FirstTurnPercentage" && (sortDirection === "asc" ? "▲" : "▼")}
+                First Turn&nbsp;% <span className={sortColumn === "FirstTurnPercentage" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("FirstTurnPercentage")}</span>
               </th>
               <th className="hide show-sm text-center sort-title" onClick={() => handleSort("Won")}>
-                Won {sortColumn === "Won" && (sortDirection === "asc" ? "▲" : "▼")}
+                Won <span className={sortColumn === "Won" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("Won")}</span>
               </th>
               <th className="hide show-sm text-center sort-title" onClick={() => handleSort("Lost")}>
-                Lost {sortColumn === "Lost" && (sortDirection === "asc" ? "▲" : "▼")}
+                Lost <span className={sortColumn === "Lost" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("Lost")}</span>
               </th>
               <th className="hide show-md text-center sort-title" onClick={() => handleSort("AveragePoints")}>
-                Avg. Points {sortColumn === "AveragePoints" && (sortDirection === "asc" ? "▲" : "▼")}
+                Avg. Points <span className={sortColumn === "AveragePoints" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("AveragePoints")}</span>
               </th>
               <th className="hide show-lg text-center sort-title" onClick={() => handleSort("TotalPoints")}>
-                Total Points {sortColumn === "TotalPoints" && (sortDirection === "asc" ? "▲" : "▼")}
+                Total Points <span className={sortColumn === "TotalPoints" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("TotalPoints")}</span>
               </th>
               <th className="text-center sort-title" title="Points +/-" onClick={() => handleSort("PointDifference")}>
-                <span className="hide show-md-inline">Points&nbsp;</span>+/- {sortColumn === "PointDifference" && (sortDirection === "asc" ? "▲" : "▼")}
+                <span className="hide show-md-inline">Points&nbsp;</span>+/- <span className={sortColumn === "PointDifference" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("PointDifference")}</span>
               </th>
               <th className="text-center sort-title" onClick={() => handleSort("WinPercentage")}>
-                Win&nbsp;% {sortColumn === "WinPercentage" && (sortDirection === "asc" ? "▲" : "▼")}
+                Win&nbsp;% <span className={sortColumn === "WinPercentage" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("WinPercentage")}</span>
               </th>
             </tr>
           </thead>
