@@ -29,7 +29,7 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
 
   //Need for a tool tip.
   const armyName: string = props.army.Name;
-
+  
   const getBattleHistoryData = () => {
     [...props.battles].forEach(getBattleHistory);
     return battleHistory;
@@ -152,8 +152,11 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     };
   };
 
+ 
+
   return props.battles ? (
     <>
+    
       <section className="section">
         <div className="dashboard-panels">
           <div className="dashboard-panel">
@@ -192,8 +195,8 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                   )}
                 />
                 <Legend verticalAlign="bottom" />
-                <Bar dataKey="Won" stackId="a" fill="#667b99" label="1234" />
-                <Bar dataKey="Lost" stackId="a" fill="#94a3b8" />
+                <Bar dataKey="Won" stackId="a" fill="#d1d1d6" label="1234" />
+                <Bar dataKey="Lost" stackId="a" fill="#3d4563" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -249,14 +252,14 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
                 <Line
                   type="monotone"
                   dataKey="Score"
-                  stroke="#c2410c"
+                  stroke="#ff006e"
                   activeDot={{ r: 8 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="OpponentScore"
                   name="Opponent Score"
-                  stroke="#94a3b8"
+                  stroke="#d1d1d6"
                 />
               </LineChart>
             </ResponsiveContainer>

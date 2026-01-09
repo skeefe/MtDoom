@@ -3,7 +3,6 @@
 
 
 ## Next
-- Sortable tables.
 - Handle Gambits - deprecated now.
 - Handle Fixed Secondaries...
 - Handle Draws

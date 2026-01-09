@@ -235,8 +235,8 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                 />
                 <Legend verticalAlign="bottom" />
 
-                <Bar dataKey="Won" stackId="a" fill="#667b99" label="1234" />
-                <Bar dataKey="Lost" stackId="a" fill="#94a3b8" />
+                <Bar dataKey="Won" stackId="a" fill="#d1d1d6" label="1234" />
+                <Bar dataKey="Lost" stackId="a" fill="#3d4563" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -280,8 +280,8 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                 />
                 <Legend verticalAlign="bottom" />
 
-                <Bar dataKey="Won" stackId="a" fill="#667b99" label="1234" />
-                <Bar dataKey="Lost" stackId="a" fill="#94a3b8" />
+                <Bar dataKey="Won" stackId="a" fill="#d1d1d6" label="1234" />
+                <Bar dataKey="Lost" stackId="a" fill="#3d4563" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -309,8 +309,8 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                 <Tooltip
                   wrapperStyle={{
                     backgroundColor: "#fff",
-                    border: "2px solid #1e293b",
-                    color: "#64748b",
+                    border: "2px solid #2f3650",
+                    color: "#d1d1d6",
                   }}
                   cursor={false}
                   content={(props) => (
@@ -347,7 +347,7 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                 <Line
                   type="monotone"
                   dataKey="Score"
-                  stroke="#c2410c"
+                  stroke="#ff006e"
                   activeDot={{ r: 8 }}
                 />
                 <Line
