@@ -45,7 +45,7 @@ const ArmiesTable = (props: {
   };
 
   const SortableHeader = ({ column, label }: { column: string; label: string }) => (
-    <th onClick={() => handleSort(column)} style={{ cursor: "pointer" }}>
+    <th onClick={() => handleSort(column)}>
       {label} {sortColumn === column && (sortDirection === "asc" ? "▲" : "▼")}
     </th>
   );
@@ -67,28 +67,28 @@ const ArmiesTable = (props: {
           <thead>
             <tr>
               <SortableHeader column="Name" label="Name" />
-              <th className="text-center" onClick={() => handleSort("Played")} style={{ cursor: "pointer" }}>
+              <th className="text-center sort-title" onClick={() => handleSort("Played")}>
                 Played {sortColumn === "Played" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="hide show-lg text-center" onClick={() => handleSort("FirstTurnPercentage")} style={{ cursor: "pointer" }}>
+              <th className="hide show-lg text-center sort-title" onClick={() => handleSort("FirstTurnPercentage")}>
                 First Turn&nbsp;% {sortColumn === "FirstTurnPercentage" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="hide show-sm text-center" onClick={() => handleSort("Won")} style={{ cursor: "pointer" }}>
+              <th className="hide show-sm text-center sort-title" onClick={() => handleSort("Won")}>
                 Won {sortColumn === "Won" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="hide show-sm text-center" onClick={() => handleSort("Lost")} style={{ cursor: "pointer" }}>
+              <th className="hide show-sm text-center sort-title" onClick={() => handleSort("Lost")}>
                 Lost {sortColumn === "Lost" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="hide show-md text-center" onClick={() => handleSort("AveragePoints")} style={{ cursor: "pointer" }}>
+              <th className="hide show-md text-center sort-title" onClick={() => handleSort("AveragePoints")}>
                 Avg. Points {sortColumn === "AveragePoints" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="hide show-lg text-center" onClick={() => handleSort("TotalPoints")} style={{ cursor: "pointer" }}>
+              <th className="hide show-lg text-center sort-title" onClick={() => handleSort("TotalPoints")}>
                 Total Points {sortColumn === "TotalPoints" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="text-center" title="Points +/-" onClick={() => handleSort("PointDifference")} style={{ cursor: "pointer" }}>
+              <th className="text-center sort-title" title="Points +/-" onClick={() => handleSort("PointDifference")}>
                 <span className="hide show-md-inline">Points&nbsp;</span>+/- {sortColumn === "PointDifference" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="text-center" onClick={() => handleSort("WinPercentage")} style={{ cursor: "pointer" }}>
+              <th className="text-center" onClick={() => handleSort("WinPercentage")}>
                 Win&nbsp;% {sortColumn === "WinPercentage" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
             </tr>

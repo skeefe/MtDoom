@@ -87,10 +87,10 @@ const BattleTable = (props: {
         <table className="primary-table">
           <thead>
             <tr>
-              <th onClick={() => handleSort("Date")} style={{ cursor: "pointer" }}>
+              <th onClick={() => handleSort("Date")} className="sort-title">
                 Date {sortColumn === "Date" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="hide show-sm" onClick={() => handleSort("PrimaryMission")} style={{ cursor: "pointer" }}>
+              <th className="hide show-sm sort-title" onClick={() => handleSort("PrimaryMission")} >
                 Mission {sortColumn === "PrimaryMission" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
               <th>Attacker
