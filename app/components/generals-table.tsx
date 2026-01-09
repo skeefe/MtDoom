@@ -60,7 +60,7 @@ const GeneralsTable = (props: {
         <table className="primary-table">
           <thead>
             <tr>
-              <th onClick={() => handleSort("Alias")}>
+              <th className="sort-title" onClick={() => handleSort("Alias")}>
                 Name {sortColumn === "Alias" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
               <th className="text-center sort-title" onClick={() => handleSort("Played")}>

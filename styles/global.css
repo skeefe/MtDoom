@@ -270,6 +270,11 @@ h3 {
 tr.clickable td {
   cursor: pointer;
 }
+.sort-title {
+  cursor: pointer;
+  user-select: none;
+  text-decoration: underline;
+}
 
 /* Spinner */
 @keyframes spinner {

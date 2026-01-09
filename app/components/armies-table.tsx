@@ -66,7 +66,9 @@ const ArmiesTable = (props: {
         <table className="primary-table">
           <thead>
             <tr>
-              <SortableHeader column="Name" label="Name" />
+              <th className="sort-title" onClick={() => handleSort("Name")}>
+                Name {sortColumn === "Name" && (sortDirection === "asc" ? "▲" : "▼")}
+              </th>
               <th className="text-center sort-title" onClick={() => handleSort("Played")}>
                 Played {sortColumn === "Played" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
@@ -88,7 +90,7 @@ const ArmiesTable = (props: {
               <th className="text-center sort-title" title="Points +/-" onClick={() => handleSort("PointDifference")}>
                 <span className="hide show-md-inline">Points&nbsp;</span>+/- {sortColumn === "PointDifference" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
-              <th className="text-center" onClick={() => handleSort("WinPercentage")}>
+              <th className="text-center sort-title" onClick={() => handleSort("WinPercentage")}>
                 Win&nbsp;% {sortColumn === "WinPercentage" && (sortDirection === "asc" ? "▲" : "▼")}
               </th>
             </tr>
