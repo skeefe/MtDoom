@@ -30,14 +30,14 @@ const ArmiesTableRow = (props: { army: iArmySummary }) => {
         <td className="text-center">{props.army.WinPercentage}%</td>
         <td className="hide show-lg text-center">
           {props.army.PreyName ? (
-              <span title={props.army.PreyName} className="emoji">
+              <span title={`${props.army.PreyCount} ${props.army.PreyCount === 1 ? 'Win' : 'Wins'} against ${props.army.PreyName}`} className="emoji">
                 {props.army.PreyEmoji}
               </span>
           ) : ""}
         </td>
         <td className="hide show-lg text-center">
           {props.army.NemesisName ? (
-              <span title={props.army.NemesisName} className="emoji">
+              <span title={`${props.army.NemesisCount} ${props.army.NemesisCount === 1 ? 'Loss' : 'Losses'} against ${props.army.NemesisName}`} className="emoji">
                 {props.army.NemesisEmoji}
               </span>
           ) : ""}

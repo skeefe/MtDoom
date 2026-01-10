@@ -45,24 +45,22 @@ const Armies = () => {
     });
   });
 
-  // --- NEW NEMESIS LOGIC START ---
+
+  // --- NEMESIS LOGIC ---
   const getNemesis = (armyId: string) => {
-    // 1. Find all battles this army lost
     const losses = battles.filter((b) => {
       const isAttacker = b.AttackerArmy === armyId;
       const isDefender = b.DefenderArmy === armyId;
       if (!isAttacker && !isDefender) return false;
 
-      // It's a loss if they were the attacker but the defender won, or vice versa
       const wasAttackerAndLost = isAttacker && b.Victor === b.Defender && b.Victor !== undefined;
       const wasDefenderAndLost = isDefender && b.Victor === b.Attacker && b.Victor !== undefined;
 
       return wasAttackerAndLost || wasDefenderAndLost;
     });
 
-    if (losses.length === 0) return { Name: "None", Emoji: "-" };
+    if (losses.length === 0) return { Name: "None", Emoji: "-", Count: 0 };
 
-    // 2. Count which opponent army ID appears most in those losses
     const counts: Record<string, number> = {};
     losses.forEach((b) => {
       const opponentId = b.AttackerArmy === armyId ? b.DefenderArmy : b.AttackerArmy;
@@ -71,37 +69,31 @@ const Armies = () => {
       }
     });
 
-    // 3. Find the ID with the max count
     const nemesisId = Object.keys(counts).reduce((a, b) => (counts[a] > counts[b] ? a : b));
-
-    // 4. Look up the name/emoji from the armyCollection
     const nemesisArmy = armyCollection.find((a) => a.id === nemesisId);
 
     return {
       Name: nemesisArmy?.Name || "Unknown",
-      Emoji: nemesisArmy?.Emoji || "💀",
+      Emoji: nemesisArmy?.Emoji || "🥷",
+      Count: counts[nemesisId],
     };
   };
-  // --- NEW NEMESIS LOGIC END ---
 
-  // --- NEW PREY LOGIC START ---
+  // ---  PREY LOGIC ---
   const getPrey = (armyId: string) => {
-    // 1. Find all battles this army WON
     const wins = battles.filter((b) => {
       const isAttacker = b.AttackerArmy === armyId;
       const isDefender = b.DefenderArmy === armyId;
       if (!isAttacker && !isDefender) return false;
 
-      // It's a win if they were the attacker and won, or defender and won
       const wasAttackerAndWon = isAttacker && b.Victor === b.Attacker && b.Victor !== undefined;
       const wasDefenderAndWon = isDefender && b.Victor === b.Defender && b.Victor !== undefined;
 
       return wasAttackerAndWon || wasDefenderAndWon;
     });
 
-    if (wins.length === 0) return { Name: "None", Emoji: "-" };
+    if (wins.length === 0) return { Name: "None", Emoji: "-", Count: 0 };
 
-    // 2. Count which opponent army ID appears most in those wins
     const counts: Record<string, number> = {};
     wins.forEach((b) => {
       const opponentId = b.AttackerArmy === armyId ? b.DefenderArmy : b.AttackerArmy;
@@ -110,18 +102,16 @@ const Armies = () => {
       }
     });
 
-    // 3. Find the ID with the max count
     const preyId = Object.keys(counts).reduce((a, b) => (counts[a] > counts[b] ? a : b));
-
-    // 4. Look up the name/emoji from the armyCollection
     const preyArmy = armyCollection.find((a) => a.id === preyId);
 
     return {
       Name: preyArmy?.Name || "Unknown",
-      Emoji: preyArmy?.Emoji || "🎯",
+      Emoji: preyArmy?.Emoji || "🥷",
+      Count: counts[preyId],
     };
   };
-  // --- NEW PREY LOGIC END ---
+
 
   const armyPlayed = (armyId) => {
     return battles.filter(
@@ -259,8 +249,10 @@ const Armies = () => {
         // Add Nemesis data here
         NemesisName: nemesis.Name,
         NemesisEmoji: nemesis.Emoji,
+        NemesisCount: nemesis.Count,
         PreyName: prey.Name,
         PreyEmoji: prey.Emoji,
+        PreyCount: prey.Count,
       });
     } else {
       inactiveArmies.push({

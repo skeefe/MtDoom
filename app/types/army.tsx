@@ -21,6 +21,8 @@ export interface iArmySummary {
   FirstTurnPercentage: number;
   NemesisName: string;
   NemesisEmoji: string;
+  NemesisCount: number;
   PreyName: string;
   PreyEmoji: string;
+  PreyCount: number;
 }
