@@ -708,7 +708,7 @@ const BattleForm = (props: { battleId: string }) => {
                 }`}
               >
                 <div className="opponent">
-                  <legend>Attacker</legend>
+                  <legend className="attacker">Attacker</legend>
                   <span className="score-highlight">
                     {battle.TotalAttacker}
                   </span>
@@ -721,7 +721,7 @@ const BattleForm = (props: { battleId: string }) => {
                   )}
                 </div>
                 <div className="opponent">
-                  <legend>Defender</legend>
+                  <legend className="defender">Defender</legend>
                   <span className="score-highlight">
                     {battle.TotalDefender}
                   </span>
@@ -746,7 +746,7 @@ const BattleForm = (props: { battleId: string }) => {
             <div className="opponent">
               <span className="score-highlight">{battle.TotalAttacker}</span>
               <div>
-                <legend>Attacker</legend>
+                <legend className="attacker">Attacker</legend>
                 <span title="Primary Points" className="type-points">
                   P:{battle.TotalAttackerPrimary}/50
                 </span>
@@ -765,7 +765,7 @@ const BattleForm = (props: { battleId: string }) => {
             <div className="opponent">
               <span className="score-highlight">{battle.TotalDefender}</span>
               <div>
-                <legend>Defender</legend>
+                <legend className="defender">Defender</legend>
                 <span title="Primary Points" className="type-points">
                   P:{battle.TotalDefenderPrimary}/50
                 </span>

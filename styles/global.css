@@ -42,11 +42,12 @@
 
   /* Primary Colors */
   --color-primary: #ff006e;
+  --color-primary-light: #ff4d94;
   --color-primary-hover: #00ffcc;
   
   /* Backgrounds */
   --color-bg-dark: #1a1f3a;
-  --color-bg-darker: #0a0e27;
+  --color-bg-darker: #121833;
   --color-bg-light: #252b4a;
   
   /* Text & Borders */
@@ -56,6 +57,7 @@
   --color-text-muted: #86868b;
   
   /* Accents & Highlights */
+  --color-accent-lighter: #626b8f;
   --color-accent-light: #3d4563;
   --color-accent-hover: #ff8c42;
   --color-accent-subtle: #2f3650;
@@ -403,7 +405,7 @@ fieldset {
   margin-bottom: 2rem;
 }
 legend {
-  color: var(--color-primary);
+  color: var(--color-text-secondary);
   font-family: Aleo, sans-serif;
   font-size: 1.25rem;
   text-align: center;
@@ -498,7 +500,7 @@ form .alert {
   transition: background-color 0.125s linear;
 }
 .button:hover {
-  background-color: var(--color-primary-hover);
+  background-color: var(--color-primary-light);
 }
 .button.button-block {
   display: block;
@@ -519,10 +521,10 @@ form .alert {
   margin-top: 3rem;
 }
 .button.button-secondary {
-  background-color: var(--color-primary);
+  background-color: var( --color-accent-lighter);
 }
 .button.button-secondary:hover {
-  background-color: var(--color-primary-hover);
+  background-color: var(--color-accent-light);
 }
 .button.button-center {
   display: block;
@@ -708,6 +710,14 @@ form .alert {
 .opponent legend {
   font-size: 0.875rem;
 }
+.opponent legend.attacker{
+  color:var(--color-primary)
+}
+.opponent legend.defender{
+  color:var(--color-primary-hover)
+}
+
+
 .score-highlight {
   color: #fff;
   display: block;
@@ -718,7 +728,7 @@ form .alert {
   text-align: center;
 }
 .device-score-bar {
-  background: var(--color-primary);
+  background: var(--color-bg-darker);
   bottom: 0;
   box-sizing: border-box;
   color: var(--color-text-primary);

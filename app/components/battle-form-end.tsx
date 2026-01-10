@@ -16,7 +16,7 @@ const BattleFormEnd = (props: {
         className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}
       >
         <div className="opponent">
-          <legend>Attacker</legend>
+          <legend className="attacker">Attacker</legend>
           <TextField
             label="Mission Bonus"
             type="number"
@@ -30,7 +30,7 @@ const BattleFormEnd = (props: {
         </div>
 
         <div className="opponent">
-          <legend>Defender</legend>
+          <legend className="defender">Defender</legend>
           <TextField
             label="Mission Bonus"
             type="number"

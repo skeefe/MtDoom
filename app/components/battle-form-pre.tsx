@@ -106,7 +106,7 @@ const BattleFormPre = (props: {
           }`}
         >
           <div className="opponent">
-            <legend>Attacker</legend>
+            <legend className="attacker">Attacker</legend>
             <SelectField
               label="General"
               required={true}
@@ -142,7 +142,7 @@ const BattleFormPre = (props: {
             />
 
             <a
-              className="button button-block"
+              className="button button-block button-secondary"
               onClick={() => setShowAttackerList(true)}
             >
               View/Update List
@@ -150,7 +150,7 @@ const BattleFormPre = (props: {
           </div>
 
           <div className="opponent">
-            <legend>Defender</legend>
+            <legend className="defender">Defender</legend>
             <SelectField
               label="General"
               required={true}
@@ -186,7 +186,7 @@ const BattleFormPre = (props: {
             />
 
             <a
-              className="button button-block"
+              className="button button-block button-secondary"
               onClick={() => setShowDefenderList(true)}
             >
               View/Update List

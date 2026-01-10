@@ -40,11 +40,11 @@ const BattleFormPost = (props: {
         className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}
       >
         <div className="opponent">
-          <legend>Attacker</legend>
+          <legend className="attacker">Attacker</legend>
           <span className="score-highlight">{props.AttackerScore}</span>
         </div>
         <div className="opponent">
-          <legend>Defender</legend>
+          <legend className="defender">Defender</legend>
           <span className="score-highlight">{props.DefenderScore}</span>
         </div>
       </div>
