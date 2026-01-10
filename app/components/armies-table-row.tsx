@@ -28,6 +28,20 @@ const ArmiesTableRow = (props: { army: iArmySummary }) => {
           {props.army.PointDifference}
         </td>
         <td className="text-center">{props.army.WinPercentage}%</td>
+        <td className="hide show-lg text-center">
+          {props.army.PreyName ? (
+              <span title={props.army.PreyName} className="emoji">
+                {props.army.PreyEmoji}
+              </span>
+          ) : ""}
+        </td>
+        <td className="hide show-lg text-center">
+          {props.army.NemesisName ? (
+              <span title={props.army.NemesisName} className="emoji">
+                {props.army.NemesisEmoji}
+              </span>
+          ) : ""}
+        </td>
       </tr>
     </>
   );

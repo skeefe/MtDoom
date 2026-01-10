@@ -213,7 +213,7 @@ const BattleTable = (props: {
             name="battle-filter"
             changeFunction={handleSearchChange}
             value={searchTerm}
-            emptyValue="Search battles..."
+            emptyValue="Search Battles..."
           />
 
             </div>

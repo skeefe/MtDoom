@@ -19,4 +19,8 @@ export interface iArmySummary {
   PointDifference: number;
   WinPercentage: number;
   FirstTurnPercentage: number;
+  NemesisName: string;
+  NemesisEmoji: string;
+  PreyName: string;
+  PreyEmoji: string;
 }

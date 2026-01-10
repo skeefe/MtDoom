@@ -322,12 +322,14 @@ h3 {
   display: block;
   font-size: 1rem;
 }
-
 @media (min-width: 640px) {
   .primary-table td span {
     display: block;
     font-size: 0.75rem;
   }
+}
+.primary-table td span.emoji{
+  font-size:1rem;
 }
 @media (min-width: 640px) {
   .primary-table span.cell-heading {
@@ -1005,3 +1007,5 @@ tspan {
   font-style: italic;
   margin:0
 }
+
+

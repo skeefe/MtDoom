@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import Spinner from "./spinner";
 import ArmyTableRow from "./armies-table-row";
 import { iArmySummary } from "../types/army";
+import TextField from "./textField";
 
 const ArmiesTable = (props: {
   title: string;
@@ -11,6 +12,7 @@ const ArmiesTable = (props: {
 }) => {
   const [sortColumn, setSortColumn] = useState<string>("Name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
@@ -21,17 +23,25 @@ const ArmiesTable = (props: {
     }
   };
 
-  const getSortedArmies = () => {
-    const sorted = [...props.armies].sort((a, b) => {
+  // 1. Filter Logic
+  const filteredArmies = useMemo(() => {
+    const term = searchTerm.toLowerCase().trim();
+    if (!term) return props.armies;
+    return props.armies.filter((army) =>
+      army.Name.toLowerCase().includes(term)
+    );
+  }, [searchTerm, props.armies]);
+
+  // 2. Sort Logic
+  const getSortedArmies = useMemo(() => {
+    return [...filteredArmies].sort((a, b) => {
       let aValue = a[sortColumn as keyof iArmySummary];
       let bValue = b[sortColumn as keyof iArmySummary];
 
-      // Handle undefined/null values
       if (aValue == null && bValue == null) return 0;
       if (aValue == null) return 1;
       if (bValue == null) return -1;
 
-      // Convert to string for comparison if needed
       if (typeof aValue === "string" && typeof bValue === "string") {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
@@ -41,8 +51,7 @@ const ArmiesTable = (props: {
       if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
       return 0;
     });
-    return sorted;
-  };
+  }, [filteredArmies, sortColumn, sortDirection]);
 
   const getArrowIcon = (column: string) => {
     if (sortColumn === column) {
@@ -51,23 +60,43 @@ const ArmiesTable = (props: {
     return "↕";
   };
 
-  const SortableHeader = ({ column, label }: { column: string; label: string }) => (
-    <th onClick={() => handleSort(column)}>
-      {label} <span className={sortColumn === column ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon(column)}</span>
-    </th>
-  );
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
   return props.armies.length > 0 ? (
     <>
       <section className="section">
-        <header className="section-header">
+        <header className="section-header" style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem'
+        }}>
           <h2>{props.title}</h2>
 
-          {props.showCreateButton && (
-            <Link href="/army/add" className="button section-header-button">
-              Add<span className="hide show-sm-inline"> Army</span>
-            </Link>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            {/* Search Bar using your TextField component */}
+            <div className="search-wrapper hide-mobile" style={{ position: 'relative' }}>
+              <TextField
+                label={null}
+                type="text"
+                required={false}
+                id="army-filter"
+                name="army-filter"
+                changeFunction={handleSearchChange}
+                value={searchTerm}
+                emptyValue="Search Armies..."
+              />
+            </div>
+
+            {props.showCreateButton && (
+              <Link href="/army/add" className="button section-header-button" style={{ margin: 0 }}>
+                Add<span className="hide show-sm-inline"> Army</span>
+              </Link>
+            )}
+          </div>
         </header>
 
         <table className="primary-table">
@@ -100,11 +129,13 @@ const ArmiesTable = (props: {
               <th className="text-center sort-title" onClick={() => handleSort("WinPercentage")}>
                 Win&nbsp;% <span className={sortColumn === "WinPercentage" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("WinPercentage")}</span>
               </th>
+              <th className="hide show-lg text-center">Prey</th>
+              <th className="hide show-lg text-center">Nemesis</th>
             </tr>
           </thead>
 
           <tbody>
-            {getSortedArmies().map((army, index) => (
+            {getSortedArmies.map((army, index) => (
               <ArmyTableRow army={army} key={index} />
             ))}
           </tbody>
