@@ -3,7 +3,6 @@
 
 
 ## Next
-- Handle Gambits - deprecated now.
 - Handle Fixed Secondaries...
 - Handle Draws
 
@@ -12,14 +11,14 @@
 - Auth
     - Avatars (general or army?)
     - Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
-- Add/invite friends.
-- Battle Setup modal? Scorecard wizard with panels for setup, each turn, batle end.
-- Pagination on the Battle List table.
+
 - Optimise spinner - Volcano with smoke lifting?
 - Work out how to use Army Colours and Crests
     - Confetti on battle completion
         - Army colours.
-- Domain Name
+- 
+
 - Detachment Options list when army selected.
-- Ability to host events (e.g. tournies)
+- Ability to set up events (e.g. tournies)
 - Game dashboard stuff! :D
+- Domain Name
