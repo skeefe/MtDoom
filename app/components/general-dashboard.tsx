@@ -198,163 +198,116 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
     <>
       <section className="section">
         <div className="dashboard-panels">
-          <div className="dashboard-panel">
-            <h3>Record vs Army</h3>
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="dashboard-panel bg-darker border border-divider">
+            <h3 className="text-primary">Record vs Army</h3>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 data={getOpponentArmyRecordData()}
-                barCategoryGap={5}
-                margin={{ left: -43, bottom: 58 }}
-                width={730}
-                height={250}
+                barCategoryGap={10}
+                margin={{ top: 10, right: 30, left: -20, bottom: 70 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="Army" />
-                <YAxis allowDecimals={false} domain={[0, yAxisArmyLength()]} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-divider)" />
+                <XAxis
+                  dataKey="Army"
+                  interval={0}
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                  tick={{ fill: 'var(--color-text-muted)', fontSize: 11 }}
+                />
+                <YAxis allowDecimals={false} domain={[0, yAxisArmyLength()]} tick={{ fill: 'var(--color-text-muted)' }} />
                 <Tooltip
-                  cursor={false}
-                  content={(props) => (
+                  cursor={{ fill: "var(--color-bg-light)", opacity: 0.1 }}
+                  content={(tooltipProps) => (
                     <ChartTooltipRecord
-                      OpponentArmy={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Army
-                      }
-                      Won={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Won
-                      }
-                      Lost={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Lost
-                      }
+                      OpponentArmy={tooltipProps.payload?.[0]?.payload.Army}
+                      Won={tooltipProps.payload?.[0]?.payload.Won}
+                      Lost={tooltipProps.payload?.[0]?.payload.Lost}
                     />
                   )}
                 />
-                <Legend verticalAlign="bottom" />
-
-                <Bar dataKey="Won" stackId="a" fill="#d1d1d6" label="1234" />
-                <Bar dataKey="Lost" stackId="a" fill="#3d4563" />
+                <Legend verticalAlign="top" align="right" wrapperStyle={{ paddingBottom: "20px" }} />
+                <Bar name="Wins" dataKey="Won" stackId="a" fill="var(--color-primary-hover)" />
+                <Bar name="Losses" dataKey="Lost" stackId="a" fill="var(--color-primary)" />
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="dashboard-panel">
-            <h3>Record vs General</h3>
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="dashboard-panel bg-darker border border-divider">
+            <h3 className="text-primary">Record vs General</h3>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 data={getOpponentGeneralRecordData()}
-                barCategoryGap={5}
-                margin={{ left: -43, bottom: 58 }}
-                width={730}
-                height={250}
+                barCategoryGap={10}
+                margin={{ top: 10, right: 30, left: -20, bottom: 70 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="General" />
-                <YAxis
-                  allowDecimals={false}
-                  domain={[0, yAxisGeneralLength()]}
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-divider)" />
+                <XAxis
+                  dataKey="General"
+                  interval={0}
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                  tick={{ fill: 'var(--color-text-muted)', fontSize: 11 }}
                 />
+                <YAxis allowDecimals={false} domain={[0, yAxisGeneralLength()]} tick={{ fill: 'var(--color-text-muted)' }} />
                 <Tooltip
-                  cursor={false}
-                  content={(props) => (
+                  cursor={{ fill: "var(--color-bg-light)", opacity: 0.1 }}
+                  content={(tooltipProps) => (
                     <ChartTooltipRecord
-                      OpponentArmy={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.General
-                      }
-                      Won={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Won
-                      }
-                      Lost={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Lost
-                      }
+                      OpponentArmy={tooltipProps.payload?.[0]?.payload.General}
+                      Won={tooltipProps.payload?.[0]?.payload.Won}
+                      Lost={tooltipProps.payload?.[0]?.payload.Lost}
                     />
                   )}
                 />
-                <Legend verticalAlign="bottom" />
-
-                <Bar dataKey="Won" stackId="a" fill="#d1d1d6" label="1234" />
-                <Bar dataKey="Lost" stackId="a" fill="#3d4563" />
+                <Legend verticalAlign="top" align="right" wrapperStyle={{ paddingBottom: "20px" }} />
+                <Bar name="Wins" dataKey="Won" stackId="a" fill="var(--color-primary-hover)" />
+                <Bar name="Losses" dataKey="Lost" stackId="a" fill="var(--color-primary)" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
         <div className="dashboard-panels single">
-          <div className="dashboard-panel">
-            <h3>Points Record</h3>
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="dashboard-panel bg-darker border border-divider">
+            <h3 className="text-primary">Points Record</h3>
+            <ResponsiveContainer width="100%" height={300}>
               <LineChart
-                width={730}
-                height={250}
-                data={getBattleHistoryData()}
-                margin={{ left: -35, bottom: 58 }}
+                data={getBattleHistoryData().reverse()}
+                margin={{ top: 10, right: 30, left: -20, bottom: 20 }}
               >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  horizontalValues={[30, 60, 90]}
-                />
-                <XAxis dataKey="Date" />
-                <YAxis
-                  allowDecimals={false}
-                  ticks={[30, 60, 90]}
-                  domain={[0, 90]}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-divider)" />
+                <XAxis dataKey="Date" tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
+                <YAxis allowDecimals={false} domain={[0, 90]} tick={{ fill: 'var(--color-text-muted)' }} />
                 <Tooltip
-                  wrapperStyle={{
-                    backgroundColor: "#fff",
-                    border: "2px solid #2f3650",
-                    color: "#d1d1d6",
-                  }}
-                  cursor={false}
-                  content={(props) => (
+                  cursor={{ stroke: 'var(--color-divider)', strokeWidth: 2 }}
+                  content={(tooltipProps) => (
                     <ChartTooltipPoints
-                      Date={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Date
-                      }
-                      Army={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Army
-                      }
-                      ArmyScore={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.Score
-                      }
-                      OpponentArmy={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.OpponentArmy
-                      }
-                      OpponentArmyScore={
-                        props.payload &&
-                        props.payload[0] != null &&
-                        props.payload[0].payload.OpponentScore
-                      }
+                      Date={tooltipProps.payload?.[0]?.payload.Date}
+                      Army={tooltipProps.payload?.[0]?.payload.Army}
+                      ArmyScore={tooltipProps.payload?.[0]?.payload.Score}
+                      OpponentArmy={tooltipProps.payload?.[0]?.payload.OpponentArmy}
+                      OpponentArmyScore={tooltipProps.payload?.[0]?.payload.OpponentScore}
                     />
                   )}
                 />
-                <Legend verticalAlign="bottom" />
+                <Legend verticalAlign="top" align="right" wrapperStyle={{ paddingBottom: "20px" }} />
                 <Line
                   type="monotone"
                   dataKey="Score"
-                  stroke="#ff006e"
-                  activeDot={{ r: 8 }}
+                  name="General Score"
+                  stroke="var(--color-primary-hover)"
+                  strokeWidth={3}
+                  dot={{ fill: 'var(--color-primary-hover)', r: 4 }}
+                  activeDot={{ r: 8, stroke: 'var(--color-primary-hover)', strokeWidth: 2 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="OpponentScore"
                   name="Opponent Score"
-                  stroke="#94a3b8"
+                  stroke="var(--color-primary)"
+                  strokeDasharray="5 5"
+                  strokeWidth={2}
+                  dot={{ fill: 'var(--color-primary)', r: 3 }}
                 />
               </LineChart>
             </ResponsiveContainer>
