@@ -8,6 +8,7 @@ import SelectField from "./select-field";
 import { propertyFromID } from "../../utils/property-from-id";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import getDocSnapshot from "../firebase/getDocSnapshot";
+import RecentForm from "./recent-form";
 
 const StatPanel = (props: {
   Item: string;
@@ -46,50 +47,50 @@ const StatPanel = (props: {
         props.Type === "Armies" && battle.AttackerArmy === props.Item
           ? true
           : props.Type === "Generals" && battle.Attacker === props.Item
-          ? true
-          : false;
+            ? true
+            : false;
 
       Armies.push(
         !isAttacker
           ? {
-              Label: propertyFromID(
-                armiesCollection,
-                battle.AttackerArmy,
-                "Name"
-              ),
-              Value: `a-${battle.AttackerArmy}`,
-              Active: true,
-            }
+            Label: propertyFromID(
+              armiesCollection,
+              battle.AttackerArmy,
+              "Name"
+            ),
+            Value: `a-${battle.AttackerArmy}`,
+            Active: true,
+          }
           : {
-              Label: propertyFromID(
-                armiesCollection,
-                battle.DefenderArmy,
-                "Name"
-              ),
-              Value: `a-${battle.DefenderArmy}`,
-              Active: true,
-            }
+            Label: propertyFromID(
+              armiesCollection,
+              battle.DefenderArmy,
+              "Name"
+            ),
+            Value: `a-${battle.DefenderArmy}`,
+            Active: true,
+          }
       );
       Generals.push(
         !isAttacker
           ? {
-              Label: propertyFromID(
-                generalsCollection,
-                battle.Attacker,
-                "Alias"
-              ),
-              Value: `g-${battle.Attacker}`,
-              Active: true,
-            }
+            Label: propertyFromID(
+              generalsCollection,
+              battle.Attacker,
+              "Alias"
+            ),
+            Value: `g-${battle.Attacker}`,
+            Active: true,
+          }
           : {
-              Label: propertyFromID(
-                generalsCollection,
-                battle.Defender,
-                "Alias"
-              ),
-              Value: `g-${battle.Defender}`,
-              Active: true,
-            }
+            Label: propertyFromID(
+              generalsCollection,
+              battle.Defender,
+              "Alias"
+            ),
+            Value: `g-${battle.Defender}`,
+            Active: true,
+          }
       );
     });
 
@@ -121,12 +122,12 @@ const StatPanel = (props: {
     let opponentBattleData: iBattle[] =
       type === "Army"
         ? props.Battles.filter(
-            (b) =>
-              b.AttackerArmy === opponentId || b.DefenderArmy === opponentId
-          )
+          (b) =>
+            b.AttackerArmy === opponentId || b.DefenderArmy === opponentId
+        )
         : props.Battles.filter(
-            (b) => b.Attacker === opponentId || b.Defender === opponentId
-          );
+          (b) => b.Attacker === opponentId || b.Defender === opponentId
+        );
 
     //Make calculations
     let totalPointsFor: number = 0;
@@ -139,8 +140,8 @@ const StatPanel = (props: {
         type === "Army" && battle.AttackerArmy === opponentId
           ? true
           : type === "General" && battle.Attacker === opponentId
-          ? true
-          : false;
+            ? true
+            : false;
 
       totalPointsFor =
         totalPointsFor +
@@ -153,15 +154,15 @@ const StatPanel = (props: {
         isOpponentAttacker && battle.Attacker !== battle.FirstTurn
           ? firstTurnTotal + 1
           : !isOpponentAttacker && battle.Defender !== battle.FirstTurn
-          ? firstTurnTotal + 1
-          : firstTurnTotal;
+            ? firstTurnTotal + 1
+            : firstTurnTotal;
 
       totalWins =
         isOpponentAttacker && battle.Attacker !== battle.Victor
           ? totalWins + 1
           : !isOpponentAttacker && battle.Defender !== battle.Victor
-          ? totalWins + 1
-          : totalWins;
+            ? totalWins + 1
+            : totalWins;
     });
 
     const opponentData: iStatPanel = {
@@ -194,7 +195,7 @@ const StatPanel = (props: {
     return props.Battles.filter(
       (obj) =>
         (Object.keys(obj).includes("Attacker") && obj["Attacker"]) ===
-          generalId ||
+        generalId ||
         (Object.keys(obj).includes("Defender") && obj["Defender"] === generalId)
     ).length;
   };
@@ -293,7 +294,7 @@ const StatPanel = (props: {
     return props.Battles.filter(
       (obj) =>
         (Object.keys(obj).includes("AttackerArmy") && obj["AttackerArmy"]) ===
-          armyId ||
+        armyId ||
         (Object.keys(obj).includes("DefenderArmy") &&
           obj["DefenderArmy"] === armyId)
     ).length;
@@ -407,7 +408,7 @@ const StatPanel = (props: {
         Lost: generalLost(props.Item),
         AveragePoints: Math.round(
           ((addGeneralPointsFor(props.Item) / generalPlayed(props.Item)) * 10) /
-            10
+          10
         ),
         TotalPoints: addGeneralPointsFor(props.Item),
         PointDifference:
@@ -453,7 +454,7 @@ const StatPanel = (props: {
   return (
     <section className="section">
       <header className="section-header">
-        <h2>Stats</h2>
+        <h2>Key Stats</h2>
         <SelectField
           required={false}
           id="filterStats"
@@ -464,58 +465,63 @@ const StatPanel = (props: {
           emptyValue="Show All"
         />
       </header>
-      <div className="conent">
-        <ul className="stat-panel-list">
-          <li>
-            <span className="stat-label" title="Battles Played">
-              Played
-            </span>
-            <span className="stat-value">{stats.Played}</span>
-          </li>
-          <li>
-            <span className="stat-label" title="First Turn Percentage">
-              First&nbsp;Turn&nbsp;%
-            </span>
-            <span className="stat-value">{stats.FirstTurnPercentage}%</span>
-          </li>
-          <li>
-            <span className="stat-label" title="Battles Won">
-              Won
-            </span>
-            <span className="stat-value">{stats.Won}</span>
-          </li>
-          <li>
-            <span className="stat-label" title="Battles Lost">
-              Lost
-            </span>
-            <span className="stat-value">{stats.Lost}</span>
-          </li>
-          <li>
-            <span className="stat-label" title="Average Points/Battle">
-              Avg.&nbsp;Points
-            </span>
-            <span className="stat-value">{stats.AveragePoints}</span>
-          </li>
-          <li>
-            <span className="stat-label" title="Total Points">
-              Total&nbsp;Points
-            </span>
-            <span className="stat-value">{stats.TotalPoints}</span>
-          </li>
-          <li>
-            <span className="stat-label" title="Points Difference">
-              +/-
-            </span>
-            <span className="stat-value">{stats.PointDifference}</span>
-          </li>
-          <li>
-            <span className="stat-label" title="Win Percentage">
-              Win&nbsp;%
-            </span>
-            <span className="stat-value">{stats.WinPercentage}%</span>
-          </li>
-        </ul>
-      </div>
+      <ul className="stat-panel-list">
+        <li>
+          <span className="stat-label" title="Battles Played">
+            Played
+          </span>
+          <span className="stat-value">{stats.Played}</span>
+        </li>
+        <li>
+          <span className="stat-label" title="First Turn Percentage">
+            First&nbsp;Turn&nbsp;%
+          </span>
+          <span className="stat-value">{stats.FirstTurnPercentage}%</span>
+        </li>
+
+        <li>
+          <span className="stat-label" title="Average Points/Battle">
+            Avg.&nbsp;Points
+          </span>
+          <span className="stat-value">{stats.AveragePoints}</span>
+        </li>
+        <li>
+          <span className="stat-label" title="Total Points">
+            Total&nbsp;Points
+          </span>
+          <span className="stat-value">{stats.TotalPoints}</span>
+        </li>
+        <li>
+          <span className="stat-label" title="Points Difference">
+            +/-
+          </span>
+          <span className="stat-value">{stats.PointDifference}</span>
+        </li>
+        <li>
+          <span className="stat-label" title="Battles Won">
+            Won
+          </span>
+          <span className="stat-value">{stats.Won}</span>
+        </li>
+        <li>
+          <span className="stat-label" title="Battles Lost">
+            Lost
+          </span>
+          <span className="stat-value">{stats.Lost}</span>
+        </li>
+        <li>
+          <span className="stat-label" title="Win Percentage">
+            Win&nbsp;%
+          </span>
+          <span className="stat-value">{stats.WinPercentage}%</span>
+        </li>
+      </ul>
+
+      <RecentForm
+        Item={props.Item}
+        Type={props.Type}
+        Battles={props.Battles}
+      />
     </section>
   );
 };

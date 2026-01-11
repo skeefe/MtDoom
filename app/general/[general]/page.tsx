@@ -49,6 +49,12 @@ export default function GeneralDetails({
         </Link>
       </header>
 
+      <StatPanel
+        Item={generalId}
+        Type="Generals"
+        Battles={generalBattleCollection}
+      />
+
       <GeneralDashboard
         general={{
           id: generalId,
@@ -59,12 +65,6 @@ export default function GeneralDetails({
           Nicknames: generalDetails["Nicknames"],
         }}
         battles={generalBattleCollection}
-      />
-
-      <StatPanel
-        Item={generalId}
-        Type="Generals"
-        Battles={generalBattleCollection}
       />
 
       <BattleTable

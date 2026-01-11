@@ -62,6 +62,9 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
         </Link>
       </header>
 
+      <StatPanel Item={armyId} Type="Armies" Battles={armyBattleCollection} />
+
+      
       <ArmyDashboard
         army={{
           id: armyId,
@@ -73,8 +76,6 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
         }}
         battles={armyBattleCollection}
       />
-
-      <StatPanel Item={armyId} Type="Armies" Battles={armyBattleCollection} />
 
       <BattleTable
         title={`${armyDetails["Name"]}'s Battles`}

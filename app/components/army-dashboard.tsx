@@ -158,6 +158,11 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     <>
 
       <section className="section">
+
+        <header className="section-header">
+          <h2>Combat Analytics</h2>
+        </header>
+
         <div className="dashboard-panels">
           <div className="dashboard-panel bg-darker border border-divider">
             <h3 className="text-primary">Record vs Opponents</h3>
