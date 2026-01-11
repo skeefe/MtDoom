@@ -45,8 +45,8 @@ const Header = () => {
                 href="/meta"
                 className={pathname === "/meta" ? "active-nav" : ""}
               >
-                Meta
-                <span className="beta">(BETA)</span>
+                Meta{" "}
+                <span className="beta hide show-sm-inline">(BETA)</span>
               </Link>
             </li>
           </ul>

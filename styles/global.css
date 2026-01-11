@@ -5,9 +5,6 @@
 
   /* ############# Classic 2025 Theme ############# */
 
-
-
-
   /* Primary Colors */
   /*
   --color-primary: #c2410c;
@@ -59,7 +56,6 @@
   /* Accents & Highlights */
   --color-accent-lighter: #626b8f;
   --color-accent-light: #3d4563;
-  --color-accent-hover: #ff8c42;
   --color-accent-subtle: #2f3650;
   --color-divider: #38383a;
 }
@@ -122,6 +118,9 @@
 }
 ::placeholder {
   color: var(--color-text-tertiary);
+}
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 .beta{
   color:var(--color-primary-hover);
@@ -238,8 +237,9 @@ h3 {
 
 /* Priamry Content Area */
 .primary-content {
-  /*overflow-x: hidden; //Breaks the sticky score panel (adds a scroll bar for "Step" */
   padding: 4.5rem 0 0;
+  max-width: 100%;
+  overflow-x: hidden; /* This is the safety net */
 }
 
 /* Primary Footer */
@@ -324,7 +324,7 @@ h3 {
   background: var(--color-accent-light);
 }
 .primary-table tr:hover td {
-  background: var(--color-accent-dark);
+  background: var(--color-bg-light);
 }
 .primary-table td span {
   display: block;
@@ -403,6 +403,7 @@ fieldset {
   border-bottom: 0.125rem solid var(--color-divider);
   padding: 2rem 0;
   margin-bottom: 2rem;
+  min-width: 0; /* Prevents grid/flex items from overflowing */
 }
 legend {
   color: var(--color-text-secondary);
@@ -423,6 +424,7 @@ label {
   margin: 0 0 0.25rem;
   width: 100%;
 }
+
 input[type="color"],
 input[type="number"],
 input[type="text"],
@@ -443,7 +445,10 @@ textarea {
   padding: 0.5rem;
   width: 100%;
 }
-
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--color-text-tertiary);
+  box-shadow: 0 0 .5rem var(--color-text-tertiary);
+}
 .field-container.field-container-checkbox {
   flex-direction: row;
   display: flex;
@@ -652,59 +657,49 @@ form .alert {
   padding: 0.5rem;
   margin-left: 0.5rem;
 }
+/* --- Streamlined Opponent Layout --- */
 .opponent-layout {
   display: flex;
+  width: 100%;
   margin: 3rem 0 1.5rem;
+  align-items: stretch; /* Ensures the divider line is full-height */
 }
+
 .opponent {
   flex: 1;
+  min-width: 0; /* Prevents grid/flex items from overflowing */
+  /* Use consistent padding on both sides, then use the border as the divider */
+  padding: 0 0.75rem; 
 }
-.opponent:nth-child(1) {
-  border-right: 0.062rem solid var(--color-divider);
-  padding-right: 0.75rem;
-}
+
 @media (min-width: 640px) {
-  .opponent:nth-child(1) {
-    padding-right: 1.5rem;
-  }
-}
-.opponent:nth-child(2) {
-  border-left: 0.062rem solid var(--color-divider);
-  padding-left: 0.75rem;
-}
-@media (min-width: 640px) {
-  .opponent:nth-child(2) {
-    padding-left: 1.5rem;
+  .opponent {
+    padding: 0 1.5rem;
   }
 }
 
-/* Handle Reverse */
+/* Logic: Apply a divider to the 'first' element in the DOM */
+.opponent-layout .opponent:first-child {
+  border-right: 0.062rem solid var(--color-divider);
+}
+
+/* Logic: When reversed, move the divider to the other side of that same element */
 .opponent-layout.reverse {
   flex-direction: row-reverse;
 }
-.opponent-layout.reverse .opponent:nth-child(2) {
-  border-right: 0.062rem solid var(--color-divider);
-  border-left: none;
-  padding-left: 0rem;
-  padding-right: 0.75rem;
-}
-@media (min-width: 640px) {
-  .opponent-layout.reverse .opponent:nth-child(2) {
-    padding-right: 1.5rem;
-    padding-left: 0;
-  }
-}
-.opponent-layout.reverse .opponent:nth-child(1) {
-  border-left: 0.062rem solid var(--color-divider);
+
+.opponent-layout.reverse .opponent:first-child {
   border-right: none;
-  padding-left: 0.75rem;
-  padding-right: 0;
+  border-left: 0.062rem solid var(--color-divider);
 }
-@media (min-width: 640px) {
-  .opponent-layout.reverse .opponent:nth-child(1) {
-    padding-left: 1.5rem;
-    padding-right: 0;
-  }
+
+/* Ensure legends inside the columns look correct */
+.opponent legend {
+  text-align: left;
+  width: auto;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  text-transform: none;
 }
 
 .opponent legend {
@@ -729,6 +724,7 @@ form .alert {
 }
 .device-score-bar {
   background: var(--color-bg-darker);
+  border-top:.5rem solid var(--color-divider);
   bottom: 0;
   box-sizing: border-box;
   color: var(--color-text-primary);
@@ -954,7 +950,7 @@ tspan {
   width: 100%;
 }
 .modal {
-  background: var(--color-divider);
+  background: var(--color-bg-light);
   border-radius: 0.35rem;
   display: flex;
   flex-direction: column;
@@ -995,8 +991,11 @@ tspan {
   flex-direction: column;
   height: 100%;
 }
-.modal .textarea {
+.modal textarea {
+  background:transparent;
   height: 100%;
+  font-size:.85rem;
+  padding:0;
 }
 .modal footer {
   border-top: 1px solid var(--color-accent-light);
@@ -1025,3 +1024,6 @@ tspan {
 }
 
 
+
+
+/* troubleshooting the responsive issue */
