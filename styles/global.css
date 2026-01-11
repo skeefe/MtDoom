@@ -4,43 +4,31 @@
 :root {
 
   /* ############# Classic 2025 Theme ############# */
-
-  /* Primary Colors */
   /*
   --color-primary: #c2410c;
-  --color-primary-hover: #f97316;
-  */
+  --color-primary-light: #f97316;
+  --color-secondary: #fb923c;
 
-  /* Backgrounds */
-  /*
   --color-bg-dark: #1e293b;
   --color-bg-darker: #0f172a;
   --color-bg-light: #475569;
-  */
   
-  /* Text & Borders */
-  /*
   --color-text-primary: #e2e8f0;
   --color-text-secondary: #94a3b8;
-  --color-text-tertiary: #cbd5e1;
   --color-text-muted: #64748b;
-  */
   
-  /* Accents & Highlights */
-  /*
-  --color-accent-light: #334155;
-  --color-accent-hover: #7c8ca2;
-  --color-accent-subtle: #475569;
+  --color-accent-lighter: #7c8ca2;
+  --color-accent-light: #475569;
+  --color-accent-subtle: #334155;
   --color-divider: #64748b;
   */
-
 
   /* ############# Inferno 2026 ############# */
 
   /* Primary Colors */
   --color-primary: #ff006e;
   --color-primary-light: #ff4d94;
-  --color-primary-hover: #00ffcc;
+  --color-secondary: #00ffcc;
   
   /* Backgrounds */
   --color-bg-dark: #1a1f3a;
@@ -48,16 +36,20 @@
   --color-bg-light: #252b4a;
   
   /* Text & Borders */
-  --color-text-primary: #fff;/*#f5f5f7;*/
+  --color-text-primary: #fff;
   --color-text-secondary: #d1d1d1;
-  --color-text-tertiary: #d1d1d6;
   --color-text-muted: #86868b;
   
-  /* Accents & Highlights */
+  /* Accents & Highlights - Streamlined */
   --color-accent-lighter: #626b8f;
   --color-accent-light: #3d4563;
   --color-accent-subtle: #2f3650;
   --color-divider: #38383a;
+}
+
+/* Global Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 /* Utilities */
@@ -117,13 +109,10 @@
   grid-template-columns: 1fr 1fr;
 }
 ::placeholder {
-  color: var(--color-text-tertiary);
-}
-*, *::before, *::after {
-  box-sizing: border-box;
+  color: var(--color-text-secondary);
 }
 .beta{
-  color:var(--color-primary-hover);
+  color:var(--color-secondary);
   font-size:.75rem;
   font-style: italic;
 }
@@ -239,13 +228,13 @@ h3 {
 .primary-content {
   padding: 4.5rem 0 0;
   max-width: 100%;
-  overflow-x: hidden; /* This is the safety net */
+  overflow-x: hidden;
 }
 
 /* Primary Footer */
 .primary-footer {
   background: var(--color-bg-dark);
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
   padding: 1.25rem 0;
   z-index: 10;
 }
@@ -354,7 +343,7 @@ tr.clickable td {
   transition: color 0.2s ease;
 }
 .sort-title:hover {
-  color: var(--color-primary-hover);
+  color: var(--color-secondary);
 }
 .sort-arrow-active {
   color: var(--color-primary);
@@ -403,7 +392,7 @@ fieldset {
   border-bottom: 0.125rem solid var(--color-divider);
   padding: 2rem 0;
   margin-bottom: 2rem;
-  min-width: 0; /* Prevents grid/flex items from overflowing */
+  min-width: 0;
 }
 legend {
   color: var(--color-text-secondary);
@@ -418,13 +407,12 @@ legend {
   margin-bottom: 1rem;
 }
 label {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
   display: block;
   font-size: 0.75rem;
   margin: 0 0 0.25rem;
   width: 100%;
 }
-
 input[type="color"],
 input[type="number"],
 input[type="text"],
@@ -446,8 +434,8 @@ textarea {
   width: 100%;
 }
 input:focus, select:focus, textarea:focus {
-  outline: 2px solid var(--color-text-tertiary);
-  box-shadow: 0 0 .5rem var(--color-text-tertiary);
+  outline: 2px solid var(--color-text-secondary);
+  box-shadow: 0 0 .5rem var(--color-text-secondary);
 }
 .field-container.field-container-checkbox {
   flex-direction: row;
@@ -526,10 +514,10 @@ form .alert {
   margin-top: 3rem;
 }
 .button.button-secondary {
-  background-color: var( --color-accent-lighter);
+  background-color: var( --color-accent-light);
 }
 .button.button-secondary:hover {
-  background-color: var(--color-accent-light);
+  background-color: var(--color-accent-lighter);
 }
 .button.button-center {
   display: block;
@@ -570,6 +558,9 @@ form .alert {
 .content-score .opponent-layout {
   margin: 0;
 }
+.content-score .opponent legend {
+  text-align: center;
+}
 .content-score .score-highlight {
   font-size: 5rem;
   margin-bottom: 0.25rem;
@@ -599,6 +590,11 @@ form .alert {
   }
   .aside-layout > .content {
     flex: 1;
+  }
+
+  .primary-content {
+    /* Critical: Revert to visible so .content-sticky can function on desktop */
+    overflow-x: visible; 
   }
 }
 
@@ -644,7 +640,7 @@ form .alert {
   transition: color 0.25s;
 }
 .link-list a:hover {
-  color: var(--color-primary-hover);
+  color: var(--color-secondary);
 }
 
 /* Battle Form */
@@ -704,12 +700,13 @@ form .alert {
 
 .opponent legend {
   font-size: 0.875rem;
+  text-transform:uppercase;
 }
 .opponent legend.attacker{
   color:var(--color-primary)
 }
 .opponent legend.defender{
-  color:var(--color-primary-hover)
+  color:var(--color-secondary)
 }
 
 
@@ -732,6 +729,7 @@ form .alert {
   padding: 0.5rem 0.75rem 0.75rem;
   position: fixed;
   width: 100%;
+  z-index: 20;
 }
 .device-score-bar .opponent-layout {
   margin: 0;
@@ -779,7 +777,7 @@ form .alert {
 
 /* Dashboard/Graphs */
 .dashboard-panels {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
   width: 100%;
 }
 @media (min-width: 640px) {
@@ -818,10 +816,10 @@ form .alert {
   margin-left: 70px !important;
 }
 .recharts-legend-item-text {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
 }
 tspan {
-  fill: var(--color-text-tertiary);
+  fill: var(--color-text-secondary);
 }
 .dashboard-panel ol + h3 {
   margin: 2.5rem 0 0;
@@ -1022,8 +1020,3 @@ tspan {
   font-style: italic;
   margin:0
 }
-
-
-
-
-/* troubleshooting the responsive issue */

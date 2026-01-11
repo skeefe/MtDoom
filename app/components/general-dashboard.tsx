@@ -227,7 +227,7 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                   )}
                 />
                 <Legend verticalAlign="top" align="right" wrapperStyle={{ paddingBottom: "20px" }} />
-                <Bar name="Wins" dataKey="Won" stackId="a" fill="var(--color-primary-hover)" />
+                <Bar name="Wins" dataKey="Won" stackId="a" fill="var(--color-secondary)" />
                 <Bar name="Losses" dataKey="Lost" stackId="a" fill="var(--color-primary)" />
               </BarChart>
             </ResponsiveContainer>
@@ -261,7 +261,7 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                   )}
                 />
                 <Legend verticalAlign="top" align="right" wrapperStyle={{ paddingBottom: "20px" }} />
-                <Bar name="Wins" dataKey="Won" stackId="a" fill="var(--color-primary-hover)" />
+                <Bar name="Wins" dataKey="Won" stackId="a" fill="var(--color-secondary)" />
                 <Bar name="Losses" dataKey="Lost" stackId="a" fill="var(--color-primary)" />
               </BarChart>
             </ResponsiveContainer>
@@ -295,10 +295,10 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
                   type="monotone"
                   dataKey="Score"
                   name="General Score"
-                  stroke="var(--color-primary-hover)"
+                  stroke="var(--color-secondary)"
                   strokeWidth={3}
-                  dot={{ fill: 'var(--color-primary-hover)', r: 4 }}
-                  activeDot={{ r: 8, stroke: 'var(--color-primary-hover)', strokeWidth: 2 }}
+                  dot={{ fill: 'var(--color-secondary)', r: 4 }}
+                  activeDot={{ r: 8, stroke: 'var(--color-secondary)', strokeWidth: 2 }}
                 />
                 <Line
                   type="monotone"
