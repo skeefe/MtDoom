@@ -20,33 +20,34 @@ import ChartTooltipRecord from "./chart-tooltip-record";
 import ChartTooltipPoints from "./chart-tooltip-points";
 
 const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
-  let battleHistory: {
-    OpponentArmy: string;
-    OpponentScore: number;
-    Score: number;
-    Date: string;
-  }[] = [];
+  // 1. Resetting these inside the functions now to prevent data doubling
+  let battleHistory: any[] = [];
+  let opponentBattles: any[] = [];
 
-  //Need for a tool tip.
   const armyName: string = props.army.Name;
 
+  // --- Points Record Logic (Oldest to Newest) ---
   const getBattleHistoryData = () => {
-    [...props.battles].forEach(getBattleHistory);
-    return battleHistory;
-  };
+  // 1. Always reset the local array to avoid duplicate data on re-renders
+  battleHistory = []; 
 
-  const getBattleHistory = (battle) => {
-    const isAttacker: boolean =
-      battle.AttackerArmy === props.army.id ? true : false;
+  // 2. Explicitly sort: Oldest battles first (left), Newest last (right)
+  const sortedBattles = [...props.battles].sort((a, b) => a.Date.seconds - b.Date.seconds);
+  
+  // 3. Process the sorted battles
+  sortedBattles.forEach(getBattleHistory);
+  
+  return battleHistory;
+};
 
-    const opponentArmyName: string = isAttacker
+  const getBattleHistory = (battle: iBattle) => {
+    const isAttacker = battle.AttackerArmy === props.army.id;
+
+    const opponentArmyName = isAttacker
       ? getArmyName(battle.DefenderArmy)
       : getArmyName(battle.AttackerArmy);
 
-    const opponentScore = isAttacker
-      ? battle.TotalDefender
-      : battle.TotalAttacker;
-
+    const opponentScore = isAttacker ? battle.TotalDefender : battle.TotalAttacker;
     const score = isAttacker ? battle.TotalAttacker : battle.TotalDefender;
 
     battleHistory.push({
@@ -55,40 +56,29 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
       Score: score,
       Date: formatDate(battle.Date.seconds).short,
     });
-
-    return battleHistory;
   };
 
-  let opponentBattles: {
-    Army: string;
-    Played: number;
-    Won: number;
-    Lost: number;
-  }[] = [];
-
+  // --- Record vs Opponent Logic (Sorted by Games Played) ---
   const getOpponentRecordData = () => {
+    opponentBattles = []; // Reset
     props.battles.forEach(groupOpponentBattles);
-    return opponentBattles.reverse();
+    // Sort by most played so the chart is consistent across tabs
+    return opponentBattles.sort((a, b) => b.Played - a.Played);
   };
 
-  const groupOpponentBattles = (battle) => {
-    //Get opponent Army.
-    const opponentArmyId =
-      battle.AttackerArmy === props.army.id
+  const groupOpponentBattles = (battle: iBattle) => {
+    const opponentArmyId = battle.AttackerArmy === props.army.id
         ? battle.DefenderArmy
         : battle.AttackerArmy;
 
     const opponentArmyName = getArmyName(opponentArmyId);
 
-    const victor =
-      battle.Attacker === battle.Victor
-        ? battle.AttackerArmy
+    // Correctly identify victor army
+    const victorArmyId = battle.Attacker === battle.Victor 
+        ? battle.AttackerArmy 
         : battle.DefenderArmy;
 
-    //Check if it exists in the opponentBattles array, if not add it (empty).
-    if (
-      !opponentBattles.some((opponent) => opponent["Army"] === opponentArmyName)
-    ) {
+    if (!opponentBattles.some((opponent) => opponent.Army === opponentArmyName)) {
       opponentBattles.push({
         Army: opponentArmyName,
         Played: 0,
@@ -97,15 +87,14 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
       });
     }
 
-    //Find the opponent armies object.
-    let opponent = opponentBattles.find(
-      (army) => army["Army"] === opponentArmyName
-    );
+    let opponent = opponentBattles.find((army) => army.Army === opponentArmyName);
 
-    //Increment
-    opponent && ++opponent["Played"];
-    opponent && victor === props.army.id && ++opponent["Won"];
-    opponent && victor !== props.army.id && ++opponent["Lost"];
+    if (opponent) {
+      opponent.Played++;
+      if (battle.Victor) {
+        victorArmyId === props.army.id ? opponent.Won++ : opponent.Lost++;
+      }
+    }
   };
 
   const getArmyName = (armyId: string) => {
@@ -113,12 +102,11 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     return armyDoc["Name"];
   };
 
-  //Get the max number of games played.
   let maxPlayed = 0;
   const yAxisLength = () => {
-    opponentBattles.map((battle) => {
-      const played = battle.Played;
-      maxPlayed = Math.max(maxPlayed, played);
+    maxPlayed = 0; // Reset
+    opponentBattles.forEach((battle) => {
+      maxPlayed = Math.max(maxPlayed, battle.Played);
     });
     return maxPlayed;
   };
@@ -127,38 +115,22 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
     let mvps: { Unit: string }[] = [];
     let lvps: { Unit: string }[] = [];
 
-    props.battles.map((battle) => {
+    props.battles.forEach((battle) => {
       if (battle.AttackerArmy === props.army.id) {
-        if (battle.AttackerMVP) {
-          mvps.push({ Unit: battle.AttackerMVP });
-        }
-        if (battle.AttackerLVP) {
-          lvps.push({ Unit: battle.AttackerLVP });
-        }
+        if (battle.AttackerMVP) mvps.push({ Unit: battle.AttackerMVP });
+        if (battle.AttackerLVP) lvps.push({ Unit: battle.AttackerLVP });
       } else {
-        if (battle.DefenderMVP) {
-          mvps.push({ Unit: battle.DefenderMVP });
-        }
-        if (battle.DefenderLVP) {
-          lvps.push({ Unit: battle.DefenderLVP });
-        }
+        if (battle.DefenderMVP) mvps.push({ Unit: battle.DefenderMVP });
+        if (battle.DefenderLVP) lvps.push({ Unit: battle.DefenderLVP });
       }
     });
 
-    //Only the latest 10
-    return {
-      mvps: mvps.slice(0, 10),
-      lvps: lvps.slice(0, 10),
-    };
+    return { mvps: mvps.slice(0, 10), lvps: lvps.slice(0, 10) };
   };
-
-
 
   return props.battles ? (
     <>
-
       <section className="section">
-
         <header className="section-header">
           <h2>Combat Analytics</h2>
         </header>
@@ -203,12 +175,12 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
             <h3 className="text-primary">Points Record</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart
-                data={getBattleHistoryData().reverse()}
+                data={getBattleHistoryData()} // Removed .reverse() here
                 margin={{ top: 20, right: 30, left: -20, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--color-divider)" />
                 <XAxis dataKey="Date" tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }} />
-                <YAxis allowDecimals={false} domain={[0, 90]} tick={{ fill: 'var(--color-text-muted)' }} />
+                <YAxis allowDecimals={false} domain={[0, 100]} tick={{ fill: 'var(--color-text-muted)' }} />
                 <Tooltip
                   cursor={{ stroke: 'var(--color-divider)', strokeWidth: 2 }}
                   content={(tooltipProps) => (
@@ -243,23 +215,26 @@ const ArmyDashboard = (props: { army: iArmy; battles: iBattle[] }) => {
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <div className="dashboard-panel">
-            <h3>MVPs</h3>
-            <ol className="vp-list">
-              {getVPs().mvps.map((mvp, index) => (
-                <li key={index}>{mvp.Unit}</li>
-              ))}
-            </ol>
-          </div>
+        </div>
 
-          <div className="dashboard-panel">
-            <h3>LVPs</h3>
-            <ol className="vp-list">
-              {getVPs().lvps.map((lvp, index) => (
-                <li key={index}>{lvp.Unit}</li>
-              ))}
-            </ol>
-          </div>
+        <div className="dashboard-panels">
+            <div className="dashboard-panel bg-darker border border-divider">
+                <h3 className="text-primary">MVPs</h3>
+                <ol className="vp-list">
+                {getVPs().mvps.map((mvp, index) => (
+                    <li key={index} className="text-secondary">{mvp.Unit}</li>
+                ))}
+                </ol>
+            </div>
+
+            <div className="dashboard-panel bg-darker border border-divider">
+                <h3 className="text-primary">LVPs</h3>
+                <ol className="vp-list">
+                {getVPs().lvps.map((lvp, index) => (
+                    <li key={index} className="text-primary-light">{lvp.Unit}</li>
+                ))}
+                </ol>
+            </div>
         </div>
       </section>
     </>

@@ -32,7 +32,15 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
   const armyName: string = props.general.Name;
 
   const getBattleHistoryData = () => {
-    [...props.battles].forEach(getBattleHistory);
+    // 1. Reset the array to prevent data doubling
+    battleHistory = [];
+
+    // 2. Force the sort: Oldest (left) to Newest (right)
+    const sortedBattles = [...props.battles].sort((a, b) => a.Date.seconds - b.Date.seconds);
+
+    // 3. Process the sorted list
+    sortedBattles.forEach(getBattleHistory);
+
     return battleHistory;
   };
 
@@ -73,8 +81,14 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
   }[] = [];
 
   const getOpponentGeneralRecordData = () => {
+    // 1. Reset the array to prevent doubling on re-render
+    opponentGeneralBattles = [];
+
+    // 2. Group the data
     props.battles.forEach(groupOpponentGeneralBattles);
-    return opponentGeneralBattles.reverse();
+
+    // 3. Sort by "Played" descending (highest first)
+    return opponentGeneralBattles.sort((a, b) => b.Played - a.Played);
   };
 
   const groupOpponentGeneralBattles = (battle) => {
@@ -122,8 +136,14 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
   }[] = [];
 
   const getOpponentArmyRecordData = () => {
+    // 1. Reset the array to prevent stats from doubling on every re-render
+    opponentArmyBattles = [];
+
+    // 2. Group the data
     props.battles.forEach(groupOpponentArmyBattles);
-    return opponentArmyBattles.reverse();
+
+    // 3. Sort by 'Played' (highest first) to ensure consistency across tabs
+    return opponentArmyBattles.sort((a, b) => b.Played - a.Played);
   };
 
   const groupOpponentArmyBattles = (battle) => {
@@ -277,7 +297,7 @@ const GeneralDashboard = (props: { general: iGeneral; battles: iBattle[] }) => {
             <h3 className="text-primary">Points Record</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart
-                data={getBattleHistoryData().reverse()}
+                data={getBattleHistoryData()}
                 margin={{ top: 10, right: 30, left: -20, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--color-divider)" />
