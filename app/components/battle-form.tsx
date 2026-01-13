@@ -162,9 +162,13 @@ const BattleForm = (props: { battleId: string }) => {
     BattleNotes: "",
   });
 
+  // Challenger Card Cutoff Date
+  const CHALLENGER_RETIREMENT_DATE = 1735689600; // Jan 1, 2026 in seconds
+
   //Check if battle includes Challenger:
   const isChallenger =
-    battle.ChapterApprovedVersion === "2025-26 Mission Deck" ? true : false;
+    battle.Date.seconds < CHALLENGER_RETIREMENT_DATE &&
+    battle.ChapterApprovedVersion === "2025-26 Mission Deck";
 
   //Handle Player Order
   useEffect(() => {
@@ -215,7 +219,7 @@ const BattleForm = (props: { battleId: string }) => {
   };
 
   //Retrieve Amy Colours
-  const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e"; 
+  const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e";
   const defenderArmyColour = propertyFromID(armiesCollection, battle.DefenderArmy, "Colour") || "#00ffcc";
 
   //Handle Change
@@ -230,7 +234,7 @@ const BattleForm = (props: { battleId: string }) => {
 
     //Update Firestore
     updateDoc(doc(db, "Battles", docId), { [name]: value })
-      .then(() => {})
+      .then(() => { })
       .catch((error) => {
         console.log(error);
       });
@@ -288,33 +292,33 @@ const BattleForm = (props: { battleId: string }) => {
     totalDefenderSecondary =
       totalDefenderSecondary > 40 ? 40 : totalDefenderSecondary;
 
-    //-- Challenger Cards --
-    let totalAttackerChallenger: number =
-      stringToNumber(battle.T2AttackerChallenger.toString()) +
-      stringToNumber(battle.T3AttackerChallenger.toString()) +
-      stringToNumber(battle.T4AttackerChallenger.toString()) +
-      stringToNumber(battle.T5AttackerChallenger.toString());
-    totalAttackerChallenger =
-      totalAttackerChallenger > 12 ? 12 : totalAttackerChallenger;
+    //-- Challenger Cards (Calculated based on isChallenger cutoff) --
+    let currentAttackerChallenger: number = 0;
+    let currentDefenderChallenger: number = 0;
 
-    let totalDefenderChallenger: number =
-      stringToNumber(battle.T2DefenderChallenger.toString()) +
-      stringToNumber(battle.T3DefenderChallenger.toString()) +
-      stringToNumber(battle.T4DefenderChallenger.toString()) +
-      stringToNumber(battle.T5DefenderChallenger.toString());
-    totalDefenderChallenger = !isChallenger
-      ? 0
-      : totalDefenderChallenger > 12
-      ? 12
-      : totalDefenderChallenger;
+    if (isChallenger) {
+      currentAttackerChallenger =
+        stringToNumber(battle.T2AttackerChallenger.toString()) +
+        stringToNumber(battle.T3AttackerChallenger.toString()) +
+        stringToNumber(battle.T4AttackerChallenger.toString()) +
+        stringToNumber(battle.T5AttackerChallenger.toString());
+      currentAttackerChallenger = currentAttackerChallenger > 12 ? 12 : currentAttackerChallenger;
+
+      currentDefenderChallenger =
+        stringToNumber(battle.T2DefenderChallenger.toString()) +
+        stringToNumber(battle.T3DefenderChallenger.toString()) +
+        stringToNumber(battle.T4DefenderChallenger.toString()) +
+        stringToNumber(battle.T5DefenderChallenger.toString());
+      currentDefenderChallenger = currentDefenderChallenger > 12 ? 12 : currentDefenderChallenger;
+    }
 
     //-- Total --
     let totalAttacker: number =
-      totalAttackerPrimary + totalAttackerSecondary + totalAttackerChallenger;
+      totalAttackerPrimary + totalAttackerSecondary + currentAttackerChallenger;
     totalAttacker = totalAttacker > 90 ? 90 : totalAttacker;
 
     let totalDefender: number =
-      totalDefenderPrimary + totalDefenderSecondary + totalDefenderChallenger;
+      totalDefenderPrimary + totalDefenderSecondary + currentDefenderChallenger;
     totalDefender = totalDefender > 90 ? 90 : totalDefender;
 
     //Update State
@@ -323,11 +327,11 @@ const BattleForm = (props: { battleId: string }) => {
         ...prev,
         ["TotalAttackerPrimary"]: totalAttackerPrimary,
         ["TotalAttackerSecondary"]: totalAttackerSecondary,
-        ["TotalAttackerChallenger"]: totalAttackerChallenger,
+        ["TotalAttackerChallenger"]: currentAttackerChallenger,
         ["TotalAttacker"]: totalAttacker,
         ["TotalDefenderPrimary"]: totalDefenderPrimary,
         ["TotalDefenderSecondary"]: totalDefenderSecondary,
-        ["TotalDefenderChallenger"]: totalDefenderChallenger,
+        ["TotalDefenderChallenger"]: currentDefenderChallenger,
         ["TotalDefender"]: totalDefender,
       };
     });
@@ -336,11 +340,11 @@ const BattleForm = (props: { battleId: string }) => {
     updateDoc(doc(db, "Battles", docId), {
       TotalAttackerPrimary: totalAttackerPrimary,
       TotalAttackerSecondary: totalAttackerSecondary,
-      TotalAttackerChallenger: totalAttackerChallenger,
+      TotalAttackerChallenger: currentAttackerChallenger,
       TotalAttacker: totalAttacker,
       TotalDefenderPrimary: totalDefenderPrimary,
       TotalDefenderSecondary: totalDefenderSecondary,
-      TotalDefenderChallenger: totalDefenderChallenger,
+      TotalDefenderChallenger: currentDefenderChallenger,
       TotalDefender: totalDefender,
     })
       .then(() => {})
@@ -489,10 +493,10 @@ const BattleForm = (props: { battleId: string }) => {
           <h2>
             {battle.AttackerArmy && battle.DefenderArmy
               ? ` ${propertyFromID(
-                  armiesCollection,
-                  battle.AttackerArmy,
-                  "Name"
-                )} vs 
+                armiesCollection,
+                battle.AttackerArmy,
+                "Name"
+              )} vs 
             ${propertyFromID(armiesCollection, battle.DefenderArmy, "Name")}`
               : `Battle Report`}
           </h2>
@@ -551,6 +555,7 @@ const BattleForm = (props: { battleId: string }) => {
                 AttackerChallenger={0}
                 DefenderChallengerTitle={""}
                 DefenderChallenger={0}
+                showChallenger={false}
               />
 
               {/* Round 2 */}
@@ -564,17 +569,18 @@ const BattleForm = (props: { battleId: string }) => {
                 AttackerSecondary1={battle.T2AttackerSecondary1}
                 AttackerSecondary2Title={battle.T2AttackerSecondary2Title}
                 AttackerSecondary2={battle.T2AttackerSecondary2}
-                AttackerChallengerTitle={battle.T2AttackerChallengerTitle}
-                AttackerChallenger={battle.T2AttackerChallenger}
+                AttackerChallengerTitle={isChallenger ? battle.T2AttackerChallengerTitle : ""}
+                AttackerChallenger={isChallenger ? battle.T2AttackerChallenger : 0}
                 DefenderPrimary={battle.T2DefenderPrimary}
                 DefenderSecondary1Title={battle.T2DefenderSecondary1Title}
                 DefenderSecondary1={battle.T2DefenderSecondary1}
                 DefenderSecondary2Title={battle.T2DefenderSecondary2Title}
                 DefenderSecondary2={battle.T2DefenderSecondary2}
-                DefenderChallengerTitle={battle.T2DefenderChallengerTitle}
-                DefenderChallenger={battle.T2DefenderChallenger}
+                DefenderChallengerTitle={isChallenger ? battle.T2DefenderChallengerTitle : ""}
+                DefenderChallenger={isChallenger ? battle.T2DefenderChallenger : 0}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
+                showChallenger={isChallenger}
               />
 
               {/* Round 3 */}
@@ -588,17 +594,18 @@ const BattleForm = (props: { battleId: string }) => {
                 AttackerSecondary1={battle.T3AttackerSecondary1}
                 AttackerSecondary2Title={battle.T3AttackerSecondary2Title}
                 AttackerSecondary2={battle.T3AttackerSecondary2}
-                AttackerChallengerTitle={battle.T3AttackerChallengerTitle}
-                AttackerChallenger={battle.T3AttackerChallenger}
+                AttackerChallengerTitle={isChallenger ? battle.T3AttackerChallengerTitle : ""}
+                AttackerChallenger={isChallenger ? battle.T3AttackerChallenger : 0}
                 DefenderPrimary={battle.T3DefenderPrimary}
                 DefenderSecondary1Title={battle.T3DefenderSecondary1Title}
                 DefenderSecondary1={battle.T3DefenderSecondary1}
                 DefenderSecondary2Title={battle.T3DefenderSecondary2Title}
                 DefenderSecondary2={battle.T3DefenderSecondary2}
-                DefenderChallengerTitle={battle.T3DefenderChallengerTitle}
-                DefenderChallenger={battle.T3DefenderChallenger}
+                DefenderChallengerTitle={isChallenger ? battle.T3DefenderChallengerTitle : ""}
+                DefenderChallenger={isChallenger ? battle.T3DefenderChallenger : 0}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
+                showChallenger={isChallenger}
               />
 
               {/* Round 4 */}
@@ -612,17 +619,18 @@ const BattleForm = (props: { battleId: string }) => {
                 AttackerSecondary1={battle.T4AttackerSecondary1}
                 AttackerSecondary2Title={battle.T4AttackerSecondary2Title}
                 AttackerSecondary2={battle.T4AttackerSecondary2}
-                AttackerChallengerTitle={battle.T4AttackerChallengerTitle}
-                AttackerChallenger={battle.T4AttackerChallenger}
+                AttackerChallengerTitle={isChallenger ? battle.T4AttackerChallengerTitle : ""}
+                AttackerChallenger={isChallenger ? battle.T4AttackerChallenger : 0}
                 DefenderPrimary={battle.T4DefenderPrimary}
                 DefenderSecondary1Title={battle.T4DefenderSecondary1Title}
                 DefenderSecondary1={battle.T4DefenderSecondary1}
                 DefenderSecondary2Title={battle.T4DefenderSecondary2Title}
                 DefenderSecondary2={battle.T4DefenderSecondary2}
-                DefenderChallengerTitle={battle.T4DefenderChallengerTitle}
-                DefenderChallenger={battle.T4DefenderChallenger}
+                DefenderChallengerTitle={isChallenger ? battle.T4DefenderChallengerTitle : ""}
+                DefenderChallenger={isChallenger ? battle.T4DefenderChallenger : 0}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
+                showChallenger={isChallenger}
               />
 
               {/* Round 5 */}
@@ -636,17 +644,18 @@ const BattleForm = (props: { battleId: string }) => {
                 AttackerSecondary1={battle.T5AttackerSecondary1}
                 AttackerSecondary2Title={battle.T5AttackerSecondary2Title}
                 AttackerSecondary2={battle.T5AttackerSecondary2}
-                AttackerChallengerTitle={battle.T5AttackerChallengerTitle}
-                AttackerChallenger={battle.T5AttackerChallenger}
+                AttackerChallengerTitle={isChallenger ? battle.T5AttackerChallengerTitle : ""}
+                AttackerChallenger={isChallenger ? battle.T5AttackerChallenger : 0}
                 DefenderPrimary={battle.T5DefenderPrimary}
                 DefenderSecondary1Title={battle.T5DefenderSecondary1Title}
                 DefenderSecondary1={battle.T5DefenderSecondary1}
                 DefenderSecondary2Title={battle.T5DefenderSecondary2Title}
                 DefenderSecondary2={battle.T5DefenderSecondary2}
-                DefenderChallengerTitle={battle.T5DefenderChallengerTitle}
-                DefenderChallenger={battle.T5DefenderChallenger}
+                DefenderChallengerTitle={isChallenger ? battle.T5DefenderChallengerTitle : ""}
+                DefenderChallenger={isChallenger ? battle.T5DefenderChallenger : 0}
                 changeFunction={handleChange}
                 changeFunctionSelect={handleChange}
+                showChallenger={isChallenger}
               />
 
               <BattleFormEnd
@@ -710,9 +719,8 @@ const BattleForm = (props: { battleId: string }) => {
           <aside>
             <div className="content content-dark content-sticky content-score">
               <div
-                className={`opponent-layout ${
-                  !battle.IsAttackerFirst ? "reverse" : ""
-                }`}
+                className={`opponent-layout ${!battle.IsAttackerFirst ? "reverse" : ""
+                  }`}
               >
                 <div className="opponent">
                   <legend className="attacker">Attacker</legend>
@@ -746,9 +754,8 @@ const BattleForm = (props: { battleId: string }) => {
         </div>
         <div className="device-score-bar hide-lg">
           <div
-            className={`opponent-layout ${
-              !battle.IsAttackerFirst ? "reverse" : ""
-            }`}
+            className={`opponent-layout ${!battle.IsAttackerFirst ? "reverse" : ""
+              }`}
           >
             <div className="opponent">
               <span className="score-highlight">{battle.TotalAttacker}</span>

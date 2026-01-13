@@ -9,6 +9,7 @@ const BattleFormRound = (props: {
   IsCompleted: boolean;
   IsAttackerFirst: boolean;
   RoundNumber: number;
+  showChallenger: boolean; // New Prop from Step 3
   AttackerPrimary?: number;
   AttackerSecondary1Title: string;
   AttackerSecondary1: number;
@@ -26,7 +27,9 @@ const BattleFormRound = (props: {
   changeFunction: React.ChangeEventHandler<HTMLInputElement>;
   changeFunctionSelect: React.ChangeEventHandler<HTMLSelectElement>;
 }) => {
+  // Updated logic: Must be active deck, post-round 1, AND meet the date cutoff
   const showChallengerCards =
+    props.showChallenger &&
     props.ChapterApprovedVersion === "2025-26 Mission Deck" &&
     props.RoundNumber > 1;
 
@@ -94,7 +97,7 @@ const BattleFormRound = (props: {
             emptyValue="--"
           />
 
-          {showChallengerCards ? (
+          {showChallengerCards && (
             <>
               <SelectField
                 label="Challenger Card Title"
@@ -118,8 +121,6 @@ const BattleFormRound = (props: {
                 emptyValue="--"
               />
             </>
-          ) : (
-            ""
           )}
         </div>
 
@@ -178,7 +179,7 @@ const BattleFormRound = (props: {
             emptyValue="--"
           />
 
-          {showChallengerCards ? (
+          {showChallengerCards && (
             <>
               <SelectField
                 label="Challenger Card Title"
@@ -202,8 +203,6 @@ const BattleFormRound = (props: {
                 emptyValue="--"
               />
             </>
-          ) : (
-            ""
           )}
         </div>
       </div>

@@ -1,20 +1,18 @@
 ## Now
-- Game dashboard stuff! :D
-    - Easy option to hide Challenger points.
+- Easy option to hide Challenger points.
 
 
 ## Next
 - Handle Fixed Secondaries...
 - Handle Draws
 - MVP Hall of fame.
-
+- Make User B know if User A is focussed on a field.
 
 ## Horizon
 - Auth
     - Avatars (general or army?)
     - Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
-
-
+- Game dashboard stuff!
 - Work out how to use Crests
     - Not every army will have one
 
