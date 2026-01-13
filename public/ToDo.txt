@@ -1,12 +1,12 @@
 ## Now
 - Game dashboard stuff! :D
     - Easy option to hide Challenger points.
-- Optimise spinner - Volcano with smoke lifting?
 
 
 ## Next
 - Handle Fixed Secondaries...
 - Handle Draws
+- MVP Hall of fame.
 
 
 ## Horizon

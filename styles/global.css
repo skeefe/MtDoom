@@ -422,43 +422,53 @@ tr.clickable td {
   opacity: 0.5;
 }
 
-/* Spinner */
-@keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
 
-  100% {
-    transform: rotate(360deg);
-  }
+/* Spinner - Mt. Doom Edition */
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px var(--color-accent-lighter)); }
+  50% { opacity: 0.7; filter: drop-shadow(0 0 12px var(--color-accent-lightest)); }
 }
 
 .spinner-container {
-  align-items: center;
   display: grid;
-  height: 21.5rem;
+  align-items: center;
   justify-content: center;
+  height: 21.5rem;
+  /* Adds a subtle 'flicker' to the whole container */
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 .loading-spinner {
-  animation: spinner 1.5s linear infinite;
-  border: 0.85rem solid var(--color-bg-dark);
+  animation: spinner 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  /* Converted 6px to ~0.375rem */
+  border: 0.375rem solid rgba(255, 255, 255, 0.1);
+  border-top: 0.375rem solid var(--color-accent-lightest);
   border-radius: 50%;
-  border-top: 0.85rem solid var(--color-text-secondary);
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 6rem;
+  width: 6rem;
+  
+  /* Creates a 'ring' glow effect */
+  box-shadow: 0 0 0.625rem rgba(98, 107, 143, 0.2); 
 }
 
+/* Small Variant Adjustments */
 .spinner-size-small {
   height: 10.75rem;
 }
 
 .spinner-size-small .loading-spinner {
-  border-width: 0.425rem;
-  border-top-width: 0.425rem;
-  height: 1.75rem;
-  width: 1.75rem;
+  height: 2rem;
+  width: 2rem;
+  /* Converted 1.5px to ~0.09rem */
+  border-width: 0.09rem;
+  border-top-width: 0.09rem;
 }
+
 
 /* Form */
 fieldset {
