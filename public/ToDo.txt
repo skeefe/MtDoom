@@ -13,12 +13,12 @@
     - Highlight animation a field that was updated: https://www.pluralsight.com/guides/prop-changes-in-react-component
 
 - Optimise spinner - Volcano with smoke lifting?
-- Work out how to use Army Colours and Crests
-    - Confetti on battle completion
-        - Army colours.
+- Work out how to use Crests
+    - Not every army will have one
 - 
 
 - Detachment Options list when army selected.
 - Ability to set up events (e.g. tournies)
 - Game dashboard stuff! :D
+    - Easy option to hide Challenger points.
 - Domain Name

@@ -214,6 +214,10 @@ const BattleForm = (props: { battleId: string }) => {
     return opponentsOptions;
   };
 
+  //Retrieve Amy Colours
+  const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e"; 
+  const defenderArmyColour = propertyFromID(armiesCollection, battle.DefenderArmy, "Colour") || "#00ffcc";
+
   //Handle Change
   const handleChange = (e) => {
     const name = e.target.name;
@@ -654,6 +658,9 @@ const BattleForm = (props: { battleId: string }) => {
               />
 
               <BattleFormPost
+                Attacker={battle.Attacker} // Add this line - it passes the General's ID
+                AttackerArmyColour={attackerArmyColour}
+                DefenderArmyColour={defenderArmyColour}
                 IsCompleted={battle.IsCompleted}
                 IsAttackerFirst={battle.IsAttackerFirst}
                 Opponents={collectOpponents()}
