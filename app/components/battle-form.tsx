@@ -658,7 +658,7 @@ const BattleForm = (props: { battleId: string }) => {
               />
 
               <BattleFormPost
-                Attacker={battle.Attacker} // Add this line - it passes the General's ID
+                Attacker={battle.Attacker}
                 AttackerArmyColour={attackerArmyColour}
                 DefenderArmyColour={defenderArmyColour}
                 IsCompleted={battle.IsCompleted}
