@@ -10,51 +10,52 @@ import { iBattleSummary } from "../types/battle";
 import { linkListItem } from "../types/link-list-item";
 
 const Armies = () => {
-  // Required to remove any "Show=FALSE" battles.
+  // FIXED: Filter out both hidden battles AND incomplete drafts
   const filterShow = (item) => {
-    return item.Show !== false;
+    return item.Show !== false && item.IsCompleted === true;
   };
 
-  // Retrieve army collection data.
+  // Retrieve army collection data
   const armyCollection = getCollectionSnapshot("Armies", "Name", "asc").filter(
-    filterShow
+    (a) => a.Show !== false
   );
 
-  // Retrieve battle collection data.
+  // Retrieve battle collection data
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
 
-  // Setup array of battles.
+  // Setup array of battles
   let battles: iBattleSummary[] = new Array();
-  battleCollection.map((battle) => {
-    battles.push({
-      id: battle.id,
-      Date: battle.Date,
-      PrimaryMission: battle.PrimaryMission,
-      MissionRule: battle.MissionRule,
-      Deployment: battle.Deployment,
-      Attacker: battle.Attacker,
-      AttackerArmy: battle.AttackerArmy,
-      TotalAttacker: battle.TotalAttacker,
-      Defender: battle.Defender,
-      DefenderArmy: battle.DefenderArmy,
-      TotalDefender: battle.TotalDefender,
-      Victor: battle.Victor,
-      IsCompleted: battle.IsCompleted,
-      Show: battle.Show,
-      FirstTurn: battle.FirstTurn,
-    });
+  battleCollection.forEach((battle) => {
+    if (battle.AttackerArmy && battle.DefenderArmy) {
+      battles.push({
+        id: battle.id,
+        Date: battle.Date,
+        PrimaryMission: battle.PrimaryMission,
+        MissionRule: battle.MissionRule,
+        Deployment: battle.Deployment,
+        Attacker: battle.Attacker,
+        AttackerArmy: battle.AttackerArmy,
+        TotalAttacker: battle.TotalAttacker,
+        Defender: battle.Defender,
+        DefenderArmy: battle.DefenderArmy,
+        TotalDefender: battle.TotalDefender,
+        Victor: battle.Victor,
+        IsCompleted: battle.IsCompleted,
+        Show: battle.Show,
+        FirstTurn: battle.FirstTurn,
+      });
+    }
   });
 
-
-  // --- NEMESIS LOGIC ---
+  // --- NEMESIS LOGIC (Updated to ignore Draws) ---
   const getNemesis = (armyId: string) => {
     const losses = battles.filter((b) => {
       const isAttacker = b.AttackerArmy === armyId;
       const isDefender = b.DefenderArmy === armyId;
       if (!isAttacker && !isDefender) return false;
 
-      const wasAttackerAndLost = isAttacker && b.Victor === b.Defender && b.Victor !== undefined;
-      const wasDefenderAndLost = isDefender && b.Victor === b.Attacker && b.Victor !== undefined;
+      const wasAttackerAndLost = isAttacker && b.Victor === b.Defender && b.Victor !== "DRAW";
+      const wasDefenderAndLost = isDefender && b.Victor === b.Attacker && b.Victor !== "DRAW";
 
       return wasAttackerAndLost || wasDefenderAndLost;
     });
@@ -79,15 +80,15 @@ const Armies = () => {
     };
   };
 
-  // ---  PREY LOGIC ---
+  // --- PREY LOGIC ---
   const getPrey = (armyId: string) => {
     const wins = battles.filter((b) => {
       const isAttacker = b.AttackerArmy === armyId;
       const isDefender = b.DefenderArmy === armyId;
       if (!isAttacker && !isDefender) return false;
 
-      const wasAttackerAndWon = isAttacker && b.Victor === b.Attacker && b.Victor !== undefined;
-      const wasDefenderAndWon = isDefender && b.Victor === b.Defender && b.Victor !== undefined;
+      const wasAttackerAndWon = isAttacker && b.Victor === b.Attacker;
+      const wasDefenderAndWon = isDefender && b.Victor === b.Defender;
 
       return wasAttackerAndWon || wasDefenderAndWon;
     });
@@ -112,141 +113,75 @@ const Armies = () => {
     };
   };
 
+  const armyPlayed = (armyId) => battles.filter(b => b.AttackerArmy === armyId || b.DefenderArmy === armyId).length;
 
-  const armyPlayed = (armyId) => {
-    return battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("AttackerArmy") && obj["AttackerArmy"]) ===
-          armyId ||
-        (Object.keys(obj).includes("DefenderArmy") &&
-          obj["DefenderArmy"] === armyId)
-    ).length;
-  };
+  const armyWon = (armyId) => battles.filter(b => 
+    (b.AttackerArmy === armyId && b.Attacker === b.Victor) || 
+    (b.DefenderArmy === armyId && b.Defender === b.Victor)
+  ).length;
 
-  const armyWon = (armyId) => {
-    return battles.filter(
-      (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("AttackerArmy") &&
-          obj["AttackerArmy"]) === armyId &&
-          obj["Attacker"] === obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("DefenderArmy") &&
-          obj["DefenderArmy"]) === armyId &&
-          obj["Defender"] === obj["Victor"])
-    ).length;
-  };
+  // UPDATED: Excludes DRAW from loss count
+  const armyLost = (armyId) => battles.filter(b => 
+    (b.AttackerArmy === armyId && b.Victor !== "DRAW" && b.Attacker !== b.Victor) || 
+    (b.DefenderArmy === armyId && b.Victor !== "DRAW" && b.Defender !== b.Victor)
+  ).length;
 
-  const armyLost = (armyId) => {
-    return battles.filter(
-      (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("AttackerArmy") &&
-          obj["AttackerArmy"]) === armyId &&
-          obj["Attacker"] !== obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("DefenderArmy") &&
-          obj["DefenderArmy"]) === armyId &&
-          obj["Defender"] !== obj["Victor"])
-    ).length;
-  };
+  // NEW: Specifically counts DRAWs
+  const armyDrawn = (armyId) => battles.filter(b => 
+    (b.AttackerArmy === armyId || b.DefenderArmy === armyId) && b.Victor === "DRAW"
+  ).length;
 
   const addArmyPointsFor = (armyId) => {
-    const armyAttackerBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("AttackerArmy") && obj["AttackerArmy"]) ===
-        armyId
-    );
-
-    let armyAttackerTotal = 0;
-    armyAttackerBattles.map(function (battle) {
-      armyAttackerTotal += battle.TotalAttacker;
-    });
-
-    const armyDefenderBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("DefenderArmy") && obj["DefenderArmy"]) ===
-        armyId
-    );
-
-    let armyDefenderTotal = 0;
-    armyDefenderBattles.map(function (battle) {
-      armyDefenderTotal += battle.TotalDefender;
-    });
-
-    return armyAttackerTotal + armyDefenderTotal;
+    const armyAttackerBattles = battles.filter((obj) => obj.AttackerArmy === armyId);
+    let total = 0;
+    armyAttackerBattles.forEach((b) => total += b.TotalAttacker);
+    const armyDefenderBattles = battles.filter((obj) => obj.DefenderArmy === armyId);
+    armyDefenderBattles.forEach((b) => total += b.TotalDefender);
+    return total;
   };
 
   const addArmyPointsAgainst = (armyId) => {
-    const armyAttackerBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("AttackerArmy") && obj["AttackerArmy"]) ===
-        armyId
-    );
-
-    let armyAttackerTotal = 0;
-    armyAttackerBattles.map(function (battle) {
-      armyAttackerTotal += battle.TotalDefender;
-    });
-
-    const armyDefenderBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("DefenderArmy") && obj["DefenderArmy"]) ===
-        armyId
-    );
-
-    let armyDefenderTotal = 0;
-    armyDefenderBattles.map(function (battle) {
-      armyDefenderTotal += battle.TotalAttacker;
-    });
-
-    return armyAttackerTotal + armyDefenderTotal;
+    const armyAttackerBattles = battles.filter((obj) => obj.AttackerArmy === armyId);
+    let total = 0;
+    armyAttackerBattles.forEach((b) => total += b.TotalDefender);
+    const armyDefenderBattles = battles.filter((obj) => obj.DefenderArmy === armyId);
+    armyDefenderBattles.forEach((b) => total += b.TotalAttacker);
+    return total;
   };
 
   const armyFirstTurn = (armyId) => {
     return battles.filter(
       (obj) =>
-        ((Object.keys(obj).includes("AttackerArmy") &&
-          Object.keys(obj).includes("Attacker") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["AttackerArmy"]) === armyId &&
-          obj["Attacker"] === obj["FirstTurn"]) ||
-        ((Object.keys(obj).includes("DefenderArmy") &&
-          Object.keys(obj).includes("Defender") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["DefenderArmy"]) === armyId &&
-          obj["Defender"] === obj["FirstTurn"])
+        (obj.AttackerArmy === armyId && obj.Attacker === obj.FirstTurn) ||
+        (obj.DefenderArmy === armyId && obj.Defender === obj.FirstTurn)
     ).length;
   };
 
-  // Setup arrays of armies.
   let activeArmies: iArmySummary[] = new Array();
   let inactiveArmies: linkListItem[] = new Array();
 
   armyCollection.map((army) => {
-    if (armyPlayed(army.id) > 0) {
-      const nemesis = getNemesis(army.id); // Calculate nemesis for this army
-      const prey = getPrey(army.id); // Calculate prey for this army
+    const played = armyPlayed(army.id);
+    if (played > 0) {
+      const nemesis = getNemesis(army.id); 
+      const prey = getPrey(army.id); 
+      const won = armyWon(army.id);
+      const drawn = armyDrawn(army.id);
 
       activeArmies.push({
         id: army.id,
         Name: army.Name,
         Emoji: army.Emoji,
-        Played: armyPlayed(army.id),
-        Won: armyWon(army.id),
+        Played: played,
+        Won: won,
         Lost: armyLost(army.id),
-        AveragePoints: Math.round(
-          ((addArmyPointsFor(army.id) / armyPlayed(army.id)) * 10) / 10
-        ),
+        Drawn: drawn,
+        AveragePoints: Math.round(((addArmyPointsFor(army.id) / played) * 10)) / 10,
         TotalPoints: addArmyPointsFor(army.id),
-        PointDifference:
-          addArmyPointsFor(army.id) - addArmyPointsAgainst(army.id),
-        WinPercentage:
-          Math.round((armyWon(army.id) / armyPlayed(army.id)) * 1000) / 10,
-        FirstTurnPercentage:
-          Math.round((armyFirstTurn(army.id) / armyPlayed(army.id)) * 1000) /
-          10,
-        // Add Nemesis data here
+        PointDifference: addArmyPointsFor(army.id) - addArmyPointsAgainst(army.id),
+        // FIXED: Tournament Win Rate Math
+        WinPercentage: Math.round(((won + (drawn * 0.5)) / played) * 1000) / 10,
+        FirstTurnPercentage: Math.round((armyFirstTurn(army.id) / played) * 1000) / 10,
         NemesisName: nemesis.Name,
         NemesisEmoji: nemesis.Emoji,
         NemesisCount: nemesis.Count,
@@ -256,8 +191,7 @@ const Armies = () => {
       });
     } else {
       inactiveArmies.push({
-        Title:
-          army.Emoji !== undefined ? `${army.Emoji} ${army.Name}` : army.Name,
+        Title: army.Emoji !== undefined ? `${army.Emoji} ${army.Name}` : army.Name,
         Destination: `/army/${army.id}`,
       });
     }
@@ -265,14 +199,7 @@ const Armies = () => {
 
   return (
     <>
-      {/* Active Armies */}
-      <ArmiesTable
-        title="Active Armies"
-        armies={activeArmies}
-        showCreateButton={true}
-      />
-
-      {/* Inactive Armies */}
+      <ArmiesTable title="Active Armies" armies={activeArmies} showCreateButton={true} />
       <LinkList title="Inactive Armies" list={inactiveArmies} />
     </>
   );

@@ -28,7 +28,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
     if (armyDoc["Nicknames"] !== undefined && armyDoc["Nicknames"].length > 0) {
       const randomNickname =
         armyDoc["Nicknames"][
-          Math.floor(Math.random() * armyDoc["Nicknames"].length)
+        Math.floor(Math.random() * armyDoc["Nicknames"].length)
         ];
       return randomNickname;
     } else {
@@ -43,10 +43,15 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
     props.battle.Victor && props.battle.Victor === props.battle.Attacker
       ? true
       : false;
+
   const IsDefenderVictor: boolean =
     props.battle.Victor && props.battle.Victor === props.battle.Defender
       ? true
       : false;
+
+  // Add this
+  const IsDraw: boolean = props.battle.Victor === "DRAW";
+
 
   return (
     <>
@@ -73,13 +78,13 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         <td>
           <span className="cell-heading hide-md">
             {attackerArmy?.Name ? attackerArmy.Name : null}
-            {IsAttackerVictor ? " 🎖" : null}
+            {IsAttackerVictor ? " 🎖" : IsDraw ? " 🤝" : null}
           </span>
 
           <span className="cell-heading hide show-md">
             {attackerArmy?.Emoji && `${attackerArmy.Emoji} `}
             {attackerArmy?.Name}
-            {IsAttackerVictor ? " 🎖" : null}
+            {IsAttackerVictor ? " 🎖" : IsDraw ? " 🤝" : null}
           </span>
           <span className="hide show-sm">
             General:{" "}
@@ -94,12 +99,12 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         <td>
           <span className="cell-heading hide-md">
             {defenderArmy?.Name ? defenderArmy.Name : null}
-            {IsDefenderVictor ? " 🎖" : null}
+            {IsDefenderVictor ? " 🎖" : IsDraw ? " 🤝" : null}
           </span>
           <span className="cell-heading hide show-md">
             {defenderArmy?.Emoji && `${defenderArmy.Emoji} `}
             {defenderArmy?.Name}
-            {IsDefenderVictor ? " 🎖" : null}
+            {IsDefenderVictor ? " 🎖" : IsDraw ? " 🤝" : null}
           </span>
           <span className="hide show-sm">
             General:{" "}

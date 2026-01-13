@@ -21,7 +21,9 @@ const StatPanel = (props: {
     Played: 0,
     Won: 0,
     Lost: 0,
+    Drawn: 0,
     AveragePoints: 0,
+    AverageOpponentPoints: 0,
     TotalPoints: 0,
     PointDifference: 0,
     WinPercentage: 0,
@@ -102,23 +104,22 @@ const StatPanel = (props: {
     );
   };
 
-  //const handleChange = (e) => {
   const handleChange = (e) => {
     const value = e.target.value;
 
-    //Check for "Show All"
+    // Check for "Show All"
     if (value === "") {
       return unfilteredStats();
     }
 
-    //Army or General
+    // Army or General
     const type: "Army" | "General" =
       value.slice(0, 1) === "a" ? "Army" : "General";
 
-    //Drop the prefix.
+    // Drop the prefix.
     const opponentId = value.slice(2);
 
-    //Filter data
+    // Filter data
     let opponentBattleData: iBattle[] =
       type === "Army"
         ? props.Battles.filter(
@@ -129,11 +130,12 @@ const StatPanel = (props: {
           (b) => b.Attacker === opponentId || b.Defender === opponentId
         );
 
-    //Make calculations
+    // Make calculations
     let totalPointsFor: number = 0;
     let totalPointsAgainst: number = 0;
     let firstTurnTotal: number = 0;
     let totalWins: number = 0;
+    let totalDraws: number = 0;
 
     opponentBattleData.forEach((battle) => {
       const isOpponentAttacker =
@@ -157,12 +159,19 @@ const StatPanel = (props: {
             ? firstTurnTotal + 1
             : firstTurnTotal;
 
-      totalWins =
-        isOpponentAttacker && battle.Attacker !== battle.Victor
-          ? totalWins + 1
-          : !isOpponentAttacker && battle.Defender !== battle.Victor
+      // Logic: If it's a draw, increment draws. 
+      // Otherwise, check if the current Item (props.Item) won.
+      if (battle.Victor === "DRAW") {
+        totalDraws++;
+      } else {
+        // Check if the current General/Army won (props.Item is the page owner)
+        totalWins =
+          isOpponentAttacker && battle.Attacker !== battle.Victor
             ? totalWins + 1
-            : totalWins;
+            : !isOpponentAttacker && battle.Defender !== battle.Victor
+              ? totalWins + 1
+              : totalWins;
+      }
     });
 
     const opponentData: iStatPanel = {
@@ -174,18 +183,22 @@ const StatPanel = (props: {
 
       Played: opponentBattleData.length,
       Won: totalWins,
-      Lost: opponentBattleData.length - totalWins,
+      Drawn: totalDraws,
+      // Lost is now Total - Wins - Draws
+      Lost: opponentBattleData.length - totalWins - totalDraws,
       AveragePoints:
         Math.round((totalPointsFor / opponentBattleData.length) * 10) / 10,
+      AverageOpponentPoints: Math.round((totalPointsAgainst / opponentBattleData.length) * 10) / 10,
       TotalPoints: totalPointsFor,
       PointDifference: totalPointsFor - totalPointsAgainst,
-      WinPercentage:
-        Math.round((totalWins / opponentBattleData.length) * 1000) / 10,
+      WinPercentage: Math.round(
+        ((totalWins + (totalDraws * 0.5)) / opponentBattleData.length) * 1000
+      ) / 10,
       FirstTurnPercentage:
         Math.round((firstTurnTotal / opponentBattleData.length) * 1000) / 10,
     };
 
-    //Update State
+    // Update State
     setStats((prev) => {
       return { ...prev, ...opponentData };
     });
@@ -217,15 +230,13 @@ const StatPanel = (props: {
   const generalLost = (generalId) => {
     return props.Battles.filter(
       (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Attacker") &&
-          obj["Attacker"]) === generalId &&
-          obj["Attacker"] !== obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Defender") &&
-          obj["Defender"]) === generalId &&
-          obj["Defender"] !== obj["Victor"])
+        (obj["Attacker"] === generalId && obj["Attacker"] !== obj["Victor"] && obj["Victor"] !== "DRAW") ||
+        (obj["Defender"] === generalId && obj["Defender"] !== obj["Victor"] && obj["Victor"] !== "DRAW")
     ).length;
+  };
+
+  const generalDrawn = (generalId) => {
+    return props.Battles.filter(obj => obj["Victor"] === "DRAW").length;
   };
 
   const addGeneralPointsFor = (generalId) => {
@@ -317,15 +328,13 @@ const StatPanel = (props: {
   const armyLost = (armyId) => {
     return props.Battles.filter(
       (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("AttackerArmy") &&
-          obj["AttackerArmy"]) === armyId &&
-          obj["Attacker"] !== obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("DefenderArmy") &&
-          obj["DefenderArmy"]) === armyId &&
-          obj["Defender"] !== obj["Victor"])
+        (obj["AttackerArmy"] === armyId && obj["Attacker"] !== obj["Victor"] && obj["Victor"] !== "DRAW") ||
+        (obj["DefenderArmy"] === armyId && obj["Defender"] !== obj["Victor"] && obj["Victor"] !== "DRAW")
     ).length;
+  };
+
+  const armyDrawn = (armyId) => {
+    return props.Battles.filter(obj => obj["Victor"] === "DRAW").length;
   };
 
   const addArmyPointsFor = (armyId) => {
@@ -406,17 +415,15 @@ const StatPanel = (props: {
         Played: generalPlayed(props.Item),
         Won: generalWon(props.Item),
         Lost: generalLost(props.Item),
-        AveragePoints: Math.round(
-          ((addGeneralPointsFor(props.Item) / generalPlayed(props.Item)) * 10) /
-          10
-        ),
+        Drawn: generalDrawn(props.Item),
+        AveragePoints: Math.round(((addGeneralPointsFor(props.Item) / generalPlayed(props.Item)) * 10) / 10),
+        AverageOpponentPoints: Math.round(((addGeneralPointsAgainst(props.Item) / generalPlayed(props.Item)) * 10) / 10),
         TotalPoints: addGeneralPointsFor(props.Item),
         PointDifference:
           addGeneralPointsFor(props.Item) - addGeneralPointsAgainst(props.Item),
-        WinPercentage:
-          Math.round(
-            (generalWon(props.Item) / generalPlayed(props.Item)) * 1000
-          ) / 10,
+        WinPercentage: Math.round(
+          ((generalWon(props.Item) + (generalDrawn(props.Item) * 0.5)) / generalPlayed(props.Item)) * 1000
+        ) / 10,
         FirstTurnPercentage:
           Math.round(
             (generalFirstTurn(props.Item) / generalPlayed(props.Item)) * 1000
@@ -429,15 +436,15 @@ const StatPanel = (props: {
         Played: armyPlayed(props.Item),
         Won: armyWon(props.Item),
         Lost: armyLost(props.Item),
-        AveragePoints: Math.round(
-          ((addArmyPointsFor(props.Item) / armyPlayed(props.Item)) * 10) / 10
-        ),
+        Drawn: armyDrawn(props.Item),
+        AveragePoints: Math.round(((addArmyPointsFor(props.Item) / armyPlayed(props.Item)) * 10) / 10),
+        AverageOpponentPoints: Math.round(((addArmyPointsAgainst(props.Item) / armyPlayed(props.Item)) * 10) / 10),
         TotalPoints: addArmyPointsFor(props.Item),
         PointDifference:
           addArmyPointsFor(props.Item) - addArmyPointsAgainst(props.Item),
-        WinPercentage:
-          Math.round((armyWon(props.Item) / armyPlayed(props.Item)) * 1000) /
-          10,
+        WinPercentage: Math.round(
+          ((armyWon(props.Item) + (armyDrawn(props.Item) * 0.5)) / armyPlayed(props.Item)) * 1000
+        ) / 10,
         FirstTurnPercentage:
           Math.round(
             (armyFirstTurn(props.Item) / armyPlayed(props.Item)) * 1000
@@ -478,12 +485,17 @@ const StatPanel = (props: {
           </span>
           <span className="stat-value">{stats.FirstTurnPercentage}%</span>
         </li>
-
         <li>
           <span className="stat-label" title="Average Points/Battle">
             Avg.&nbsp;Points
           </span>
           <span className="stat-value">{stats.AveragePoints}</span>
+        </li>
+        <li className="hide-sm show-lg-flex">
+          <span className="stat-label" title="Average Opponent Points/Battle">
+            Avg.&nbsp;Opp.&nbsp;Points
+          </span>
+          <span className="stat-value">{stats.AverageOpponentPoints}</span>
         </li>
         <li>
           <span className="stat-label" title="Total Points">
@@ -502,6 +514,12 @@ const StatPanel = (props: {
             Won
           </span>
           <span className="stat-value">{stats.Won}</span>
+        </li>
+        <li>
+          <span className="stat-label" title="Battles Drawn">
+            Drawn
+          </span>
+          <span className="stat-value">{stats.Drawn}</span>
         </li>
         <li>
           <span className="stat-label" title="Battles Lost">

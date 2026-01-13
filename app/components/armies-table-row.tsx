@@ -22,6 +22,7 @@ const ArmiesTableRow = (props: { army: iArmySummary }) => {
         </td>
         <td className="hide show-sm text-center">{props.army.Won}</td>
         <td className="hide show-sm text-center">{props.army.Lost}</td>
+        <td className="hide show-sm text-center">{props.army.Drawn}</td>
         <td className="hide show-md text-center">{props.army.AveragePoints}</td>
         <td className="hide show-lg text-center">{props.army.TotalPoints}</td>
         <td className="text-center text-center">

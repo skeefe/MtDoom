@@ -227,13 +227,22 @@ const BattleForm = (props: { battleId: string }) => {
     const name = e.target.name;
     const value = e.target.value;
 
-    //Update State
+    // Create an object for the updates
+    let updates = { [name]: value };
+
+    // --- The Logic ---
+    // If the user selects "Points Draw", we force the Victor to "DRAW" 
+    if (name === "VictoryType" && value === "Points Draw") {
+      updates["Victor"] = "DRAW";
+    }
+
+    // Update State
     setBattle((prev) => {
-      return { ...prev, [name]: value };
+      return { ...prev, ...updates };
     });
 
-    //Update Firestore
-    updateDoc(doc(db, "Battles", docId), { [name]: value })
+    // Update Firestore
+    updateDoc(doc(db, "Battles", docId), updates)
       .then(() => { })
       .catch((error) => {
         console.log(error);
@@ -347,7 +356,7 @@ const BattleForm = (props: { battleId: string }) => {
       TotalDefenderChallenger: currentDefenderChallenger,
       TotalDefender: totalDefender,
     })
-      .then(() => {})
+      .then(() => { })
       .catch((error) => {
         console.log(error);
       });

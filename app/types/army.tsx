@@ -14,6 +14,7 @@ export interface iArmySummary {
   Played: number;
   Won: number;
   Lost: number;
+  Drawn: number;
   AveragePoints: number;
   TotalPoints: number;
   PointDifference: number;

@@ -234,6 +234,14 @@ const StepBattleForm = (props: { battleId: string }) => {
     const name = e.target.name;
     const value = e.target.value;
 
+    let updates = { [name]: value };
+
+    // --- The Logic ---
+    // If the user selects "Points Draw", we force the Victor to "DRAW" 
+    if (name === "VictoryType" && value === "Points Draw") {
+      updates["Victor"] = "DRAW";
+    }
+
     //Update State
     setBattle((prev) => {
       return { ...prev, [name]: value };

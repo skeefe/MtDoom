@@ -1,12 +1,10 @@
 ## Now
-- Easy option to hide Challenger points.
-
+- Make User B know if User A is focussed on a field.
 
 ## Next
 - Handle Fixed Secondaries...
-- Handle Draws
 - MVP Hall of fame.
-- Make User B know if User A is focussed on a field.
+
 
 ## Horizon
 - Auth

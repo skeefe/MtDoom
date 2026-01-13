@@ -21,6 +21,7 @@ const GeneralsTableRow = (props: { general: iGeneralSummary }) => {
         </td>
         <td className="hide show-sm text-center">{props.general.Won}</td>
         <td className="hide show-sm text-center">{props.general.Lost}</td>
+        <td className="hide show-sm text-center">{props.general.Drawn}</td>
         <td className="hide show-md text-center">
           {props.general.AveragePoints}
         </td>

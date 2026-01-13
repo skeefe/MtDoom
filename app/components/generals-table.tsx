@@ -82,6 +82,9 @@ const GeneralsTable = (props: {
               <th className="hide show-sm text-center sort-title" onClick={() => handleSort("Lost")}>
                 Lost <span className={sortColumn === "Lost" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("Lost")}</span>
               </th>
+              <th className="hide show-sm text-center sort-title" onClick={() => handleSort("Drawn")}>
+                Drawn <span className={sortColumn === "Drawn" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("Drawn")}</span>
+              </th>
               <th className="hide show-md text-center sort-title" onClick={() => handleSort("AveragePoints")}>
                 Avg. Points <span className={sortColumn === "AveragePoints" ? "sort-arrow-active" : "sort-arrow-inactive"}>{getArrowIcon("AveragePoints")}</span>
               </th>

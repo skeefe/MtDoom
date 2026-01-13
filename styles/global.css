@@ -123,6 +123,10 @@
     display: inline !important;
   }
 
+  .show-lg-flex {
+    display: flex !important;
+  }
+
   th.show-lg,
   td.show-lg {
     display: table-cell !important;
@@ -1001,98 +1005,76 @@ tspan {
   font-size: 0.875rem;
 }
 
-/* Stat Panel */
+/* Stat Panel Container */
 .primary-content ul.stat-panel-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr); /* Mobile default */
   gap: 1rem;
   list-style: none;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
+/* Tablet: Shift to 3 columns to prevent vertical stretching */
 @media (min-width: 640px) {
   .primary-content ul.stat-panel-list {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (min-width: 768px) {
+/* Desktop: Fixed 5x2 Grid */
+@media (min-width: 1024px) {
   .primary-content ul.stat-panel-list {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem; /* Increase gap for cleaner separation on big screens */
   }
 }
 
-@media (min-width: 1280px) {
-  .primary-content ul.stat-panel-list {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
-}
-
-.stat-panel-list>li {
-  align-content: center;
+.stat-panel-list > li {
+  container-type: inline-size; /* Enables Container Query units */
   aspect-ratio: 1;
   background-color: var(--color-bg-dark);
   box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
-  padding: 1rem;
+  align-items: center;
+  padding: 10%; /* Responsive padding based on box size */
   text-align: center;
+  overflow: hidden;
 }
 
-@media (min-width: 640px) {}
-
-@media (min-width: 768px) {}
-
-@media (min-width: 1024px) {}
-
-.stat-panel-list>li .stat-label {
+.stat-panel-list > li .stat-label {
   color: var(--color-text-primary);
   display: block;
   font-family: Aleo, sans-serif;
-  font-size: 1.25rem;
-  margin: 0 0 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 5%;
+  width: 100%;
+  line-height: 1.2;
+  /* Scaled based on the individual box width */
+  font-size: clamp(0.7rem, 8cqi, 1.2rem); 
 }
 
-.stat-panel-list>li .stat-value {
+.stat-panel-list > li .stat-value {
   color: #fff;
   display: block;
-  font-size: 3.5rem;
   font-weight: bold;
+  letter-spacing: -0.02em;
   line-height: 1;
   text-align: center;
   width: 100%;
+  /* Aggressive scaling: fills the box as much as possible */
+  /* 35cqi means 35% of the box width */
+  font-size: clamp(2rem, 35cqi, 6rem); 
 }
 
-@media (min-width: 640px) {
-  .stat-panel-list>li .stat-value {
-    font-size: 3.25rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .stat-panel-list>li .stat-value {
-    font-size: 2.75rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .stat-panel-list>li .stat-value {
-    font-size: 4.5rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .stat-panel-list>li .stat-value {
-    font-size: 2.25rem;
-  }
-}
-
-@media (min-width: 1536px) {
-  .stat-panel-list>li .stat-value {
-    font-size: 3rem;
-  }
+/* Specific fix for long numbers (like Total Points) to prevent blowout */
+.stat-panel-list > li:has(.stat-value:not(:empty)) .stat-value {
+    /* If the value has more than 3 characters, slightly reduce font-size */
+    font-size: clamp(1.8rem, 30cqi, 5.5rem);
 }
 
 /* Step Panel */
@@ -1243,8 +1225,8 @@ tspan {
 }
 
 .pip-D {
-  background-color: var(--color-text-muted);
-  color: var(--color-text-primary);
+  background-color: #ffbe0b;
+  box-shadow: 0 0 5px var(--color-primary);
 }
 
 

@@ -23,7 +23,9 @@ const RecentForm = (props: {
 
         // 2. Determine the Result (W/L/D)
         let result = "D";
-        if (battle.Victor) {
+
+        // Only run Win/Loss logic if there isn't a Draw
+        if (battle.Victor && battle.Victor !== "DRAW") {
             if (props.Type === "Generals") {
                 // Simple match for General
                 result = battle.Victor === props.Item ? "W" : "L";
@@ -35,8 +37,11 @@ const RecentForm = (props: {
 
                 result = winningArmyId === props.Item ? "W" : "L";
             }
+        } else {
+            // If battle.Victor is "DRAW" or doesn't exist, it stays "D"
+            result = "D";
         }
-
+        
         // 3. Get Opponent Info for the Tooltip
         const opponentGeneralId = isAttacker ? battle.Defender : battle.Attacker;
         const opponentArmyId = isAttacker ? battle.DefenderArmy : battle.AttackerArmy;

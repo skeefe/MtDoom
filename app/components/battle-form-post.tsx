@@ -114,19 +114,6 @@ const BattleFormPost = (props: {
       </div>
 
       <SelectField
-        label="Victor"
-        required={true}
-        id="victor"
-        name="Victor"
-        changeFunction={props.changeFunctionSelect}
-        value={props.Victor}
-        options={props.Opponents}
-        emptyValue="Select the Victor"
-        noOptionsMessage="Select the Attacker or Defender."
-      />
-
-      {/* Rest of your fields remain the same */}
-      <SelectField
         label="Victory Type"
         required={true}
         id="victoryType"
@@ -136,6 +123,21 @@ const BattleFormPost = (props: {
         options={victoryTypes}
         emptyValue="Select the Victory Type"
       />
+
+      {props.VictoryType !== "Points Draw" && (
+        <SelectField
+          label="Victor"
+          required={true}
+          id="victor"
+          name="Victor"
+          changeFunction={props.changeFunctionSelect}
+          value={props.Victor}
+          options={props.Opponents}
+          emptyValue="Select the Victor"
+          noOptionsMessage="Select the Attacker or Defender."
+        />
+      )}
+
       <SelectField
         label="Turn Ended"
         required={true}

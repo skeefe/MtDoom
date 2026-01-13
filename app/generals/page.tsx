@@ -9,19 +9,17 @@ import { iBattleSummary } from "../types/battle";
 import { linkListItem } from "../types/link-list-item";
 import LinkList from "../components/link-list";
 
-const Armies = () => {
-  // Retrieve General collection data.
+// Component name updated to Generals
+const Generals = () => {
   const generalCollection = getCollectionSnapshot("Generals", "Alias", "asc");
 
-  //Required to remove any "Show=FALSE" battles.
   const filterShow = (battle) => {
-    return battle.Show !== false;
+    // Only count battles explicitly marked to show AND marked as finished
+    return battle.Show !== false && battle.IsCompleted === true;
   };
 
-  // Retrieve battle collection data.
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
 
-  //Setup array of battles.
   let battles: iBattleSummary[] = new Array();
   battleCollection.map((battle) => {
     battles.push({
@@ -45,85 +43,54 @@ const Armies = () => {
 
   const generalPlayed = (generalId) => {
     return battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) ===
-          generalId ||
-        (Object.keys(obj).includes("Defender") && obj["Defender"] === generalId)
+      (obj) => obj.Attacker === generalId || obj.Defender === generalId
     ).length;
   };
 
   const generalWon = (generalId) => {
     return battles.filter(
       (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Attacker") &&
-          obj["Attacker"]) === generalId &&
-          obj["Attacker"] === obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Defender") &&
-          obj["Defender"]) === generalId &&
-          obj["Defender"] === obj["Victor"])
+        (obj.Attacker === generalId && obj.Attacker === obj.Victor) ||
+        (obj.Defender === generalId && obj.Defender === obj.Victor)
     ).length;
   };
 
   const generalLost = (generalId) => {
     return battles.filter(
       (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Attacker") &&
-          obj["Attacker"]) === generalId &&
-          obj["Attacker"] !== obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Defender") &&
-          obj["Defender"]) === generalId &&
-          obj["Defender"] !== obj["Victor"])
+        (obj.Attacker === generalId && obj.Victor !== "DRAW" && obj.Attacker !== obj.Victor) ||
+        (obj.Defender === generalId && obj.Victor !== "DRAW" && obj.Defender !== obj.Victor)
+    ).length;
+  };
+
+  const generalDrawn = (generalId) => {
+    return battles.filter(
+      (obj) =>
+        (obj.Attacker === generalId || obj.Defender === generalId) &&
+        obj.Victor === "DRAW"
     ).length;
   };
 
   const addGeneralPointsFor = (generalId) => {
-    const generalAttackerBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) === generalId
-    );
-
+    const generalAttackerBattles = battles.filter((obj) => obj.Attacker === generalId);
     let generalAttackerTotal = 0;
-    generalAttackerBattles.map(function (battle) {
-      generalAttackerTotal += battle.TotalAttacker;
-    });
+    generalAttackerBattles.map((battle) => generalAttackerTotal += battle.TotalAttacker);
 
-    const generalDefenderBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Defender") && obj["Defender"]) === generalId
-    );
-
+    const generalDefenderBattles = battles.filter((obj) => obj.Defender === generalId);
     let generalDefenderTotal = 0;
-    generalDefenderBattles.map(function (battle) {
-      generalDefenderTotal += battle.TotalDefender;
-    });
+    generalDefenderBattles.map((battle) => generalDefenderTotal += battle.TotalDefender);
 
     return generalAttackerTotal + generalDefenderTotal;
   };
 
   const addGeneralPointsAgainst = (generalId) => {
-    const generalAttackerBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) === generalId
-    );
-
+    const generalAttackerBattles = battles.filter((obj) => obj.Attacker === generalId);
     let generalAttackerTotal = 0;
-    generalAttackerBattles.map(function (battle) {
-      generalAttackerTotal += battle.TotalDefender;
-    });
+    generalAttackerBattles.map((battle) => generalAttackerTotal += battle.TotalDefender);
 
-    const generalDefenderBattles = battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Defender") && obj["Defender"]) === generalId
-    );
-
+    const generalDefenderBattles = battles.filter((obj) => obj.Defender === generalId);
     let generalDefenderTotal = 0;
-    generalDefenderBattles.map(function (battle) {
-      generalDefenderTotal += battle.TotalAttacker;
-    });
+    generalDefenderBattles.map((battle) => generalDefenderTotal += battle.TotalAttacker);
 
     return generalAttackerTotal + generalDefenderTotal;
   };
@@ -131,53 +98,39 @@ const Armies = () => {
   const generalFirstTurn = (generalId) => {
     return battles.filter(
       (obj) =>
-        ((Object.keys(obj).includes("Attacker") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["Attacker"]) === generalId &&
-          obj["Attacker"] === obj["FirstTurn"]) ||
-        ((Object.keys(obj).includes("Defender") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["Defender"]) === generalId &&
-          obj["Defender"] === obj["FirstTurn"])
+        (obj.Attacker === generalId && obj.Attacker === obj.FirstTurn) ||
+        (obj.Defender === generalId && obj.Defender === obj.FirstTurn)
     ).length;
   };
 
-  //Setup array of armies.
   let activeGenerals: iGeneralSummary[] = new Array();
   let inactiveGenerals: linkListItem[] = new Array();
 
   generalCollection.map((general) => {
-    if (generalPlayed(general.id) > 0) {
+    const played = generalPlayed(general.id);
+    if (played > 0) {
+      const won = generalWon(general.id);
+      const drawn = generalDrawn(general.id);
+
       activeGenerals.push({
         id: general.id,
-        //Name: general.Name,
         Alias: general.Alias,
         Emoji: general.Emoji,
-        Played: generalPlayed(general.id),
-        Won: generalWon(general.id),
+        Played: played,
+        Won: won,
         Lost: generalLost(general.id),
-        AveragePoints: Math.round(
-          ((addGeneralPointsFor(general.id) / generalPlayed(general.id)) * 10) /
-            10
-        ),
+        Drawn: drawn,
+        AveragePoints: Math.round(((addGeneralPointsFor(general.id) / played) * 10)) / 10,
         TotalPoints: addGeneralPointsFor(general.id),
-        PointDifference:
-          addGeneralPointsFor(general.id) - addGeneralPointsAgainst(general.id),
-        WinPercentage:
-          Math.round(
-            (generalWon(general.id) / generalPlayed(general.id)) * 1000
-          ) / 10,
-        FirstTurnPercentage:
-          Math.round(
-            (generalFirstTurn(general.id) / generalPlayed(general.id)) * 1000
-          ) / 10,
+        PointDifference: addGeneralPointsFor(general.id) - addGeneralPointsAgainst(general.id),
+        WinPercentage: Math.round(
+          ((won + (drawn * 0.5)) / played) * 1000
+        ) / 10,
+        FirstTurnPercentage: Math.round((generalFirstTurn(general.id) / played) * 1000) / 10,
       });
     } else {
       inactiveGenerals.push({
-        Title:
-          general.Emoji !== undefined
-            ? `${general.Emoji} ${general.Alias}`
-            : general.Alias,
+        Title: general.Emoji !== undefined ? `${general.Emoji} ${general.Alias}` : general.Alias,
         Destination: `/general/${general.id}`,
       });
     }
@@ -185,17 +138,14 @@ const Armies = () => {
 
   return (
     <>
-      {/* Active Generals */}
       <GeneralsTable
         title="Generals"
         generals={activeGenerals}
         showCreateButton={false}
       />
-
-      {/* Inactive Armies */}
       <LinkList title="Inactive Generals" list={inactiveGenerals} />
     </>
   );
 };
 
-export default Armies;
+export default Generals;
