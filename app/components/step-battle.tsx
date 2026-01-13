@@ -221,6 +221,10 @@ const StepBattleForm = (props: { battleId: string }) => {
     return opponentsOptions;
   };
 
+  //Retrieve Amy Colours
+  const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e";
+  const defenderArmyColour = propertyFromID(armiesCollection, battle.DefenderArmy, "Colour") || "#00ffcc";
+
   //Handle Change
   const handleChange = (e) => {
     const name = e.target.name;
@@ -233,7 +237,7 @@ const StepBattleForm = (props: { battleId: string }) => {
 
     //Update Firestore
     updateDoc(doc(db, "Battles", docId), { [name]: value })
-      .then(() => {})
+      .then(() => { })
       .catch((error) => {
         console.log(error);
       });
@@ -308,8 +312,8 @@ const StepBattleForm = (props: { battleId: string }) => {
     totalDefenderChallenger = !isChallenger
       ? 0
       : totalDefenderChallenger > 12
-      ? 12
-      : totalDefenderChallenger;
+        ? 12
+        : totalDefenderChallenger;
 
     //-- Total --
     let totalAttacker: number =
@@ -346,7 +350,7 @@ const StepBattleForm = (props: { battleId: string }) => {
       TotalDefenderChallenger: totalDefenderChallenger,
       TotalDefender: totalDefender,
     })
-      .then(() => {})
+      .then(() => { })
       .catch((error) => {
         console.log(error);
       });
@@ -494,10 +498,10 @@ const StepBattleForm = (props: { battleId: string }) => {
           <h2>
             {battle.AttackerArmy && battle.DefenderArmy
               ? ` ${propertyFromID(
-                  armiesCollection,
-                  battle.AttackerArmy,
-                  "Name"
-                )} vs 
+                armiesCollection,
+                battle.AttackerArmy,
+                "Name"
+              )} vs 
             ${propertyFromID(armiesCollection, battle.DefenderArmy, "Name")}`
               : `Battle Report`}
           </h2>
@@ -692,6 +696,9 @@ const StepBattleForm = (props: { battleId: string }) => {
             <AnimatedStep previousStep={previousStep}>
               <Step withCallback={false}>
                 <BattleFormPost
+                  Attacker={battle.Attacker}
+                  AttackerArmyColour={attackerArmyColour}
+                  DefenderArmyColour={defenderArmyColour}
                   IsCompleted={battle.IsCompleted}
                   IsAttackerFirst={battle.IsAttackerFirst}
                   Opponents={collectOpponents()}
@@ -747,9 +754,8 @@ const StepBattleForm = (props: { battleId: string }) => {
 
         <div className="device-score-bar hide-lg">
           <div
-            className={`opponent-layout ${
-              !battle.IsAttackerFirst ? "reverse" : ""
-            }`}
+            className={`opponent-layout ${!battle.IsAttackerFirst ? "reverse" : ""
+              }`}
           >
             <div className="opponent">
               <span className="score-highlight">{battle.TotalAttacker}</span>
