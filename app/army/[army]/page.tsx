@@ -11,6 +11,7 @@ import StatPanel from "../../components/stat-panel";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import firebase_app from "../../firebase/config";
+import EmptyState from "../../components/empty-state";
 
 export default function ArmyDetails({ params }: { params: Promise<{ army: string }> }) {
   const router = useRouter();
@@ -18,12 +19,14 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
   const armyId = use(params).army;
   const armyDetails = getDocSnapshot("Armies", armyId);
 
-  //Required to remove any "Show=FALSE" battles.
+  // Required to remove any "Show=FALSE" battles.
   const filterShow = (battle) => {
     return battle.Show !== false;
   };
 
+  // Get the full collection and filter it
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
+
   let armyBattleCollection = battleCollection.filter(function (battle) {
     return (
       battle.IsCompleted &&
@@ -34,7 +37,7 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
   const handleArmyHide = (e) => {
     e.preventDefault();
 
-    //Update Firestore
+    // Update Firestore
     updateDoc(doc(db, "Armies", armyId), { ["Show"]: false })
       .then(() => {
         console.log("Army hidden.");
@@ -43,11 +46,52 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
         console.log(error);
       });
 
-    //Redirect back to the Armies list.
+    // Redirect back to the Armies list.
     router.push("/armies");
   };
 
-  return armyDetails["Name"] ? (
+
+  if (!armyDetails["Name"]) {
+    return <Spinner />;
+  }
+
+  if (armyBattleCollection.length === 0) {
+    return (
+      <>
+        <header className="section-header">
+          <h1>
+            {armyDetails["Emoji"]} {armyDetails["Name"]}
+          </h1>
+          <Link
+            href={`/army/${armyId}/edit`}
+            className="button section-header-button"
+          >
+            Edit
+          </Link>
+        </header>
+
+        <EmptyState
+          name={armyDetails["Name"]}
+          type="army"
+          title="Mustering Forces"
+          subtitle={
+            <>
+              <strong>{armyDetails["Name"]}</strong> are currently performing rites of battle. No combat records have been logged for this detachment.
+            </>
+          }
+        />
+
+        <div style={{ marginTop: '2rem' }}>
+          <a className="a-delete" type="submit" onClick={(e) => handleArmyHide(e)}>
+            Delete Army
+          </a>
+        </div>
+      </>
+    );
+  }
+
+  // Final return for when data exists
+  return (
     <>
       <header className="section-header">
         <h1>
@@ -64,7 +108,6 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
 
       <StatPanel Item={armyId} Type="Armies" Battles={armyBattleCollection} />
 
-      
       <ArmyDashboard
         army={{
           id: armyId,
@@ -87,7 +130,5 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
         Delete Army
       </a>
     </>
-  ) : (
-    <Spinner />
   );
 }

@@ -12,6 +12,8 @@ import firebase_app from "../firebase/config";
 import { useRouter } from "next/navigation";
 import Spinner from "./spinner";
 import TextField from "./textField";
+import { createNewBattle } from "../../utils/create-battle";
+
 
 const BattleTable = (props: {
   title: string;
@@ -60,11 +62,8 @@ const BattleTable = (props: {
     }
   };
 
-  const handleAddBattle = async () => {
-    const db = getFirestore(firebase_app);
-    const docRef = await addDoc(collection(db, "Battles"), {});
-    await updateDoc(docRef, { Date: Timestamp.now() });
-    router.push(`/battle/${docRef.id}`);
+  const handleAddBattle = () => {
+    createNewBattle(router);
   };
 
   // 2. Extract unique values for autocomplete
@@ -206,15 +205,15 @@ const BattleTable = (props: {
             <div className="search-wrapper hide-mobile" ref={searchRef} style={{ position: 'relative' }}>
 
               <TextField
-            label={null}
-            type="text"
-            required={false}
-            id="battle-filter"
-            name="battle-filter"
-            changeFunction={handleSearchChange}
-            value={searchTerm}
-            emptyValue="Search Battles..."
-          />
+                label={null}
+                type="text"
+                required={false}
+                id="battle-filter"
+                name="battle-filter"
+                changeFunction={handleSearchChange}
+                value={searchTerm}
+                emptyValue="Search Battles..."
+              />
 
             </div>
 

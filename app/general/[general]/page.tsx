@@ -8,6 +8,7 @@ import getCollectionSnapshot from "../../firebase/getCollectionSnapshot";
 import Link from "next/link";
 import Spinner from "../../components/spinner";
 import StatPanel from "../../components/stat-panel";
+import EmptyState from "../../components/empty-state";
 
 export default function GeneralDetails({
   params,
@@ -17,7 +18,7 @@ export default function GeneralDetails({
   const generalId = use(params).general;
   const generalDetails = getDocSnapshot("Generals", generalId);
 
-  //Required to remove any "Show=FALSE" battles.
+  // Required to remove any "Show=FALSE" battles.
   const filterShow = (battle) => {
     return battle.Show !== false;
   };
@@ -27,6 +28,7 @@ export default function GeneralDetails({
     "Date",
     "asc"
   ).filter(filterShow);
+
   let generalBattleCollection = battleCollection.filter(function (battle) {
     return (
       battle.IsCompleted &&
@@ -34,7 +36,42 @@ export default function GeneralDetails({
     );
   });
 
-  return generalDetails["Alias"] ? (
+
+  if (!generalDetails["Alias"]) {
+    return <Spinner />;
+  }
+
+  if (generalBattleCollection.length === 0) {
+    return (
+      <>
+        <header className="section-header">
+          <h1>
+            {generalDetails["Emoji"]} {generalDetails["Alias"]}
+          </h1>
+
+          <Link
+            href={`/general/${generalId}/edit`}
+            className="button section-header-button"
+          >
+            Edit
+          </Link>
+        </header>
+
+        <EmptyState
+          name={generalDetails["Alias"]}
+          type="general"
+          title="Deployment Pending"
+          subtitle={
+            <>
+              <strong>{generalDetails["Alias"]}</strong> is currently overseeing logistics in the Segmentum Solar. No combat records found in the Administratum archives.
+            </>
+          }
+        />
+      </>
+    );
+  }
+
+  return (
     <>
       <header className="section-header">
         <h1>
@@ -73,7 +110,5 @@ export default function GeneralDetails({
         showCreateButton={false}
       />
     </>
-  ) : (
-    <Spinner />
   );
 }
