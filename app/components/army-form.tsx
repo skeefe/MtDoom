@@ -17,6 +17,7 @@ import Link from "next/link";
 import Spinner from "./spinner";
 import TextField from "./textField";
 import TextAreaField from "./textAreaField";
+import CheckboxField from "./checkboxField";  // Import the CheckboxField component
 
 const ArmyForm = (props: { armyId?: string }) => {
   const router = useRouter();
@@ -31,22 +32,23 @@ const ArmyForm = (props: { armyId?: string }) => {
     Emoji: "",
     Adjectives: "",
     Bio: "",
+    CurrentCodexOwned: false,
   });
 
   useEffect(() => {
     if (army.isEdit) {
       const unsubscribe = onSnapshot(doc(db, "Armies", docRef), (doc) => {
         setArmy((prev) => {
-          return { ...prev, ...doc.data() };
+          return { ...prev, ...doc.data() };  // Ensure the data is updated with the doc from Firestore
         });
       });
       return () => unsubscribe();
     }
-  }, []);
+  }, [army.isEdit, docRef]);  // Ensure this hook only runs when necessary
 
   const handleChange = (e) => {
     const name = e.target.name;
-    let value = e.target.value;
+    let value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
     setArmy((prev) => {
       return { ...prev, [name]: value };
@@ -54,29 +56,23 @@ const ArmyForm = (props: { armyId?: string }) => {
   };
 
   const handleAdjectives = () => {
-    //Handle no adjectives.
     if (!army.Adjectives || army.Adjectives.length === 0) {
       return [];
     }
 
-    //Strip and spaces following commas.
     let adjectivesValue = army.Adjectives.toString().replace(", ", ",");
 
-    //Split Adjectives string to array and remove empty entries.
     let adjectives = adjectivesValue.split(",").filter((str) => str !== "");
 
-    //Title Case each Adjective.
     let formattedAdjectives = new Array();
     adjectives.map(function (adjective) {
       formattedAdjectives.push(titleCase(adjective));
     });
 
-    //Remove Duplicates
     formattedAdjectives = formattedAdjectives.filter((element, index) => {
       return formattedAdjectives.indexOf(element) === index;
     });
 
-    //Neaten up Adjective Field
     setArmy((prev) => {
       return { ...prev, ["Adjectives"]: formattedAdjectives.join(", ") };
     });
@@ -89,9 +85,7 @@ const ArmyForm = (props: { armyId?: string }) => {
 
     const db = getFirestore(firebase_app);
 
-    //Confirm and army name was supplied.
     if (army.Name.length > 0) {
-      //Generate ID here
       const armyId = idify(army.Name);
       const newDocRef = doc(db, "Armies", armyId);
       try {
@@ -101,7 +95,6 @@ const ArmyForm = (props: { armyId?: string }) => {
             throw "Army already exists. Please try a different name.";
           }
         });
-        //Create document.
         await setDoc(doc(db, "Armies", armyId), {
           Name: army.Name,
           Colour: army.Colour,
@@ -109,6 +102,7 @@ const ArmyForm = (props: { armyId?: string }) => {
           Emoji: army.Emoji,
           Adjectives: handleAdjectives(),
           Bio: army.Bio,
+          CurrentCodexOwned: army.CurrentCodexOwned, // Save the new field
         });
       } catch (e) {
         console.log("The army was not added: ", e);
@@ -130,8 +124,9 @@ const ArmyForm = (props: { armyId?: string }) => {
       Emoji: army.Emoji,
       Adjectives: handleAdjectives(),
       Bio: army.Bio,
+      CurrentCodexOwned: army.CurrentCodexOwned, // Update the field
     })
-      .then((docBattlesRef) => {})
+      .then((docBattlesRef) => { })
       .catch((error) => {
         console.log(error);
       });
@@ -216,6 +211,16 @@ const ArmyForm = (props: { armyId?: string }) => {
                   name="Bio"
                   emptyValue="Army biography."
                   value={army.Bio}
+                  changeFunction={handleChange}
+                />
+
+                {/* Use the CheckboxField component for Current Codex Owned */}
+                <CheckboxField
+                  label="Current Codex Owned"
+                  id="currentCodexOwned"
+                  name="CurrentCodexOwned"
+                  checked={army.CurrentCodexOwned}  // This will correctly bind to `CurrentCodexOwned`
+                  required={false}
                   changeFunction={handleChange}
                 />
               </fieldset>

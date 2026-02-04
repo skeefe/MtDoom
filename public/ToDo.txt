@@ -17,4 +17,14 @@
 - Detachment Options list when army selected.
 - Ability to set up events (e.g. tournies)
 
+- Bring unit data in for armies we own the codex of
+
+- Think about army/general relationship - an army could be played by more than 1 general
+
+- Filter on the battles table
+
+- Compact Match summary for completed matches at a glance
+
+- light mode?
+
 - Domain Name
