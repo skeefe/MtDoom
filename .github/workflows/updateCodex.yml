@@ -1,0 +1,21 @@
+name: Update Codex Data
+
+on:
+  schedule:
+    # This cron expression runs every Sunday at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:  # Allows you to manually trigger it from the GitHub UI
+
+jobs:
+  update-codex:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from GitHub repo
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Trigger Vercel API Route to Update Codex
+      - name: Trigger Vercel API Route to Update Codex
+        run: |
+          curl -X POST https://mt-doom.vercel.app/api/updateCodex
