@@ -519,6 +519,7 @@ label {
   width: 100%;
 }
 
+
 input[type="color"],
 input[type="number"],
 input[type="text"],
@@ -1279,4 +1280,12 @@ tspan {
   color: #888;
   margin-bottom: 2rem;
   max-width: 400px;
+}
+
+/* Config */
+.configuration label {
+  font-size: 1rem;
+}
+.configuration .instruction {
+  font-size: 1rem;
 }

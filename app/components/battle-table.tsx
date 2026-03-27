@@ -19,6 +19,7 @@ const BattleTable = (props: {
   title: string;
   battles: iBattleSummary[];
   showCreateButton: boolean;
+  onCreateClick?: () => void;
 }) => {
   const router = useRouter();
   const [sortColumn, setSortColumn] = useState<string>("Date");
@@ -63,8 +64,13 @@ const BattleTable = (props: {
   };
 
   const handleAddBattle = () => {
-    createNewBattle(router);
-  };
+  if (props.onCreateClick) {
+    props.onCreateClick(); 
+  } else {
+    // Safety fallback
+    createNewBattle(router); 
+  }
+};
 
   // 2. Extract unique values for autocomplete
   const autocompleteOptions = useMemo(() => {

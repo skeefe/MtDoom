@@ -1,7 +1,13 @@
 ## Now
-- Make User B know if User A is focussed on a field.
+- Editions
+    - Handle UI
+        - Enable the user to pick the edition when creating a battles
+            - Advanced settings section?
+        - Default the data to the current edition
+        - Filters to change edition or view all data.
 
 ## Next
+- Make User B know if User A is focussed on a field.
 - Handle Fixed Secondaries...
 - MVP Hall of fame.
 

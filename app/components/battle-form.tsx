@@ -25,28 +25,42 @@ import BattleFormRound from "./battle-form-round";
 import BattleFormEnd from "./battle-form-end";
 import BattleFormPost from "./battle-form-post";
 
-//Hydrate state with battle data on load.
-let isHydrated = false;
 
 const BattleForm = (props: { battleId: string }) => {
   const router = useRouter();
   const db = getFirestore(firebase_app);
   const docId: string = props.battleId;
 
-  //Retrieve Battle
+  // Retrieve Battle
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "Battles", docId), (doc) => {
-      setBattle((prev) => {
-        return { ...prev, ...doc.data() };
-      });
+    const unsubscribe = onSnapshot(doc(db, "Battles", docId), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+
+        setBattle((prev) => {
+          return {
+            ...prev,
+            ...data,
+            // If the DB field is missing, force it to 10. 
+            // This bridges the gap for all your pre-2026 data.
+            Edition: data.Edition || 10
+          };
+        });
+        setIsHydrated(true);
+      }
     });
-    isHydrated = true;
+    // Note: Ensure isHydrated is managed correctly if it's a ref or state
     return () => unsubscribe();
-  }, []);
+  }, [docId, db]); // Added docId and db to dependency array for best practice
+
+
 
   //Hydrate State
+  const [isHydrated, setIsHydrated] = useState(false);
+
   const [battle, setBattle] = useState<iBattle>({
     id: props.battleId,
+    Edition: 10, // Default to 10 so the UI has a safe starting point
     IsCompleted: false,
     Show: true,
     Date: {
@@ -179,6 +193,7 @@ const BattleForm = (props: { battleId: string }) => {
           battle.FirstTurn === battle.Defender ? false : true,
       };
     });
+  //}, [battle.FirstTurn, battle.Defender]);
   }, [battle.FirstTurn]);
 
   //Retrieve Generals
@@ -224,30 +239,31 @@ const BattleForm = (props: { battleId: string }) => {
 
   //Handle Change
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const { name, value } = e.target;
 
-    // Create an object for the updates
+    // Build the specific field update
     let updates = { [name]: value };
 
     // --- The Logic ---
-    // If the user selects "Points Draw", we force the Victor to "DRAW" 
     if (name === "VictoryType" && value === "Points Draw") {
       updates["Victor"] = "DRAW";
     }
 
-    // Update State
+    // Update Local State
     setBattle((prev) => {
       return { ...prev, ...updates };
     });
 
     // Update Firestore
+    // We ONLY send the 'updates' object. 
+    // Because 'Date' is not in this object, Firestore won't touch it.
     updateDoc(doc(db, "Battles", docId), updates)
       .then(() => { })
       .catch((error) => {
         console.log(error);
       });
   };
+
 
   //Handle Points Calculate
   useEffect(() => {

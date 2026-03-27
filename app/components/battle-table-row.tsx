@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { iBattleSummary } from "../types/battle";
 import { formatDate } from "../../utils/date-format";
@@ -8,19 +10,17 @@ import getDocSnapshot from "../firebase/getDocSnapshot";
 const BattleTableRow = (props: { battle: iBattleSummary }) => {
   const router = useRouter();
 
-  const getDate = formatDate(props.battle.Date.seconds);
+  // FIX: Handle null/pending dates during Firestore serverTimestamp sync
+  const seconds = props.battle.Date?.seconds;
+  const getDate = seconds ? formatDate(seconds) : { short: "New", full: "Pending sync..." };
 
   const getArmyTitle = (armyId?: string) => {
     if (armyId) {
       const armyDoc = getDocSnapshot("Armies", armyId);
-      //if (armyDoc["Emoji"] !== undefined) {
       return { Name: armyDoc["Name"], Emoji: armyDoc["Emoji"] };
     } else {
       return null;
     }
-    //} else {
-    //  return {Name: armyDoc["Name"], Emoji: armyDoc["Emoji"]};
-    //}
   };
 
   const getGeneralNickname = (generalId: string) => {
@@ -28,7 +28,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
     if (armyDoc["Nicknames"] !== undefined && armyDoc["Nicknames"].length > 0) {
       const randomNickname =
         armyDoc["Nicknames"][
-        Math.floor(Math.random() * armyDoc["Nicknames"].length)
+          Math.floor(Math.random() * armyDoc["Nicknames"].length)
         ];
       return randomNickname;
     } else {
@@ -49,9 +49,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
       ? true
       : false;
 
-  // Add this
   const IsDraw: boolean = props.battle.Victor === "DRAW";
-
 
   return (
     <>
@@ -60,10 +58,23 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         className="clickable"
       >
         <td>
-          <span className="hide-md" title={getDate.full}>
-            {getDate.short}
-          </span>
-          <span className="hide show-md">{getDate.full}</span>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {/* Date Display */}
+            <span className="hide-md" title={getDate.full}>
+              {getDate.short}
+            </span>
+            <span className="hide show-md">{getDate.full}</span>
+            
+            {/* Edition Badge - Helpful for UAT and list scanning */}
+            <small style={{ 
+              fontSize: '0.7rem', 
+              opacity: 0.7, 
+              fontWeight: 'bold',
+              color: props.battle.Edition === 11 ? '#eab308' : 'inherit' 
+            }}>
+              {props.battle.Edition}TH ED
+            </small>
+          </div>
         </td>
         <td className="hide show-sm">
           <span className="cell-heading">{props.battle.PrimaryMission}</span>

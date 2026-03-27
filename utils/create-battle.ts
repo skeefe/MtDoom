@@ -1,18 +1,51 @@
-import { getFirestore, collection, addDoc, updateDoc, Timestamp } from "firebase/firestore";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  doc, 
+  getDoc, 
+  serverTimestamp 
+} from "firebase/firestore";
 import firebase_app from "../app/firebase/config";
 
 export const createNewBattle = async (router: any) => {
   const db = getFirestore(firebase_app);
+  console.log("DEBUG: 1. Utility Started");
 
-  // 1. Create the empty doc
-  const docRef = await addDoc(collection(db, "Battles"), {});
+  try {
+    const configRef = doc(db, "Settings", "appConfig");
+    console.log("DEBUG: 2. Fetching Config...");
+    
+    const configSnap = await getDoc(configRef);
+    console.log("DEBUG: 3. Config Received. Exists:", configSnap.exists());
+    
+    const defaultEdition = configSnap.exists() ? configSnap.data().defaultEdition : 10;
+    console.log("DEBUG: 4. Using Edition:", defaultEdition);
 
-  // 2. Set the default data
-  await updateDoc(docRef, {
-    Date: Timestamp.now(),
-    Show: true
-  });
+    const newBattle = {
+      Edition: defaultEdition,
+      IsCompleted: false,
+      Show: true,
+      Date: serverTimestamp(),
+      ChapterApprovedVersion: defaultEdition === 11 ? "Season 1" : "2025-26 Mission Deck",
+      TotalAttacker: 0,
+      TotalDefender: 0,
+      Attacker: "",
+      Defender: "",
+      AttackerArmy: "",
+      DefenderArmy: "",
+      Victor: "",
+    };
 
-  // 3. Navigate to the new battle page
-  router.push(`/battle/${docRef.id}`);
+    console.log("DEBUG: 5. Writing to Firestore...");
+    const docRef = await addDoc(collection(db, "Battles"), newBattle);
+    console.log("DEBUG: 6. Write Success. ID:", docRef.id);
+
+    console.log("DEBUG: 7. Triggering Router Push to:", `/battle/${docRef.id}`);
+    router.push(`/battle/${docRef.id}`);
+
+  } catch (error) {
+    console.error("DEBUG: CRITICAL ERROR:", error);
+    throw error; 
+  }
 };
