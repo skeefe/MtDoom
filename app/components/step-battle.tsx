@@ -54,6 +54,7 @@ const StepBattleForm = (props: { battleId: string }) => {
   //Hydrate State
   const [battle, setBattle] = useState<iBattle>({
     id: props.battleId,
+    Edition: 10, // Default to 10 so the UI has a safe starting point
     IsCompleted: false,
     Show: true,
     Date: {
