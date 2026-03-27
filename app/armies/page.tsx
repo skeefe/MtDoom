@@ -29,6 +29,7 @@ const Armies = () => {
     if (battle.AttackerArmy && battle.DefenderArmy) {
       battles.push({
         id: battle.id,
+        Edition: battle.Edition,
         Date: battle.Date,
         PrimaryMission: battle.PrimaryMission,
         MissionRule: battle.MissionRule,
