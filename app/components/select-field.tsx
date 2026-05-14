@@ -9,6 +9,7 @@ const SelectField = (props: {
   value: string;
   emptyValue: string;
   options: selectOption[];
+  hideEmpty?: boolean;
   noOptionsMessage?: string;
   required?: boolean;
   randomise?: boolean;
@@ -53,7 +54,10 @@ const SelectField = (props: {
             onChange={props.changeFunction}
             value={props.value}
           >
-            <option value="">-- {props.emptyValue} --</option>
+
+            {!props.hideEmpty && (
+              <option value="">-- {props.emptyValue} --</option>
+            )}
             {props.options.map((option, index) => (
               <option value={option.Value} key={index}>
                 {option.Label}

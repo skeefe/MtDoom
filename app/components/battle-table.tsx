@@ -1,17 +1,12 @@
+"use client";
+
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import {
-  getFirestore,
-  updateDoc,
-  collection,
-  addDoc,
-  Timestamp,
-} from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import BattleTableRow from "./battle-table-row";
 import { iBattleSummary } from "../types/battle";
-import firebase_app from "../firebase/config";
 import { useRouter } from "next/navigation";
 import Spinner from "./spinner";
-import TextField from "./textField";
+import TextField from "./text-field";
 import { createNewBattle } from "../../utils/create-battle";
 
 
@@ -20,6 +15,7 @@ const BattleTable = (props: {
   battles: iBattleSummary[];
   showCreateButton: boolean;
   onCreateClick?: () => void;
+  selectedEdition: string;
 }) => {
   const router = useRouter();
   const [sortColumn, setSortColumn] = useState<string>("Date");
@@ -28,18 +24,16 @@ const BattleTable = (props: {
   // Search States
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
-
   const [showAutocomplete, setShowAutocomplete] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 1. Debounce Logic: Updates debouncedSearchTerm 300ms after typing stops
+  // Debounce Logic
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
     }, 300);
-
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
@@ -64,15 +58,14 @@ const BattleTable = (props: {
   };
 
   const handleAddBattle = () => {
-  if (props.onCreateClick) {
-    props.onCreateClick(); 
-  } else {
-    // Safety fallback
-    createNewBattle(router); 
-  }
-};
+    if (props.onCreateClick) {
+      props.onCreateClick();
+    } else {
+      createNewBattle(router);
+    }
+  };
 
-  // 2. Extract unique values for autocomplete
+  // Extract unique values for autocomplete
   const autocompleteOptions = useMemo(() => {
     const options = new Set<string>();
     props.battles.forEach((battle) => {
@@ -87,7 +80,7 @@ const BattleTable = (props: {
     return Array.from(options).sort();
   }, [props.battles]);
 
-  // 3. Filter autocomplete (instant feedback)
+  // Filter autocomplete options (instant feedback)
   const filteredOptions = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return [];
@@ -96,25 +89,31 @@ const BattleTable = (props: {
       .slice(0, 10);
   }, [searchTerm, autocompleteOptions]);
 
-  // 4. Filter battles (uses debounced term for performance)
+  // Filter battles by edition + search term
   const filteredBattles = useMemo(() => {
     const term = debouncedSearchTerm.trim().toLowerCase();
-    if (!term) return props.battles;
 
     return props.battles.filter((battle) => {
-      return (
+      const editionMatch =
+        props.selectedEdition === "all" ||
+        battle.Edition === parseInt(props.selectedEdition);
+
+      if (!term) return editionMatch;
+
+      const searchMatch =
         battle.Attacker?.toLowerCase().includes(term) ||
         battle.Defender?.toLowerCase().includes(term) ||
         battle.AttackerArmy?.toLowerCase().includes(term) ||
         battle.DefenderArmy?.toLowerCase().includes(term) ||
         battle.Deployment?.toLowerCase().includes(term) ||
         battle.PrimaryMission?.toLowerCase().includes(term) ||
-        battle.MissionRule?.toLowerCase().includes(term)
-      );
-    });
-  }, [debouncedSearchTerm, props.battles]);
+        battle.MissionRule?.toLowerCase().includes(term);
 
-  // 5. Sort the filtered battles
+      return editionMatch && searchMatch;
+    });
+  }, [debouncedSearchTerm, props.battles, props.selectedEdition]);
+
+  // Sort filtered battles
   const getFilteredAndSortedBattles = useMemo(() => {
     return [...filteredBattles].sort((a, b) => {
       let aValue: any = a[sortColumn as keyof iBattleSummary];
@@ -160,7 +159,7 @@ const BattleTable = (props: {
 
   const handleAutocompleteSelect = (option: string) => {
     setSearchTerm(option);
-    setDebouncedSearchTerm(option); // Update instantly on selection
+    setDebouncedSearchTerm(option);
     setShowAutocomplete(false);
     setSelectedIndex(-1);
   };
@@ -195,21 +194,26 @@ const BattleTable = (props: {
   return props.battles.length > 0 ? (
     <>
       <section className="section">
-
-
-        <header className="section-header" style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap', // Allows wrapping if the title is long
-          gap: '1rem'
-        }}>
+        <header
+          className="section-header"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "1rem",
+          }}
+        >
           <h2>{props.title}</h2>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            {/* Search Bar - Hidden on mobile via the 'hide-mobile' class */}
-            <div className="search-wrapper hide-mobile" ref={searchRef} style={{ position: 'relative' }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
 
+            {/* Search Bar */}
+            <div
+              className="search-wrapper hide-mobile"
+              ref={searchRef}
+              style={{ position: "relative" }}
+            >
               <TextField
                 label={null}
                 type="text"
@@ -220,14 +224,13 @@ const BattleTable = (props: {
                 value={searchTerm}
                 emptyValue="Search Battles..."
               />
-
             </div>
 
             {props.showCreateButton && (
               <button
                 className="button section-header-button"
                 onClick={handleAddBattle}
-                style={{ margin: 0 }} // Remove default margins to align perfectly
+                style={{ margin: 0 }}
               >
                 CREATE BATTLE
               </button>
@@ -238,9 +241,19 @@ const BattleTable = (props: {
         <table className="primary-table">
           <thead>
             <tr>
-              <th onClick={() => handleSort("Date")} className="sort-title" style={{ cursor: "pointer" }}>
+              <th
+                onClick={() => handleSort("Date")}
+                className="sort-title"
+                style={{ cursor: "pointer" }}
+              >
                 Date{" "}
-                <span className={sortColumn === "Date" ? "sort-arrow-active" : "sort-arrow-inactive"}>
+                <span
+                  className={
+                    sortColumn === "Date"
+                      ? "sort-arrow-active"
+                      : "sort-arrow-inactive"
+                  }
+                >
                   {getArrowIcon("Date")}
                 </span>
               </th>
@@ -250,7 +263,13 @@ const BattleTable = (props: {
                 style={{ cursor: "pointer" }}
               >
                 Mission{" "}
-                <span className={sortColumn === "PrimaryMission" ? "sort-arrow-active" : "sort-arrow-inactive"}>
+                <span
+                  className={
+                    sortColumn === "PrimaryMission"
+                      ? "sort-arrow-active"
+                      : "sort-arrow-inactive"
+                  }
+                >
                   {getArrowIcon("PrimaryMission")}
                 </span>
               </th>
@@ -269,6 +288,12 @@ const BattleTable = (props: {
         {getFilteredAndSortedBattles.length === 0 && debouncedSearchTerm && (
           <p style={{ textAlign: "center", padding: "2rem", color: "#888" }}>
             No battles match your search criteria
+          </p>
+        )}
+
+        {getFilteredAndSortedBattles.length === 0 && !debouncedSearchTerm && props.selectedEdition !== "all" && (
+          <p style={{ textAlign: "center", padding: "2rem", color: "#888" }}>
+            No battles recorded for this edition yet
           </p>
         )}
       </section>

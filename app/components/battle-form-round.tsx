@@ -1,5 +1,5 @@
 import React from "react";
-import TextField from "./textField";
+import TextField from "./text-field";
 import SelectField from "./select-field";
 import { secondaryMissions } from "../../data/secondary-missions";
 import { challengerCards } from "../../data/challenger-cards";

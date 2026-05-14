@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { selectOption } from "../types/select-option";
 import SelectField from "./select-field";
-import TextField from "./textField";
-import TextAreaField from "./textAreaField";
+import TextField from "./text-field";
+import TextAreaField from "./textarea-field";
 import { victoryTypes } from "../../data/victory-types";
 import confetti from 'canvas-confetti';
 

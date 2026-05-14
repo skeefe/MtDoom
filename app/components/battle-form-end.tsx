@@ -1,5 +1,5 @@
 import React from "react";
-import TextField from "./textField";
+import TextField from "./text-field";
 
 const BattleFormEnd = (props: {
   IsCompleted: boolean;

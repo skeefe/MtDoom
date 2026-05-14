@@ -9,6 +9,7 @@ import Link from "next/link";
 import Spinner from "../../components/spinner";
 import StatPanel from "../../components/stat-panel";
 import EmptyState from "../../components/empty-state";
+import { useEdition } from "../../context/EditionContext";
 
 export default function GeneralDetails({
   params,
@@ -16,26 +17,17 @@ export default function GeneralDetails({
   params: Promise<{ general: string }>;
 }) {
   const generalId = use(params).general;
+  const { selectedEdition } = useEdition();
   const generalDetails = getDocSnapshot("Generals", generalId);
 
-  // Required to remove any "Show=FALSE" battles.
-  const filterShow = (battle) => {
-    return battle.Show !== false;
-  };
+  const filterShow = (battle) => battle.Show !== false;
 
-  const battleCollection = getCollectionSnapshot(
-    "Battles",
-    "Date",
-    "asc"
-  ).filter(filterShow);
+  const battleCollection = getCollectionSnapshot("Battles", "Date", "asc").filter(filterShow);
 
-  let generalBattleCollection = battleCollection.filter(function (battle) {
-    return (
-      battle.IsCompleted &&
-      (battle.Attacker === generalId || battle.Defender === generalId)
-    );
-  });
-
+  let generalBattleCollection = battleCollection.filter((battle) =>
+    battle.IsCompleted &&
+    (battle.Attacker === generalId || battle.Defender === generalId)
+  );
 
   if (!generalDetails["Alias"]) {
     return <Spinner />;
@@ -48,15 +40,10 @@ export default function GeneralDetails({
           <h1>
             {generalDetails["Emoji"]} {generalDetails["Alias"]}
           </h1>
-
-          <Link
-            href={`/general/${generalId}/edit`}
-            className="button section-header-button"
-          >
+          <Link href={`/general/${generalId}/edit`} className="button section-header-button">
             Edit
           </Link>
         </header>
-
         <EmptyState
           name={generalDetails["Alias"]}
           type="general"
@@ -77,11 +64,7 @@ export default function GeneralDetails({
         <h1>
           {generalDetails["Emoji"]} {generalDetails["Alias"]}
         </h1>
-
-        <Link
-          href={`/general/${generalId}/edit`}
-          className="button section-header-button"
-        >
+        <Link href={`/general/${generalId}/edit`} className="button section-header-button">
           Edit
         </Link>
       </header>
@@ -89,7 +72,9 @@ export default function GeneralDetails({
       <StatPanel
         Item={generalId}
         Type="Generals"
-        Battles={generalBattleCollection}
+        Battles={generalBattleCollection.filter((b) =>
+          selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
+        )}
       />
 
       <GeneralDashboard
@@ -101,13 +86,16 @@ export default function GeneralDetails({
           Name: generalDetails["Name"],
           Nicknames: generalDetails["Nicknames"],
         }}
-        battles={generalBattleCollection}
+        battles={generalBattleCollection.filter((b) =>
+          selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
+        )}
       />
 
       <BattleTable
         title={`${generalDetails["Alias"]}'s Battles`}
         battles={generalBattleCollection}
         showCreateButton={false}
+        selectedEdition={selectedEdition}
       />
     </>
   );

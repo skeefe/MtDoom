@@ -43,6 +43,7 @@ const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
     const secondTurnWins = validGames - firstTurnWins;
 
     return {
+      validGames,  // add this
       firstTurn: [
         { name: "1st Turn Win", value: firstTurnWins },
         { name: "2nd Turn Win", value: secondTurnWins },
@@ -77,6 +78,7 @@ const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
                 paddingAngle={5}
                 dataKey="value"
                 stroke="none"
+                label={({ value }) => `${Math.round((value / stats.validGames) * 100)}%`}
               >
                 {stats.firstTurn.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index]} />

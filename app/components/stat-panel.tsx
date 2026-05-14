@@ -37,7 +37,7 @@ const StatPanel = (props: {
   //Retrieve Battle
   useEffect(() => {
     unfilteredStats();
-  }, [itemData]);
+  }, [itemData, props.Battles]);
 
   const getArmiesGenerals = () => {
     let Armies: selectOption[] = [];

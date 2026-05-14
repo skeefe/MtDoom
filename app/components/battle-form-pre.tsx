@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { selectOption } from "../types/select-option";
 import SelectField from "./select-field";
-import TextField from "./textField";
+import TextField from "./text-field";
 import { chapterApprovedVersions } from "../../data/chapter-approved-versions";
 import { battleSizes } from "../../data/battle-sizes";
 import { deploymentZones } from "../../data/deployment-zones";
 import { missionRules } from "../../data/mission-rules";
 import { primaryMissions } from "../../data/primary-missions";
-import TextAreaField from "./textAreaField";
+import TextAreaField from "./textarea-field";
 import Modal from "./modal";
 import { titleCase } from "../../utils/title-case";
 

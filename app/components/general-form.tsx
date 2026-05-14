@@ -15,8 +15,8 @@ import { titleCase } from "../../utils/title-case";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Spinner from "./spinner";
-import TextField from "./textField";
-import TextAreaField from "./textAreaField";
+import TextField from "./text-field";
+import TextAreaField from "./textarea-field";
 
 const GeneralForm = (props: { generalId?: string }) => {
   const router = useRouter();

@@ -2,6 +2,7 @@ import Script from "next/script";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Container from "./components/container";
+import { EditionProvider } from "./context/EditionContext";
 import "../styles/global.css";
 
 export const metadata = {
@@ -28,11 +29,11 @@ export default function RootLayout({
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-              window.dataLayer = window.dataLayer || [];
+              window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-T6MY0YKMNK');
-            `,
+            `,
           }}
         />
         <link
@@ -55,11 +56,16 @@ export default function RootLayout({
         <link rel="manifest" href="/favicon/site.webmanifest" />
       </head>
       <body>
-        <Header />
-        <main className="primary-content">
-          <Container>{children}</Container>
-        </main>
-        <Footer />
+        <EditionProvider>
+          <Header />
+
+          <main className="primary-content">
+            <Container>
+              {children}
+            </Container>
+          </main>
+          <Footer />
+        </EditionProvider>
         <div id="modal-root"></div>
       </body>
     </html>

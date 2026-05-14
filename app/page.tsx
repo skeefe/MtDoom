@@ -5,23 +5,21 @@ import { useRouter } from "next/navigation";
 import BattleTable from "./components/battle-table";
 import getCollectionSnapshot from "./firebase/getCollectionSnapshot";
 import { iBattleSummary } from "./types/battle";
-import { createNewBattle } from "../utils/create-battle"; // Adjust path if needed
+import { createNewBattle } from "../utils/create-battle";
 import Spinner from "./components/spinner";
+import { useEdition } from "./context/EditionContext"
 
 const HomePage = () => {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
+  const { selectedEdition } = useEdition();
 
-  // 1. Filter logic
   const filterShow = (battle: any) => battle.Show !== false;
-
-  // 2. Data Retrieval
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
 
-  // 3. Map with legacy fallback
   const battles: iBattleSummary[] = battleCollection.map((battle) => ({
     id: battle.id,
-    Edition: battle.Edition || 10,
+    Edition: battle.Edition,
     Date: battle.Date,
     PrimaryMission: battle.PrimaryMission,
     MissionRule: battle.MissionRule,
@@ -38,12 +36,10 @@ const HomePage = () => {
     Show: battle.Show,
   }));
 
-  // 4. Creation Handler with Spinner Control
   const handleCreateBattle = async () => {
     setIsCreating(true);
     try {
       await createNewBattle(router);
-      // We don't set isCreating(false) here because we're navigating away
     } catch (error) {
       console.error("Creation failed:", error);
       setIsCreating(false);
@@ -51,7 +47,6 @@ const HomePage = () => {
     }
   };
 
-  // If we are mid-creation, show the spinner
   if (isCreating) return <Spinner />;
 
   return (
@@ -60,7 +55,8 @@ const HomePage = () => {
         title="Battle List"
         battles={battles}
         showCreateButton={true}
-        onCreateClick={handleCreateBattle} // Pass the handler down
+        onCreateClick={handleCreateBattle}
+        selectedEdition={selectedEdition}
       />
     </>
   );

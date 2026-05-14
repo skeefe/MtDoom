@@ -3,7 +3,7 @@ import Link from "next/link";
 import Spinner from "./spinner";
 import ArmyTableRow from "./armies-table-row";
 import { iArmySummary } from "../types/army";
-import TextField from "./textField";
+import TextField from "./text-field";
 
 const ArmiesTable = (props: {
   title: string;
