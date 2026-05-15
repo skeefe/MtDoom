@@ -1,5 +1,4 @@
 ## Now
-- Filter on the battles table
 
 ## Next
 - Make User B know if User A is focussed on a field.
