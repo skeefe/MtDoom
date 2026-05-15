@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import Spinner from "./spinner";
 import ArmyTableRow from "./armies-table-row";
 import { iArmySummary } from "../types/army";
 import TextField from "./text-field";
@@ -64,7 +63,30 @@ const ArmiesTable = (props: {
     setSearchTerm(e.target.value);
   };
 
-  return props.armies.length > 0 ? (
+  // Empty state
+  if (props.armies.length === 0) {
+    return (
+      <section className="section">
+        <header className="section-header" style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem'
+        }}>
+          <h2>{props.title}</h2>
+          {props.showCreateButton && (
+            <Link href="/army/add" className="button section-header-button" style={{ margin: 0 }}>
+              Add<span className="hide show-sm-inline"> Army</span>
+            </Link>
+          )}
+        </header>
+        <p className="error">No active Armies for this edition yet.</p>
+      </section>
+    );
+  }
+
+  return (
     <>
       <section className="section">
         <header className="section-header" style={{
@@ -77,7 +99,6 @@ const ArmiesTable = (props: {
           <h2>{props.title}</h2>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            {/* Search Bar using your TextField component */}
             <div className="search-wrapper hide-mobile" style={{ position: 'relative' }}>
               <TextField
                 label={null}
@@ -145,8 +166,6 @@ const ArmiesTable = (props: {
         </table>
       </section>
     </>
-  ) : (
-    <Spinner />
   );
 };
 

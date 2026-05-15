@@ -5,6 +5,7 @@ import GeneralsTable from "../components/generals-table";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import LinkList from "../components/link-list";
 import { useEdition } from "../context/EditionContext";
+import Spinner from "../components/spinner";
 
 import { iGeneralSummary } from "../types/general";
 import { iBattleSummary } from "../types/battle";
@@ -20,6 +21,7 @@ const Generals = () => {
   };
 
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
+  if (battleCollection.length === 0) return <Spinner />;
 
   let battles: iBattleSummary[] = battleCollection
     .filter((battle) =>

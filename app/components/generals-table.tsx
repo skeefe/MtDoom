@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import Spinner from "./spinner";
 import GeneralsTableRow from "./generals-table-row";
 import { iGeneralSummary } from "../types/general";
 
@@ -22,16 +21,14 @@ const GeneralsTable = (props: {
   };
 
   const getSortedGenerals = () => {
-    const sorted = [...props.generals].sort((a, b) => {
+    return [...props.generals].sort((a, b) => {
       let aValue = a[sortColumn as keyof iGeneralSummary];
       let bValue = b[sortColumn as keyof iGeneralSummary];
 
-      // Handle undefined/null values
       if (aValue == null && bValue == null) return 0;
       if (aValue == null) return 1;
       if (bValue == null) return -1;
 
-      // Convert to string for comparison if needed
       if (typeof aValue === "string" && typeof bValue === "string") {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
@@ -41,7 +38,6 @@ const GeneralsTable = (props: {
       if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
       return 0;
     });
-    return sorted;
   };
 
   const getArrowIcon = (column: string) => {
@@ -51,17 +47,33 @@ const GeneralsTable = (props: {
     return "↕";
   };
 
-  return props.generals.length > 0 ? (
+  // Empty state
+  if (props.generals.length === 0) {
+    return (
+      <section className="section">
+        <header className="section-header">
+          <h2>{props.title}</h2>
+          {props.showCreateButton && (
+            <Link href="/army/add" className="button section-header-button">
+              Add<span className="hide show-sm-inline"> General</span>
+            </Link>
+          )}
+        </header>
+        <p className="error">No active Generals for this edition yet.</p>
+      </section>
+    );
+  }
+
+  return (
     <>
       <section className="section">
         <header className="section-header">
           <h2>{props.title}</h2>
-
-          {props.showCreateButton ? (
+          {props.showCreateButton && (
             <Link href="/army/add" className="button section-header-button">
               Add<span className="hide show-sm-inline"> General</span>
             </Link>
-          ) : null}
+          )}
         </header>
 
         <table className="primary-table">
@@ -108,8 +120,6 @@ const GeneralsTable = (props: {
         </table>
       </section>
     </>
-  ) : (
-    <Spinner />
   );
 };
 

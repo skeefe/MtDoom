@@ -24,9 +24,13 @@ export default function GeneralDetails({
 
   const battleCollection = getCollectionSnapshot("Battles", "Date", "asc").filter(filterShow);
 
-  let generalBattleCollection = battleCollection.filter((battle) =>
+  const generalBattleCollection = battleCollection.filter((battle) =>
     battle.IsCompleted &&
     (battle.Attacker === generalId || battle.Defender === generalId)
+  );
+
+  const filteredBattles = generalBattleCollection.filter((b) =>
+    selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
   );
 
   if (!generalDetails["Alias"]) {
@@ -69,27 +73,27 @@ export default function GeneralDetails({
         </Link>
       </header>
 
-      <StatPanel
-        Item={generalId}
-        Type="Generals"
-        Battles={generalBattleCollection.filter((b) =>
-          selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
-        )}
-      />
+      {filteredBattles.length > 0 && (
+        <>
+          <StatPanel
+            Item={generalId}
+            Type="Generals"
+            Battles={filteredBattles}
+          />
 
-      <GeneralDashboard
-        general={{
-          id: generalId,
-          Alias: generalDetails["Alias"],
-          Bio: generalDetails["Bio"],
-          Emoji: generalDetails["Emoji"],
-          Name: generalDetails["Name"],
-          Nicknames: generalDetails["Nicknames"],
-        }}
-        battles={generalBattleCollection.filter((b) =>
-          selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
-        )}
-      />
+          <GeneralDashboard
+            general={{
+              id: generalId,
+              Alias: generalDetails["Alias"],
+              Bio: generalDetails["Bio"],
+              Emoji: generalDetails["Emoji"],
+              Name: generalDetails["Name"],
+              Nicknames: generalDetails["Nicknames"],
+            }}
+            battles={filteredBattles}
+          />
+        </>
+      )}
 
       <BattleTable
         title={`${generalDetails["Alias"]}'s Battles`}

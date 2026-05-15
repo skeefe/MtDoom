@@ -5,6 +5,7 @@ import ArmiesTable from "../components/armies-table";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
 import LinkList from "../components/link-list";
 import { useEdition } from "../context/EditionContext";
+import Spinner from "../components/spinner";
 
 import { iArmySummary } from "../types/army";
 import { iBattleSummary } from "../types/battle";
@@ -22,6 +23,7 @@ const Armies = () => {
   );
 
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
+  if (battleCollection.length === 0) return <Spinner />;
 
   let battles: iBattleSummary[] = battleCollection
     .filter((battle) =>

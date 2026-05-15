@@ -191,7 +191,44 @@ const BattleTable = (props: {
     }
   };
 
-  return props.battles.length > 0 ? (
+  // No battles in DB at all
+  if (props.battles.length === 0) return <Spinner />;
+
+  // Edition filter returns nothing and no active search
+  if (filteredBattles.length === 0 && !debouncedSearchTerm) {
+    return (
+      <section className="section">
+        <header
+          className="section-header"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "1rem",
+          }}
+        >
+          <h2>{props.title}</h2>
+          {props.showCreateButton && (
+            <button
+              className="button section-header-button"
+              onClick={handleAddBattle}
+              style={{ margin: 0 }}
+            >
+              CREATE BATTLE
+            </button>
+          )}
+        </header>
+        <p className="error">
+          {props.selectedEdition !== "all"
+            ? "No Battles recorded for this edition yet."
+            : "No Battles recorded yet."}
+        </p>
+      </section>
+    );
+  }
+
+  return (
     <>
       <section className="section">
         <header
@@ -286,20 +323,12 @@ const BattleTable = (props: {
         </table>
 
         {getFilteredAndSortedBattles.length === 0 && debouncedSearchTerm && (
-          <p style={{ textAlign: "center", padding: "2rem", color: "#888" }}>
-            No battles match your search criteria
-          </p>
-        )}
-
-        {getFilteredAndSortedBattles.length === 0 && !debouncedSearchTerm && props.selectedEdition !== "all" && (
-          <p style={{ textAlign: "center", padding: "2rem", color: "#888" }}>
-            No battles recorded for this edition yet
+          <p className="error">
+            No Battles match your search criteria.
           </p>
         )}
       </section>
     </>
-  ) : (
-    <Spinner />
   );
 };
 

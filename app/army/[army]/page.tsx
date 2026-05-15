@@ -25,9 +25,13 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
 
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
 
-  let armyBattleCollection = battleCollection.filter((battle) =>
+  const armyBattleCollection = battleCollection.filter((battle) =>
     battle.IsCompleted &&
     (battle.AttackerArmy === armyId || battle.DefenderArmy === armyId)
+  );
+
+  const filteredBattles = armyBattleCollection.filter((b) =>
+    selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
   );
 
   const handleArmyHide = (e) => {
@@ -41,8 +45,6 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
   if (!armyDetails["Name"]) {
     return <Spinner />;
   }
-
-  console.log(armyBattleCollection.map(b => ({ id: b.id, Edition: b.Edition })));
 
   if (armyBattleCollection.length === 0) {
     return (
@@ -85,27 +87,27 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
         </Link>
       </header>
 
-      <StatPanel
-        Item={armyId}
-        Type="Armies"
-        Battles={armyBattleCollection.filter((b) =>
-          selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
-        )}
-      />
+      {filteredBattles.length > 0 && (
+        <>
+          <StatPanel
+            Item={armyId}
+            Type="Armies"
+            Battles={filteredBattles}
+          />
 
-      <ArmyDashboard
-        army={{
-          id: armyId,
-          Bio: armyDetails["Bio"],
-          Colour: armyDetails["Colour"],
-          Crest: armyDetails["Crest"],
-          Emoji: armyDetails["Emoji"],
-          Name: armyDetails["Name"],
-        }}
-        battles={armyBattleCollection.filter((b) =>
-          selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
-        )}
-      />
+          <ArmyDashboard
+            army={{
+              id: armyId,
+              Bio: armyDetails["Bio"],
+              Colour: armyDetails["Colour"],
+              Crest: armyDetails["Crest"],
+              Emoji: armyDetails["Emoji"],
+              Name: armyDetails["Name"],
+            }}
+            battles={filteredBattles}
+          />
+        </>
+      )}
 
       <BattleTable
         title={`${armyDetails["Name"]}'s Battles`}

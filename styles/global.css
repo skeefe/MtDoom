@@ -156,6 +156,20 @@
   font-style: italic;
 }
 
+.error {
+  color: #888;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .error {
+    font-size: 1.75rem;
+  }
+}
+
 html {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
@@ -248,7 +262,7 @@ h3 {
   padding: 0;
 }
 
-.primary-nav li{
+.primary-nav li {
   margin-left: 0.5rem;
 }
 
@@ -273,7 +287,7 @@ h3 {
   .primary-nav li {
     margin-left: 2rem;
   }
-  
+
   .primary-nav a {
     font-size: 1rem;
   }
@@ -285,9 +299,9 @@ h3 {
 }
 
 .primary-nav select {
-  font-size:.875rem;
+  font-size: .875rem;
   margin-top: -0.23rem;
-  padding:.25rem .75rem;
+  padding: .25rem .75rem;
 }
 
 /* Priamry Content Area */
@@ -310,10 +324,11 @@ h3 {
   gap: 2rem;
   justify-content: space-between;
 }
-.primary-footer .top select{
+
+.primary-footer .top select {
   margin-top: -0.4rem;
-  padding-left:2rem;
-  padding-right:2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   width: 100%;
 }
 
@@ -1315,6 +1330,7 @@ tspan {
 .configuration label {
   font-size: 1rem;
 }
+
 .configuration .instruction {
   font-size: 1rem;
 }
