@@ -34,428 +34,233 @@ const StatPanel = (props: {
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
   const itemData = getDocSnapshot(props.Type, props.Item);
 
-  //Retrieve Battle
   useEffect(() => {
     unfilteredStats();
   }, [itemData, props.Battles]);
 
   const getArmiesGenerals = () => {
-    let Armies: selectOption[] = [];
-    let Generals: selectOption[] = [];
-    let ArmiesGenerals: selectOption[] = [];
+    const Armies: selectOption[] = [];
+    const Generals: selectOption[] = [];
 
     props.Battles.forEach((battle) => {
-      let isAttacker =
-        props.Type === "Armies" && battle.AttackerArmy === props.Item
-          ? true
-          : props.Type === "Generals" && battle.Attacker === props.Item
-            ? true
-            : false;
+      const isAttacker =
+        props.Type === "Armies"
+          ? battle.AttackerArmy === props.Item
+          : battle.Attacker === props.Item;
 
       Armies.push(
-        !isAttacker
-          ? {
-            Label: propertyFromID(
-              armiesCollection,
-              battle.AttackerArmy,
-              "Name"
-            ),
-            Value: `a-${battle.AttackerArmy}`,
-            Active: true,
-          }
-          : {
-            Label: propertyFromID(
-              armiesCollection,
-              battle.DefenderArmy,
-              "Name"
-            ),
-            Value: `a-${battle.DefenderArmy}`,
-            Active: true,
-          }
+        isAttacker
+          ? { Label: propertyFromID(armiesCollection, battle.DefenderArmy, "Name"), Value: `a-${battle.DefenderArmy}`, Active: true }
+          : { Label: propertyFromID(armiesCollection, battle.AttackerArmy, "Name"), Value: `a-${battle.AttackerArmy}`, Active: true }
       );
+
       Generals.push(
-        !isAttacker
-          ? {
-            Label: propertyFromID(
-              generalsCollection,
-              battle.Attacker,
-              "Alias"
-            ),
-            Value: `g-${battle.Attacker}`,
-            Active: true,
-          }
-          : {
-            Label: propertyFromID(
-              generalsCollection,
-              battle.Defender,
-              "Alias"
-            ),
-            Value: `g-${battle.Defender}`,
-            Active: true,
-          }
+        isAttacker
+          ? { Label: propertyFromID(generalsCollection, battle.Defender, "Alias"), Value: `g-${battle.Defender}`, Active: true }
+          : { Label: propertyFromID(generalsCollection, battle.Attacker, "Alias"), Value: `g-${battle.Attacker}`, Active: true }
       );
     });
 
-    ArmiesGenerals.push(...Armies, ...Generals);
-
+    const ArmiesGenerals = [...Armies, ...Generals];
     return ArmiesGenerals.filter(
-      (obj, index) =>
-        ArmiesGenerals.findIndex((item) => item.Value === obj.Value) === index
+      (obj, index) => ArmiesGenerals.findIndex((item) => item.Value === obj.Value) === index
     );
   };
 
   const handleChange = (e) => {
     const value = e.target.value;
 
-    // Check for "Show All"
-    if (value === "") {
-      return unfilteredStats();
-    }
+    if (value === "") return unfilteredStats();
 
-    // Army or General
-    const type: "Army" | "General" =
-      value.slice(0, 1) === "a" ? "Army" : "General";
-
-    // Drop the prefix.
+    const type: "Army" | "General" = value.slice(0, 1) === "a" ? "Army" : "General";
     const opponentId = value.slice(2);
 
-    // Filter data
-    let opponentBattleData: iBattle[] =
+    const opponentBattleData: iBattle[] =
       type === "Army"
-        ? props.Battles.filter(
-          (b) =>
-            b.AttackerArmy === opponentId || b.DefenderArmy === opponentId
-        )
-        : props.Battles.filter(
-          (b) => b.Attacker === opponentId || b.Defender === opponentId
-        );
+        ? props.Battles.filter((b) => b.AttackerArmy === opponentId || b.DefenderArmy === opponentId)
+        : props.Battles.filter((b) => b.Attacker === opponentId || b.Defender === opponentId);
 
-    // Make calculations
-    let totalPointsFor: number = 0;
-    let totalPointsAgainst: number = 0;
-    let firstTurnTotal: number = 0;
-    let totalWins: number = 0;
-    let totalDraws: number = 0;
+    let totalPointsFor = 0;
+    let totalPointsAgainst = 0;
+    let firstTurnTotal = 0;
+    let totalWins = 0;
+    let totalDraws = 0;
 
     opponentBattleData.forEach((battle) => {
       const isOpponentAttacker =
-        type === "Army" && battle.AttackerArmy === opponentId
-          ? true
-          : type === "General" && battle.Attacker === opponentId
-            ? true
-            : false;
+        type === "Army"
+          ? battle.AttackerArmy === opponentId
+          : battle.Attacker === opponentId;
 
-      totalPointsFor =
-        totalPointsFor +
-        (isOpponentAttacker ? battle.TotalDefender : battle.TotalAttacker);
-      totalPointsAgainst =
-        totalPointsAgainst +
-        (isOpponentAttacker ? battle.TotalAttacker : battle.TotalDefender);
+      totalPointsFor += isOpponentAttacker ? battle.TotalDefender : battle.TotalAttacker;
+      totalPointsAgainst += isOpponentAttacker ? battle.TotalAttacker : battle.TotalDefender;
 
-      firstTurnTotal =
-        isOpponentAttacker && battle.Attacker !== battle.FirstTurn
-          ? firstTurnTotal + 1
-          : !isOpponentAttacker && battle.Defender !== battle.FirstTurn
-            ? firstTurnTotal + 1
-            : firstTurnTotal;
+      const opponentWentFirst = isOpponentAttacker
+        ? battle.Attacker !== battle.FirstTurn
+        : battle.Defender !== battle.FirstTurn;
+      if (opponentWentFirst) firstTurnTotal++;
 
-      // Logic: If it's a draw, increment draws. 
-      // Otherwise, check if the current Item (props.Item) won.
       if (battle.Victor === "DRAW") {
         totalDraws++;
       } else {
-        // Check if the current General/Army won (props.Item is the page owner)
-        totalWins =
-          isOpponentAttacker && battle.Attacker !== battle.Victor
-            ? totalWins + 1
-            : !isOpponentAttacker && battle.Defender !== battle.Victor
-              ? totalWins + 1
-              : totalWins;
+        const itemWon = isOpponentAttacker
+          ? battle.Attacker !== battle.Victor
+          : battle.Defender !== battle.Victor;
+        if (itemWon) totalWins++;
       }
     });
 
     const opponentData: iStatPanel = {
       id: value,
-      Name:
-        type === "Army"
-          ? propertyFromID(armiesCollection, opponentId, "Name")
-          : propertyFromID(generalsCollection, opponentId, "Alias"),
-
+      Name: type === "Army"
+        ? propertyFromID(armiesCollection, opponentId, "Name")
+        : propertyFromID(generalsCollection, opponentId, "Alias"),
       Played: opponentBattleData.length,
       Won: totalWins,
       Drawn: totalDraws,
-      // Lost is now Total - Wins - Draws
       Lost: opponentBattleData.length - totalWins - totalDraws,
-      AveragePoints:
-        Math.round((totalPointsFor / opponentBattleData.length) * 10) / 10,
+      AveragePoints: Math.round((totalPointsFor / opponentBattleData.length) * 10) / 10,
       AverageOpponentPoints: Math.round((totalPointsAgainst / opponentBattleData.length) * 10) / 10,
       TotalPoints: totalPointsFor,
       PointDifference: totalPointsFor - totalPointsAgainst,
-      WinPercentage: Math.round(
-        ((totalWins + (totalDraws * 0.5)) / opponentBattleData.length) * 1000
-      ) / 10,
-      FirstTurnPercentage:
-        Math.round((firstTurnTotal / opponentBattleData.length) * 1000) / 10,
+      WinPercentage: Math.round(((totalWins + (totalDraws * 0.5)) / opponentBattleData.length) * 1000) / 10,
+      FirstTurnPercentage: Math.round((firstTurnTotal / opponentBattleData.length) * 1000) / 10,
     };
 
-    // Update State
-    setStats((prev) => {
-      return { ...prev, ...opponentData };
-    });
+    setStats((prev) => ({ ...prev, ...opponentData }));
   };
 
-  const generalPlayed = (generalId) => {
-    return props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) ===
-        generalId ||
-        (Object.keys(obj).includes("Defender") && obj["Defender"] === generalId)
+  // --- General Stats ---
+  const generalPlayed = (id: string) =>
+    props.Battles.filter((b) => b.Attacker === id || b.Defender === id).length;
+
+  const generalWon = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.Attacker === id && b.Attacker === b.Victor) ||
+      (b.Defender === id && b.Defender === b.Victor)
     ).length;
-  };
 
-  const generalWon = (generalId) => {
-    return props.Battles.filter(
-      (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Attacker") &&
-          obj["Attacker"]) === generalId &&
-          obj["Attacker"] === obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("Defender") &&
-          obj["Defender"]) === generalId &&
-          obj["Defender"] === obj["Victor"])
+  const generalLost = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.Attacker === id && b.Attacker !== b.Victor && b.Victor !== "DRAW") ||
+      (b.Defender === id && b.Defender !== b.Victor && b.Victor !== "DRAW")
     ).length;
-  };
 
-  const generalLost = (generalId) => {
-    return props.Battles.filter(
-      (obj) =>
-        (obj["Attacker"] === generalId && obj["Attacker"] !== obj["Victor"] && obj["Victor"] !== "DRAW") ||
-        (obj["Defender"] === generalId && obj["Defender"] !== obj["Victor"] && obj["Victor"] !== "DRAW")
+  const generalDrawn = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.Attacker === id || b.Defender === id) && b.Victor === "DRAW"
     ).length;
+
+  const generalPointsFor = (id: string) => {
+    let total = 0;
+    props.Battles.filter((b) => b.Attacker === id).forEach((b) => total += b.TotalAttacker);
+    props.Battles.filter((b) => b.Defender === id).forEach((b) => total += b.TotalDefender);
+    return total;
   };
 
-  const generalDrawn = (generalId) => {
-    return props.Battles.filter(obj => obj["Victor"] === "DRAW").length;
+  const generalPointsAgainst = (id: string) => {
+    let total = 0;
+    props.Battles.filter((b) => b.Attacker === id).forEach((b) => total += b.TotalDefender);
+    props.Battles.filter((b) => b.Defender === id).forEach((b) => total += b.TotalAttacker);
+    return total;
   };
 
-  const addGeneralPointsFor = (generalId) => {
-    const generalAttackerBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) === generalId
-    );
-
-    let generalAttackerTotal = 0;
-    generalAttackerBattles.map(function (battle) {
-      generalAttackerTotal += battle.TotalAttacker;
-    });
-
-    const generalDefenderBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Defender") && obj["Defender"]) === generalId
-    );
-
-    let generalDefenderTotal = 0;
-    generalDefenderBattles.map(function (battle) {
-      generalDefenderTotal += battle.TotalDefender;
-    });
-
-    return generalAttackerTotal + generalDefenderTotal;
-  };
-
-  const addGeneralPointsAgainst = (generalId) => {
-    const generalAttackerBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Attacker") && obj["Attacker"]) === generalId
-    );
-
-    let generalAttackerTotal = 0;
-    generalAttackerBattles.map(function (battle) {
-      generalAttackerTotal += battle.TotalDefender;
-    });
-
-    const generalDefenderBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("Defender") && obj["Defender"]) === generalId
-    );
-
-    let generalDefenderTotal = 0;
-    generalDefenderBattles.map(function (battle) {
-      generalDefenderTotal += battle.TotalAttacker;
-    });
-
-    return generalAttackerTotal + generalDefenderTotal;
-  };
-
-  const generalFirstTurn = (generalId) => {
-    return props.Battles.filter(
-      (obj) =>
-        ((Object.keys(obj).includes("Attacker") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["Attacker"]) === generalId &&
-          obj["Attacker"] === obj["FirstTurn"]) ||
-        ((Object.keys(obj).includes("Defender") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["Defender"]) === generalId &&
-          obj["Defender"] === obj["FirstTurn"])
+  const generalFirstTurn = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.Attacker === id && b.Attacker === b.FirstTurn) ||
+      (b.Defender === id && b.Defender === b.FirstTurn)
     ).length;
-  };
 
-  const armyPlayed = (armyId) => {
-    return props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("AttackerArmy") && obj["AttackerArmy"]) ===
-        armyId ||
-        (Object.keys(obj).includes("DefenderArmy") &&
-          obj["DefenderArmy"] === armyId)
+  // --- Army Stats ---
+  const armyPlayed = (id: string) =>
+    props.Battles.filter((b) => b.AttackerArmy === id || b.DefenderArmy === id).length;
+
+  const armyWon = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.AttackerArmy === id && b.Attacker === b.Victor) ||
+      (b.DefenderArmy === id && b.Defender === b.Victor)
     ).length;
-  };
 
-  const armyWon = (armyId) => {
-    return props.Battles.filter(
-      (obj) =>
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("AttackerArmy") &&
-          obj["AttackerArmy"]) === armyId &&
-          obj["Attacker"] === obj["Victor"]) ||
-        ((Object.keys(obj).includes("Victor") &&
-          Object.keys(obj).includes("DefenderArmy") &&
-          obj["DefenderArmy"]) === armyId &&
-          obj["Defender"] === obj["Victor"])
+  const armyLost = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.AttackerArmy === id && b.Attacker !== b.Victor && b.Victor !== "DRAW") ||
+      (b.DefenderArmy === id && b.Defender !== b.Victor && b.Victor !== "DRAW")
     ).length;
-  };
 
-  const armyLost = (armyId) => {
-    return props.Battles.filter(
-      (obj) =>
-        (obj["AttackerArmy"] === armyId && obj["Attacker"] !== obj["Victor"] && obj["Victor"] !== "DRAW") ||
-        (obj["DefenderArmy"] === armyId && obj["Defender"] !== obj["Victor"] && obj["Victor"] !== "DRAW")
+  const armyDrawn = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.AttackerArmy === id || b.DefenderArmy === id) && b.Victor === "DRAW"
     ).length;
+
+  const armyPointsFor = (id: string) => {
+    let total = 0;
+    props.Battles.filter((b) => b.AttackerArmy === id).forEach((b) => total += b.TotalAttacker);
+    props.Battles.filter((b) => b.DefenderArmy === id).forEach((b) => total += b.TotalDefender);
+    return total;
   };
 
-  const armyDrawn = (armyId) => {
-    return props.Battles.filter(obj => obj["Victor"] === "DRAW").length;
+  const armyPointsAgainst = (id: string) => {
+    let total = 0;
+    props.Battles.filter((b) => b.AttackerArmy === id).forEach((b) => total += b.TotalDefender);
+    props.Battles.filter((b) => b.DefenderArmy === id).forEach((b) => total += b.TotalAttacker);
+    return total;
   };
 
-  const addArmyPointsFor = (armyId) => {
-    const armyAttackerBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("AttackerArmy") && obj["AttackerArmy"]) ===
-        armyId
-    );
-
-    let armyAttackerTotal = 0;
-    armyAttackerBattles.map(function (battle) {
-      armyAttackerTotal += battle.TotalAttacker;
-    });
-
-    const armyDefenderBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("DefenderArmy") && obj["DefenderArmy"]) ===
-        armyId
-    );
-
-    let armyDefenderTotal = 0;
-    armyDefenderBattles.map(function (battle) {
-      armyDefenderTotal += battle.TotalDefender;
-    });
-
-    return armyAttackerTotal + armyDefenderTotal;
-  };
-
-  const addArmyPointsAgainst = (armyId) => {
-    const armyAttackerBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("AttackerArmy") && obj["AttackerArmy"]) ===
-        armyId
-    );
-
-    let armyAttackerTotal = 0;
-    armyAttackerBattles.map(function (battle) {
-      armyAttackerTotal += battle.TotalDefender;
-    });
-
-    const armyDefenderBattles = props.Battles.filter(
-      (obj) =>
-        (Object.keys(obj).includes("DefenderArmy") && obj["DefenderArmy"]) ===
-        armyId
-    );
-
-    let armyDefenderTotal = 0;
-    armyDefenderBattles.map(function (battle) {
-      armyDefenderTotal += battle.TotalAttacker;
-    });
-
-    return armyAttackerTotal + armyDefenderTotal;
-  };
-
-  const armyFirstTurn = (armyId) => {
-    return props.Battles.filter(
-      (obj) =>
-        ((Object.keys(obj).includes("AttackerArmy") &&
-          Object.keys(obj).includes("Attacker") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["AttackerArmy"]) === armyId &&
-          obj["Attacker"] === obj["FirstTurn"]) ||
-        ((Object.keys(obj).includes("DefenderArmy") &&
-          Object.keys(obj).includes("Defender") &&
-          Object.keys(obj).includes("FirstTurn") &&
-          obj["DefenderArmy"]) === armyId &&
-          obj["Defender"] === obj["FirstTurn"])
+  const armyFirstTurn = (id: string) =>
+    props.Battles.filter((b) =>
+      (b.AttackerArmy === id && b.Attacker === b.FirstTurn) ||
+      (b.DefenderArmy === id && b.Defender === b.FirstTurn)
     ).length;
-  };
 
   const unfilteredStats = () => {
+    const id = props.Item;
     let statData: iStatPanel;
 
     if (props.Type === "Generals") {
+      const played = generalPlayed(id);
+      const won = generalWon(id);
+      const drawn = generalDrawn(id);
+      const pFor = generalPointsFor(id);
+      const pAgainst = generalPointsAgainst(id);
+
       statData = {
         id: "",
         Name: "",
-        Played: generalPlayed(props.Item),
-        Won: generalWon(props.Item),
-        Lost: generalLost(props.Item),
-        Drawn: generalDrawn(props.Item),
-        AveragePoints: Math.round(((addGeneralPointsFor(props.Item) / generalPlayed(props.Item)) * 10) / 10),
-        AverageOpponentPoints: Math.round(((addGeneralPointsAgainst(props.Item) / generalPlayed(props.Item)) * 10) / 10),
-        TotalPoints: addGeneralPointsFor(props.Item),
-        PointDifference:
-          addGeneralPointsFor(props.Item) - addGeneralPointsAgainst(props.Item),
-        WinPercentage: Math.round(
-          ((generalWon(props.Item) + (generalDrawn(props.Item) * 0.5)) / generalPlayed(props.Item)) * 1000
-        ) / 10,
-        FirstTurnPercentage:
-          Math.round(
-            (generalFirstTurn(props.Item) / generalPlayed(props.Item)) * 1000
-          ) / 10,
+        Played: played,
+        Won: won,
+        Lost: generalLost(id),
+        Drawn: drawn,
+        AveragePoints: Math.round((pFor / played) * 10) / 10,
+        AverageOpponentPoints: Math.round((pAgainst / played) * 10) / 10,
+        TotalPoints: pFor,
+        PointDifference: pFor - pAgainst,
+        WinPercentage: Math.round(((won + (drawn * 0.5)) / played) * 1000) / 10,
+        FirstTurnPercentage: Math.round((generalFirstTurn(id) / played) * 1000) / 10,
       };
     } else {
+      const played = armyPlayed(id);
+      const won = armyWon(id);
+      const drawn = armyDrawn(id);
+      const pFor = armyPointsFor(id);
+      const pAgainst = armyPointsAgainst(id);
+
       statData = {
         id: "",
         Name: "",
-        Played: armyPlayed(props.Item),
-        Won: armyWon(props.Item),
-        Lost: armyLost(props.Item),
-        Drawn: armyDrawn(props.Item),
-        AveragePoints: Math.round(((addArmyPointsFor(props.Item) / armyPlayed(props.Item)) * 10) / 10),
-        AverageOpponentPoints: Math.round(((addArmyPointsAgainst(props.Item) / armyPlayed(props.Item)) * 10) / 10),
-        TotalPoints: addArmyPointsFor(props.Item),
-        PointDifference:
-          addArmyPointsFor(props.Item) - addArmyPointsAgainst(props.Item),
-        WinPercentage: Math.round(
-          ((armyWon(props.Item) + (armyDrawn(props.Item) * 0.5)) / armyPlayed(props.Item)) * 1000
-        ) / 10,
-        FirstTurnPercentage:
-          Math.round(
-            (armyFirstTurn(props.Item) / armyPlayed(props.Item)) * 1000
-          ) / 10,
+        Played: played,
+        Won: won,
+        Lost: armyLost(id),
+        Drawn: drawn,
+        AveragePoints: Math.round((pFor / played) * 10) / 10,
+        AverageOpponentPoints: Math.round((pAgainst / played) * 10) / 10,
+        TotalPoints: pFor,
+        PointDifference: pFor - pAgainst,
+        WinPercentage: Math.round(((won + (drawn * 0.5)) / played) * 1000) / 10,
+        FirstTurnPercentage: Math.round((armyFirstTurn(id) / played) * 1000) / 10,
       };
     }
 
-    //Update State
-    setStats((prev) => {
-      return { ...prev, ...statData };
-    });
+    setStats((prev) => ({ ...prev, ...statData }));
   };
 
   return (
@@ -474,63 +279,43 @@ const StatPanel = (props: {
       </header>
       <ul className="stat-panel-list">
         <li>
-          <span className="stat-label" title="Battles Played">
-            Played
-          </span>
+          <span className="stat-label" title="Battles Played">Played</span>
           <span className="stat-value">{stats.Played}</span>
         </li>
         <li>
-          <span className="stat-label" title="First Turn Percentage">
-            First&nbsp;Turn&nbsp;%
-          </span>
+          <span className="stat-label" title="First Turn Percentage">First&nbsp;Turn&nbsp;%</span>
           <span className="stat-value">{stats.FirstTurnPercentage}%</span>
         </li>
         <li>
-          <span className="stat-label" title="Average Points/Battle">
-            Avg.&nbsp;Points
-          </span>
+          <span className="stat-label" title="Average Points/Battle">Avg.&nbsp;Points</span>
           <span className="stat-value">{stats.AveragePoints}</span>
         </li>
         <li className="hide-sm show-lg-flex">
-          <span className="stat-label" title="Average Opponent Points/Battle">
-            Avg.&nbsp;Opp.&nbsp;Points
-          </span>
+          <span className="stat-label" title="Average Opponent Points/Battle">Avg.&nbsp;Opp.&nbsp;Points</span>
           <span className="stat-value">{stats.AverageOpponentPoints}</span>
         </li>
         <li>
-          <span className="stat-label" title="Total Points">
-            Total&nbsp;Points
-          </span>
+          <span className="stat-label" title="Total Points">Total&nbsp;Points</span>
           <span className="stat-value">{stats.TotalPoints}</span>
         </li>
         <li>
-          <span className="stat-label" title="Points Difference">
-            +/-
-          </span>
+          <span className="stat-label" title="Points Difference">+/-</span>
           <span className="stat-value">{stats.PointDifference}</span>
         </li>
         <li>
-          <span className="stat-label" title="Battles Won">
-            Won
-          </span>
+          <span className="stat-label" title="Battles Won">Won</span>
           <span className="stat-value">{stats.Won}</span>
         </li>
         <li>
-          <span className="stat-label" title="Battles Drawn">
-            Drawn
-          </span>
+          <span className="stat-label" title="Battles Drawn">Drawn</span>
           <span className="stat-value">{stats.Drawn}</span>
         </li>
         <li>
-          <span className="stat-label" title="Battles Lost">
-            Lost
-          </span>
+          <span className="stat-label" title="Battles Lost">Lost</span>
           <span className="stat-value">{stats.Lost}</span>
         </li>
         <li>
-          <span className="stat-label" title="Win Percentage">
-            Win&nbsp;%
-          </span>
+          <span className="stat-label" title="Win Percentage">Win&nbsp;%</span>
           <span className="stat-value">{stats.WinPercentage}%</span>
         </li>
       </ul>

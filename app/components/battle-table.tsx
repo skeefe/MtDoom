@@ -7,6 +7,7 @@ import { iBattleSummary } from "../types/battle";
 import { useRouter } from "next/navigation";
 import Spinner from "./spinner";
 import TextField from "./text-field";
+import SelectField from "./select-field";
 import { createNewBattle } from "../../utils/create-battle";
 
 
@@ -16,12 +17,19 @@ const BattleTable = (props: {
   showCreateButton: boolean;
   onCreateClick?: () => void;
   selectedEdition: string;
+  showSearch?: boolean;
+  showFilter?: boolean;
+  armies?: { id: string; Name: string }[];
+  generals?: { id: string; Alias: string }[];
+  excludeId?: string;
 }) => {
   const router = useRouter();
+  const showSearch = props.showSearch ?? false;
+  const showFilter = props.showFilter ?? true;
+
   const [sortColumn, setSortColumn] = useState<string>("Date");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 
-  // Search States
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
   const [showAutocomplete, setShowAutocomplete] = useState<boolean>(false);
@@ -29,7 +37,8 @@ const BattleTable = (props: {
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Debounce Logic
+  const [filterValue, setFilterValue] = useState<string>("");
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -37,7 +46,6 @@ const BattleTable = (props: {
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  // Close autocomplete when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -47,6 +55,10 @@ const BattleTable = (props: {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    setFilterValue("");
+  }, [props.selectedEdition]);
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
@@ -65,7 +77,36 @@ const BattleTable = (props: {
     }
   };
 
-  // Extract unique values for autocomplete
+  const filterOptions = useMemo(() => {
+    const armyIds = new Set<string>();
+    const generalIds = new Set<string>();
+
+    props.battles.forEach((battle) => {
+      if (battle.AttackerArmy) armyIds.add(battle.AttackerArmy);
+      if (battle.DefenderArmy) armyIds.add(battle.DefenderArmy);
+      if (battle.Attacker) generalIds.add(battle.Attacker);
+      if (battle.Defender) generalIds.add(battle.Defender);
+    });
+
+    const armyOptions = Array.from(armyIds)
+      .filter((id) => id !== props.excludeId)
+      .map((id) => {
+        const match = props.armies?.find((a) => a.id === id);
+        return { Label: match?.Name ?? id, Value: `army:${id}`, Active: true };
+      })
+      .sort((a, b) => a.Label.localeCompare(b.Label));
+
+    const generalOptions = Array.from(generalIds)
+      .filter((id) => id !== props.excludeId)
+      .map((id) => {
+        const match = props.generals?.find((g) => g.id === id);
+        return { Label: match?.Alias ?? id, Value: `general:${id}`, Active: true };
+      })
+      .sort((a, b) => a.Label.localeCompare(b.Label));
+
+    return [...armyOptions, ...generalOptions];
+  }, [props.battles, props.armies, props.generals, props.excludeId]);
+
   const autocompleteOptions = useMemo(() => {
     const options = new Set<string>();
     props.battles.forEach((battle) => {
@@ -80,7 +121,6 @@ const BattleTable = (props: {
     return Array.from(options).sort();
   }, [props.battles]);
 
-  // Filter autocomplete options (instant feedback)
   const filteredOptions = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return [];
@@ -89,7 +129,6 @@ const BattleTable = (props: {
       .slice(0, 10);
   }, [searchTerm, autocompleteOptions]);
 
-  // Filter battles by edition + search term
   const filteredBattles = useMemo(() => {
     const term = debouncedSearchTerm.trim().toLowerCase();
 
@@ -98,7 +137,17 @@ const BattleTable = (props: {
         props.selectedEdition === "all" ||
         battle.Edition === parseInt(props.selectedEdition);
 
-      if (!term) return editionMatch;
+      let filterMatch = true;
+      if (filterValue) {
+        const [type, value] = filterValue.split(":");
+        if (type === "army") {
+          filterMatch = battle.AttackerArmy === value || battle.DefenderArmy === value;
+        } else if (type === "general") {
+          filterMatch = battle.Attacker === value || battle.Defender === value;
+        }
+      }
+
+      if (!term) return editionMatch && filterMatch;
 
       const searchMatch =
         battle.Attacker?.toLowerCase().includes(term) ||
@@ -109,11 +158,10 @@ const BattleTable = (props: {
         battle.PrimaryMission?.toLowerCase().includes(term) ||
         battle.MissionRule?.toLowerCase().includes(term);
 
-      return editionMatch && searchMatch;
+      return editionMatch && filterMatch && searchMatch;
     });
-  }, [debouncedSearchTerm, props.battles, props.selectedEdition]);
+  }, [debouncedSearchTerm, props.battles, props.selectedEdition, filterValue]);
 
-  // Sort filtered battles
   const getFilteredAndSortedBattles = useMemo(() => {
     return [...filteredBattles].sort((a, b) => {
       let aValue: any = a[sortColumn as keyof iBattleSummary];
@@ -150,13 +198,6 @@ const BattleTable = (props: {
     setSelectedIndex(-1);
   };
 
-  const handleSearchClear = () => {
-    setSearchTerm("");
-    setDebouncedSearchTerm("");
-    setShowAutocomplete(false);
-    inputRef.current?.focus();
-  };
-
   const handleAutocompleteSelect = (option: string) => {
     setSearchTerm(option);
     setDebouncedSearchTerm(option);
@@ -191,11 +232,9 @@ const BattleTable = (props: {
     }
   };
 
-  // No battles in DB at all
   if (props.battles.length === 0) return <Spinner />;
 
-  // Edition filter returns nothing and no active search
-  if (filteredBattles.length === 0 && !debouncedSearchTerm) {
+  if (filteredBattles.length === 0 && !debouncedSearchTerm && !filterValue) {
     return (
       <section className="section">
         <header
@@ -245,23 +284,37 @@ const BattleTable = (props: {
 
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
 
-            {/* Search Bar */}
-            <div
-              className="search-wrapper hide-mobile"
-              ref={searchRef}
-              style={{ position: "relative" }}
-            >
-              <TextField
-                label={null}
-                type="text"
-                required={false}
-                id="battle-filter"
-                name="battle-filter"
-                changeFunction={handleSearchChange}
-                value={searchTerm}
-                emptyValue="Search Battles..."
-              />
-            </div>
+            {showFilter && (
+              <div className="hide-mobile">
+                <SelectField
+                  id="battle-filter-dropdown"
+                  name="battle-filter-dropdown"
+                  value={filterValue}
+                  emptyValue="Filter by Army / General"
+                  options={filterOptions}
+                  changeFunction={(e) => setFilterValue(e.target.value)}
+                />
+              </div>
+            )}
+
+            {showSearch && (
+              <div
+                className="search-wrapper hide-mobile"
+                ref={searchRef}
+                style={{ position: "relative" }}
+              >
+                <TextField
+                  label={null}
+                  type="text"
+                  required={false}
+                  id="battle-search"
+                  name="battle-search"
+                  changeFunction={handleSearchChange}
+                  value={searchTerm}
+                  emptyValue="Search Battles..."
+                />
+              </div>
+            )}
 
             {props.showCreateButton && (
               <button
@@ -278,35 +331,15 @@ const BattleTable = (props: {
         <table className="primary-table">
           <thead>
             <tr>
-              <th
-                onClick={() => handleSort("Date")}
-                className="sort-title"
-                style={{ cursor: "pointer" }}
-              >
+              <th onClick={() => handleSort("Date")} className="sort-title" style={{ cursor: "pointer" }}>
                 Date{" "}
-                <span
-                  className={
-                    sortColumn === "Date"
-                      ? "sort-arrow-active"
-                      : "sort-arrow-inactive"
-                  }
-                >
+                <span className={sortColumn === "Date" ? "sort-arrow-active" : "sort-arrow-inactive"}>
                   {getArrowIcon("Date")}
                 </span>
               </th>
-              <th
-                className="hide show-sm sort-title"
-                onClick={() => handleSort("PrimaryMission")}
-                style={{ cursor: "pointer" }}
-              >
+              <th className="hide show-sm sort-title" onClick={() => handleSort("PrimaryMission")} style={{ cursor: "pointer" }}>
                 Mission{" "}
-                <span
-                  className={
-                    sortColumn === "PrimaryMission"
-                      ? "sort-arrow-active"
-                      : "sort-arrow-inactive"
-                  }
-                >
+                <span className={sortColumn === "PrimaryMission" ? "sort-arrow-active" : "sort-arrow-inactive"}>
                   {getArrowIcon("PrimaryMission")}
                 </span>
               </th>
@@ -322,10 +355,8 @@ const BattleTable = (props: {
           </tbody>
         </table>
 
-        {getFilteredAndSortedBattles.length === 0 && debouncedSearchTerm && (
-          <p className="error">
-            No Battles match your search criteria.
-          </p>
+        {getFilteredAndSortedBattles.length === 0 && (debouncedSearchTerm || filterValue) && (
+          <p className="error">No Battles match your filter criteria.</p>
         )}
       </section>
     </>

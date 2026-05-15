@@ -1,10 +1,5 @@
 ## Now
-- Editions
-    - Handle UI
-        - Enable the user to pick the edition when creating a battles
-            - Advanced settings section?
-        - Default the data to the current edition
-        - Filters to change edition or view all data.
+- Filter on the battles table
 
 ## Next
 - Make User B know if User A is focussed on a field.
@@ -27,10 +22,12 @@
 
 - Think about army/general relationship - an army could be played by more than 1 general
 
-- Filter on the battles table
-
 - Compact Match summary for completed matches at a glance
 
 - light mode?
 
 - Domain Name
+
+- Tech debt:
+    - Firestore listener consolidation Currently getCollectionSnapshot is called independently on multiple pages/components, creating separate real-time listeners per call. getDocSnapshot is also called per-battle inside RecentForm (once for general alias, once for army name) creating additional listeners at render time. Consider moving Armies, Battles, and Generals collections into shared React Contexts (similar to EditionContext) so each collection is fetched once and shared app-wide — RecentForm could then look up names from context rather than opening new listeners. Low priority at current scale but worth revisiting if user count or Firestore usage grows.
+

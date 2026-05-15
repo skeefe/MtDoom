@@ -24,6 +24,8 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
   const filterShow = (battle) => battle.Show !== false;
 
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
+  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+  const generalCollection = getCollectionSnapshot("Generals", "Alias", "asc");
 
   const armyBattleCollection = battleCollection.filter((battle) =>
     battle.IsCompleted &&
@@ -114,6 +116,9 @@ export default function ArmyDetails({ params }: { params: Promise<{ army: string
         battles={armyBattleCollection}
         showCreateButton={false}
         selectedEdition={selectedEdition}
+        armies={armyCollection}
+        generals={generalCollection}
+        excludeId={armyId}
       />
 
       <a className="a-delete" type="submit" onClick={(e) => handleArmyHide(e)}>

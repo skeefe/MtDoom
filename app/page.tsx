@@ -7,7 +7,7 @@ import getCollectionSnapshot from "./firebase/getCollectionSnapshot";
 import { iBattleSummary } from "./types/battle";
 import { createNewBattle } from "../utils/create-battle";
 import Spinner from "./components/spinner";
-import { useEdition } from "./context/EditionContext"
+import { useEdition } from "./context/EditionContext";
 
 const HomePage = () => {
   const router = useRouter();
@@ -16,6 +16,8 @@ const HomePage = () => {
 
   const filterShow = (battle: any) => battle.Show !== false;
   const battleCollection = getCollectionSnapshot("Battles").filter(filterShow);
+  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+  const generalCollection = getCollectionSnapshot("Generals", "Alias", "asc");
 
   const battles: iBattleSummary[] = battleCollection.map((battle) => ({
     id: battle.id,
@@ -57,6 +59,10 @@ const HomePage = () => {
         showCreateButton={true}
         onCreateClick={handleCreateBattle}
         selectedEdition={selectedEdition}
+        showFilter={true}
+        showSearch={true}
+        armies={armyCollection}
+        generals={generalCollection}
       />
     </>
   );

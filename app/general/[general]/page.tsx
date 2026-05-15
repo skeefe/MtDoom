@@ -23,6 +23,8 @@ export default function GeneralDetails({
   const filterShow = (battle) => battle.Show !== false;
 
   const battleCollection = getCollectionSnapshot("Battles", "Date", "asc").filter(filterShow);
+  const armyCollection = getCollectionSnapshot("Armies", "Name", "asc");
+  const generalCollection = getCollectionSnapshot("Generals", "Alias", "asc");
 
   const generalBattleCollection = battleCollection.filter((battle) =>
     battle.IsCompleted &&
@@ -100,6 +102,9 @@ export default function GeneralDetails({
         battles={generalBattleCollection}
         showCreateButton={false}
         selectedEdition={selectedEdition}
+        armies={armyCollection}
+        generals={generalCollection}
+        excludeId={generalId}
       />
     </>
   );
