@@ -36,12 +36,17 @@ const Header = () => {
               </Link>
             </li>
             <li className="hide show-sm-inline">
+              <Link href="/mathhammer" className={pathname.startsWith("/mathhammer") ? "active-nav" : ""}>
+                Mathhammer
+              </Link>
+            </li>
+            <li className="hide show-md-inline">
               <Link href="/meta" className={pathname === "/meta" ? "active-nav" : ""}>
                 Meta{" "}
                 <span className="beta">(BETA)</span>
               </Link>
             </li>
-            <li className="hide show-sm-inline">
+            <li className="hide show-lg-inline">
               <SelectField
                 id="edition-filter"
                 name="edition-filter"
@@ -57,9 +62,6 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-
-
-
       </Container>
     </header>
   );

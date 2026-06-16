@@ -17,7 +17,7 @@ const Footer = () => {
           <span className="logo">Mt. Doom &#x1F30B;</span>
         </Link>
 
-        <div className="hide-sm">
+        <div className="hide-lg">
           <SelectField
             id="edition-filter-mobile"
             name="edition-filter-mobile"
