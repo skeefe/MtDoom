@@ -27,7 +27,7 @@ export const createNewBattle = async (router: any) => {
       IsCompleted: false,
       Show: true,
       Date: serverTimestamp(),
-      ChapterApprovedVersion: defaultEdition === 11 ? "Season 1" : "2025-26 Mission Deck",
+      ChapterApprovedVersion: defaultEdition === 11 ? "Armageddon - Chapter Approved" : "2025-26 Mission Deck",
       TotalAttacker: 0,
       TotalDefender: 0,
       Attacker: "",

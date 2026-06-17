@@ -8,6 +8,7 @@ const TextField = (props: {
   value: any;
   emptyValue: string;
   required?: boolean;
+  max?: number;
   changeFunction: React.ChangeEventHandler<HTMLInputElement>;
 }) => {
   return (
@@ -25,9 +26,9 @@ const TextField = (props: {
           placeholder={props.emptyValue}
           type={props.type}
           onChange={props.changeFunction}
-          //Required to stop number fields changing on scroll.
           onWheel={(event) => event.currentTarget.blur()}
           value={props.value}
+          max={props.max}
         />
       </div>
     </>

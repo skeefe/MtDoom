@@ -15,6 +15,8 @@ const SelectField = (props: {
   randomise?: boolean;
   changeFunction: React.ChangeEventHandler<HTMLSelectElement>;
 }) => {
+  const activeOptions = props.options.filter(o => o.Active);
+
   async function handleRandomise(selectId) {
     const select = document.getElementById(selectId);
     const selectInputElement = select as HTMLInputElement;
@@ -24,11 +26,9 @@ const SelectField = (props: {
       return false;
     }
 
-    //Randomly select.
     selectInputElement.value =
-      props.options[Math.floor(Math.random() * props.options.length)].Value;
+      activeOptions[Math.floor(Math.random() * activeOptions.length)].Value;
 
-    //Trigger onChange event.
     var event = new MouseEvent("change", {
       view: window,
       bubbles: true,
@@ -47,18 +47,17 @@ const SelectField = (props: {
             {props.required ? "*" : null}:
           </label>
         )}
-        {props.options.length > 0 ? (
+        {activeOptions.length > 0 ? (
           <select
             id={props.id}
             name={props.name}
             onChange={props.changeFunction}
             value={props.value}
           >
-
             {!props.hideEmpty && (
               <option value="">-- {props.emptyValue} --</option>
             )}
-            {props.options.map((option, index) => (
+            {activeOptions.map((option, index) => (
               <option value={option.Value} key={index}>
                 {option.Label}
               </option>

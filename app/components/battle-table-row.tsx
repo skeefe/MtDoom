@@ -70,7 +70,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
               fontSize: '0.7rem', 
               opacity: 0.7, 
               fontWeight: 'bold',
-              color: props.battle.Edition === 11 ? '#eab308' : 'inherit' 
+              color: props.battle.Edition === 11 ? '#00ffcc' : '#ff006e' 
             }}>
               {props.battle.Edition}TH ED
             </small>

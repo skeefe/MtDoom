@@ -6,10 +6,18 @@ import { chapterApprovedVersions } from "../../data/chapter-approved-versions";
 import { battleSizes } from "../../data/battle-sizes";
 import { deploymentZones } from "../../data/deployment-zones";
 import { missionRules } from "../../data/mission-rules";
-import { primaryMissions } from "../../data/primary-missions";
+import { primaryMissions, primaryMissions11 } from "../../data/primary-missions";
+import { forceDispositions } from "../../data/force-dispositions";
 import TextAreaField from "./textarea-field";
 import Modal from "./modal";
 import { titleCase } from "../../utils/title-case";
+
+const secondaryTypeOptions: selectOption[] = [
+  { Label: "Tactical", Value: "Tactical", Active: true },
+  { Label: "Fixed", Value: "Fixed", Active: true },
+];
+
+const isArmageddon = (version: string) => version === "Armageddon - Chapter Approved";
 
 const BattleFormPre = (props: {
   IsCompleted: boolean;
@@ -31,6 +39,16 @@ const BattleFormPre = (props: {
   AttackerList: string;
   DefenderList: string;
   FirstTurn: string;
+  AttackerForceDisposition?: string;
+  DefenderForceDisposition?: string;
+  AttackerSecondaryType?: string;
+  DefenderSecondaryType?: string;
+  AttackerDetachments?: string[];
+  DefenderDetachments?: string[];
+  onAttackerDetachmentChange?: (index: number, value: string) => void;
+  onDefenderDetachmentChange?: (index: number, value: string) => void;
+  onAttackerAddDetachment?: () => void;
+  onDefenderAddDetachment?: () => void;
   changeFunctionSelect: React.ChangeEventHandler<HTMLSelectElement>;
   changeFunctionText: React.ChangeEventHandler<HTMLInputElement>;
   changeFunctionTextArea: React.ChangeEventHandler<HTMLTextAreaElement>;
@@ -38,7 +56,9 @@ const BattleFormPre = (props: {
   const [showAttackerList, setShowAttackerList] = useState(false);
   const [showDefenderList, setShowDefenderList] = useState(false);
 
-  const showMissionRule = props.ChapterApprovedVersion !== "2025-26 Mission Deck";
+  const showMissionRule = !isArmageddon(props.ChapterApprovedVersion) && props.ChapterApprovedVersion !== "2025-26 Mission Deck";
+  const showArmageddon = isArmageddon(props.ChapterApprovedVersion);
+  const missionOptions = showArmageddon ? primaryMissions11 : primaryMissions;
 
   return (
     <>
@@ -71,8 +91,8 @@ const BattleFormPre = (props: {
           name="PrimaryMission"
           changeFunction={props.changeFunctionSelect}
           value={props.PrimaryMission}
-          options={primaryMissions}
-          emptyValue="Select the Primary Mission"          
+          options={missionOptions}
+          emptyValue="Select the Primary Mission"
           randomise={!props.IsCompleted}
         />
         {showMissionRule && (
@@ -84,7 +104,7 @@ const BattleFormPre = (props: {
             changeFunction={props.changeFunctionSelect}
             value={props.MissionRule}
             options={missionRules}
-            emptyValue="Select the Mission Rule"          
+            emptyValue="Select the Mission Rule"
             randomise={!props.IsCompleted}
           />
         )}
@@ -96,15 +116,11 @@ const BattleFormPre = (props: {
           changeFunction={props.changeFunctionSelect}
           value={props.Deployment}
           options={deploymentZones}
-          emptyValue="Select the Deployment Zone"          
+          emptyValue="Select the Deployment Zone"
           randomise={!props.IsCompleted}
         />
 
-        <div
-          className={`opponent-layout ${
-            !props.IsAttackerFirst ? "reverse" : ""
-          }`}
-        >
+        <div className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}>
           <div className="opponent">
             <legend className="attacker">Attacker</legend>
             <SelectField
@@ -114,10 +130,7 @@ const BattleFormPre = (props: {
               name="Attacker"
               changeFunction={props.changeFunctionSelect}
               value={props.Attacker}
-              //options={props.Generals}
-              options={props.Generals.filter(function (item) {
-                return item.Value != props.Defender;
-              })}
+              options={props.Generals.filter((item) => item.Value != props.Defender)}
               emptyValue="Select the Attacker"
             />
             <SelectField
@@ -133,18 +146,60 @@ const BattleFormPre = (props: {
             <TextField
               label="Detachment"
               type="text"
-              required={true}
+              required={!showArmageddon}
               id="attackerDetachment"
               name="AttackerDetachment"
               changeFunction={props.changeFunctionText}
               value={props.AttackerDetachment}
               emptyValue="Enter Detachment"
             />
-
-            <a
-              className="button button-block button-secondary"
-              onClick={() => setShowAttackerList(true)}
-            >
+            {showArmageddon && (
+              <div style={{ marginTop: "0.5rem" }}>
+                {(props.AttackerDetachments ?? []).map((d, i) => (
+                  <TextField
+                    key={i}
+                    label={`Detachment ${i + 1}`}
+                    type="text"
+                    required={false}
+                    id={`attackerDetachment${i}`}
+                    name={`attackerDetachment${i}`}
+                    value={d}
+                    emptyValue="Enter Detachment"
+                    changeFunction={(e) => props.onAttackerDetachmentChange?.(i, e.target.value)}
+                  />
+                ))}
+                {!props.IsCompleted && (props.AttackerDetachments ?? []).length < 3 && (
+                  <button type="button" className="button button-secondary" onClick={props.onAttackerAddDetachment} style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}>
+                    + Add Detachment
+                  </button>
+                )}
+              </div>
+            )}
+            {showArmageddon && (
+              <>
+                <SelectField
+                  label="Force Disposition"
+                  required={true}
+                  id="attackerForceDisposition"
+                  name="AttackerForceDisposition"
+                  changeFunction={props.changeFunctionSelect}
+                  value={props.AttackerForceDisposition ?? ""}
+                  options={forceDispositions}
+                  emptyValue="Select Force Disposition"
+                />
+                <SelectField
+                  label="Secondary Type"
+                  required={true}
+                  id="attackerSecondaryType"
+                  name="AttackerSecondaryType"
+                  changeFunction={props.changeFunctionSelect}
+                  value={props.AttackerSecondaryType ?? ""}
+                  options={secondaryTypeOptions}
+                  emptyValue="Select Secondary Type"
+                />
+              </>
+            )}
+            <a className="button button-block button-secondary" onClick={() => setShowAttackerList(true)}>
               View/Update List
             </a>
           </div>
@@ -158,10 +213,7 @@ const BattleFormPre = (props: {
               name="Defender"
               changeFunction={props.changeFunctionSelect}
               value={props.Defender}
-              //options={props.Generals}
-              options={props.Generals.filter(function (item) {
-                return item.Value != props.Attacker;
-              })}
+              options={props.Generals.filter((item) => item.Value != props.Attacker)}
               emptyValue="Select the Defender"
             />
             <SelectField
@@ -177,22 +229,65 @@ const BattleFormPre = (props: {
             <TextField
               label="Detachment"
               type="text"
-              required={true}
+              required={!showArmageddon}
               id="defenderDetachment"
               name="DefenderDetachment"
               changeFunction={props.changeFunctionText}
               value={props.DefenderDetachment}
               emptyValue="Enter Detachment"
             />
-
-            <a
-              className="button button-block button-secondary"
-              onClick={() => setShowDefenderList(true)}
-            >
+            {showArmageddon && (
+              <div style={{ marginTop: "0.5rem" }}>
+                {(props.DefenderDetachments ?? []).map((d, i) => (
+                  <TextField
+                    key={i}
+                    label={`Detachment ${i + 1}`}
+                    type="text"
+                    required={false}
+                    id={`defenderDetachment${i}`}
+                    name={`defenderDetachment${i}`}
+                    value={d}
+                    emptyValue="Enter Detachment"
+                    changeFunction={(e) => props.onDefenderDetachmentChange?.(i, e.target.value)}
+                  />
+                ))}
+                {!props.IsCompleted && (props.DefenderDetachments ?? []).length < 3 && (
+                  <button type="button" className="button button-secondary" onClick={props.onDefenderAddDetachment} style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}>
+                    + Add Detachment
+                  </button>
+                )}
+              </div>
+            )}
+            {showArmageddon && (
+              <>
+                <SelectField
+                  label="Force Disposition"
+                  required={true}
+                  id="defenderForceDisposition"
+                  name="DefenderForceDisposition"
+                  changeFunction={props.changeFunctionSelect}
+                  value={props.DefenderForceDisposition ?? ""}
+                  options={forceDispositions}
+                  emptyValue="Select Force Disposition"
+                />
+                <SelectField
+                  label="Secondary Type"
+                  required={true}
+                  id="defenderSecondaryType"
+                  name="DefenderSecondaryType"
+                  changeFunction={props.changeFunctionSelect}
+                  value={props.DefenderSecondaryType ?? ""}
+                  options={secondaryTypeOptions}
+                  emptyValue="Select Secondary Type"
+                />
+              </>
+            )}
+            <a className="button button-block button-secondary" onClick={() => setShowDefenderList(true)}>
               View/Update List
             </a>
           </div>
         </div>
+
         <SelectField
           label="First Turn"
           required={true}
@@ -209,12 +304,7 @@ const BattleFormPre = (props: {
       {showAttackerList && (
         <Modal
           onClose={() => setShowAttackerList(false)}
-          title={
-            titleCase(props.Attacker) +
-            "'s " +
-            titleCase(props.AttackerArmy) +
-            " List"
-          }
+          title={titleCase(props.Attacker) + "'s " + titleCase(props.AttackerArmy) + " List"}
         >
           <TextAreaField
             label={null}
@@ -231,12 +321,7 @@ const BattleFormPre = (props: {
       {showDefenderList && (
         <Modal
           onClose={() => setShowDefenderList(false)}
-          title={
-            titleCase(props.Defender) +
-            "'s " +
-            titleCase(props.DefenderArmy) +
-            " List"
-          }
+          title={titleCase(props.Defender) + "'s " + titleCase(props.DefenderArmy) + " List"}
         >
           <TextAreaField
             label={null}

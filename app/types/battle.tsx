@@ -23,6 +23,14 @@ export interface iBattle {
   FirstTurn: string;
   IsAttackerFirst: boolean;
 
+  // 11th edition fields
+  AttackerForceDisposition?: string;
+  DefenderForceDisposition?: string;
+  AttackerSecondaryType?: string;
+  DefenderSecondaryType?: string;
+  AttackerDetachments?: string[];
+  DefenderDetachments?: string[];
+
   T1AttackerPrimary: number;
   T2AttackerPrimary: number;
   T3AttackerPrimary: number;
@@ -128,10 +136,8 @@ export interface iBattleSummary {
   Deployment: string;
   Attacker: string;
   AttackerArmy: string;
-  //AttackerArmyEmoji: string;
   Defender: string;
   DefenderArmy: string;
-  //DefenderArmyEmoji: string;
   TotalAttacker: number;
   TotalDefender: number;
   Victor: string;
