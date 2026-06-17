@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { iUnit, iLoadout, iModelProfile } from "../types/unit";
 import { calcCombat, CalcResult, CalcModifiers } from "../../utils/combat-calc";
 import { collection, addDoc, doc, updateDoc, deleteDoc, getFirestore } from "firebase/firestore";
@@ -107,6 +107,7 @@ export default function CalcForm({
   const [showReturn, setShowReturn] = useState(false);
   const [showFightOnDeath, setShowFightOnDeath] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   const attackerUnit = allUnits.find((u) => u.id === attackerUnitId);
   const defenderUnit = allUnits.find((u) => u.id === defenderUnitId);
@@ -151,8 +152,26 @@ export default function CalcForm({
 
   const handleEditUnit = async (unitData: Omit<iUnit, "id">) => {
     const unit = (inline as { type: "editUnit"; unit: iUnit }).unit;
-    await updateDoc(doc(db, `Armies/${unit.ArmyId}/Units`, unit.id), { Name: unitData.Name, Models: unitData.Models });
-    onUnitUpdated({ ...unit, Name: unitData.Name, Models: unitData.Models });
+    
+    if (unitData.ArmyId !== unit.ArmyId) {
+      // Army changed — delete from old, add to new
+      await deleteDoc(doc(db, `Armies/${unit.ArmyId}/Units`, unit.id));
+      const ref = await addDoc(collection(db, `Armies/${unitData.ArmyId}/Units`), {
+        Name: unitData.Name, Type: unitData.Type, Models: unitData.Models,
+        ArmyId: unitData.ArmyId, Loadouts: unit.Loadouts,
+      });
+      const updatedUnit: iUnit = { ...unitData, id: ref.id, Loadouts: unit.Loadouts };
+      onUnitDeleted(unit.id);
+      onUnitAdded(updatedUnit);
+      if (attackerUnitId === unit.id) onSetAttackerUnit(updatedUnit.id);
+      if (defenderUnitId === unit.id) onSetDefenderUnit(updatedUnit.id);
+    } else {
+      // Same army — just update
+      await updateDoc(doc(db, `Armies/${unit.ArmyId}/Units`, unit.id), {
+        Name: unitData.Name, Type: unitData.Type, Models: unitData.Models,
+      });
+      onUnitUpdated({ ...unit, Name: unitData.Name, Type: unitData.Type, Models: unitData.Models });
+    }
     setInline(null);
   };
 
@@ -282,7 +301,7 @@ export default function CalcForm({
   if (inline?.type === "addUnit") {
     return (
       <InlineWrapper title="Add Unit" onBack={() => setInline(null)}>
-        <UnitForm armyId={defaultArmyId} onSave={handleAddUnit} onCancel={() => setInline(null)} />
+        <UnitForm armyId={defaultArmyId} armies={armies} onSave={handleAddUnit} onCancel={() => setInline(null)} />
       </InlineWrapper>
     );
   }
@@ -291,7 +310,7 @@ export default function CalcForm({
     const { unit } = inline;
     return (
       <InlineWrapper title={`Edit — ${unit.Name}`} onBack={() => setInline(null)}>
-        <UnitForm armyId={unit.ArmyId} unit={unit} onSave={handleEditUnit} onCancel={() => setInline(null)} />
+        <UnitForm armyId={unit.ArmyId} armies={armies} unit={unit} onSave={handleEditUnit} onCancel={() => setInline(null)} />
 
         {/* Loadouts section */}
         <div style={{ marginTop: "2rem", borderTop: "2px solid var(--color-divider)", paddingTop: "1.5rem" }}>
@@ -299,7 +318,7 @@ export default function CalcForm({
             <h3 style={{ margin: 0 }}>Loadouts</h3>
             <button
               className="button button-secondary"
-              onClick={() => setInline({ type: "editLoadout", unit, loadout: { id: crypto.randomUUID(), Name: "", Weapon: { Name: "", Type: "Melee", Attacks: "1", BSWS: "3+", Strength: 4, AP: 0, Damage: "1", Abilities: "" } }, side: "attacker", returnTo: "editUnit" })}
+              onClick={() => setInline({ type: "editLoadout", unit, loadout: { id: crypto.randomUUID(), Name: "", Weapon: { Name: "", Type: "Melee", Attacks: "1", BSWS: "3+", Strength: 4, AP: 0, Damage: "1", Abilities: [] } }, side: "attacker", returnTo: "editUnit" })}
             >
               + Add loadout
             </button>
@@ -312,7 +331,7 @@ export default function CalcForm({
                 <tr>
                   <th>Weapon</th>
                   <th>Type</th>
-                  <th></th>
+                  <th className="col-actions"></th>
                 </tr>
               </thead>
               <tbody>
@@ -320,7 +339,7 @@ export default function CalcForm({
                   <tr key={l.id}>
                     <td>{l.Weapon.Name || "Unnamed"}</td>
                     <td>{l.Weapon.Type}</td>
-                    <td style={{ textAlign: "right", whiteSpace: "nowrap" }}>
+                    <td className="col-actions">
                       <button className="button button-icon" onClick={() => setInline({ type: "editLoadout", unit, loadout: l, side: "attacker", returnTo: "editUnit" })} style={{ marginRight: "0.25rem" }}>✏️</button>
                       {deleteConfirm === l.id ? (
                         <>
@@ -343,16 +362,29 @@ export default function CalcForm({
 
   if (inline?.type === "manageLoadouts") {
     const { unit, side } = inline;
+    const formKey = unit.Loadouts.length;
+    const shouldShowForm = showAddForm || unit.Loadouts.length === 0;
     return (
-      <InlineWrapper title={`${unit.Name} — Loadouts`} onBack={() => setInline(null)}>
-        {/* Existing loadouts table */}
+      <InlineWrapper title={`${unit.Name} — Loadouts`} onBack={() => { setInline(null); setShowAddForm(false); }}>
+        {shouldShowForm ? (
+          <>
+            <h3 style={{ marginBottom: "1rem" }}>Add Weapon</h3>
+            <LoadoutForm
+              key={formKey}
+              onSave={(loadout) => { handleSaveLoadout(loadout); setShowAddForm(false); }}
+              onCancel={() => unit.Loadouts.length > 0 ? setShowAddForm(false) : setInline(null)}
+            />
+          </>
+        ) : (
+          <button className="button button-secondary" onClick={() => setShowAddForm(true)} style={{ marginBottom: "1.5rem" }}>+ Add Weapon</button>
+        )}
         {unit.Loadouts.length > 0 && (
           <table className="primary-table" style={{ marginBottom: "1.5rem" }}>
             <thead>
               <tr>
                 <th>Weapon</th>
                 <th>Type</th>
-                <th></th>
+                <th className="col-actions"></th>
               </tr>
             </thead>
             <tbody>
@@ -360,7 +392,7 @@ export default function CalcForm({
                 <tr key={l.id}>
                   <td>{l.Weapon.Name || "Unnamed"}</td>
                   <td>{l.Weapon.Type}</td>
-                  <td style={{ whiteSpace: "nowrap" }}>
+                  <td className="col-actions">
                     <button
                       className="button button-icon"
                       onClick={() => setInline({ type: "editLoadout", unit, loadout: l, side, returnTo: "manageLoadouts" })}
@@ -380,11 +412,6 @@ export default function CalcForm({
             </tbody>
           </table>
         )}
-        <h3 style={{ marginBottom: "1rem" }}>Add Loadout</h3>
-        <LoadoutForm
-          onSave={handleSaveLoadout}
-          onCancel={() => setInline(null)}
-        />
       </InlineWrapper>
     );
   }
@@ -647,7 +674,7 @@ function UnitTable({ side, allUnits, selectedUnitId, selectedLoadoutId, armyName
   });
 
   // How many data cols before the action col (for colspan on sub-rows)
-  const dataCols = side === "defender" ? 6 : 2;
+  const dataCols = side === "defender" ? 7 : 3;
 
   const SortTh = ({ field, label }: { field: SortField; label: string }) => (
     <th onClick={() => handleSort(field)} className="sort-title" style={{ userSelect: "none" }}>
@@ -665,8 +692,9 @@ function UnitTable({ side, allUnits, selectedUnitId, selectedLoadoutId, armyName
           <tr>
             <SortTh field="Name" label="Unit" />
             <SortTh field="Army" label="Army" />
+            <th>Type</th>
             {side === "defender" && <><th>T</th><th>W</th><th>Sv</th><th>Invuln</th></>}
-            <th style={{ textAlign: "right" }}></th>
+            <th className="col-actions"></th>
           </tr>
         </thead>
         <tbody>
@@ -674,19 +702,20 @@ function UnitTable({ side, allUnits, selectedUnitId, selectedLoadoutId, armyName
             const isSelected = unit.id === selectedUnitId;
             const models = unit.Models;
             return (
-              <>
+              <React.Fragment key={unit.id}>
                 {/* Unit row */}
-                <tr key={unit.id} onClick={() => onSelectUnit(unit.id)} className="clickable"
+                <tr onClick={() => onSelectUnit(unit.id)} className="clickable"
                   style={{ outline: isSelected ? `2px solid var(--color-secondary)` : undefined }}>
                   <td style={{ color: isSelected ? "var(--color-secondary)" : undefined }}>{unit.Name}</td>
                   <td>{armyName(unit.ArmyId)}</td>
+                  <td>{unit.Type}</td>
                   {side === "defender" && models && <>
                     <td>{models.Toughness}</td>
                     <td>{models.Wounds}</td>
                     <td>{models.Save}+</td>
                     <td>{models.InvulSave > 0 ? `${models.InvulSave}++` : "—"}</td>
                   </>}
-                  <td style={{ textAlign: "right", whiteSpace: "nowrap" }} onClick={(e) => e.stopPropagation()}>
+                  <td className="col-actions" onClick={(e) => e.stopPropagation()}>
                     <button className="button button-icon" onClick={() => onEditUnit(unit)} style={{ marginRight: "0.25rem" }}>✏️</button>
                     {deleteConfirm === unit.id ? (
                       <>
@@ -710,7 +739,7 @@ function UnitTable({ side, allUnits, selectedUnitId, selectedLoadoutId, armyName
                           <td colSpan={dataCols} style={{ paddingLeft: "2rem", color: isLoadoutSelected ? "var(--color-secondary)" : "var(--color-text-muted)", fontSize: "0.9rem" }}>
                             {l.Weapon.Name || "Unnamed"} <span style={{ color: "var(--color-text-muted)", fontSize: "0.8rem" }}>({l.Weapon.Type})</span>
                           </td>
-                          <td style={{ textAlign: "right", whiteSpace: "nowrap", background: "var(--color-bg-darker)" }} onClick={(e) => e.stopPropagation()}>
+                          <td className="col-actions" style={{ background: "var(--color-bg-darker)" }} onClick={(e) => e.stopPropagation()}>
                             <button className="button button-icon" onClick={() => onEditLoadout(unit, l)} style={{ marginRight: "0.25rem" }}>✏️</button>
                             {deleteConfirm === l.id ? (
                               <>
@@ -735,7 +764,7 @@ function UnitTable({ side, allUnits, selectedUnitId, selectedLoadoutId, armyName
                     </tr>
                   </>
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </tbody>
@@ -834,11 +863,13 @@ function DefenceModifierPanel({ mods, weaponType, onChange, collapsed = false }:
 
 function WeaponSummary({ loadout }: { loadout: iLoadout }) {
   const w = loadout.Weapon;
+  const abilities = Array.isArray(w.Abilities) ? w.Abilities : w.Abilities ? [w.Abilities] : [];
   return (
     <div style={{ color: "var(--color-text-secondary)", background: "var(--color-accent-subtle)", borderRadius: "6px", padding: "0.75rem", marginBottom: "0.5rem" }}>
       <strong style={{ color: "var(--color-text-primary)" }}>{w.Name}</strong> <span style={{ color: "var(--color-text-muted)" }}>({w.Type})</span><br />
       A{w.Attacks} · {w.BSWS} · S{w.Strength} · AP-{w.AP} · D{w.Damage}
-      {w.Abilities && <><br /><em style={{ color: "var(--color-text-muted)" }}>{w.Abilities}</em></>}
+      {abilities.length > 0 && <><br /><em style={{ color: "var(--color-text-muted)" }}>{abilities.join(", ")}</em></>}
+      {w.Notes && <><br /><em style={{ color: "var(--color-text-muted)" }}>{w.Notes}</em></>}
     </div>
   );
 }
