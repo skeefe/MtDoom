@@ -10,6 +10,7 @@ import Spinner from "../../components/spinner";
 import StatPanel from "../../components/stat-panel";
 import EmptyState from "../../components/empty-state";
 import { useEdition } from "../../context/EditionContext";
+import { iBattleSummary } from "../../types/battle";
 
 export default function GeneralDetails({
   params,
@@ -34,6 +35,31 @@ export default function GeneralDetails({
   const filteredBattles = generalBattleCollection.filter((b) =>
     selectedEdition === "all" || b.Edition === parseInt(selectedEdition)
   );
+
+  const mappedBattles: iBattleSummary[] = generalBattleCollection.map((battle) => ({
+    id: battle.id,
+    Edition: battle.Edition,
+    Date: battle.Date,
+    PrimaryMission: battle.PrimaryMission,
+    MissionRule: battle.MissionRule,
+    Deployment: battle.Deployment,
+    Size: battle.Size,
+    Attacker: battle.Attacker,
+    AttackerArmy: battle.AttackerArmy,
+    AttackerPrimaryMission: battle.AttackerPrimaryMission,
+    AttackerForceDisposition: battle.AttackerForceDisposition,
+    TotalAttacker: battle.TotalAttacker,
+    Defender: battle.Defender,
+    DefenderArmy: battle.DefenderArmy,
+    DefenderPrimaryMission: battle.DefenderPrimaryMission,
+    DefenderForceDisposition: battle.DefenderForceDisposition,
+    Layout: battle.Layout,
+    TotalDefender: battle.TotalDefender,
+    Victor: battle.Victor,
+    IsCompleted: battle.IsCompleted,
+    FirstTurn: battle.FirstTurn,
+    Show: battle.Show,
+  }));
 
   if (!generalDetails["Alias"]) {
     return <Spinner />;
@@ -82,7 +108,6 @@ export default function GeneralDetails({
             Type="Generals"
             Battles={filteredBattles}
           />
-
           <GeneralDashboard
             general={{
               id: generalId,
@@ -99,7 +124,7 @@ export default function GeneralDetails({
 
       <BattleTable
         title={`${generalDetails["Alias"]}'s Battles`}
-        battles={generalBattleCollection}
+        battles={mappedBattles}
         showCreateButton={false}
         selectedEdition={selectedEdition}
         armies={armyCollection}

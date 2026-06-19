@@ -16,7 +16,7 @@ import {
 } from "recharts";
 import { iBattle } from "../types/battle";
 
-const COLORS = ["#ff006e", "#00ffcc"]; // Neon Pink for 1st, Cyan for 2nd
+const COLORS = ["#ff006e", "#00ffcc"];
 
 const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
   const stats = useMemo(() => {
@@ -34,25 +34,47 @@ const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
       }
 
       // 2. Mission Aggregation
-      const mName = battle.PrimaryMission || "Unknown";
-      if (!missions[mName]) missions[mName] = { totalPoints: 0, games: 0 };
-      missions[mName].totalPoints += (battle.TotalAttacker + battle.TotalDefender);
-      missions[mName].games++;
+      // 11th edition: per-player missions — each contributes separately
+      // 10th edition: shared PrimaryMission
+      const isArmageddon = battle.ChapterApprovedVersion === "Armageddon - Chapter Approved";
+
+      if (isArmageddon) {
+        const avgPoints = (battle.TotalAttacker + battle.TotalDefender) / 2;
+        if (battle.AttackerPrimaryMission) {
+          const m = battle.AttackerPrimaryMission;
+          if (!missions[m]) missions[m] = { totalPoints: 0, games: 0 };
+          missions[m].totalPoints += avgPoints;
+          missions[m].games++;
+        }
+        if (battle.DefenderPrimaryMission) {
+          const m = battle.DefenderPrimaryMission;
+          if (!missions[m]) missions[m] = { totalPoints: 0, games: 0 };
+          missions[m].totalPoints += avgPoints;
+          missions[m].games++;
+        }
+      } else {
+        const mName = battle.PrimaryMission || "Unknown";
+        if (!missions[mName]) missions[mName] = { totalPoints: 0, games: 0 };
+        missions[mName].totalPoints += (battle.TotalAttacker + battle.TotalDefender);
+        missions[mName].games++;
+      }
     });
 
     const secondTurnWins = validGames - firstTurnWins;
 
     return {
-      validGames,  // add this
+      validGames,
       firstTurn: [
         { name: "1st Turn Win", value: firstTurnWins },
         { name: "2nd Turn Win", value: secondTurnWins },
       ],
-      missionStats: Object.keys(missions).map((m) => ({
-        Mission: m,
-        AvgPoints: Math.round(missions[m].totalPoints / missions[m].games),
-        Games: missions[m].games,
-      })),
+      missionStats: Object.keys(missions)
+        .map((m) => ({
+          Mission: m,
+          AvgPoints: Math.round(missions[m].totalPoints / missions[m].games),
+          Games: missions[m].games,
+        }))
+        .sort((a, b) => b.Games - a.Games),
     };
   }, [battles]);
 
@@ -66,7 +88,7 @@ const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
         {/* First Turn Advantage Pie Chart */}
         <div className="dashboard-panel">
           <h3>First Turn Advantage</h3>
-          <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: '10px' }}>
+          <p style={{ fontSize: "0.8rem", color: "#888", marginBottom: "10px" }}>
             Winning based on who won the roll for first turn.
           </p>
           <ResponsiveContainer width="100%" height={250}>
@@ -84,11 +106,11 @@ const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
                   <Cell key={`cell-${index}`} fill={COLORS[index]} />
                 ))}
               </Pie>
-              <Tooltip 
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #444' }}
-                itemStyle={{ color: '#fff' }}
+              <Tooltip
+                contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #444" }}
+                itemStyle={{ color: "#fff" }}
               />
-              <Legend verticalAlign="bottom" height={36}/>
+              <Legend verticalAlign="bottom" height={36} />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -96,6 +118,9 @@ const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
         {/* Mission Popularity */}
         <div className="dashboard-panel">
           <h3>Most Played Missions</h3>
+          <p style={{ fontSize: "0.8rem", color: "#888", marginBottom: "10px" }}>
+            11th edition counts each player's mission separately.
+          </p>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={stats.missionStats} margin={{ left: -25, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" />
@@ -110,7 +135,7 @@ const MetaDashboard = ({ battles }: { battles: iBattle[] }) => {
         {/* Mission Lethality */}
         <div className="dashboard-panel">
           <h3>Avg Total Score per Mission</h3>
-          <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: '10px' }}>
+          <p style={{ fontSize: "0.8rem", color: "#888", marginBottom: "10px" }}>
             Combined score of both players.
           </p>
           <ResponsiveContainer width="100%" height={250}>

@@ -338,7 +338,7 @@ const BattleTable = (props: {
                 </span>
               </th>
               <th className="hide show-sm sort-title" onClick={() => handleSort("PrimaryMission")} style={{ cursor: "pointer" }}>
-                Mission{" "}
+                Setup{" "}
                 <span className={sortColumn === "PrimaryMission" ? "sort-arrow-active" : "sort-arrow-inactive"}>
                   {getArrowIcon("PrimaryMission")}
                 </span>

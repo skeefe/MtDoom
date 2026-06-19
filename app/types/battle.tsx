@@ -6,7 +6,7 @@ export interface iBattle {
   IsCompleted: boolean;
   Show: boolean;
 
-  Date: { seconds: number }; //Timestamp; //Populated on doc creation.
+  Date: { seconds: number };
   ChapterApprovedVersion: string;
   PrimaryMission: string;
   Size: string;
@@ -30,6 +30,9 @@ export interface iBattle {
   DefenderSecondaryType?: string;
   AttackerDetachments?: string[];
   DefenderDetachments?: string[];
+  AttackerPrimaryMission?: string;
+  DefenderPrimaryMission?: string;
+  Layout?: string;
 
   T1AttackerPrimary: number;
   T2AttackerPrimary: number;
@@ -130,14 +133,20 @@ export interface iBattleSummary {
   Edition: number;
   IsCompleted: boolean;
   Show: boolean;
-  Date: Timestamp; //Populated on doc creation.
+  Date: Timestamp;
   PrimaryMission: string;
   MissionRule: string;
   Deployment: string;
+  Size?: string;
   Attacker: string;
   AttackerArmy: string;
+  AttackerPrimaryMission?: string;
+  AttackerForceDisposition?: string;
   Defender: string;
   DefenderArmy: string;
+  DefenderPrimaryMission?: string;
+  DefenderForceDisposition?: string;
+  Layout?: string;
   TotalAttacker: number;
   TotalDefender: number;
   Victor: string;

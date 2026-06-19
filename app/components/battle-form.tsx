@@ -25,8 +25,6 @@ import BattleFormRound from "./battle-form-round";
 import BattleFormEnd from "./battle-form-end";
 import BattleFormPost from "./battle-form-post";
 
-// ─── 11th edition secondary state ────────────────────────────────────────────
-
 type RoundKey = 1 | 2 | 3 | 4 | 5;
 type SideKey = "Attacker" | "Defender";
 
@@ -60,8 +58,6 @@ const emptyArmageddonSecondaries = (): ArmageddonSecondaries => ({
   T4DefenderSecondaries: emptySecondaries(),
   T5DefenderSecondaries: emptySecondaries(),
 });
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 const BattleForm = (props: { battleId: string }) => {
   const router = useRouter();
@@ -98,6 +94,9 @@ const BattleForm = (props: { battleId: string }) => {
     DefenderForceDisposition: "",
     AttackerSecondaryType: "",
     DefenderSecondaryType: "",
+    AttackerPrimaryMission: "",
+    DefenderPrimaryMission: "",
+    Layout: "",
     T1AttackerPrimary: 0, T2AttackerPrimary: 0, T3AttackerPrimary: 0, T4AttackerPrimary: 0, T5AttackerPrimary: 0,
     AttackerMissionBonus: 0, TotalAttackerPrimary: 0,
     T1AttackerSecondary1Title: "", T1AttackerSecondary1: 0, T1AttackerSecondary2Title: "", T1AttackerSecondary2: 0,
@@ -130,15 +129,11 @@ const BattleForm = (props: { battleId: string }) => {
     AttackerMVP: "", DefenderMVP: "", AttackerLVP: "", DefenderLVP: "", BattleNotes: "",
   });
 
-  // ─── Retrieve Battle ────────────────────────────────────────────────────────
-
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "Battles", docId), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setBattle((prev) => ({ ...prev, ...data, Edition: data.Edition || 10 }));
-
-        // Hydrate armageddon secondaries from Firestore if they exist
         setArmageddonSecondaries((prev) => ({
           T1AttackerSecondaries: data.T1AttackerSecondaries ?? prev.T1AttackerSecondaries,
           T2AttackerSecondaries: data.T2AttackerSecondaries ?? prev.T2AttackerSecondaries,
@@ -151,30 +146,21 @@ const BattleForm = (props: { battleId: string }) => {
           T4DefenderSecondaries: data.T4DefenderSecondaries ?? prev.T4DefenderSecondaries,
           T5DefenderSecondaries: data.T5DefenderSecondaries ?? prev.T5DefenderSecondaries,
         }));
-
-        // Hydrate detachments
         if (data.AttackerDetachments) setAttackerDetachments(data.AttackerDetachments);
         if (data.DefenderDetachments) setDefenderDetachments(data.DefenderDetachments);
-
         setIsHydrated(true);
       }
     });
     return () => unsubscribe();
   }, [docId, db]);
 
-  // ─── Derived state ──────────────────────────────────────────────────────────
-
   const CHALLENGER_RETIREMENT_DATE = 1735689600;
   const isArmageddon = battle.ChapterApprovedVersion === "Armageddon - Chapter Approved";
   const isChallenger = battle.Date.seconds < CHALLENGER_RETIREMENT_DATE && battle.ChapterApprovedVersion === "2025-26 Mission Deck";
 
-  // ─── Player order ───────────────────────────────────────────────────────────
-
   useEffect(() => {
     setBattle((prev) => ({ ...prev, IsAttackerFirst: battle.FirstTurn === battle.Defender ? false : true }));
   }, [battle.FirstTurn]);
-
-  // ─── Collections ───────────────────────────────────────────────────────────
 
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
   const generals = collectionToSelect(generalsCollection, "Alias", "id");
@@ -197,8 +183,6 @@ const BattleForm = (props: { battleId: string }) => {
   const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e";
   const defenderArmyColour = propertyFromID(armiesCollection, battle.DefenderArmy, "Colour") || "#00ffcc";
 
-  // ─── Handle Change (10th edition fields) ───────────────────────────────────
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     let updates = { [name]: value };
@@ -207,20 +191,10 @@ const BattleForm = (props: { battleId: string }) => {
     updateDoc(doc(db, "Battles", docId), updates).catch((error) => console.log(error));
   };
 
-  // ─── Handle Secondary Change (11th edition) ────────────────────────────────
-
-  const handleSecondaryChange = (
-    round: RoundKey,
-    side: SideKey,
-    index: number,
-    field: "title" | "points",
-    value: string | number
-  ) => {
+  const handleSecondaryChange = (round: RoundKey, side: SideKey, index: number, field: "title" | "points", value: string | number) => {
     const key = `T${round}${side}Secondaries` as keyof ArmageddonSecondaries;
     setArmageddonSecondaries((prev) => {
-      const updated = prev[key].map((s, i) =>
-        i === index ? { ...s, [field]: value } : s
-      );
+      const updated = prev[key].map((s, i) => i === index ? { ...s, [field]: value } : s);
       const newState = { ...prev, [key]: updated };
       updateDoc(doc(db, "Battles", docId), { [key]: updated }).catch((e) => console.log(e));
       return newState;
@@ -257,30 +231,20 @@ const BattleForm = (props: { battleId: string }) => {
     });
   };
 
-  // ─── Score Calculation ──────────────────────────────────────────────────────
-
   useEffect(() => {
-    // Primary
     let totalAttackerPrimary =
-      stringToNumber(battle.T1AttackerPrimary.toString()) +
-      stringToNumber(battle.T2AttackerPrimary.toString()) +
-      stringToNumber(battle.T3AttackerPrimary.toString()) +
-      stringToNumber(battle.T4AttackerPrimary.toString()) +
-      stringToNumber(battle.T5AttackerPrimary.toString()) +
-      stringToNumber(battle.AttackerMissionBonus.toString());
+      stringToNumber(battle.T1AttackerPrimary.toString()) + stringToNumber(battle.T2AttackerPrimary.toString()) +
+      stringToNumber(battle.T3AttackerPrimary.toString()) + stringToNumber(battle.T4AttackerPrimary.toString()) +
+      stringToNumber(battle.T5AttackerPrimary.toString()) + stringToNumber(battle.AttackerMissionBonus.toString());
     const primaryCap = isArmageddon ? 45 : 50;
     totalAttackerPrimary = Math.min(totalAttackerPrimary, primaryCap);
 
     let totalDefenderPrimary =
-      stringToNumber(battle.T1DefenderPrimary.toString()) +
-      stringToNumber(battle.T2DefenderPrimary.toString()) +
-      stringToNumber(battle.T3DefenderPrimary.toString()) +
-      stringToNumber(battle.T4DefenderPrimary.toString()) +
-      stringToNumber(battle.T5DefenderPrimary.toString()) +
-      stringToNumber(battle.DefenderMissionBonus.toString());
+      stringToNumber(battle.T1DefenderPrimary.toString()) + stringToNumber(battle.T2DefenderPrimary.toString()) +
+      stringToNumber(battle.T3DefenderPrimary.toString()) + stringToNumber(battle.T4DefenderPrimary.toString()) +
+      stringToNumber(battle.T5DefenderPrimary.toString()) + stringToNumber(battle.DefenderMissionBonus.toString());
     totalDefenderPrimary = Math.min(totalDefenderPrimary, primaryCap);
 
-    // Secondary
     const secondaryCap = isArmageddon ? 45 : 40;
     let totalAttackerSecondary: number;
     let totalDefenderSecondary: number;
@@ -288,21 +252,13 @@ const BattleForm = (props: { battleId: string }) => {
     if (isArmageddon) {
       const sumArr = (arr: iSecondaryEntry[]) => arr.reduce((sum, s) => sum + (s.points || 0), 0);
       totalAttackerSecondary = Math.min(
-        sumArr(armageddonSecondaries.T1AttackerSecondaries) +
-        sumArr(armageddonSecondaries.T2AttackerSecondaries) +
-        sumArr(armageddonSecondaries.T3AttackerSecondaries) +
-        sumArr(armageddonSecondaries.T4AttackerSecondaries) +
-        sumArr(armageddonSecondaries.T5AttackerSecondaries),
-        secondaryCap
-      );
+        sumArr(armageddonSecondaries.T1AttackerSecondaries) + sumArr(armageddonSecondaries.T2AttackerSecondaries) +
+        sumArr(armageddonSecondaries.T3AttackerSecondaries) + sumArr(armageddonSecondaries.T4AttackerSecondaries) +
+        sumArr(armageddonSecondaries.T5AttackerSecondaries), secondaryCap);
       totalDefenderSecondary = Math.min(
-        sumArr(armageddonSecondaries.T1DefenderSecondaries) +
-        sumArr(armageddonSecondaries.T2DefenderSecondaries) +
-        sumArr(armageddonSecondaries.T3DefenderSecondaries) +
-        sumArr(armageddonSecondaries.T4DefenderSecondaries) +
-        sumArr(armageddonSecondaries.T5DefenderSecondaries),
-        secondaryCap
-      );
+        sumArr(armageddonSecondaries.T1DefenderSecondaries) + sumArr(armageddonSecondaries.T2DefenderSecondaries) +
+        sumArr(armageddonSecondaries.T3DefenderSecondaries) + sumArr(armageddonSecondaries.T4DefenderSecondaries) +
+        sumArr(armageddonSecondaries.T5DefenderSecondaries), secondaryCap);
     } else {
       totalAttackerSecondary = Math.min(
         stringToNumber(battle.T1AttackerSecondary1.toString()) + stringToNumber(battle.T1AttackerSecondary2.toString()) +
@@ -310,46 +266,36 @@ const BattleForm = (props: { battleId: string }) => {
         stringToNumber(battle.T3AttackerSecondary1.toString()) + stringToNumber(battle.T3AttackerSecondary2.toString()) +
         stringToNumber(battle.T4AttackerSecondary1.toString()) + stringToNumber(battle.T4AttackerSecondary2.toString()) +
         stringToNumber(battle.T5AttackerSecondary1.toString()) + stringToNumber(battle.T5AttackerSecondary2.toString()),
-        secondaryCap
-      );
+        secondaryCap);
       totalDefenderSecondary = Math.min(
         stringToNumber(battle.T1DefenderSecondary1.toString()) + stringToNumber(battle.T1DefenderSecondary2.toString()) +
         stringToNumber(battle.T2DefenderSecondary1.toString()) + stringToNumber(battle.T2DefenderSecondary2.toString()) +
         stringToNumber(battle.T3DefenderSecondary1.toString()) + stringToNumber(battle.T3DefenderSecondary2.toString()) +
         stringToNumber(battle.T4DefenderSecondary1.toString()) + stringToNumber(battle.T4DefenderSecondary2.toString()) +
         stringToNumber(battle.T5DefenderSecondary1.toString()) + stringToNumber(battle.T5DefenderSecondary2.toString()),
-        secondaryCap
-      );
+        secondaryCap);
     }
 
-    // Challenger
     let currentAttackerChallenger = 0;
     let currentDefenderChallenger = 0;
     if (isChallenger) {
       currentAttackerChallenger = Math.min(
         stringToNumber(battle.T2AttackerChallenger.toString()) + stringToNumber(battle.T3AttackerChallenger.toString()) +
-        stringToNumber(battle.T4AttackerChallenger.toString()) + stringToNumber(battle.T5AttackerChallenger.toString()), 12
-      );
+        stringToNumber(battle.T4AttackerChallenger.toString()) + stringToNumber(battle.T5AttackerChallenger.toString()), 12);
       currentDefenderChallenger = Math.min(
         stringToNumber(battle.T2DefenderChallenger.toString()) + stringToNumber(battle.T3DefenderChallenger.toString()) +
-        stringToNumber(battle.T4DefenderChallenger.toString()) + stringToNumber(battle.T5DefenderChallenger.toString()), 12
-      );
+        stringToNumber(battle.T4DefenderChallenger.toString()) + stringToNumber(battle.T5DefenderChallenger.toString()), 12);
     }
 
-    // Total
     const totalAttacker = Math.min(totalAttackerPrimary + totalAttackerSecondary + currentAttackerChallenger, 90);
     const totalDefender = Math.min(totalDefenderPrimary + totalDefenderSecondary + currentDefenderChallenger, 90);
 
     setBattle((prev) => ({
       ...prev,
-      TotalAttackerPrimary: totalAttackerPrimary,
-      TotalAttackerSecondary: totalAttackerSecondary,
-      TotalAttackerChallenger: currentAttackerChallenger,
-      TotalAttacker: totalAttacker,
-      TotalDefenderPrimary: totalDefenderPrimary,
-      TotalDefenderSecondary: totalDefenderSecondary,
-      TotalDefenderChallenger: currentDefenderChallenger,
-      TotalDefender: totalDefender,
+      TotalAttackerPrimary: totalAttackerPrimary, TotalAttackerSecondary: totalAttackerSecondary,
+      TotalAttackerChallenger: currentAttackerChallenger, TotalAttacker: totalAttacker,
+      TotalDefenderPrimary: totalDefenderPrimary, TotalDefenderSecondary: totalDefenderSecondary,
+      TotalDefenderChallenger: currentDefenderChallenger, TotalDefender: totalDefender,
     }));
 
     updateDoc(doc(db, "Battles", docId), {
@@ -376,8 +322,6 @@ const BattleForm = (props: { battleId: string }) => {
     armageddonSecondaries,
   ]);
 
-  // ─── Battle End/Restart/Hide ────────────────────────────────────────────────
-
   const handleBattleEnd = (e) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, IsCompleted: true }));
@@ -397,8 +341,6 @@ const BattleForm = (props: { battleId: string }) => {
     router.push("/");
   };
 
-  // ─── Round props helper ─────────────────────────────────────────────────────
-
   const roundProps = (r: RoundKey) => ({
     RoundNumber: r,
     ChapterApprovedVersion: battle.ChapterApprovedVersion,
@@ -410,10 +352,8 @@ const BattleForm = (props: { battleId: string }) => {
     showChallenger: r > 1 ? isChallenger : false,
     AttackerSecondaryType: battle.AttackerSecondaryType,
     DefenderSecondaryType: battle.DefenderSecondaryType,
-    // 10th primary
     AttackerPrimary: battle[`T${r}AttackerPrimary`],
     DefenderPrimary: battle[`T${r}DefenderPrimary`],
-    // 10th secondaries
     AttackerSecondary1Title: battle[`T${r}AttackerSecondary1Title`],
     AttackerSecondary1: battle[`T${r}AttackerSecondary1`],
     AttackerSecondary2Title: battle[`T${r}AttackerSecondary2Title`],
@@ -422,12 +362,10 @@ const BattleForm = (props: { battleId: string }) => {
     DefenderSecondary1: battle[`T${r}DefenderSecondary1`],
     DefenderSecondary2Title: battle[`T${r}DefenderSecondary2Title`],
     DefenderSecondary2: battle[`T${r}DefenderSecondary2`],
-    // 10th challenger
     AttackerChallengerTitle: isChallenger && r > 1 ? battle[`T${r}AttackerChallengerTitle`] : "",
     AttackerChallenger: isChallenger && r > 1 ? battle[`T${r}AttackerChallenger`] : 0,
     DefenderChallengerTitle: isChallenger && r > 1 ? battle[`T${r}DefenderChallengerTitle`] : "",
     DefenderChallenger: isChallenger && r > 1 ? battle[`T${r}DefenderChallenger`] : 0,
-    // 11th secondaries
     AttackerSecondaries: armageddonSecondaries[`T${r}AttackerSecondaries`],
     DefenderSecondaries: armageddonSecondaries[`T${r}DefenderSecondaries`],
     onAttackerSecondaryChange: (index: number, field: "title" | "points", value: string | number) =>
@@ -437,8 +375,6 @@ const BattleForm = (props: { battleId: string }) => {
     onAttackerAddSecondary: () => handleAddSecondary(r, "Attacker"),
     onDefenderAddSecondary: () => handleAddSecondary(r, "Defender"),
   });
-
-  // ─── Render ─────────────────────────────────────────────────────────────────
 
   return isHydrated ? (
     <>
@@ -479,6 +415,9 @@ const BattleForm = (props: { battleId: string }) => {
                 DefenderForceDisposition={battle.DefenderForceDisposition}
                 AttackerSecondaryType={battle.AttackerSecondaryType}
                 DefenderSecondaryType={battle.DefenderSecondaryType}
+                AttackerPrimaryMission={battle.AttackerPrimaryMission}
+                DefenderPrimaryMission={battle.DefenderPrimaryMission}
+                Layout={battle.Layout}
                 AttackerDetachments={attackerDetachments}
                 DefenderDetachments={defenderDetachments}
                 onAttackerDetachmentChange={(i, v) => handleDetachmentChange("Attacker", i, v)}

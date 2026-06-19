@@ -27,8 +27,6 @@ import AnimatedStep from "./step-animated";
 import { AnimatePresence } from "framer-motion";
 import { Wizard } from "react-use-wizard";
 
-// ─── 11th edition secondary state ────────────────────────────────────────────
-
 type RoundKey = 1 | 2 | 3 | 4 | 5;
 type SideKey = "Attacker" | "Defender";
 
@@ -63,8 +61,6 @@ const emptyArmageddonSecondaries = (): ArmageddonSecondaries => ({
   T5DefenderSecondaries: emptySecondaries(),
 });
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
 const StepBattleForm = (props: { battleId: string }) => {
   const router = useRouter();
   const db = getFirestore(firebase_app);
@@ -73,7 +69,7 @@ const StepBattleForm = (props: { battleId: string }) => {
   const [isHydrated, setIsHydrated] = useState(false);
   const [armageddonSecondaries, setArmageddonSecondaries] = useState<ArmageddonSecondaries>(emptyArmageddonSecondaries());
   const [attackerDetachments, setAttackerDetachments] = useState<string[]>([""]);
-  const [defenderDetachments, setDefenderDetachments] = useState<string[]>([""]);;
+  const [defenderDetachments, setDefenderDetachments] = useState<string[]>([""]);
 
   const [battle, setBattle] = useState<iBattle>({
     id: props.battleId,
@@ -100,6 +96,9 @@ const StepBattleForm = (props: { battleId: string }) => {
     DefenderForceDisposition: "",
     AttackerSecondaryType: "",
     DefenderSecondaryType: "",
+    AttackerPrimaryMission: "",
+    DefenderPrimaryMission: "",
+    Layout: "",
     T1AttackerPrimary: 0, T2AttackerPrimary: 0, T3AttackerPrimary: 0, T4AttackerPrimary: 0, T5AttackerPrimary: 0,
     AttackerMissionBonus: 0, TotalAttackerPrimary: 0,
     T1AttackerSecondary1Title: "", T1AttackerSecondary1: 0, T1AttackerSecondary2Title: "", T1AttackerSecondary2: 0,
@@ -132,8 +131,6 @@ const StepBattleForm = (props: { battleId: string }) => {
     AttackerMVP: "", DefenderMVP: "", AttackerLVP: "", DefenderLVP: "", BattleNotes: "",
   });
 
-  // ─── Retrieve Battle ────────────────────────────────────────────────────────
-
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "Battles", docId), (docSnap) => {
       if (docSnap.exists()) {
@@ -159,8 +156,6 @@ const StepBattleForm = (props: { battleId: string }) => {
     return () => unsubscribe();
   }, [docId, db]);
 
-  // ─── Derived state ──────────────────────────────────────────────────────────
-
   const CHALLENGER_RETIREMENT_DATE = 1735689600;
   const isArmageddon = battle.ChapterApprovedVersion === "Armageddon - Chapter Approved";
   const isChallenger = battle.Date.seconds < CHALLENGER_RETIREMENT_DATE && battle.ChapterApprovedVersion === "2025-26 Mission Deck";
@@ -168,8 +163,6 @@ const StepBattleForm = (props: { battleId: string }) => {
   useEffect(() => {
     setBattle((prev) => ({ ...prev, IsAttackerFirst: battle.FirstTurn === battle.Defender ? false : true }));
   }, [battle.FirstTurn]);
-
-  // ─── Collections ───────────────────────────────────────────────────────────
 
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
   const generals = collectionToSelect(generalsCollection, "Alias", "id");
@@ -191,8 +184,6 @@ const StepBattleForm = (props: { battleId: string }) => {
 
   const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e";
   const defenderArmyColour = propertyFromID(armiesCollection, battle.DefenderArmy, "Colour") || "#00ffcc";
-
-  // ─── Handlers ──────────────────────────────────────────────────────────────
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -241,8 +232,6 @@ const StepBattleForm = (props: { battleId: string }) => {
       return updated;
     });
   };
-
-  // ─── Score Calculation ──────────────────────────────────────────────────────
 
   useEffect(() => {
     let totalAttackerPrimary =
@@ -335,8 +324,6 @@ const StepBattleForm = (props: { battleId: string }) => {
     armageddonSecondaries,
   ]);
 
-  // ─── Battle End/Restart/Hide ────────────────────────────────────────────────
-
   const handleBattleEnd = (e) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, IsCompleted: true }));
@@ -355,8 +342,6 @@ const StepBattleForm = (props: { battleId: string }) => {
     updateDoc(doc(db, "Battles", docId), { Show: false }).catch((e) => console.log(e));
     router.push("/");
   };
-
-  // ─── Round props helper ─────────────────────────────────────────────────────
 
   const roundProps = (r: RoundKey) => ({
     RoundNumber: r,
@@ -392,8 +377,6 @@ const StepBattleForm = (props: { battleId: string }) => {
     onAttackerAddSecondary: () => handleAddSecondary(r, "Attacker"),
     onDefenderAddSecondary: () => handleAddSecondary(r, "Defender"),
   });
-
-  // ─── Render ─────────────────────────────────────────────────────────────────
 
   const previousStep = React.useRef<number>(0);
 
@@ -437,6 +420,9 @@ const StepBattleForm = (props: { battleId: string }) => {
                   DefenderForceDisposition={battle.DefenderForceDisposition}
                   AttackerSecondaryType={battle.AttackerSecondaryType}
                   DefenderSecondaryType={battle.DefenderSecondaryType}
+                  AttackerPrimaryMission={battle.AttackerPrimaryMission}
+                  DefenderPrimaryMission={battle.DefenderPrimaryMission}
+                  Layout={battle.Layout}
                   AttackerDetachments={attackerDetachments}
                   DefenderDetachments={defenderDetachments}
                   onAttackerDetachmentChange={(i, v) => handleDetachmentChange("Attacker", i, v)}
@@ -455,25 +441,21 @@ const StepBattleForm = (props: { battleId: string }) => {
                 <BattleFormRound {...roundProps(1)} />
               </Step>
             </AnimatedStep>
-
             <AnimatedStep previousStep={previousStep}>
               <Step withCallback={false}>
                 <BattleFormRound {...roundProps(2)} />
               </Step>
             </AnimatedStep>
-
             <AnimatedStep previousStep={previousStep}>
               <Step withCallback={false}>
                 <BattleFormRound {...roundProps(3)} />
               </Step>
             </AnimatedStep>
-
             <AnimatedStep previousStep={previousStep}>
               <Step withCallback={false}>
                 <BattleFormRound {...roundProps(4)} />
               </Step>
             </AnimatedStep>
-
             <AnimatedStep previousStep={previousStep}>
               <Step withCallback={false}>
                 <BattleFormRound {...roundProps(5)} />

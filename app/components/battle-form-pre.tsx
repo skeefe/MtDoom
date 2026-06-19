@@ -19,6 +19,12 @@ const secondaryTypeOptions: selectOption[] = [
 
 const isArmageddon = (version: string) => version === "Armageddon - Chapter Approved";
 
+// Generate sorted layout label from two dispositions
+const layoutLabel = (a: string, b: string) => {
+  const sorted = [a, b].sort();
+  return `${sorted[0]} / ${sorted[1]}`;
+};
+
 const BattleFormPre = (props: {
   IsCompleted: boolean;
   IsAttackerFirst: boolean;
@@ -45,6 +51,9 @@ const BattleFormPre = (props: {
   DefenderSecondaryType?: string;
   AttackerDetachments?: string[];
   DefenderDetachments?: string[];
+  AttackerPrimaryMission?: string;
+  DefenderPrimaryMission?: string;
+  Layout?: string;
   onAttackerDetachmentChange?: (index: number, value: string) => void;
   onDefenderDetachmentChange?: (index: number, value: string) => void;
   onAttackerAddDetachment?: () => void;
@@ -58,7 +67,16 @@ const BattleFormPre = (props: {
 
   const showMissionRule = !isArmageddon(props.ChapterApprovedVersion) && props.ChapterApprovedVersion !== "2025-26 Mission Deck";
   const showArmageddon = isArmageddon(props.ChapterApprovedVersion);
-  const missionOptions = showArmageddon ? primaryMissions11 : primaryMissions;
+
+  // Layout options — only available when both dispositions are selected
+  const bothDispositionsSelected = !!(props.AttackerForceDisposition && props.DefenderForceDisposition);
+  const layoutOptions: selectOption[] = bothDispositionsSelected
+    ? [1, 2, 3].map((n) => ({
+        Label: `${layoutLabel(props.AttackerForceDisposition!, props.DefenderForceDisposition!)} — Layout ${n}`,
+        Value: `${layoutLabel(props.AttackerForceDisposition!, props.DefenderForceDisposition!)} — Layout ${n}`,
+        Active: true,
+      }))
+    : [];
 
   return (
     <>
@@ -84,17 +102,22 @@ const BattleFormPre = (props: {
           options={battleSizes}
           emptyValue="Select the Battle Size"
         />
-        <SelectField
-          label="Primary Mission"
-          required={true}
-          id="primaryMission"
-          name="PrimaryMission"
-          changeFunction={props.changeFunctionSelect}
-          value={props.PrimaryMission}
-          options={missionOptions}
-          emptyValue="Select the Primary Mission"
-          randomise={!props.IsCompleted}
-        />
+
+        {/* Primary Mission — shared for 10th, hidden for 11th (per-player below) */}
+        {!showArmageddon && (
+          <SelectField
+            label="Primary Mission"
+            required={true}
+            id="primaryMission"
+            name="PrimaryMission"
+            changeFunction={props.changeFunctionSelect}
+            value={props.PrimaryMission}
+            options={primaryMissions}
+            emptyValue="Select the Primary Mission"
+            randomise={!props.IsCompleted}
+          />
+        )}
+
         {showMissionRule && (
           <SelectField
             label="Mission Rule"
@@ -108,6 +131,7 @@ const BattleFormPre = (props: {
             randomise={!props.IsCompleted}
           />
         )}
+
         <SelectField
           label="Deployment"
           required={true}
@@ -119,6 +143,20 @@ const BattleFormPre = (props: {
           emptyValue="Select the Deployment Zone"
           randomise={!props.IsCompleted}
         />
+
+        {/* Layout — Armageddon only, requires both dispositions */}
+        {showArmageddon && bothDispositionsSelected && (
+          <SelectField
+            label="Layout"
+            required={true}
+            id="layout"
+            name="Layout"
+            changeFunction={props.changeFunctionSelect}
+            value={props.Layout ?? ""}
+            options={layoutOptions}
+            emptyValue="Select Layout"
+          />
+        )}
 
         <div className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}>
           <div className="opponent">
@@ -143,16 +181,22 @@ const BattleFormPre = (props: {
               options={props.Armies}
               emptyValue="Select the Attacker Army"
             />
-            <TextField
-              label="Detachment"
-              type="text"
-              required={!showArmageddon}
-              id="attackerDetachment"
-              name="AttackerDetachment"
-              changeFunction={props.changeFunctionText}
-              value={props.AttackerDetachment}
-              emptyValue="Enter Detachment"
-            />
+
+            {/* Old detachment — 10th only */}
+            {!showArmageddon && (
+              <TextField
+                label="Detachment"
+                type="text"
+                required={true}
+                id="attackerDetachment"
+                name="AttackerDetachment"
+                changeFunction={props.changeFunctionText}
+                value={props.AttackerDetachment}
+                emptyValue="Enter Detachment"
+              />
+            )}
+
+            {/* Dynamic detachments — 11th only */}
             {showArmageddon && (
               <div style={{ marginTop: "0.5rem" }}>
                 {(props.AttackerDetachments ?? []).map((d, i) => (
@@ -175,6 +219,7 @@ const BattleFormPre = (props: {
                 )}
               </div>
             )}
+
             {showArmageddon && (
               <>
                 <SelectField
@@ -186,6 +231,17 @@ const BattleFormPre = (props: {
                   value={props.AttackerForceDisposition ?? ""}
                   options={forceDispositions}
                   emptyValue="Select Force Disposition"
+                />
+                <SelectField
+                  label="Primary Mission"
+                  required={true}
+                  id="attackerPrimaryMission"
+                  name="AttackerPrimaryMission"
+                  changeFunction={props.changeFunctionSelect}
+                  value={props.AttackerPrimaryMission ?? ""}
+                  options={primaryMissions11}
+                  emptyValue="Select Primary Mission"
+                  randomise={!props.IsCompleted}
                 />
                 <SelectField
                   label="Secondary Type"
@@ -226,16 +282,22 @@ const BattleFormPre = (props: {
               options={props.Armies}
               emptyValue="Select the Defender Army"
             />
-            <TextField
-              label="Detachment"
-              type="text"
-              required={!showArmageddon}
-              id="defenderDetachment"
-              name="DefenderDetachment"
-              changeFunction={props.changeFunctionText}
-              value={props.DefenderDetachment}
-              emptyValue="Enter Detachment"
-            />
+
+            {/* Old detachment — 10th only */}
+            {!showArmageddon && (
+              <TextField
+                label="Detachment"
+                type="text"
+                required={true}
+                id="defenderDetachment"
+                name="DefenderDetachment"
+                changeFunction={props.changeFunctionText}
+                value={props.DefenderDetachment}
+                emptyValue="Enter Detachment"
+              />
+            )}
+
+            {/* Dynamic detachments — 11th only */}
             {showArmageddon && (
               <div style={{ marginTop: "0.5rem" }}>
                 {(props.DefenderDetachments ?? []).map((d, i) => (
@@ -258,6 +320,7 @@ const BattleFormPre = (props: {
                 )}
               </div>
             )}
+
             {showArmageddon && (
               <>
                 <SelectField
@@ -269,6 +332,17 @@ const BattleFormPre = (props: {
                   value={props.DefenderForceDisposition ?? ""}
                   options={forceDispositions}
                   emptyValue="Select Force Disposition"
+                />
+                <SelectField
+                  label="Primary Mission"
+                  required={true}
+                  id="defenderPrimaryMission"
+                  name="DefenderPrimaryMission"
+                  changeFunction={props.changeFunctionSelect}
+                  value={props.DefenderPrimaryMission ?? ""}
+                  options={primaryMissions11}
+                  emptyValue="Select Primary Mission"
+                  randomise={!props.IsCompleted}
                 />
                 <SelectField
                   label="Secondary Type"
