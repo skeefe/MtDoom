@@ -428,11 +428,13 @@ h3 {
   display: block;
   font-size: 1rem;
 }
+@media (min-width: 768px) {
 .primary-table td .army-cell{
   display: inline-grid!important;
   grid-template-columns: auto 1fr;
   gap: 0.4rem;
   align-items: start;
+}
 }
 .primary-table td .army-cell span {
   display: unset;

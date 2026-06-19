@@ -59,7 +59,7 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
               fontSize: "0.7rem",
               fontWeight: "bold",
               color: props.battle.Edition === 11 ? "#00ffcc" : "#ff006e",
-            }}>
+            }} className="hide show-md">
               {props.battle.Edition}TH ED
             </small>
           </div>
@@ -86,7 +86,8 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         {/* Attacker */}
         <td>
           <span className="cell-heading hide-md">
-            {attackerArmy?.Name ?? null}
+            {attackerArmy?.Name ?? null}:&nbsp;
+            <strong>{props.battle.TotalAttacker}</strong>
             {IsAttackerVictor ? " 🎖" : IsDraw ? " 🤝" : null}
           </span>
           <div className="army-cell hide show-md">
@@ -108,8 +109,10 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
         {/* Defender */}
         <td>
           <span className="cell-heading hide-md">
-            {defenderArmy?.Name ?? null}
+            {defenderArmy?.Name ?? null}:&nbsp;
+            <strong>{props.battle.TotalDefender}</strong>
             {IsDefenderVictor ? " 🎖" : IsDraw ? " 🤝" : null}
+            
           </span>
           <div className="army-cell hide show-md">
             <span>{defenderArmy?.Emoji ?? ""}</span>
