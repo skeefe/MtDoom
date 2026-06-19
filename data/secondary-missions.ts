@@ -27,8 +27,7 @@ const secondaryMissions: selectOption[] = [
   { Label: "Display of Might", Value: "Display of Might", Active: true },
 ];
 
-// 11th edition secondaries — all 18 (Fixed players can pick any, Tactical players get non-Fixed only)
-// Fixed-only cards marked with comment
+// 11th edition secondaries — all 18
 const secondaryMissions11: selectOption[] = [
   { Label: "A Grievous Blow", Value: "A Grievous Blow", Active: true },       // Fixed only
   { Label: "A Tempting Target", Value: "A Tempting Target", Active: true },
@@ -50,9 +49,12 @@ const secondaryMissions11: selectOption[] = [
   { Label: "Secure No Man's Land", Value: "Secure No Man's Land", Active: true },
 ];
 
-// 11th Tactical pool — excludes Fixed-only cards
-const secondaryMissions11Tactical: selectOption[] = secondaryMissions11.filter(s =>
-  !["A Grievous Blow", "Assassination", "Bring It Down", "Engage on All Fronts"].includes(s.Value)
+// Tactical pool — all 18 (can draw any card)
+const secondaryMissions11Tactical: selectOption[] = secondaryMissions11;
+
+// Fixed pool — only the 4 Fixed-only cards
+const secondaryMissions11Fixed: selectOption[] = secondaryMissions11.filter(s =>
+  ["A Grievous Blow", "Assassination", "Bring It Down", "Engage on All Fronts"].includes(s.Value)
 );
 
-export { secondaryMissions, secondaryMissions11, secondaryMissions11Tactical };
+export { secondaryMissions, secondaryMissions11, secondaryMissions11Tactical, secondaryMissions11Fixed };

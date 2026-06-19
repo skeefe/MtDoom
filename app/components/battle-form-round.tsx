@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "./text-field";
 import SelectField from "./select-field";
-import { secondaryMissions, secondaryMissions11, secondaryMissions11Tactical } from "../../data/secondary-missions";
+import { secondaryMissions, secondaryMissions11, secondaryMissions11Tactical, secondaryMissions11Fixed } from "../../data/secondary-missions";
 import { challengerCards } from "../../data/challenger-cards";
 
 export interface iSecondaryEntry {
@@ -50,15 +50,15 @@ const BattleFormRound = (props: {
     props.ChapterApprovedVersion === "2025-26 Mission Deck" &&
     props.RoundNumber > 1;
 
+  // Tactical = all 18, Fixed = only the 4 fixed cards, unset = all 18
   const attackerSecondaryOptions = props.isArmageddon
-    ? props.AttackerSecondaryType === "Tactical" ? secondaryMissions11Tactical : secondaryMissions11
+    ? props.AttackerSecondaryType === "Fixed" ? secondaryMissions11Fixed : secondaryMissions11Tactical
     : secondaryMissions;
 
   const defenderSecondaryOptions = props.isArmageddon
-    ? props.DefenderSecondaryType === "Tactical" ? secondaryMissions11Tactical : secondaryMissions11
+    ? props.DefenderSecondaryType === "Fixed" ? secondaryMissions11Fixed : secondaryMissions11Tactical
     : secondaryMissions;
 
-  // Per-round secondary total for 11th — enforces 15VP cap
   const attackerSecondaryTotal = (props.AttackerSecondaries ?? []).reduce((sum, s) => sum + (s.points || 0), 0);
   const defenderSecondaryTotal = (props.DefenderSecondaries ?? []).reduce((sum, s) => sum + (s.points || 0), 0);
 
