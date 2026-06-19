@@ -89,18 +89,20 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
             {attackerArmy?.Name ?? null}
             {IsAttackerVictor ? " 🎖" : IsDraw ? " 🤝" : null}
           </span>
-          <span className="cell-heading hide show-md">
-            {attackerArmy?.Emoji && `${attackerArmy.Emoji} `}
-            {attackerArmy?.Name}
-            {IsAttackerVictor ? " 🎖" : IsDraw ? " 🤝" : null}
-          </span>
-          <span className="hide show-sm">
-            General: {props.battle.Attacker ? getGeneralNickname(props.battle.Attacker) : null}
-          </span>
-          {isArmageddon && props.battle.AttackerForceDisposition && (
-            <span className="hide show-sm">Disposition: {props.battle.AttackerForceDisposition}</span>
-          )}
-          <span className="hide show-sm"><strong>Total:</strong> {props.battle.TotalAttacker}</span>
+          <div className="army-cell hide show-md">
+            <span>{attackerArmy?.Emoji ?? ""}</span>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span className="cell-heading">
+                {attackerArmy?.Name}:&nbsp;
+                {props.battle.TotalAttacker}
+                {IsAttackerVictor ? " 🎖" : IsDraw ? " 🤝" : null}
+              </span>
+              <span>General: {props.battle.Attacker ? getGeneralNickname(props.battle.Attacker) : null}</span>
+              {isArmageddon && props.battle.AttackerForceDisposition && (
+                <span>Disposition: {props.battle.AttackerForceDisposition}</span>
+              )}
+            </div>
+          </div>
         </td>
 
         {/* Defender */}
@@ -109,18 +111,20 @@ const BattleTableRow = (props: { battle: iBattleSummary }) => {
             {defenderArmy?.Name ?? null}
             {IsDefenderVictor ? " 🎖" : IsDraw ? " 🤝" : null}
           </span>
-          <span className="cell-heading hide show-md">
-            {defenderArmy?.Emoji && `${defenderArmy.Emoji} `}
-            {defenderArmy?.Name}
-            {IsDefenderVictor ? " 🎖" : IsDraw ? " 🤝" : null}
-          </span>
-          <span className="hide show-sm">
-            General: {props.battle.Defender ? getGeneralNickname(props.battle.Defender) : null}
-          </span>
-          {isArmageddon && props.battle.DefenderForceDisposition && (
-            <span className="hide show-sm">Disposition: {props.battle.DefenderForceDisposition}</span>
-          )}
-          <span className="hide show-sm"><strong>Total:</strong> {props.battle.TotalDefender}</span>
+          <div className="army-cell hide show-md">
+            <span>{defenderArmy?.Emoji ?? ""}</span>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span className="cell-heading">
+                {defenderArmy?.Name}:&nbsp;
+                {props.battle.TotalDefender}
+                {IsDefenderVictor ? " 🎖" : IsDraw ? " 🤝" : null}
+              </span>
+              <span>General: {props.battle.Defender ? getGeneralNickname(props.battle.Defender) : null}</span>
+              {isArmageddon && props.battle.DefenderForceDisposition && (
+                <span>Disposition: {props.battle.DefenderForceDisposition}</span>
+              )}
+            </div>
+          </div>
         </td>
       </tr>
     </>
