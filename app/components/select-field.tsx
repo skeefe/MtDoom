@@ -1,5 +1,4 @@
 import React from "react";
-import Spinner from "./spinner";
 import { selectOption } from "../types/select-option";
 
 const SelectField = (props: {
@@ -13,6 +12,7 @@ const SelectField = (props: {
   noOptionsMessage?: string;
   required?: boolean;
   randomise?: boolean;
+  disabled?: boolean;
   changeFunction: React.ChangeEventHandler<HTMLSelectElement>;
 }) => {
   const activeOptions = props.options.filter(o => o.Active);
@@ -53,6 +53,7 @@ const SelectField = (props: {
             name={props.name}
             onChange={props.changeFunction}
             value={props.value}
+            disabled={props.disabled}
           >
             {!props.hideEmpty && (
               <option value="">-- {props.emptyValue} --</option>
@@ -66,7 +67,7 @@ const SelectField = (props: {
         ) : (
           <span className="alert">{props.noOptionsMessage}</span>
         )}
-        {props.randomise ? (
+        {props.randomise && !props.disabled ? (
           <button
             className="button button-randomise"
             type="button"

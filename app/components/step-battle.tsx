@@ -26,6 +26,7 @@ import Step from "./step";
 import AnimatedStep from "./step-animated";
 import { AnimatePresence } from "framer-motion";
 import { Wizard } from "react-use-wizard";
+import { dispositionMatrix, type ForceDisposition } from "../../data/primary-missions-11";
 
 type RoundKey = 1 | 2 | 3 | 4 | 5;
 type SideKey = "Attacker" | "Defender";
@@ -163,6 +164,26 @@ const StepBattleForm = (props: { battleId: string }) => {
   useEffect(() => {
     setBattle((prev) => ({ ...prev, IsAttackerFirst: battle.FirstTurn === battle.Defender ? false : true }));
   }, [battle.FirstTurn]);
+
+  // Auto-populate primary missions from disposition matrix
+  useEffect(() => {
+    if (!isArmageddon || battle.IsCompleted) return;
+    if (!battle.AttackerForceDisposition || !battle.DefenderForceDisposition) return;
+
+    const attackerMission = dispositionMatrix[battle.AttackerForceDisposition as ForceDisposition]?.[battle.DefenderForceDisposition as ForceDisposition];
+    const defenderMission = dispositionMatrix[battle.DefenderForceDisposition as ForceDisposition]?.[battle.AttackerForceDisposition as ForceDisposition];
+
+    if (!attackerMission || !defenderMission) return;
+
+    const updates: Partial<iBattle> = {};
+    if (battle.AttackerPrimaryMission !== attackerMission) updates.AttackerPrimaryMission = attackerMission;
+    if (battle.DefenderPrimaryMission !== defenderMission) updates.DefenderPrimaryMission = defenderMission;
+
+    if (Object.keys(updates).length === 0) return;
+
+    setBattle((prev) => ({ ...prev, ...updates }));
+    updateDoc(doc(db, "Battles", docId), updates).catch((e) => console.log(e));
+  }, [battle.AttackerForceDisposition, battle.DefenderForceDisposition, isArmageddon, battle.IsCompleted]);
 
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
   const generals = collectionToSelect(generalsCollection, "Alias", "id");
@@ -436,31 +457,11 @@ const StepBattleForm = (props: { battleId: string }) => {
               </Step>
             </AnimatedStep>
 
-            <AnimatedStep previousStep={previousStep}>
-              <Step withCallback={false}>
-                <BattleFormRound {...roundProps(1)} />
-              </Step>
-            </AnimatedStep>
-            <AnimatedStep previousStep={previousStep}>
-              <Step withCallback={false}>
-                <BattleFormRound {...roundProps(2)} />
-              </Step>
-            </AnimatedStep>
-            <AnimatedStep previousStep={previousStep}>
-              <Step withCallback={false}>
-                <BattleFormRound {...roundProps(3)} />
-              </Step>
-            </AnimatedStep>
-            <AnimatedStep previousStep={previousStep}>
-              <Step withCallback={false}>
-                <BattleFormRound {...roundProps(4)} />
-              </Step>
-            </AnimatedStep>
-            <AnimatedStep previousStep={previousStep}>
-              <Step withCallback={false}>
-                <BattleFormRound {...roundProps(5)} />
-              </Step>
-            </AnimatedStep>
+            <AnimatedStep previousStep={previousStep}><Step withCallback={false}><BattleFormRound {...roundProps(1)} /></Step></AnimatedStep>
+            <AnimatedStep previousStep={previousStep}><Step withCallback={false}><BattleFormRound {...roundProps(2)} /></Step></AnimatedStep>
+            <AnimatedStep previousStep={previousStep}><Step withCallback={false}><BattleFormRound {...roundProps(3)} /></Step></AnimatedStep>
+            <AnimatedStep previousStep={previousStep}><Step withCallback={false}><BattleFormRound {...roundProps(4)} /></Step></AnimatedStep>
+            <AnimatedStep previousStep={previousStep}><Step withCallback={false}><BattleFormRound {...roundProps(5)} /></Step></AnimatedStep>
 
             {!isArmageddon && (
               <AnimatedStep previousStep={previousStep}>

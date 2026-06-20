@@ -24,6 +24,7 @@ import BattleFormPre from "./battle-form-pre";
 import BattleFormRound from "./battle-form-round";
 import BattleFormEnd from "./battle-form-end";
 import BattleFormPost from "./battle-form-post";
+import { dispositionMatrix, type ForceDisposition } from "../../data/primary-missions-11";
 
 type RoundKey = 1 | 2 | 3 | 4 | 5;
 type SideKey = "Attacker" | "Defender";
@@ -161,6 +162,27 @@ const BattleForm = (props: { battleId: string }) => {
   useEffect(() => {
     setBattle((prev) => ({ ...prev, IsAttackerFirst: battle.FirstTurn === battle.Defender ? false : true }));
   }, [battle.FirstTurn]);
+
+  // Auto-populate primary missions from disposition matrix
+  useEffect(() => {
+    if (!isHydrated) return;
+    if (!isArmageddon || battle.IsCompleted) return;
+    if (!battle.AttackerForceDisposition || !battle.DefenderForceDisposition) return;
+
+    const attackerMission = dispositionMatrix[battle.AttackerForceDisposition as ForceDisposition]?.[battle.DefenderForceDisposition as ForceDisposition];
+    const defenderMission = dispositionMatrix[battle.DefenderForceDisposition as ForceDisposition]?.[battle.AttackerForceDisposition as ForceDisposition];
+
+    if (!attackerMission || !defenderMission) return;
+
+    const updates: Partial<iBattle> = {};
+    if (battle.AttackerPrimaryMission !== attackerMission) updates.AttackerPrimaryMission = attackerMission;
+    if (battle.DefenderPrimaryMission !== defenderMission) updates.DefenderPrimaryMission = defenderMission;
+
+    if (Object.keys(updates).length === 0) return;
+
+    setBattle((prev) => ({ ...prev, ...updates }));
+    updateDoc(doc(db, "Battles", docId), updates).catch((e) => console.log(e));
+  }, [battle.AttackerForceDisposition, battle.DefenderForceDisposition, isArmageddon, battle.IsCompleted, isHydrated]);
 
   const generalsCollection = getCollectionSnapshot("Generals", "Alias", "asc");
   const generals = collectionToSelect(generalsCollection, "Alias", "id");

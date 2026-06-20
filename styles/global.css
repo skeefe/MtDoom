@@ -860,6 +860,13 @@ form .alert {
   margin-left: 0.5rem;
 }
 
+.button-card {
+  background: none;
+  box-shadow: none;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+}
+
 /* --- Streamlined Opponent Layout --- */
 .opponent-layout {
   display: flex;

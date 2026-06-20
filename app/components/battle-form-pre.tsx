@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { selectOption } from "../types/select-option";
 import SelectField from "./select-field";
@@ -7,7 +9,8 @@ import { battleSizes } from "../../data/battle-sizes";
 import { deploymentZones } from "../../data/deployment-zones";
 import { missionRules } from "../../data/mission-rules-10";
 import { primaryMissions, primaryMissions11 } from "../../data/primary-missions";
-import { dispositions } from "../../data/primary-missions-11";
+import { dispositions, type ForceDisposition } from "../../data/primary-missions-11";
+import MissionCardModal from "./mission-card-modal";
 import TextAreaField from "./textarea-field";
 import Modal from "./modal";
 import { titleCase } from "../../utils/title-case";
@@ -19,7 +22,6 @@ const secondaryTypeOptions: selectOption[] = [
 
 const isArmageddon = (version: string) => version === "Armageddon - Chapter Approved";
 
-// Generate sorted layout label from two dispositions
 const layoutLabel = (a: string, b: string) => {
   const sorted = [a, b].sort();
   return `${sorted[0]} / ${sorted[1]}`;
@@ -64,12 +66,13 @@ const BattleFormPre = (props: {
 }) => {
   const [showAttackerList, setShowAttackerList] = useState(false);
   const [showDefenderList, setShowDefenderList] = useState(false);
+  const [missionCardModal, setMissionCardModal] = useState<{ missionName: string; disposition: ForceDisposition; opponentDisposition: ForceDisposition } | null>(null);
 
   const showMissionRule = !isArmageddon(props.ChapterApprovedVersion) && props.ChapterApprovedVersion !== "2025-26 Mission Deck";
   const showArmageddon = isArmageddon(props.ChapterApprovedVersion);
 
-  // Layout options — only available when both dispositions are selected
   const bothDispositionsSelected = !!(props.AttackerForceDisposition && props.DefenderForceDisposition);
+
   const layoutOptions: selectOption[] = bothDispositionsSelected
     ? [1, 2, 3].map((n) => ({
         Label: `${layoutLabel(props.AttackerForceDisposition!, props.DefenderForceDisposition!)} — Layout ${n}`,
@@ -77,6 +80,19 @@ const BattleFormPre = (props: {
         Active: true,
       }))
     : [];
+
+  const handleShowMissionCard = (
+    missionName: string | undefined,
+    disposition: string | undefined,
+    opponentDisposition: string | undefined
+  ) => {
+    if (!missionName || !disposition || !opponentDisposition) return;
+    setMissionCardModal({
+      missionName,
+      disposition: disposition as ForceDisposition,
+      opponentDisposition: opponentDisposition as ForceDisposition,
+    });
+  };
 
   return (
     <>
@@ -103,7 +119,6 @@ const BattleFormPre = (props: {
           emptyValue="Select the Battle Size"
         />
 
-        {/* Primary Mission — shared for 10th, hidden for 11th (per-player below) */}
         {!showArmageddon && (
           <SelectField
             label="Primary Mission"
@@ -144,7 +159,6 @@ const BattleFormPre = (props: {
           randomise={!props.IsCompleted}
         />
 
-        {/* Layout — Armageddon only, requires both dispositions */}
         {showArmageddon && bothDispositionsSelected && (
           <SelectField
             label="Layout"
@@ -159,6 +173,7 @@ const BattleFormPre = (props: {
         )}
 
         <div className={`opponent-layout ${!props.IsAttackerFirst ? "reverse" : ""}`}>
+          {/* Attacker */}
           <div className="opponent">
             <legend className="attacker">Attacker</legend>
             <SelectField
@@ -182,7 +197,6 @@ const BattleFormPre = (props: {
               emptyValue="Select the Attacker Army"
             />
 
-            {/* Old detachment — 10th only */}
             {!showArmageddon && (
               <TextField
                 label="Detachment"
@@ -196,7 +210,6 @@ const BattleFormPre = (props: {
               />
             )}
 
-            {/* Dynamic detachments — 11th only */}
             {showArmageddon && (
               <div style={{ marginTop: "0.5rem" }}>
                 {(props.AttackerDetachments ?? []).map((d, i) => (
@@ -232,17 +245,36 @@ const BattleFormPre = (props: {
                   options={dispositions.map((d) => ({ Label: d, Value: d, Active: true }))}
                   emptyValue="Select Force Disposition"
                 />
-                <SelectField
-                  label="Primary Mission"
-                  required={true}
-                  id="attackerPrimaryMission"
-                  name="AttackerPrimaryMission"
-                  changeFunction={props.changeFunctionSelect}
-                  value={props.AttackerPrimaryMission ?? ""}
-                  options={primaryMissions11}
-                  emptyValue="Select Primary Mission"
-                  randomise={!props.IsCompleted}
-                />
+                <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem" }}>
+                  <div style={{ flex: 1 }}>
+                    <SelectField
+                      label="Primary Mission"
+                      required={true}
+                      id="attackerPrimaryMission"
+                      name="AttackerPrimaryMission"
+                      changeFunction={props.changeFunctionSelect}
+                      value={props.AttackerPrimaryMission ?? ""}
+                      options={primaryMissions11}
+                      emptyValue="Select Primary Mission"
+                      disabled={!bothDispositionsSelected}
+                    />
+                  </div>
+                  {bothDispositionsSelected && props.AttackerPrimaryMission && (
+                    <button
+                      type="button"
+                      className="button button-icon"
+                      style={{ marginBottom: "1rem", fontSize: "1.1rem", padding: "0.4rem 0.6rem" }}
+                      onClick={() => handleShowMissionCard(
+                        props.AttackerPrimaryMission,
+                        props.AttackerForceDisposition,
+                        props.DefenderForceDisposition
+                      )}
+                      title="View mission card"
+                    >
+                      🃏
+                    </button>
+                  )}
+                </div>
                 <SelectField
                   label="Secondary Type"
                   required={true}
@@ -260,6 +292,7 @@ const BattleFormPre = (props: {
             </a>
           </div>
 
+          {/* Defender */}
           <div className="opponent">
             <legend className="defender">Defender</legend>
             <SelectField
@@ -283,7 +316,6 @@ const BattleFormPre = (props: {
               emptyValue="Select the Defender Army"
             />
 
-            {/* Old detachment — 10th only */}
             {!showArmageddon && (
               <TextField
                 label="Detachment"
@@ -297,7 +329,6 @@ const BattleFormPre = (props: {
               />
             )}
 
-            {/* Dynamic detachments — 11th only */}
             {showArmageddon && (
               <div style={{ marginTop: "0.5rem" }}>
                 {(props.DefenderDetachments ?? []).map((d, i) => (
@@ -333,17 +364,36 @@ const BattleFormPre = (props: {
                   options={dispositions.map((d) => ({ Label: d, Value: d, Active: true }))}
                   emptyValue="Select Force Disposition"
                 />
-                <SelectField
-                  label="Primary Mission"
-                  required={true}
-                  id="defenderPrimaryMission"
-                  name="DefenderPrimaryMission"
-                  changeFunction={props.changeFunctionSelect}
-                  value={props.DefenderPrimaryMission ?? ""}
-                  options={primaryMissions11}
-                  emptyValue="Select Primary Mission"
-                  randomise={!props.IsCompleted}
-                />
+                <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem" }}>
+                  <div style={{ flex: 1 }}>
+                    <SelectField
+                      label="Primary Mission"
+                      required={true}
+                      id="defenderPrimaryMission"
+                      name="DefenderPrimaryMission"
+                      changeFunction={props.changeFunctionSelect}
+                      value={props.DefenderPrimaryMission ?? ""}
+                      options={primaryMissions11}
+                      emptyValue="Select Primary Mission"
+                      disabled={!bothDispositionsSelected}
+                    />
+                  </div>
+                  {bothDispositionsSelected && props.DefenderPrimaryMission && (
+                    <button
+                      type="button"
+                      className="button button-icon"
+                      style={{ marginBottom: "1rem", fontSize: "1.1rem", padding: "0.4rem 0.6rem" }}
+                      onClick={() => handleShowMissionCard(
+                        props.DefenderPrimaryMission,
+                        props.DefenderForceDisposition,
+                        props.AttackerForceDisposition
+                      )}
+                      title="View mission card"
+                    >
+                      🃏
+                    </button>
+                  )}
+                </div>
                 <SelectField
                   label="Secondary Type"
                   required={true}
@@ -407,6 +457,15 @@ const BattleFormPre = (props: {
             changeFunction={props.changeFunctionTextArea}
           />
         </Modal>
+      )}
+
+      {missionCardModal && (
+        <MissionCardModal
+          missionName={missionCardModal.missionName}
+          disposition={missionCardModal.disposition}
+          opponentDisposition={missionCardModal.opponentDisposition}
+          onClose={() => setMissionCardModal(null)}
+        />
       )}
     </>
   );
