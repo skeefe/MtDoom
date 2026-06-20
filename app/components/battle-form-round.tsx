@@ -2,7 +2,7 @@ import React from "react";
 import TextField from "./text-field";
 import SelectField from "./select-field";
 import { secondaryMissions, secondaryMissions11, secondaryMissions11Tactical, secondaryMissions11Fixed } from "../../data/secondary-missions";
-import { challengerCards } from "../../data/challenger-cards";
+import { challengerCards } from "../../data/challenger-cards-10";
 
 export interface iSecondaryEntry {
   title: string;

@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useRouter, useSearchParams } from "next/navigation";
-import firebase_app from "../firebase/config";
-import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
-import CalcForm from "../components/calc-form";
-import Spinner from "../components/spinner";
-import { iUnit } from "../types/unit";
+import firebase_app from "../../firebase/config";
+import getCollectionSnapshot from "../../firebase/getCollectionSnapshot";
+import CalcForm from "../../components/calc-form";
+import Spinner from "../../components/spinner";
+import { iUnit } from "../../types/unit";
 
 export default function MathHammerPage() {
   const db = getFirestore(firebase_app);

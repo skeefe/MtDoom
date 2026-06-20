@@ -5,9 +5,9 @@ import TextField from "./text-field";
 import { chapterApprovedVersions } from "../../data/chapter-approved-versions";
 import { battleSizes } from "../../data/battle-sizes";
 import { deploymentZones } from "../../data/deployment-zones";
-import { missionRules } from "../../data/mission-rules";
+import { missionRules } from "../../data/mission-rules-10";
 import { primaryMissions, primaryMissions11 } from "../../data/primary-missions";
-import { forceDispositions } from "../../data/force-dispositions";
+import { dispositions } from "../../data/primary-missions-11";
 import TextAreaField from "./textarea-field";
 import Modal from "./modal";
 import { titleCase } from "../../utils/title-case";
@@ -229,7 +229,7 @@ const BattleFormPre = (props: {
                   name="AttackerForceDisposition"
                   changeFunction={props.changeFunctionSelect}
                   value={props.AttackerForceDisposition ?? ""}
-                  options={forceDispositions}
+                  options={dispositions.map((d) => ({ Label: d, Value: d, Active: true }))}
                   emptyValue="Select Force Disposition"
                 />
                 <SelectField
@@ -330,7 +330,7 @@ const BattleFormPre = (props: {
                   name="DefenderForceDisposition"
                   changeFunction={props.changeFunctionSelect}
                   value={props.DefenderForceDisposition ?? ""}
-                  options={forceDispositions}
+                  options={dispositions.map((d) => ({ Label: d, Value: d, Active: true }))}
                   emptyValue="Select Force Disposition"
                 />
                 <SelectField

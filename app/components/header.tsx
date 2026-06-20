@@ -36,8 +36,8 @@ const Header = () => {
               </Link>
             </li>
             <li className="hide show-sm-inline">
-              <Link href="/mathhammer" className={pathname.startsWith("/mathhammer") ? "active-nav" : ""}>
-                Mathhammer
+              <Link href="/resources" className={pathname.startsWith("/resources") ? "active-nav" : ""}>
+                Resources
               </Link>
             </li>
             <li className="hide show-md-inline">
