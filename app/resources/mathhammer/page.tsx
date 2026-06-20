@@ -31,7 +31,7 @@ export default function MathHammerPage() {
       if (v) current.set(k, v);
       else current.delete(k);
     });
-    router.push(`/mathhammer?${current.toString()}`);
+    router.push(`/resources/mathhammer?${current.toString()}`);
   }, [searchParams, router]);
 
   const setStep = (s: number) => pushParams({ step: String(s) });
@@ -41,7 +41,7 @@ export default function MathHammerPage() {
   const setDefenderUnit = (id: string) => pushParams({ du: id, dl: "", step: "2" });
   const setDefenderLoadout = (id: string) => pushParams({ dl: id });
 
-  const resetWizard = () => router.push("/mathhammer");
+  const resetWizard = () => router.push("/resources/mathhammer");
 
   useEffect(() => {
     if (armies.length === 0) return;
