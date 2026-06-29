@@ -191,7 +191,7 @@ const StepBattleForm = (props: { battleId: string }) => {
   const armies = collectionToSelect(armiesCollection, "Name", "id");
 
   const collectOpponents = () => {
-    let opponentsOptions: selectOption[] = [];
+    const opponentsOptions: selectOption[] = [];
     if (battle.Attacker) opponentsOptions.push({
       Label: `${propertyFromID(armiesCollection, battle.AttackerArmy, "Name")} - ${propertyFromID(generalsCollection, battle.Attacker, "Alias")}`,
       Value: battle.Attacker, Active: true,
@@ -206,13 +206,15 @@ const StepBattleForm = (props: { battleId: string }) => {
   const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e";
   const defenderArmyColour = propertyFromID(armiesCollection, battle.DefenderArmy, "Colour") || "#00ffcc";
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    let updates = { [name]: value };
+    const updates: Partial<iBattle> = { [name]: value };
     if (name === "VictoryType" && value === "Points Draw") updates["Victor"] = "DRAW";
     setBattle((prev) => ({ ...prev, ...updates }));
     updateDoc(doc(db, "Battles", docId), updates).catch((e) => console.log(e));
   };
+
+  // --- Secondary handlers ---
 
   const handleSecondaryChange = (round: RoundKey, side: SideKey, index: number, field: "title" | "points", value: string | number) => {
     const key = `T${round}${side}Secondaries` as keyof ArmageddonSecondaries;
@@ -234,6 +236,18 @@ const StepBattleForm = (props: { battleId: string }) => {
     });
   };
 
+  const handleRemoveSecondary = (round: RoundKey, side: SideKey, index: number) => {
+    const key = `T${round}${side}Secondaries` as keyof ArmageddonSecondaries;
+    setArmageddonSecondaries((prev) => {
+      const updated = prev[key].filter((_, i) => i !== index);
+      const newState = { ...prev, [key]: updated };
+      updateDoc(doc(db, "Battles", docId), { [key]: updated }).catch((e) => console.log(e));
+      return newState;
+    });
+  };
+
+  // --- Detachment handlers ---
+
   const handleDetachmentChange = (side: "Attacker" | "Defender", index: number, value: string) => {
     const setter = side === "Attacker" ? setAttackerDetachments : setDefenderDetachments;
     const key = side === "Attacker" ? "AttackerDetachments" : "DefenderDetachments";
@@ -253,6 +267,18 @@ const StepBattleForm = (props: { battleId: string }) => {
       return updated;
     });
   };
+
+  const handleRemoveDetachment = (side: "Attacker" | "Defender", index: number) => {
+    const setter = side === "Attacker" ? setAttackerDetachments : setDefenderDetachments;
+    const key = side === "Attacker" ? "AttackerDetachments" : "DefenderDetachments";
+    setter((prev) => {
+      const updated = prev.filter((_, i) => i !== index);
+      updateDoc(doc(db, "Battles", docId), { [key]: updated }).catch((e) => console.log(e));
+      return updated;
+    });
+  };
+
+  // --- Totals ---
 
   useEffect(() => {
     let totalAttackerPrimary =
@@ -345,24 +371,28 @@ const StepBattleForm = (props: { battleId: string }) => {
     armageddonSecondaries,
   ]);
 
-  const handleBattleEnd = (e) => {
+  // --- Battle lifecycle ---
+
+  const handleBattleEnd = (e: React.MouseEvent) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, IsCompleted: true }));
     updateDoc(doc(db, "Battles", docId), { IsCompleted: true }).catch((e) => console.log(e));
   };
 
-  const handleBattleRestart = (e) => {
+  const handleBattleRestart = (e: React.MouseEvent) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, IsCompleted: false }));
     updateDoc(doc(db, "Battles", docId), { IsCompleted: false }).catch((e) => console.log(e));
   };
 
-  const handleBattleHide = (e) => {
+  const handleBattleHide = (e: React.MouseEvent) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, Show: false }));
     updateDoc(doc(db, "Battles", docId), { Show: false }).catch((e) => console.log(e));
     router.push("/");
   };
+
+  // --- Round prop builder ---
 
   const roundProps = (r: RoundKey) => ({
     RoundNumber: r,
@@ -397,6 +427,8 @@ const StepBattleForm = (props: { battleId: string }) => {
       handleSecondaryChange(r, "Defender", index, field, value),
     onAttackerAddSecondary: () => handleAddSecondary(r, "Attacker"),
     onDefenderAddSecondary: () => handleAddSecondary(r, "Defender"),
+    onAttackerRemoveSecondary: (index: number) => handleRemoveSecondary(r, "Attacker", index),
+    onDefenderRemoveSecondary: (index: number) => handleRemoveSecondary(r, "Defender", index),
   });
 
   const previousStep = React.useRef<number>(0);
@@ -450,6 +482,8 @@ const StepBattleForm = (props: { battleId: string }) => {
                   onDefenderDetachmentChange={(i, v) => handleDetachmentChange("Defender", i, v)}
                   onAttackerAddDetachment={() => handleAddDetachment("Attacker")}
                   onDefenderAddDetachment={() => handleAddDetachment("Defender")}
+                  onAttackerRemoveDetachment={(i) => handleRemoveDetachment("Attacker", i)}
+                  onDefenderRemoveDetachment={(i) => handleRemoveDetachment("Defender", i)}
                   changeFunctionSelect={handleChange}
                   changeFunctionText={handleChange}
                   changeFunctionTextArea={handleChange}

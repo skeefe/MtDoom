@@ -9,16 +9,13 @@ import {
 import { useRouter } from "next/navigation";
 import firebase_app from "../firebase/config";
 import getCollectionSnapshot from "../firebase/getCollectionSnapshot";
-
 import { selectOption } from "../types/select-option";
 import { iBattle } from "../types/battle";
 import { iSecondaryEntry } from "./battle-form-round";
-
 import { formatDate } from "../../utils/date-format";
 import { collectionToSelect } from "../../utils/collection-to-select";
 import { propertyFromID } from "../../utils/property-from-id";
 import { stringToNumber } from "../../utils/string-to-number";
-
 import Spinner from "./spinner";
 import BattleFormPre from "./battle-form-pre";
 import BattleFormRound from "./battle-form-round";
@@ -168,18 +165,13 @@ const BattleForm = (props: { battleId: string }) => {
     if (!isHydrated) return;
     if (!isArmageddon || battle.IsCompleted) return;
     if (!battle.AttackerForceDisposition || !battle.DefenderForceDisposition) return;
-
     const attackerMission = dispositionMatrix[battle.AttackerForceDisposition as ForceDisposition]?.[battle.DefenderForceDisposition as ForceDisposition];
     const defenderMission = dispositionMatrix[battle.DefenderForceDisposition as ForceDisposition]?.[battle.AttackerForceDisposition as ForceDisposition];
-
     if (!attackerMission || !defenderMission) return;
-
     const updates: Partial<iBattle> = {};
     if (battle.AttackerPrimaryMission !== attackerMission) updates.AttackerPrimaryMission = attackerMission;
     if (battle.DefenderPrimaryMission !== defenderMission) updates.DefenderPrimaryMission = defenderMission;
-
     if (Object.keys(updates).length === 0) return;
-
     setBattle((prev) => ({ ...prev, ...updates }));
     updateDoc(doc(db, "Battles", docId), updates).catch((e) => console.log(e));
   }, [battle.AttackerForceDisposition, battle.DefenderForceDisposition, isArmageddon, battle.IsCompleted, isHydrated]);
@@ -190,7 +182,7 @@ const BattleForm = (props: { battleId: string }) => {
   const armies = collectionToSelect(armiesCollection, "Name", "id");
 
   const collectOpponents = () => {
-    let opponentsOptions: selectOption[] = [];
+    const opponentsOptions: selectOption[] = [];
     if (battle.Attacker) opponentsOptions.push({
       Label: `${propertyFromID(armiesCollection, battle.AttackerArmy, "Name")} - ${propertyFromID(generalsCollection, battle.Attacker, "Alias")}`,
       Value: battle.Attacker, Active: true,
@@ -205,13 +197,15 @@ const BattleForm = (props: { battleId: string }) => {
   const attackerArmyColour = propertyFromID(armiesCollection, battle.AttackerArmy, "Colour") || "#ff006e";
   const defenderArmyColour = propertyFromID(armiesCollection, battle.DefenderArmy, "Colour") || "#00ffcc";
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    let updates = { [name]: value };
+    const updates: Partial<iBattle> = { [name]: value };
     if (name === "VictoryType" && value === "Points Draw") updates["Victor"] = "DRAW";
     setBattle((prev) => ({ ...prev, ...updates }));
     updateDoc(doc(db, "Battles", docId), updates).catch((error) => console.log(error));
   };
+
+  // --- Secondary handlers ---
 
   const handleSecondaryChange = (round: RoundKey, side: SideKey, index: number, field: "title" | "points", value: string | number) => {
     const key = `T${round}${side}Secondaries` as keyof ArmageddonSecondaries;
@@ -233,6 +227,18 @@ const BattleForm = (props: { battleId: string }) => {
     });
   };
 
+  const handleRemoveSecondary = (round: RoundKey, side: SideKey, index: number) => {
+    const key = `T${round}${side}Secondaries` as keyof ArmageddonSecondaries;
+    setArmageddonSecondaries((prev) => {
+      const updated = prev[key].filter((_, i) => i !== index);
+      const newState = { ...prev, [key]: updated };
+      updateDoc(doc(db, "Battles", docId), { [key]: updated }).catch((e) => console.log(e));
+      return newState;
+    });
+  };
+
+  // --- Detachment handlers ---
+
   const handleDetachmentChange = (side: "Attacker" | "Defender", index: number, value: string) => {
     const setter = side === "Attacker" ? setAttackerDetachments : setDefenderDetachments;
     const key = side === "Attacker" ? "AttackerDetachments" : "DefenderDetachments";
@@ -252,6 +258,18 @@ const BattleForm = (props: { battleId: string }) => {
       return updated;
     });
   };
+
+  const handleRemoveDetachment = (side: "Attacker" | "Defender", index: number) => {
+    const setter = side === "Attacker" ? setAttackerDetachments : setDefenderDetachments;
+    const key = side === "Attacker" ? "AttackerDetachments" : "DefenderDetachments";
+    setter((prev) => {
+      const updated = prev.filter((_, i) => i !== index);
+      updateDoc(doc(db, "Battles", docId), { [key]: updated }).catch((e) => console.log(e));
+      return updated;
+    });
+  };
+
+  // --- Totals ---
 
   useEffect(() => {
     let totalAttackerPrimary =
@@ -319,14 +337,12 @@ const BattleForm = (props: { battleId: string }) => {
       TotalDefenderPrimary: totalDefenderPrimary, TotalDefenderSecondary: totalDefenderSecondary,
       TotalDefenderChallenger: currentDefenderChallenger, TotalDefender: totalDefender,
     }));
-
     updateDoc(doc(db, "Battles", docId), {
       TotalAttackerPrimary: totalAttackerPrimary, TotalAttackerSecondary: totalAttackerSecondary,
       TotalAttackerChallenger: currentAttackerChallenger, TotalAttacker: totalAttacker,
       TotalDefenderPrimary: totalDefenderPrimary, TotalDefenderSecondary: totalDefenderSecondary,
       TotalDefenderChallenger: currentDefenderChallenger, TotalDefender: totalDefender,
     }).catch((error) => console.log(error));
-
   }, [
     battle.ChapterApprovedVersion,
     battle.T1AttackerPrimary, battle.T2AttackerPrimary, battle.T3AttackerPrimary, battle.T4AttackerPrimary, battle.T5AttackerPrimary,
@@ -344,24 +360,28 @@ const BattleForm = (props: { battleId: string }) => {
     armageddonSecondaries,
   ]);
 
-  const handleBattleEnd = (e) => {
+  // --- Battle lifecycle ---
+
+  const handleBattleEnd = (e: React.MouseEvent) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, IsCompleted: true }));
     updateDoc(doc(db, "Battles", docId), { IsCompleted: true }).catch((e) => console.log(e));
   };
 
-  const handleBattleRestart = (e) => {
+  const handleBattleRestart = (e: React.MouseEvent) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, IsCompleted: false }));
     updateDoc(doc(db, "Battles", docId), { IsCompleted: false }).catch((e) => console.log(e));
   };
 
-  const handleBattleHide = (e) => {
+  const handleBattleHide = (e: React.MouseEvent) => {
     e.preventDefault();
     setBattle((prev) => ({ ...prev, Show: false }));
     updateDoc(doc(db, "Battles", docId), { Show: false }).catch((e) => console.log(e));
     router.push("/");
   };
+
+  // --- Round prop builder ---
 
   const roundProps = (r: RoundKey) => ({
     RoundNumber: r,
@@ -396,6 +416,8 @@ const BattleForm = (props: { battleId: string }) => {
       handleSecondaryChange(r, "Defender", index, field, value),
     onAttackerAddSecondary: () => handleAddSecondary(r, "Attacker"),
     onDefenderAddSecondary: () => handleAddSecondary(r, "Defender"),
+    onAttackerRemoveSecondary: (index: number) => handleRemoveSecondary(r, "Attacker", index),
+    onDefenderRemoveSecondary: (index: number) => handleRemoveSecondary(r, "Defender", index),
   });
 
   return isHydrated ? (
@@ -409,7 +431,6 @@ const BattleForm = (props: { battleId: string }) => {
           </h2>
           <span className="battle-date">{formatDate(battle.Date.seconds).full}</span>
         </header>
-
         <div className="aside-layout">
           <div className="content content-dark">
             <form>
@@ -446,17 +467,17 @@ const BattleForm = (props: { battleId: string }) => {
                 onDefenderDetachmentChange={(i, v) => handleDetachmentChange("Defender", i, v)}
                 onAttackerAddDetachment={() => handleAddDetachment("Attacker")}
                 onDefenderAddDetachment={() => handleAddDetachment("Defender")}
+                onAttackerRemoveDetachment={(i) => handleRemoveDetachment("Attacker", i)}
+                onDefenderRemoveDetachment={(i) => handleRemoveDetachment("Defender", i)}
                 changeFunctionSelect={handleChange}
                 changeFunctionText={handleChange}
                 changeFunctionTextArea={handleChange}
               />
-
               <BattleFormRound {...roundProps(1)} />
               <BattleFormRound {...roundProps(2)} />
               <BattleFormRound {...roundProps(3)} />
               <BattleFormRound {...roundProps(4)} />
               <BattleFormRound {...roundProps(5)} />
-
               {!isArmageddon && (
                 <BattleFormEnd
                   IsCompleted={battle.IsCompleted}
@@ -466,7 +487,6 @@ const BattleForm = (props: { battleId: string }) => {
                   changeFunctionText={handleChange}
                 />
               )}
-
               <BattleFormPost
                 Attacker={battle.Attacker}
                 AttackerArmyColour={attackerArmyColour}
@@ -488,7 +508,6 @@ const BattleForm = (props: { battleId: string }) => {
                 changeFunctionText={handleChange}
                 changeFunctionTextArea={handleChange}
               />
-
               {battle.Victor && (
                 battle.IsCompleted ? (
                   <>
@@ -505,7 +524,6 @@ const BattleForm = (props: { battleId: string }) => {
               )}
             </form>
           </div>
-
           <aside>
             <div className="content content-dark content-sticky content-score">
               <div className={`opponent-layout ${!battle.IsAttackerFirst ? "reverse" : ""}`}>
@@ -527,7 +545,6 @@ const BattleForm = (props: { battleId: string }) => {
             </div>
           </aside>
         </div>
-
         <div className="device-score-bar hide-lg">
           <div className={`opponent-layout ${!battle.IsAttackerFirst ? "reverse" : ""}`}>
             <div className="opponent">

@@ -9,6 +9,10 @@ export interface iSecondaryEntry {
   points: number;
 }
 
+const MIN_SECONDARIES = 2;
+const MAX_PRIMARY = 15;
+const MAX_SECONDARY_TOTAL = 15;
+
 const BattleFormRound = (props: {
   ChapterApprovedVersion: string;
   IsCompleted: boolean;
@@ -44,13 +48,14 @@ const BattleFormRound = (props: {
   onDefenderSecondaryChange?: (index: number, field: "title" | "points", value: string | number) => void;
   onAttackerAddSecondary?: () => void;
   onDefenderAddSecondary?: () => void;
+  onAttackerRemoveSecondary?: (index: number) => void;
+  onDefenderRemoveSecondary?: (index: number) => void;
 }) => {
   const showChallengerCards =
     props.showChallenger &&
     props.ChapterApprovedVersion === "2025-26 Mission Deck" &&
     props.RoundNumber > 1;
 
-  // Tactical = all 18, Fixed = only the 4 fixed cards, unset = all 18
   const attackerSecondaryOptions = props.isArmageddon
     ? props.AttackerSecondaryType === "Fixed" ? secondaryMissions11Fixed : secondaryMissions11Tactical
     : secondaryMissions;
@@ -68,6 +73,7 @@ const BattleFormRound = (props: {
     total: number,
     onSecondaryChange: (index: number, field: "title" | "points", value: string | number) => void,
     onAddSecondary: () => void,
+    onRemoveSecondary: (index: number) => void,
     primaryName: string,
     primaryValue: number | undefined,
     secondaryOptions: typeof secondaryMissions11,
@@ -81,23 +87,57 @@ const BattleFormRound = (props: {
         required={false}
         id={`${primaryName}`}
         name={`${primaryName}`}
-        changeFunction={props.changeFunction}
+        changeFunction={(e: React.ChangeEvent<HTMLInputElement>) => {
+          const capped = Math.min(Number(e.target.value), MAX_PRIMARY);
+          props.changeFunction({
+            ...e,
+            target: { ...e.target, name: e.target.name, value: String(capped) },
+          } as React.ChangeEvent<HTMLInputElement>);
+        }}
         value={`${primaryValue ?? 0}`}
         emptyValue="--"
-        max={15}
+        max={MAX_PRIMARY}
       />
 
       <div style={{ marginTop: "0.75rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
           <label style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
-            Secondaries <span style={{ color: total >= 15 ? "var(--color-primary)" : "var(--color-text-muted)" }}>({total}/15)</span>
+            Secondaries{" "}
+            <span style={{ color: total >= MAX_SECONDARY_TOTAL ? "var(--color-primary)" : "var(--color-text-muted)" }}>
+              ({total}/{MAX_SECONDARY_TOTAL})
+            </span>
           </label>
         </div>
 
         {secondaries.map((s, i) => (
-          <div key={i} style={{ marginBottom: "0.75rem", paddingLeft: "0.5rem", borderLeft: "2px solid var(--color-divider)" }}>
+          <div
+            key={i}
+            style={{
+              marginBottom: "0.75rem",
+              paddingLeft: "0.5rem",
+              borderLeft: "2px solid var(--color-divider)",
+              position: "relative",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.25rem" }}>
+              <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)" }}>
+                Secondary {i + 1}
+              </span>
+              {!props.IsCompleted && i >= MIN_SECONDARIES && (
+                <button
+                  type="button"
+                  className="button button-icon"
+                  title="Remove secondary"
+                  onClick={() => onRemoveSecondary(i)}
+                  aria-label={`Remove secondary ${i + 1}`}
+                >
+                  &#x2212;
+                </button>
+              )}
+            </div>
+
             <SelectField
-              label={`Secondary ${i + 1} Title`}
+              label={`Title`}
               required={false}
               id={`${side}-secondary-${i}-title-r${props.RoundNumber}`}
               name={`${side}-secondary-${i}-title-r${props.RoundNumber}`}
@@ -108,20 +148,23 @@ const BattleFormRound = (props: {
               changeFunction={(e) => onSecondaryChange(i, "title", e.target.value)}
             />
             <TextField
-              label={`Secondary ${i + 1} Points`}
+              label={`Points`}
               type="number"
               required={false}
               id={`${side}-secondary-${i}-points-r${props.RoundNumber}`}
               name={`${side}-secondary-${i}-points-r${props.RoundNumber}`}
               value={`${s.points}`}
               emptyValue="--"
-              max={Math.min(15, 15 - total + s.points)}
-              changeFunction={(e) => onSecondaryChange(i, "points", Math.min(Number(e.target.value), Math.min(15, 15 - total + s.points)))}
+              max={Math.min(MAX_SECONDARY_TOTAL, MAX_SECONDARY_TOTAL - total + s.points)}
+              changeFunction={(e) => {
+                const cap = Math.min(MAX_SECONDARY_TOTAL, MAX_SECONDARY_TOTAL - total + s.points);
+                onSecondaryChange(i, "points", Math.min(Number(e.target.value), cap));
+              }}
             />
           </div>
         ))}
 
-        {!props.IsCompleted && total < 15 && (
+        {!props.IsCompleted && total < MAX_SECONDARY_TOTAL && (
           <button
             type="button"
             className="button button-secondary"
@@ -149,6 +192,7 @@ const BattleFormRound = (props: {
               attackerSecondaryTotal,
               props.onAttackerSecondaryChange!,
               props.onAttackerAddSecondary!,
+              props.onAttackerRemoveSecondary!,
               `T${props.RoundNumber}AttackerPrimary`,
               props.AttackerPrimary,
               attackerSecondaryOptions,
@@ -159,6 +203,7 @@ const BattleFormRound = (props: {
               defenderSecondaryTotal,
               props.onDefenderSecondaryChange!,
               props.onDefenderAddSecondary!,
+              props.onDefenderRemoveSecondary!,
               `T${props.RoundNumber}DefenderPrimary`,
               props.DefenderPrimary,
               defenderSecondaryOptions,

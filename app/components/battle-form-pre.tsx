@@ -15,6 +15,9 @@ import TextAreaField from "./textarea-field";
 import Modal from "./modal";
 import { titleCase } from "../../utils/title-case";
 
+const MIN_DETACHMENTS = 1;
+const MAX_DETACHMENTS = 3;
+
 const secondaryTypeOptions: selectOption[] = [
   { Label: "Tactical", Value: "Tactical", Active: true },
   { Label: "Fixed", Value: "Fixed", Active: true },
@@ -60,6 +63,8 @@ const BattleFormPre = (props: {
   onDefenderDetachmentChange?: (index: number, value: string) => void;
   onAttackerAddDetachment?: () => void;
   onDefenderAddDetachment?: () => void;
+  onAttackerRemoveDetachment?: (index: number) => void;
+  onDefenderRemoveDetachment?: (index: number) => void;
   changeFunctionSelect: React.ChangeEventHandler<HTMLSelectElement>;
   changeFunctionText: React.ChangeEventHandler<HTMLInputElement>;
   changeFunctionTextArea: React.ChangeEventHandler<HTMLTextAreaElement>;
@@ -93,6 +98,57 @@ const BattleFormPre = (props: {
       opponentDisposition: opponentDisposition as ForceDisposition,
     });
   };
+
+  const renderDetachments = (
+    side: "attacker" | "defender",
+    detachments: string[],
+    onDetachmentChange: ((index: number, value: string) => void) | undefined,
+    onAddDetachment: (() => void) | undefined,
+    onRemoveDetachment: ((index: number) => void) | undefined,
+  ) => (
+    <div style={{ marginTop: "0.5rem" }}>
+      {detachments.map((d, i) => (
+        <div key={i} style={{ position: "relative" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.25rem" }}>
+            <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)" }}>
+              Detachment {i + 1}
+            </span>
+            {!props.IsCompleted && i >= MIN_DETACHMENTS && (
+              <button
+                type="button"
+                className="button button-icon"
+                title="Remove detachment"
+                onClick={() => onRemoveDetachment?.(i)}
+                aria-label={`Remove detachment ${i + 1}`}
+              >
+                &#x2212;
+              </button>
+            )}
+          </div>
+          <TextField
+            label={null}
+            type="text"
+            required={false}
+            id={`${side}Detachment${i}`}
+            name={`${side}Detachment${i}`}
+            value={d}
+            emptyValue="Enter Detachment"
+            changeFunction={(e) => onDetachmentChange?.(i, e.target.value)}
+          />
+        </div>
+      ))}
+      {!props.IsCompleted && detachments.length < MAX_DETACHMENTS && (
+        <button
+          type="button"
+          className="button button-secondary"
+          onClick={onAddDetachment}
+          style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}
+        >
+          + Add Detachment
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <>
@@ -210,27 +266,12 @@ const BattleFormPre = (props: {
               />
             )}
 
-            {showArmageddon && (
-              <div style={{ marginTop: "0.5rem" }}>
-                {(props.AttackerDetachments ?? []).map((d, i) => (
-                  <TextField
-                    key={i}
-                    label={`Detachment ${i + 1}`}
-                    type="text"
-                    required={false}
-                    id={`attackerDetachment${i}`}
-                    name={`attackerDetachment${i}`}
-                    value={d}
-                    emptyValue="Enter Detachment"
-                    changeFunction={(e) => props.onAttackerDetachmentChange?.(i, e.target.value)}
-                  />
-                ))}
-                {!props.IsCompleted && (props.AttackerDetachments ?? []).length < 3 && (
-                  <button type="button" className="button button-secondary" onClick={props.onAttackerAddDetachment} style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}>
-                    + Add Detachment
-                  </button>
-                )}
-              </div>
+            {showArmageddon && renderDetachments(
+              "attacker",
+              props.AttackerDetachments ?? [],
+              props.onAttackerDetachmentChange,
+              props.onAttackerAddDetachment,
+              props.onAttackerRemoveDetachment,
             )}
 
             {showArmageddon && (
@@ -329,27 +370,12 @@ const BattleFormPre = (props: {
               />
             )}
 
-            {showArmageddon && (
-              <div style={{ marginTop: "0.5rem" }}>
-                {(props.DefenderDetachments ?? []).map((d, i) => (
-                  <TextField
-                    key={i}
-                    label={`Detachment ${i + 1}`}
-                    type="text"
-                    required={false}
-                    id={`defenderDetachment${i}`}
-                    name={`defenderDetachment${i}`}
-                    value={d}
-                    emptyValue="Enter Detachment"
-                    changeFunction={(e) => props.onDefenderDetachmentChange?.(i, e.target.value)}
-                  />
-                ))}
-                {!props.IsCompleted && (props.DefenderDetachments ?? []).length < 3 && (
-                  <button type="button" className="button button-secondary" onClick={props.onDefenderAddDetachment} style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}>
-                    + Add Detachment
-                  </button>
-                )}
-              </div>
+            {showArmageddon && renderDetachments(
+              "defender",
+              props.DefenderDetachments ?? [],
+              props.onDefenderDetachmentChange,
+              props.onDefenderAddDetachment,
+              props.onDefenderRemoveDetachment,
             )}
 
             {showArmageddon && (
